@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/index', [App\Http\Controllers\IndexController::class, 'index'])->name('index');
+Route::get('/', [App\Http\Controllers\IndexController::class, 'index'])->name('index');
 
 Route::get('/anime/{id}', [App\Http\Controllers\AnimeController::class, 'show'])->name('anime');
 

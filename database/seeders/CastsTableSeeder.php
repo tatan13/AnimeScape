@@ -51,8 +51,8 @@ class CastsTableSeeder extends Seeder
                         $anime->twitter = NULL;
                         $anime->hash_tag = NULL;
                         $anime->sex = NULL;
-                        $anime->sequel = "";
-                        $anime->company = "";
+                        $anime->sequel = NULL;
+                        $anime->company = NULL;
                         $anime->city_name = NULL;
                         $anime->created_at = Carbon::now();
                         $anime->updated_at = Carbon::now();
