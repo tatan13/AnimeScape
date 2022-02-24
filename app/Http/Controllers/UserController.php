@@ -19,7 +19,7 @@ class UserController extends Controller
         if(!empty($user)){
             $user_reviews = $user->user_reviews;
         }else{
-            return redirect('/index');
+            return redirect(route('index'));
         }
 
         //ユーザーの統計情報
@@ -76,7 +76,7 @@ class UserController extends Controller
         $user = User::where('uid', $uid)->first();
 
         if(!isset($user)){
-            return redirect('index');
+            return redirect(route('index'));
         }
 
         $user_reviews = $user->user_reviews->where('will_watch', 1);
@@ -92,7 +92,7 @@ class UserController extends Controller
         $user = User::where('uid', $uid)->first();
 
         if(!isset($user)){
-            return redirect('index');
+            return redirect(route('index'));
         }
 
         $like_users = $user->user_like_users;
@@ -108,7 +108,7 @@ class UserController extends Controller
         $user = User::where('uid', $uid)->first();
 
         if(!isset($user)){
-            return redirect('index');
+            return redirect(route('index'));
         }
 
         $liked_users = $user->user_liked_users;
@@ -124,7 +124,7 @@ class UserController extends Controller
         $user = User::where('uid', $uid)->first();
 
         if(!isset($user)){
-            return redirect('index');
+            return redirect(route('index'));
         }
 
         $like_casts = $user->like_casts;
@@ -140,7 +140,7 @@ class UserController extends Controller
         $user = User::where('uid', $uid)->first();
 
         if(!isset($user)){
-            return redirect('index');
+            return redirect(route('index'));
         }
 
         if(Auth::check()){
@@ -160,7 +160,7 @@ class UserController extends Controller
         $user = User::where('uid', $uid)->first();
 
         if(!isset($user)){
-            return redirect('index');
+            return redirect(route('index'));
         }
 
         if(Auth::check()){

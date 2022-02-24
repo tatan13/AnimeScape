@@ -15,7 +15,7 @@ class AnimeController extends Controller
         $anime = Anime::find($id);
 
         if(!isset($anime)){
-            return redirect('index');
+            return redirect(route('index'));
         }
 
         //アニメに紐づいているユーザーのレビューを取得
@@ -44,7 +44,7 @@ class AnimeController extends Controller
         $anime = Anime::find($id);
 
         if(!isset($anime)){
-            return redirect('index');
+            return redirect(route('index'));
         }
         
         $user_review = $anime->user_reviews()->where('user_id', Auth::id())->first();
@@ -64,7 +64,7 @@ class AnimeController extends Controller
         $anime = Anime::find($id);
 
         if(!isset($anime)){
-            return redirect('index');
+            return redirect(route('index'));
         }
 
         $score_result = $anime->user_reviews()->where('user_id', Auth::id())->first();

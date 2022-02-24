@@ -15,7 +15,7 @@ class CastController extends Controller
         $cast = Cast::find($id);
 
         if(!isset($cast)){
-            return redirect('index');
+            return redirect(route('index'));
         }
 
         $occupations = $cast->occupations()->get();
@@ -31,7 +31,7 @@ class CastController extends Controller
         $cast = Cast::where('id', $id)->first();
 
         if(!isset($cast)){
-            return redirect('index');
+            return redirect(route('index'));
         }
 
         if(Auth::check()){
@@ -51,7 +51,7 @@ class CastController extends Controller
         $cast = Cast::where('id', $id)->first();
 
         if(!isset($cast)){
-            return redirect('index');
+            return redirect(route('index'));
         }
 
         if(Auth::check()){
