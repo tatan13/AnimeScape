@@ -1,0 +1,64 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+
+Auth::routes();
+
+Route::get('/index', [App\Http\Controllers\IndexController::class, 'index'])->name('index');
+
+Route::get('/anime/{id}', [App\Http\Controllers\AnimeController::class, 'show'])->name('anime');
+
+Route::get('/cast/{id}', [App\Http\Controllers\CastController::class, 'show'])->name('cast');
+
+Route::get('/user_information/{uid}', [App\Http\Controllers\UserController::class, 'show'])->name('user');
+
+Route::get('/user_information/{uid}/will_watch_list', [App\Http\Controllers\UserController::class, 'show_will_watch_list'])->name('user.will_watch_list');
+
+Route::get('/user_information/{uid}/like_user_list', [App\Http\Controllers\UserController::class, 'show_like_user_list'])->name('user.like_user_list');
+
+Route::get('/user_information/{uid}/liked_user_list', [App\Http\Controllers\UserController::class, 'show_liked_user_list'])->name('user.liked_user_list');
+
+Route::get('/user_information/{uid}/like_cast_list', [App\Http\Controllers\UserController::class, 'show_like_cast_list'])->name('user.like_cast_list');
+
+Route::get('/search', [App\Http\Controllers\SearchController::class, 'search'])->name('search');
+
+Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])->name('contact.index');
+
+Route::post('/contact', [App\Http\Controllers\ContactController::class, 'post'])->name('contact.post');
+
+Route::get('/all_statistics/{category}', [App\Http\Controllers\StatisticsController::class, 'show_all'])->name('all_statistics');
+
+Route::get('/year_statistics/{category}', [App\Http\Controllers\StatisticsController::class, 'show_year'])->name('year_statistics');
+
+Route::get('/coor_statistics/{category}', [App\Http\Controllers\StatisticsController::class, 'show_coor'])->name('coor_statistics');
+
+Route::group(['middleware' => 'auth'], function() {
+    
+    Route::get('/cast/{id}/like', [App\Http\Controllers\CastController::class, 'like'])->name('cast.like');
+    
+    Route::get('/cast/{id}/dislike', [App\Http\Controllers\CastController::class, 'dislike'])->name('cast.dislike');
+    
+    Route::get('/user_information/{uid}/like', [App\Http\Controllers\UserController::class, 'like'])->name('user.like');
+
+    Route::get('/user_information/{uid}/dislike', [App\Http\Controllers\UserController::class, 'dislike'])->name('user.dislike');
+
+    Route::get('/user_information/{uid}/config', [App\Http\Controllers\UserController::class, 'config'])->name('user.config');
+
+    Route::post('/user_information/{uid}/config', [App\Http\Controllers\UserController::class, 'updateconfig'])->name('user.config.update');
+
+    Route::get('/anime/{id}/score', [App\Http\Controllers\AnimeController::class, 'score'])->name('score');
+
+    Route::post('/anime/{id}/score', [App\Http\Controllers\AnimeController::class, 'result'])->name('result');
+});
