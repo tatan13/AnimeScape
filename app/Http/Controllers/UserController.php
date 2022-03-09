@@ -31,7 +31,7 @@ class UserController extends Controller
             'one_comments_count' => $user_reviews->whereNotNull('one_word_comment')->count(),
             'long_comments_count' => $user_reviews->whereNotNull('long_word_comment')->count(),
             'will_watches_count' => $user_reviews->where('will_watch', 1)->count(),
-            'watches_count' => $user_reviews->whereNotNull('watch', 1)->count(),
+            'watches_count' => $user_reviews->where('watch', 1)->count(),
         ];
 
         
