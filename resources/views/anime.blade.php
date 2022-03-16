@@ -117,7 +117,9 @@
                 <h3>コメント（新着順）</h3>
                 @foreach($user_reviews as $user_review)
                     @if(!is_null($user_review->one_word_comment))
-                        <strong>{{ $user_review->score }}点</strong><br>
+                        @if(!is_null($user_review->score))
+                            <strong>{{ $user_review->score }}点</strong><br>
+                        @endif
                         {{ $user_review->one_word_comment }}<br>
                         {{ $user_review->updated_at }} <a href="{{ route('user', ['uid' => $user_review->user->uid]) }}">{{ $user_review->user->uid }}</a><br>
                         <hr>
