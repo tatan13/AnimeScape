@@ -51,7 +51,7 @@
                         @endif
                     @break
                     @case('cast')
-                        <h2>検索結果 creater:{{ $search_word }}</h2>
+                        <h2>検索結果 cast:{{ $search_word }}</h2>
                         @if (count($search_results) > 0)
                             @foreach ($search_results as $cast)
                                 <h3><a href="{{ route('cast', ['id' => $cast->id]) }}">{{ $cast->name }}</a></h3>
@@ -98,7 +98,7 @@
                             @endforeach
                         @else
                             @if (isset($search_word))
-                                該当するユーザーがいませんでした。
+                                該当する声優がいませんでした。
                             @else
                                 検索キーワードを入力してください。
                             @endif
