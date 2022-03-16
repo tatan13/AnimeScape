@@ -102,7 +102,7 @@ class AnimeController extends Controller
         $anime->average = $user_reviews->avg('score');
         $anime->max = $user_reviews->max('score');
         $anime->min = $user_reviews->min('score');
-        $anime->count = $user_reviews->where('will_watch', 0)->count();
+        $anime->count = $user_reviews->count();
         $anime->save();
 
         return redirect()->route('score', [
