@@ -130,7 +130,7 @@
                     </div>
                 </div>
             </div>
-            <h3>得点とゲームの対応表</h3>
+            <h3>得点とアニメの対応表</h3>
             <div class="container-fruid">
                 <div class="row">
                     <div class="col-md-6">

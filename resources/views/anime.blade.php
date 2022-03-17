@@ -98,11 +98,11 @@
                         onclick="location.href='{{ route('score', ['id' => $anime->id]) }}'">ログインしてこのアニメに得点やコメントを登録する</button>
                 @endif
             </div>
-            <div id="creater_information">
-                <h3>クリエイターの情報</h3>
-                <table id="creater_information_table">
+            <div id="cast_information">
+                <h3>声優の情報</h3>
+                <table id="cast_information_table">
                     <tbody>
-                        <tr id="actors">
+                        <tr id="casts">
                             <th>声優</th>
                             <td>
                                 @foreach($anime_casts as $anime_cast)

@@ -34,9 +34,9 @@
                 以上のアニメで
                 <input type="submit" value="絞り込む">
             </form>
-            <a href="{{ route('all_statistics', ['category' => 1]) }}">中央値順</a>
-            <a href="{{ route('all_statistics', ['category' => 2]) }}">平均値順</a>
-            <a href="{{ route('all_statistics', ['category' => 3]) }}">データ数順</a>
+            <a href="{{ route('all_statistics', ['category' => 1]) }}">中央値順</a><br>
+            <a href="{{ route('all_statistics', ['category' => 2]) }}">平均値順</a><br>
+            <a href="{{ route('all_statistics', ['category' => 3]) }}">データ数順</a><br>
             <h3>ランキング</h3>
             <div id=ranking_table>
                 <table>
