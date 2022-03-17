@@ -6,15 +6,24 @@ jobs:
     steps:
       - checkout
       - run: sudo apt update
-      - run: sudo docker-php-ext-install pdo_mysql
+      - run: sudo docker-php-ext-install zip
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "composer.json" }}
             - v1-dependencies-
+      - run: composer install -n --prefer-dist
       - save_cache:
           key: v1-dependencies-{{ checksum "composer.json" }}
           paths:
             - ./vendor
-      - run: php artisan key:generate
+      - restore_cache:
+          keys:
+            - node-v1-{{ checksum "package.json" }}
+            - node-v1-
+      - run: yarn install
+      - save_cache:
+          key: node-v1-{{ checksum "package.json" }}
+          paths:
+            - node_modules
       - run: php artisan migrate --env=testing
       - run: ./vendor/bin/phpunit
