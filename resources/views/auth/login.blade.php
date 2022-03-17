@@ -26,7 +26,7 @@
                                 @endforeach
                             </div>
                         @endif
-                        <form action="#" method="POST">
+                        <form action="{{ route('login') }}" method="POST">
                             @csrf
                             <label for="name">ログインID</label><br>
                             <input type="text" size="15" name="uid" required><br>
