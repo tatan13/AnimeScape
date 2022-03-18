@@ -1,0 +1,52 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/php:latest
+    steps:
+      - checkout
+      - run: sudo apt update
+      - run: sudo apt install -y libsqlite3-dev zlib1g-dev
+      - run: sudo docker-php-ext-install zip
+      - run: sudo composer self-update
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "composer.json" }}
+            - v1-dependencies-
+      - run: composer install -n --prefer-dist
+      - save_cache:
+          key: v1-dependencies-{{ checksum "composer.json" }}
+          paths:
+            - ./vendor
+      - restore_cache:
+          keys:
+            - node-v1-{{ checksum "package.json" }}
+            - node-v1-
+      - save_cache:
+          key: node-v1-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run: touch database/test.sqlite
+      - run: php artisan migrate --env=testing
+      - run: vendor/bin/phpunit
+
+  deploy:
+    machine:
+      image: circleci/classic:edge
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "fc:f0:8f:2f:e7:49:d9:13:5c:0d:c1:d8:32:11:cd:e8"
+      - run: ssh ${USER_NAME}@${HOST_NAME} 'cd docker-laravel/backend && git pull origin main'
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: main
