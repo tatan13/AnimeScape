@@ -36,7 +36,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "fc:f0:8f:2f:e7:49:d9:13:5c:0d:c1:d8:32:11:cd:e8"
+            - "39:ef:c0:47:b7:84:98:3e:f5:60:a6:9a:2d:ce:68:87"
       - run: ssh ${USER_NAME}@${HOST_NAME} 'cd docker-laravel/backend && git pull origin main'
 
 workflows:
