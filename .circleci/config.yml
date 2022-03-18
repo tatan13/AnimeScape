@@ -37,7 +37,7 @@ jobs:
           - add_ssh_keys:
           - run: ssh ${USER_NAME}@${HOST_NAME} 'cd docker-laravel/backend && git pull'
 workflows:
-  version: 2
+  version: 2.1
   build_and_deploy:
       jobs:
           - build
