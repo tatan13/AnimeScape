@@ -37,20 +37,20 @@
                         <form action="{{ route('result', ['id' => $anime->id]) }}" method="POST">
                             @csrf
                             <label for="will_watch_check">視聴予定:</label>
-                            <input type="checkbox" name="will_watch" value="will_watch" id="will_watch">
+                            <input type="checkbox" name="will_watch" value="will_watch" id="will_watch" {{ $user_review->will_watch == 1 ? 'checked' : ''}}>
                             <hr>
                             <label for="score">得点</label><br>
                             <input type="number" size="3" name="score" id="score"
                                 value="{{ $user_review->score }}"><br>
                             <label for="watch_check">視聴した？:</label>
-                            <input type="checkbox" name="watch" value="watch" id="watch" checked>
+                            <input type="checkbox" name="watch" value="watch" id="watch" {{ $user_review->watch == 1 ? 'checked' : ''}}>
 
                             <hr>
                             <label for="one_comment">一言感想</label><br>
                             <input type="text" size="100" name="one_comment" id="one_comment_form"
                                 value="{{ $user_review->one_word_comment }}"><br>
                             <label for="netabare_check">ネタバレ？:</label>
-                            <input type="checkbox" name="spoiler" value="spoiler" id="spoiler"><br>
+                            <input type="checkbox" name="spoiler" value="spoiler" id="spoiler" {{ $user_review->spoiler == 1 ? 'checked' : ''}}><br>
                             <input type="submit" value="送信"><br>
                         </form>
                     </div>
