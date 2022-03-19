@@ -44,6 +44,14 @@ Route::get('/year_statistics/{category}', [App\Http\Controllers\StatisticsContro
 
 Route::get('/coor_statistics/{category}', [App\Http\Controllers\StatisticsController::class, 'show_coor'])->name('coor_statistics');
 
+Route::get('/modify/anime/{id}', [App\Http\Controllers\ModifyController::class, 'modify_anime_show'])->name('modify.anime.show');
+
+Route::post('/modify/anime/{id}', [App\Http\Controllers\ModifyController::class, 'modify_anime_post'])->name('modify.anime.post');
+
+//Route::get('/modify/cast/{id}', [App\Http\Controllers\ModifyController::class, 'modify_cast_show'])->name('modify.cast.show');
+
+//Route::post('/modify/cast/{id}', [App\Http\Controllers\ModifyController::class, 'modify_cast_post'])->name('modify.cast.post');
+
 Route::group(['middleware' => 'auth'], function() {
     
     Route::get('/cast/{id}/like', [App\Http\Controllers\CastController::class, 'like'])->name('cast.like');
@@ -61,4 +69,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/anime/{id}/score', [App\Http\Controllers\AnimeController::class, 'score'])->name('score');
 
     Route::post('/anime/{id}/score', [App\Http\Controllers\AnimeController::class, 'result'])->name('result');
+
+    Route::get('/modify_list', [App\Http\Controllers\ModifyController::class, 'modify_list_show'])->name('modify.list.show');
+    
+    Route::post('/modify/anime/{id}/update', [App\Http\Controllers\ModifyController::class, 'modify_anime_update'])->name('modify.anime.update');
+    
+    Route::get('/modify/anime/{id}/delete', [App\Http\Controllers\ModifyController::class, 'modify_anime_delete'])->name('modify.anime.delete');
 });

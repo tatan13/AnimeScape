@@ -87,6 +87,7 @@
                                 @endif
                             </tbody>
                         </table>
+                        <a href="{{ route('modify.anime.show', ['id' => $anime->id]) }}">アニメの基本情報の変更依頼をする</a>
                     </div>
                 </div>
             </div>

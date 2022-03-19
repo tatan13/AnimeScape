@@ -38,4 +38,8 @@ class Anime extends Model
         return $this->hasMany('App\Models\Occupation');
     }
 
+    public function modify_animes()
+    {
+        return $this->hasMany('App\Models\ModifyAnime');
+    }
 }
