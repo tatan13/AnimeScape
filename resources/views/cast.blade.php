@@ -33,22 +33,7 @@
                             <td><a href="{{ route('anime', ['id' => $occupation->anime->id]) }}">{{ $occupation->anime->title }}</a></td>
                             <td>{{ $occupation->anime->company }}</td>
                             <td>
-                                {{ $occupation->anime->year }}年
-                                @switch($occupation->anime->coor)
-                                    @case(1)
-                                        冬
-                                    @break
-                                    @case(2)
-                                        春
-                                    @break
-                                    @case(3)
-                                        夏
-                                    @break
-                                    @case(4)
-                                        秋
-                                    @break
-                                @endswitch
-                                クール
+                                {{ $occupation->anime->year }}年{{ $occupation->anime->coor_label }}クール
                             </td>
                             <td>{{ $occupation->anime->median }}</td>
                             <td>{{ $occupation->anime->count }}</td>

@@ -3,12 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Library\Label;
 use App\Models\Anime;
 
 class StatisticsController extends Controller
 {
+    const CATEGORY = [
+        1 => '中央値',
+        2 => '平均値',
+        3 => 'データ数',
+    ];
+
+    const COOR = [
+        1 => '冬',
+        2 => '春',
+        3 => '夏',
+        4 => '秋',
+    ];
+
     public function show_all(Request $request, $category)
     {
+        $categoryLabel = new Label($category);
+        $categoryLabel->setLabel(self::CATEGORY);
+
         if(empty($request->count)){
             $datacount = 0;
         }else{
@@ -30,12 +47,15 @@ class StatisticsController extends Controller
 
         return view('all_statistics',[
             'animes' => $animes,
-            'category' => $category,
+            'category' => $categoryLabel,
         ]);
     }
     
     public function show_year(Request $request, $category)
     {
+        $categoryLabel = new Label($category);
+        $categoryLabel->setLabel(self::CATEGORY);
+
         if(empty($request->count)){
             $datacount = 0;
         }else{
@@ -60,13 +80,19 @@ class StatisticsController extends Controller
 
         return view('year_statistics',[
             'animes' => $animes,
-            'category' => $category,
+            'category' => $categoryLabel,
             'year' => (integer)$request->year,
         ]);
     }
     
     public function show_coor(Request $request, $category)
     {
+        $categoryLabel = new Label($category);
+        $categoryLabel->setLabel(self::CATEGORY);
+
+        $coorLabel = new Label((integer)$request->coor);
+        $coorLabel->setLabel(self::COOR);
+    
         if(empty($request->count)){
             $datacount = 0;
         }else{
@@ -92,8 +118,8 @@ class StatisticsController extends Controller
 
         return view('coor_statistics',[
             'animes' => $animes,
-            'category' => $category,
-            'coor' => (integer)$request->coor,
+            'category' => $categoryLabel,
+            'coor' => $coorLabel,
             'year' => (integer)$request->year,
         ]);
     }
