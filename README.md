@@ -4,17 +4,18 @@ IDを作成し，ログインすることで各アニメの点数や感想をつ
 また，他人のアカウントをお気に入りユーザーとして登録することができ，お気に入りユーザー内での点数評価の統計を取ることで，次に視聴するアニメを決定する情報として使用することができます．
 
 # 使用技術
-* PHP
-* Laravel
+* PHP 8.1.3
+* Laravel 9.2.0
 	* guzzlehttp/guzzle
-* MySQL
+* MySQL 8.0
 * Nginx
 * AWS
 	* EC2
 	* RDS
 	* Route 53
 * Docker/Docker-compose
-* CircleCI
+* CircleCI CI/CD
+* PHPUnit
 * ShangriLa Anime API
 * Python
 	* Selenium
@@ -22,12 +23,16 @@ IDを作成し，ログインすることで各アニメの点数や感想をつ
 # AWS構成図
 ![animescape2 diagram drawio](https://user-images.githubusercontent.com/73135261/159098588-71cb46a8-715d-4c5f-9ad4-3936b8751fbe.png)
 
+## CircleCI CI/CD
+* Githubへpushし，Pull requestを作成すると，PHPUnitが自動で実行されます．
+* mainブランチにpushすると，PHPUnitが自動で実行され，成功した場合，EC2に自動でSSH接続し，デプロイを行います．
+
 # 機能一覧
 * ユーザー登録，ログイン機能
 * 得点，感想投稿機能
 * ランキング機能
 * 検索機能
-* お気に入りユーザー登録機能
+* お気に入りユーザー，声優登録機能
 
 # ライセンス
 This code is under the [MIT license](https://opensource.org/licenses/MIT).
