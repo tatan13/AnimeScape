@@ -24,10 +24,10 @@ class User extends Authenticatable
         $sex = $this->attributes['sex'];
 
         if (!isset(self::SEX[$sex])) {
-            return '';
+            return '-';
         }
 
-        return self::Sex[$sex]['label'];
+        return self::SEX[$sex]['label'];
     }
 
 

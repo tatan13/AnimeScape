@@ -25,22 +25,7 @@
                             <td><a href="{{ route('anime', ['id' => $user_review->anime->id]) }}">{{ $user_review->anime->title }}</a></td>
                             <td>{{ $user_review->anime->company }}</td>
                             <td>
-                                {{ $user_review->anime->year }}年
-                                @switch($user_review->anime->coor)
-                                    @case(1)
-                                        冬
-                                    @break
-                                    @case(2)
-                                        春
-                                    @break
-                                    @case(3)
-                                        夏
-                                    @break
-                                    @case(4)
-                                        秋
-                                    @break
-                                @endswitch
-                                クール
+                                {{ $user_review->anime->year }}年{{ $user_review->anime->coor_label }}クール
                             </td>
                             <td>{{ $user_review->anime->median }}</td>
                             <td>{{ $user_review->anime->count }}</td>

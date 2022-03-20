@@ -28,16 +28,10 @@
                                 <td>{{ $like_user->liked_user->twitter ?? '-' }}</td>
                                 <td>{{ $like_user->liked_user->birth ?? '-' }}</td>
                                 <td>
-                                    @if(is_null($like_user->liked_user->sex))
-                                        -
-                                    @elseif($like_user->liked_user->sex)
-                                        男性
-                                    @else
-                                        女性
-                                    @endif
+                                    {{ $like_user->liked_user->sex_label }}
                                 </td>
                                 <td>
-                                    {{ $like_user->liked_user->user_reviews()->get()->last()->created_at }}
+                                    {{ $like_user->liked_user->user_reviews()->get()->isEmpty() ? '-' : $like_user->liked_user->user_reviews()->get()->last()->created_at }}
                                 </td>
                             </tr>
                         @endforeach

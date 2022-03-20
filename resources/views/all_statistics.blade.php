@@ -7,19 +7,9 @@
 @section('main')
     <div class="col-md-8">
         <div id="main">
-            @switch($category)
-                @case(1)
-                    <h2>アニメランキング（中央値順）</h2>
-                    @break
-                @case(2)
-                    <h2>アニメランキング（平均値順）</h2>
-                    @break
-                @case(3)
-                    <h2>アニメランキング（データ数順）</h2>
-                    @break
-                @endswitch
+            <h2>アニメランキング（{{ $category->getLabel() }}順）</h2>
             <h3>検索条件変更</h3>
-            <form action="{{ route('all_statistics', ['category' => $category]) }}">
+            <form action="{{ route('all_statistics', ['category' => $category->getNum()]) }}">
                 @csrf
                 データ数が
                 <select name="count">
