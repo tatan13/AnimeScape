@@ -10,23 +10,24 @@
             <h2>{{ $user_information['user']->uid }}さんの情報</h2>
             <p>{{ $user_information['user']->uid }}</p>
             @auth
-                @if(strcmp(Auth::user()->uid, $user_information['user']->uid) == 0)
+                @if (strcmp(Auth::user()->uid, $user_information['user']->uid) == 0)
                     <a href="{{ route('user.config', ['uid' => Auth::user()->uid]) }}">個人情報設定</a>
                 @else
-                    @if(!Auth::user()->user_like_users->contains('liked_user_id', $user_information['user']->id))
+                    @if (!Auth::user()->user_like_users->contains('liked_user_id', $user_information['user']->id))
                         <a href="{{ route('user.like', ['uid' => $user_information['user']->uid]) }}">お気に入りユーザーに登録する</a>
                     @else
                         <a href="{{ route('user.dislike', ['uid' => $user_information['user']->uid]) }}">お気に入りユーザーを解除する</a>
                     @endif
                 @endif
             @endauth
-            @if(!is_null($user_information['user']->onewordcomment))
+            @if (!is_null($user_information['user']->onewordcomment))
                 <div id="one_comment">
                     <p class="one_comment">{{ $user_information['user']->onewordcomment }}</p>
                 </div>
             @endif
-            @if(!is_null($user_information['user']->twitter))
-            Twitter : <a href="https://twitter.com/{{ $user_information['user']->twitter }}" target="_blank" rel="noopener noreferrer">{{ $user_information['user']->twitter }}</a>
+            @if (!is_null($user_information['user']->twitter))
+                <p>Twitter : <a href="https://twitter.com/{{ $user_information['user']->twitter }}" target="_blank"
+                    rel="noopener noreferrer">{{ $user_information['user']->twitter }}</a></p>
             @endif
             <div class="container-fruid">
                 <div class="row">
@@ -52,7 +53,9 @@
                                 </tr>
                                 <tr>
                                     <th>視聴予定数</th>
-                                    <td><a href="{{ route('user.will_watch_list', ['uid' => $user_information['user']->uid]) }}">{{ $user_information['will_watches_count'] }}</a></td>
+                                    <td><a
+                                            href="{{ route('user.will_watch_list', ['uid' => $user_information['user']->uid]) }}">{{ $user_information['will_watches_count'] }}</a>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>視聴数</th>
@@ -60,15 +63,21 @@
                                 </tr>
                                 <tr>
                                     <th>お気に入りユーザー数</th>
-                                    <td><a href="{{ route('user.like_user_list', ['uid' => $user_information['user']->uid]) }}">{{ count($user_information['user']->user_like_users()->get()) }}</a></td>
+                                    <td><a
+                                            href="{{ route('user.like_user_list', ['uid' => $user_information['user']->uid]) }}">{{ count($user_information['user']->user_like_users()->get()) }}</a>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>被お気に入りユーザー数</th>
-                                    <td><a href="{{ route('user.liked_user_list', ['uid' => $user_information['user']->uid]) }}">{{ count($user_information['user']->user_liked_users()->get()) }}</a></td>
+                                    <td><a
+                                            href="{{ route('user.liked_user_list', ['uid' => $user_information['user']->uid]) }}">{{ count($user_information['user']->user_liked_users()->get()) }}</a>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>お気に入り声優数</th>
-                                    <td><a href="{{ route('user.like_cast_list', ['uid' => $user_information['user']->uid]) }}">{{ count($user_information['user']->like_casts()->get()) }}</a></td>
+                                    <td><a
+                                            href="{{ route('user.like_cast_list', ['uid' => $user_information['user']->uid]) }}">{{ count($user_information['user']->like_casts()->get()) }}</a>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -87,43 +96,53 @@
                                 </tr>
                                 <tr>
                                     <td>90～99</td>
-                                    <td>{{ count($score_n_animes['score_95_animes']) + count($score_n_animes['score_90_animes']) }}</td>
+                                    <td>{{ count($score_n_animes['score_95_animes']) + count($score_n_animes['score_90_animes']) }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>80～89</td>
-                                    <td>{{ count($score_n_animes['score_85_animes']) + count($score_n_animes['score_80_animes']) }}</td>
+                                    <td>{{ count($score_n_animes['score_85_animes']) + count($score_n_animes['score_80_animes']) }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>70～79</td>
-                                    <td>{{ count($score_n_animes['score_75_animes']) + count($score_n_animes['score_70_animes']) }}</td>
+                                    <td>{{ count($score_n_animes['score_75_animes']) + count($score_n_animes['score_70_animes']) }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>60～69</td>
-                                    <td>{{ count($score_n_animes['score_65_animes']) + count($score_n_animes['score_60_animes']) }}</td>
+                                    <td>{{ count($score_n_animes['score_65_animes']) + count($score_n_animes['score_60_animes']) }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>50～59</td>
-                                    <td>{{ count($score_n_animes['score_55_animes']) + count($score_n_animes['score_50_animes']) }}</td>
+                                    <td>{{ count($score_n_animes['score_55_animes']) + count($score_n_animes['score_50_animes']) }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>40～49</td>
-                                    <td>{{ count($score_n_animes['score_45_animes']) + count($score_n_animes['score_40_animes']) }}</td>
+                                    <td>{{ count($score_n_animes['score_45_animes']) + count($score_n_animes['score_40_animes']) }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>30～39</td>
-                                    <td>{{ count($score_n_animes['score_35_animes']) + count($score_n_animes['score_30_animes']) }}</td>
+                                    <td>{{ count($score_n_animes['score_35_animes']) + count($score_n_animes['score_30_animes']) }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>20～29</td>
-                                    <td>{{ count($score_n_animes['score_25_animes']) + count($score_n_animes['score_20_animes']) }}</td>
+                                    <td>{{ count($score_n_animes['score_25_animes']) + count($score_n_animes['score_20_animes']) }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>10～19</td>
-                                    <td>{{ count($score_n_animes['score_15_animes']) + count($score_n_animes['score_10_animes']) }}</td>
+                                    <td>{{ count($score_n_animes['score_15_animes']) + count($score_n_animes['score_10_animes']) }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>0～9</td>
-                                    <td>{{ count($score_n_animes['score_5_animes']) + count($score_n_animes['score_0_animes']) }}</td>
+                                    <td>{{ count($score_n_animes['score_5_animes']) + count($score_n_animes['score_0_animes']) }}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
