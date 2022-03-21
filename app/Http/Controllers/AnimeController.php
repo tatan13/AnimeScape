@@ -105,7 +105,7 @@ class AnimeController extends Controller
         $anime->count = $user_reviews->count();
         $anime->save();
 
-        return redirect()->route('score', [
+        return redirect()->route('anime', [
             'id' => $id,
         ])->with('flash_message', '入力が完了しました。');
     }

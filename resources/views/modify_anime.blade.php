@@ -19,7 +19,7 @@
                 <div class="col-md-12">
                     <div id="modify_anime">
                         <h2>{{ $anime->title }}の基本情報変更申請</h2>
-                        <h3>{{ $anime->title }}</h3>
+                        <h3><a href="{{ route('anime', ['id' => $anime->id]) }}">{{ $anime->title }}</a></h3>
                         @if (session('flash_message'))
                             <div class="alert alert-success">
                                 {{ session('flash_message') }}

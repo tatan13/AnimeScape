@@ -10,6 +10,11 @@
             <h2>
                 <a href="{{ $anime->public_url }}" target="_blank" rel="noopener noreferrer">{{ $anime->title }}</a>
             </h2>
+            @if (session('flash_message'))
+                <div class="alert alert-success">
+                    {{ session('flash_message') }}
+                </div>
+            @endif
             <span><strong>{{ $anime->title }}</strong></span>
             <div class="container-fluid">
                 <div class="row">
@@ -37,14 +42,15 @@
                                 <tr id="twitter_account">
                                     <th>ツイッターアカウント</th>
                                     <td>
-                                        <a href="https://twitter.com/{{ $anime->twitter }}" target="_blank" rel="noopener noreferrer">{{ $anime->twitter }}</a>
+                                        <a href="https://twitter.com/{{ $anime->twitter }}" target="_blank"
+                                            rel="noopener noreferrer">{{ $anime->twitter }}</a>
                                     </td>
                                 </tr>
                                 <tr id="twitter_hash_tag">
                                     <th>ツイッターハッシュタグ</th>
                                     <td>
-                                        <a
-                                            href="https://twitter.com/hashtag/{{ $anime->hash_tag }}" target="_blank" rel="noopener noreferrer">{{ $anime->hash_tag }}</a>
+                                        <a href="https://twitter.com/hashtag/{{ $anime->hash_tag }}" target="_blank"
+                                            rel="noopener noreferrer">{{ $anime->hash_tag }}</a>
                                     </td>
                                 </tr>
                                 <tr id="sequel">
@@ -79,7 +85,7 @@
                                     <th>最低点</th>
                                     <td>{{ $anime->min }}</td>
                                 </tr>
-                                @if(isset($myuser_score))
+                                @if (isset($myuser_score))
                                     <tr id="myuser_score">
                                         <th>つけた得点</th>
                                         <td>{{ $myuser_score }}</td>
@@ -93,7 +99,8 @@
             </div>
             <div id="toContents" class="d-grid gap-2">
                 @if (Auth::check())
-                    <button type="button" class="btn btn-primary" onclick="location.href='{{ route('score', ['id' => $anime->id]) }}'">このアニメに得点やコメントを登録する</button>
+                    <button type="button" class="btn btn-primary"
+                        onclick="location.href='{{ route('score', ['id' => $anime->id]) }}'">このアニメに得点やコメントを登録する</button>
                 @else
                     <button type="button" class="btn btn-primary"
                         onclick="location.href='{{ route('score', ['id' => $anime->id]) }}'">ログインしてこのアニメに得点やコメントを登録する</button>
@@ -106,8 +113,9 @@
                         <tr id="casts">
                             <th>声優</th>
                             <td>
-                                @foreach($anime_casts as $anime_cast)
-                                    <a href="{{ route('cast', ['id' => $anime_cast->cast->id]) }}">{{ $anime_cast->cast->name }}</a>
+                                @foreach ($anime_casts as $anime_cast)
+                                    <a
+                                        href="{{ route('cast', ['id' => $anime_cast->cast->id]) }}">{{ $anime_cast->cast->name }}</a>
                                 @endforeach
                             </td>
                         </tr>
@@ -116,13 +124,14 @@
             </div>
             <div id="comment">
                 <h3>コメント（新着順）</h3>
-                @foreach($user_reviews as $user_review)
-                    @if(!is_null($user_review->one_word_comment))
-                        @if(!is_null($user_review->score))
+                @foreach ($user_reviews as $user_review)
+                    @if (!is_null($user_review->one_word_comment))
+                        @if (!is_null($user_review->score))
                             <strong>{{ $user_review->score }}点</strong><br>
                         @endif
                         {{ $user_review->one_word_comment }}<br>
-                        {{ $user_review->updated_at }} <a href="{{ route('user', ['uid' => $user_review->user->uid]) }}">{{ $user_review->user->uid }}</a><br>
+                        {{ $user_review->updated_at }} <a
+                            href="{{ route('user', ['uid' => $user_review->user->uid]) }}">{{ $user_review->user->uid }}</a><br>
                         <hr>
                     @endif
                 @endforeach
@@ -138,7 +147,8 @@
                             <div class="col-md-6">
                                 <div id="twitter_search_main">
                                     <a class="twitter-timeline"
-                                        href="https://twitter.com/{{ $anime->twitter }}?ref_src=twsrc%5Etfw">Tweets by {{ $anime->twitter }}</a>
+                                        href="https://twitter.com/{{ $anime->twitter }}?ref_src=twsrc%5Etfw">Tweets by
+                                        {{ $anime->twitter }}</a>
                                     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                                 </div>
                             </div>
