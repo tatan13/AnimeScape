@@ -128,8 +128,8 @@ class AnimeTest extends TestCase
             'will_watch' => 1,
             'watch' => 0,
         ]);
-        $response->assertRedirect('/anime/1/score');
-        $this->get('/anime/1/score')->assertSee('入力が完了しました。');
+        $response->assertRedirect('/anime/1');
+        $this->get('/anime/1')->assertSee('入力が完了しました。');
     }
 
     /**

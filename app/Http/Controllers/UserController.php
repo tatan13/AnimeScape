@@ -214,8 +214,6 @@ class UserController extends Controller
 
         $user->save();
 
-        return view('user_config',[
-            'user' => $user,
-        ]);
+        return redirect()->route('user.config', ['uid' => $uid])->with('flash_message', '個人情報の登録が完了しました。');
     }
 }

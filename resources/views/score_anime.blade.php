@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <h2>{{ $anime->title }}のデータ入力画面</h2>
-                    <h3>{{ $anime->title }}</h3>
+                    <h3><a href="{{ route('anime', ['id' => $anime->id]) }}">{{ $anime->title }}</a></h3>
                     <div id="score_information">
                         @if ($errors->any())
                             <div class="alert alert-danger">
@@ -27,11 +27,6 @@
                                         <li>{{ $message }}</li>
                                     @endforeach
                                 </ul>
-                            </div>
-                        @endif
-                        @if (session('flash_message'))
-                            <div class="alert alert-success">
-                                {{ session('flash_message') }}
                             </div>
                         @endif
                         <form action="{{ route('result', ['id' => $anime->id]) }}" method="POST">
