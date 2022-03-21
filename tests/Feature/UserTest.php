@@ -181,10 +181,10 @@ class UserTest extends TestCase
             'twitter' => 't_id',
             'birth' => 1998,
             'sex' => 'f',
-        ]))->assertStatus(200);
+        ]))->assertRedirect(route('user.config', ['uid' => $this->user1->uid]));
 
         $check = array('example@gmail.com', 'excellent', 't_id', 1998);
-        $response->assertSeeInOrder($check);
+        $this->get(route('user.config', ['uid' => $this->user1->uid]))->assertSeeInOrder($check);
 
         $this->get(route('user', ['uid' => $this->user1->uid]))->assertSeeInOrder(['excellent', 't_id']);
     }
