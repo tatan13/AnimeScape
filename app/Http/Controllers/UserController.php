@@ -231,4 +231,50 @@ class UserController extends Controller
 
         return redirect()->route('user.config', ['uid' => $uid])->with('flash_message', '個人情報の登録が完了しました。');
     }
+
+    public function statistics($uid, Request $request)
+    {
+        $user = User::where('uid', $uid)->first();
+
+        if(!isset($user)){
+            return redirect(route('index'));
+        }
+
+        $req_median = $request->median ?? 0;
+        $req_count = $request->count ?? 0;
+        $bottom_year = $request->bottom_year ?? 0;
+        $top_year = $request->top_year ?? 3000;
+
+        $liked_users_id = $user->user_like_users()->pluck('liked_user_id');
+        $liked_users_id->push($user->id);
+
+        $users_reviews = UserReview::whereIn('user_id', $liked_users_id)->get()->whereNotNull('score');
+
+        $users_animes_reviews = $users_reviews->groupBy('anime_id');
+        $animes = collect([]);
+        foreach($users_animes_reviews as $anime_id => $users_anime_reviews){
+            $anime = Anime::find($anime_id);
+            $median = $users_anime_reviews->median('score');
+            $count = $users_anime_reviews->count();
+            $watch = $users_anime_reviews->contains('user_id', $user->id) ? '済' : '';
+            if($anime->year >= $bottom_year && $anime->year <= $top_year && $count >= $req_count && $median >= $req_median )
+            $animes->push([
+                'anime' => $anime,
+                'median' => $median,
+                'count' => $count,
+                'watch'=> $watch,
+            ]);
+        }
+
+        $animes = $animes->sortByDesc('median');
+
+        return view('user_statistics',[
+            'user' => $user,
+            'animes' => $animes,
+            'median' => $request->median,
+            'count' => $request->count,
+            'bottom_year' => $request->bottom_year,
+            'top_year' => $request->top_year,
+        ]);
+    }
 }
