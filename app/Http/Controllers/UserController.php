@@ -7,24 +7,54 @@ use App\Models\UserReview;
 use App\Models\Anime;
 use App\Models\UserLikeUser;
 
+use App\Library\Label;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateConfig;
 
 class UserController extends Controller
 {
-    public function show($uid)
+    const COOR = [
+        1 => '冬',
+        2 => '春',
+        3 => '夏',
+        4 => '秋',
+    ];
+    public function show($uid, Request $request)
     {
+        $coorLabel = new Label($request->coor);
+        $coorLabel->setLabel(self::COOR);
+
         $user = User::where('uid', $uid)->first();
         if(!empty($user)){
-            $user_reviews = $user->user_reviews;
+            if(is_null($request->year)){
+                $user_reviews = $user->user_reviews;
+            }elseif(is_null($request->coor)){
+                $user_reviews = $user->user_reviews()->whereHas('anime', function($query) use ($request){
+                    $query->where('year', $request->year);
+                })->get();
+            }else{
+                $user_reviews = $user->user_reviews()->whereHas('anime', function($query) use ($request){
+                    $query->where('year', $request->year)->where('coor', $request->coor);
+                })->get();
+            }
         }else{
             return redirect(route('index'));
         }
 
-        //ユーザーの統計情報
-        $user_information = [
+        //ユーザーが100点を付けたアニメのレビューリストを取得
+        $score_100_anime_reviews = $user_reviews->where('score', 100)->sortByDesc('score');
+
+        //ユーザーがi点~i+4点を付けたアニメのレビューリストを取得
+        for($i=95;$i>=0;$i=$i-5){
+            ${"score_".$i."_anime_reviews"} = $user_reviews->whereNotNull('score')->whereBetween('score', [$i, $i+4])->sortByDesc('score');
+        }
+
+        return view('user_information', [
             'user' => $user,
+            'year' => $request->year,
+            'coor' => $coorLabel,
             'score_count' => $user_reviews->whereNotNull('score')->count(),
             'score_average' => (int)$user_reviews->avg('score'),
             'score_median' => $user_reviews->median('score'),
@@ -32,42 +62,27 @@ class UserController extends Controller
             'long_comments_count' => $user_reviews->whereNotNull('long_word_comment')->count(),
             'will_watches_count' => $user_reviews->where('will_watch', 1)->count(),
             'watches_count' => $user_reviews->where('watch', 1)->count(),
-        ];
-
-        
-        $score_n_animes = array();
-
-        //ユーザーが100点を付けたアニメのリストを取得
-        $score_100_anime_reviews = $user_reviews->where('score', 100)->sortByDesc('score');
-        $score_100_animes = array();
-        foreach($score_100_anime_reviews as $anime_review){
-            $anime = Anime::find($anime_review->anime_id);
-            $my_anime_score = $anime_review->score;
-            $score_100_animes[] = [
-                'anime' => $anime,
-                'my_anime_score' => $my_anime_score,
-            ];
-        }
-        $score_n_animes['score_100_animes']= $score_100_animes;
-
-        //ユーザーがi点~i+4点を付けたアニメのリストを取得
-        for($i=95;$i>=0;$i=$i-5){
-            ${"score_".$i."_anime_reviews"} = $user_reviews->whereNotNull('score')->whereBetween('score', [$i, $i+4])->sortByDesc('score');
-            ${"score_".$i."_animes"} = array();
-            foreach(${"score_".$i."_anime_reviews"} as $anime_review){
-                $anime = Anime::find($anime_review->anime_id);
-                $my_anime_score = $anime_review->score;
-                ${"score_".$i."_animes"}[] = [
-                    'anime' => $anime,
-                    'my_anime_score' => $my_anime_score,
-                ];
-            }
-            $score_n_animes["score_{$i}_animes"]= ${"score_".$i."_animes"};
-        }
-
-        return view('user_information', [
-            'user_information' => $user_information,
-            'score_n_animes' => $score_n_animes,
+            'score_100_anime_reviews' => $score_100_anime_reviews,
+            'score_95_anime_reviews' => $score_95_anime_reviews,
+            'score_90_anime_reviews' => $score_90_anime_reviews,
+            'score_85_anime_reviews' => $score_85_anime_reviews,
+            'score_80_anime_reviews' => $score_80_anime_reviews,
+            'score_75_anime_reviews' => $score_75_anime_reviews,
+            'score_70_anime_reviews' => $score_70_anime_reviews,
+            'score_65_anime_reviews' => $score_65_anime_reviews,
+            'score_60_anime_reviews' => $score_60_anime_reviews,
+            'score_55_anime_reviews' => $score_55_anime_reviews,
+            'score_50_anime_reviews' => $score_50_anime_reviews,
+            'score_45_anime_reviews' => $score_45_anime_reviews,
+            'score_40_anime_reviews' => $score_40_anime_reviews,
+            'score_35_anime_reviews' => $score_35_anime_reviews,
+            'score_30_anime_reviews' => $score_30_anime_reviews,
+            'score_25_anime_reviews' => $score_25_anime_reviews,
+            'score_20_anime_reviews' => $score_20_anime_reviews,
+            'score_15_anime_reviews' => $score_15_anime_reviews,
+            'score_10_anime_reviews' => $score_10_anime_reviews,
+            'score_5_anime_reviews' => $score_5_anime_reviews,
+            'score_0_anime_reviews' => $score_0_anime_reviews,
         ]);
     }
 
@@ -215,5 +230,51 @@ class UserController extends Controller
         $user->save();
 
         return redirect()->route('user.config', ['uid' => $uid])->with('flash_message', '個人情報の登録が完了しました。');
+    }
+
+    public function statistics($uid, Request $request)
+    {
+        $user = User::where('uid', $uid)->first();
+
+        if(!isset($user)){
+            return redirect(route('index'));
+        }
+
+        $req_median = $request->median ?? 0;
+        $req_count = $request->count ?? 0;
+        $bottom_year = $request->bottom_year ?? 0;
+        $top_year = $request->top_year ?? 3000;
+
+        $liked_users_id = $user->user_like_users()->pluck('liked_user_id');
+        $liked_users_id->push($user->id);
+
+        $users_reviews = UserReview::whereIn('user_id', $liked_users_id)->get()->whereNotNull('score');
+
+        $users_animes_reviews = $users_reviews->groupBy('anime_id');
+        $animes = collect([]);
+        foreach($users_animes_reviews as $anime_id => $users_anime_reviews){
+            $anime = Anime::find($anime_id);
+            $median = $users_anime_reviews->median('score');
+            $count = $users_anime_reviews->count();
+            $watch = $users_anime_reviews->contains('user_id', $user->id) ? '済' : '';
+            if($anime->year >= $bottom_year && $anime->year <= $top_year && $count >= $req_count && $median >= $req_median )
+            $animes->push([
+                'anime' => $anime,
+                'median' => $median,
+                'count' => $count,
+                'watch'=> $watch,
+            ]);
+        }
+
+        $animes = $animes->sortByDesc('median');
+
+        return view('user_statistics',[
+            'user' => $user,
+            'animes' => $animes,
+            'median' => $request->median,
+            'count' => $request->count,
+            'bottom_year' => $request->bottom_year,
+            'top_year' => $request->top_year,
+        ]);
     }
 }

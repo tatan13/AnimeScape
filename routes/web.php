@@ -32,6 +32,8 @@ Route::get('/user_information/{uid}/liked_user_list', [App\Http\Controllers\User
 
 Route::get('/user_information/{uid}/like_cast_list', [App\Http\Controllers\UserController::class, 'show_like_cast_list'])->name('user.like_cast_list');
 
+Route::get('/user_information/{uid}/statistics', [App\Http\Controllers\UserController::class, 'statistics'])->name('user.statistics');
+
 Route::get('/search', [App\Http\Controllers\SearchController::class, 'search'])->name('search');
 
 Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])->name('contact.index');

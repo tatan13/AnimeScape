@@ -8,7 +8,8 @@
     <div class="col-md-8">
         <div id="main">
             <h2>{{ $user->uid }}さんのお気に入りユーザー</h2>
-            <strong>{{ $user->uid }}</strong>
+            <strong>{{ $user->uid }}</strong><br>
+            <a href=" {{ route('user.statistics', ['uid' => $user->uid]) }} ">統計表</a>
             <h3>お気に入りユーザー</h3>
             <div id="like_users">
                 <table id="like_users_table">
