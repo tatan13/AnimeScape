@@ -7,6 +7,9 @@ IDを作成し，ログインすることで各アニメの点数や感想をつ
 * PHP 8.1.3
 * Laravel 9.2.0
 	* guzzlehttp/guzzle
+* JavaScript
+* Vue.js 2.6.12
+	*axios
 * MySQL 8.0
 * Nginx
 * AWS
@@ -32,7 +35,8 @@ IDを作成し，ログインすることで各アニメの点数や感想をつ
 * 得点，感想投稿機能
 * ランキング機能
 * 検索機能
-* お気に入りユーザー，声優登録機能
+* お気に入りユーザー，声優登録機能（非同期処理）
+* 統計機能
 
 # ライセンス
 This code is under the [MIT license](https://opensource.org/licenses/MIT).
