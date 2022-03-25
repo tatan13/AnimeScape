@@ -9,7 +9,7 @@ IDを作成し，ログインすることで各アニメの点数や感想をつ
 	* guzzlehttp/guzzle
 * JavaScript
 * Vue.js 2.6.12
-	*axios
+	* axios
 * MySQL 8.0
 * Nginx
 * AWS
