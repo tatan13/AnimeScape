@@ -15,4 +15,9 @@ class IndexController extends Controller
             'animes' => $animes,
         ]);
     }
+
+    public function updateLog()
+    {
+        return view('update_log');
+    }
 }
