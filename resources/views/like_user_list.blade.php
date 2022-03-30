@@ -29,7 +29,7 @@
                             {{ $like_user->sex_label }}
                         </td>
                         <td>
-                            {{ $like_user->user_reviews()->get()->isEmpty()? '-': $like_user->user_reviews()->get()->last()->created_at }}
+                            {{ $like_user->userReviews()->get()->isEmpty()? '-': $like_user->userReviews()->get()->last()->created_at }}
                         </td>
                     </tr>
                 @endforeach

@@ -21,7 +21,7 @@ class StatisticsController extends Controller
         4 => '秋',
     ];
 
-    public function show_all(Request $request, $category)
+    public function showAll(Request $request, $category)
     {
         $categoryLabel = new Label($category);
         $categoryLabel->setLabel(self::CATEGORY);
@@ -51,7 +51,7 @@ class StatisticsController extends Controller
         ]);
     }
     
-    public function show_year(Request $request, $category)
+    public function showYear(Request $request, $category)
     {
         $categoryLabel = new Label($category);
         $categoryLabel->setLabel(self::CATEGORY);
@@ -85,7 +85,7 @@ class StatisticsController extends Controller
         ]);
     }
     
-    public function show_coor(Request $request, $category)
+    public function showCoor(Request $request, $category)
     {
         $categoryLabel = new Label($category);
         $categoryLabel->setLabel(self::CATEGORY);

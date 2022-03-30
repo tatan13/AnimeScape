@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 use App\Models\Anime;
+use App\Models\Cast;
 use App\Models\ModifyAnime;
+use App\Models\ModifyOccupation;
+use App\Models\Occupation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class ModifyController extends Controller
 {
-    public function modify_anime_show(int $id)
+    public function modifyAnimeShow(int $id)
     {
         $anime = Anime::find($id);
 
@@ -21,7 +24,7 @@ class ModifyController extends Controller
         ]);
     }
 
-    public function modify_anime_post(Request $request, int $id)
+    public function modifyAnimePost(Request $request, int $id)
     {
         $modify_anime = new ModifyAnime();
 
@@ -44,7 +47,7 @@ class ModifyController extends Controller
         ])->with('flash_message', '変更申請が完了しました。');
     }
     
-    public function modify_anime_update(int $id, Request $request)
+    public function modifyAnimeUpdate(int $id, Request $request)
     {
         if(Auth::user()->uid != "root"){
             return redirect(route('index'));
@@ -66,10 +69,10 @@ class ModifyController extends Controller
         $anime->save();
         $modify_anime->delete();
 
-        return redirect()->route('modify.list.show')->with('flash_message', '変更が完了しました。');
+        return redirect()->route('modify.list.show')->with('flash_anime_message', '変更が完了しました。');
     }
 
-    public function modify_anime_delete(int $id)
+    public function modifyAnimeDelete(int $id)
     {
         if(Auth::user()->uid != "root"){
             return redirect(route('index'));
@@ -78,19 +81,103 @@ class ModifyController extends Controller
         $modify_anime = ModifyAnime::find($id);
         $modify_anime->delete();
 
-        return redirect()->route('modify.list.show')->with('flash_message', '削除が完了しました。');
+        return redirect()->route('modify.list.show')->with('flash_anime_message', '削除が完了しました。');
     }
 
-    public function modify_list_show()
+    public function modifyListShow()
     {
         if(Auth::user()->uid != "root"){
             return redirect(route('index'));
         }
 
         $modify_animes = ModifyAnime::all();
+        $modify_occupations_list = ModifyOccupation::all()->groupBy('anime_id');
 
         return view('modify_list', [
             'modify_animes' => $modify_animes,
+            'modify_occupations_list' => $modify_occupations_list,
         ]);
+    }
+
+    public function modifyOccupationShow(int $id)
+    {
+        $anime = Anime::find($id);
+
+        if(!isset($anime)){
+            return redirect(route('index'));
+        }
+
+        $act_casts = $anime->actCasts;
+
+        return view('modify_occupation', [
+            'anime' => $anime,
+            'act_casts' => $act_casts,
+        ]);
+    }
+
+    public function modifyOccupationPost(Request $request, int $id)
+    {
+        $anime = Anime::find($id);
+        $req_casts = $request->except('_token');
+        $modify_occupation_list = $anime->modifyOccupations;
+
+        foreach($req_casts as $req_cast){
+            if(!is_null($req_cast) && !$modify_occupation_list->contains('cast_name', $req_cast)){
+                $modify_occupation = new ModifyOccupation();
+                $modify_occupation->anime_id = $id;
+                $modify_occupation->cast_name = $req_cast;
+                $modify_occupation->save();
+            }
+        }
+
+        return redirect()->route('modify.occupation.show', [
+            'id' => $id,
+        ])->with('flash_message', '変更申請が完了しました。');
+    }
+
+    public function modifyOccupationUpdate(int $id, Request $request)
+    {
+        if(Auth::user()->uid != "root"){
+            return redirect(route('index'));
+        }
+        $anime = Anime::find($id);
+        $anime->occupations()->delete();
+        
+        $req_casts = $request->except('_token');
+
+        foreach($req_casts as $req_cast){
+            $cast = Cast::where('name', $req_cast);
+            if($cast->exists()){
+                $cast = $cast->first();
+                $occupation = new Occupation();
+                $occupation->cast_id = $cast->id;
+                $occupation->anime_id = $anime->id;
+                $occupation->save();
+            }else if(!is_null($req_cast)){
+                $new_cast = new Cast();
+                $new_cast->name = $req_cast;
+                $new_cast->save();
+
+                $occupation->cast_id = $new_cast->id;
+                $occupation->anime_id = $anime->id;
+                $occupation->save();
+            }
+        }
+
+        $anime->modifyOccupations()->delete();
+        return redirect()->route('modify.list.show')->with('flash_occupation_message', '変更が完了しました。');
+    }
+
+    public function modifyOccupationDelete(int $id)
+    {
+        if(Auth::user()->uid != "root"){
+            return redirect(route('index'));
+        }
+        $anime = Anime::find($id);
+
+        $modify_occupation_list = $anime->modifyOccupations();
+        $modify_occupation_list->delete();
+
+        return redirect()->route('modify.list.show')->with('flash_occupation_message', '削除が完了しました。');
     }
 }

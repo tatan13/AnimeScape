@@ -40,7 +40,7 @@ class IndexTest extends TestCase
     /**
     * @test 
     */
-    public function test_index_view()
+    public function testIndexView()
     {
         $response = $this->get('/');
 
@@ -52,7 +52,7 @@ class IndexTest extends TestCase
     /**
     * @test 
     */
-    public function test_login_view()
+    public function testLoginView()
     {
         $user = User::factory()->create();
         $this->actingAs($user);
@@ -64,7 +64,7 @@ class IndexTest extends TestCase
     /**
     * @test 
     */
-    public function test_index_anime_view()
+    public function testIndexAnimeView()
     {
         $this->actingAs($this->user1);
         $this->post('anime/1/score',[

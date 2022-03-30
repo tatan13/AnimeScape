@@ -36,7 +36,7 @@ class SearchTest extends TestCase
     /**
     * @test 
     */
-    public function test_search_anime_view()
+    public function testSearchAnimeView()
     {
         $response = $this->get(route('search', [
             'category' => 'anime',
@@ -65,7 +65,7 @@ class SearchTest extends TestCase
     /**
     * @test 
     */
-    public function test_search_cast_view()
+    public function testSearchCastView()
     {
         $response = $this->get(route('search', [
             'category' => 'cast',
@@ -89,7 +89,7 @@ class SearchTest extends TestCase
     /**
     * @test 
     */
-    public function test_search_user_view()
+    public function testSearchUserView()
     {
         $response = $this->get(route('search', [
             'category' => 'user',

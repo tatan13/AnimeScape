@@ -54,7 +54,7 @@ class CastTest extends TestCase
     /**
     * @test 
     */  
-    public function test_cast_guest_view()
+    public function testCastGuestView()
     {
         $response = $this->get('/cast/1');
 
@@ -71,7 +71,7 @@ class CastTest extends TestCase
     /**
     * @test 
     */  
-    public function test_cast_login_like_view()
+    public function testCastLoginLikeView()
     {
         $this->actingAs($this->user);
         $this->get('/cast/1/like',[

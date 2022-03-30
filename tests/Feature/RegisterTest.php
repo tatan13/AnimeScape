@@ -22,7 +22,7 @@ class RegisterTest extends TestCase
     /**
     * @test 
     */
-    public function test_register_view()
+    public function testRegisterView()
     {
         $response = $this->get('/register');
 
@@ -35,7 +35,7 @@ class RegisterTest extends TestCase
     /**
     * @test 
     */
-    public function test_register_correct_post()
+    public function testRegisterCorrectPost()
     {
         $response = $this->post('/register',[
             'uid' => 'user',
@@ -59,7 +59,7 @@ class RegisterTest extends TestCase
     /**
     * @test 
     */
-    public function test_register_incorrect_post()
+    public function testRegisterIncorrectPost()
     {
         $response = $this->from('/register')->post('/register',[
             'uid' => $this->user->id,

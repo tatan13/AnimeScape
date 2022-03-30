@@ -60,39 +60,39 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function user_reviews()
+    public function userReviews()
     {
         return $this->hasMany('App\Models\UserReview');
     }
 
-    public function user_like_users()
+    public function userLikeUsers()
     {
         return $this->belongsToMany('App\Models\User', 'user_like_users', 'user_id', 'liked_user_id');
     }
 
-    public function user_liked_users()
+    public function userLikedUsers()
     {
         return $this->belongsToMany('App\Models\User', 'user_like_users', 'liked_user_id', 'user_id');
     }
 
-    public function like_casts()
+    public function likeCasts()
     {
         return $this->belongsToMany('App\Models\Cast', 'user_like_casts', 'user_id', 'cast_id');
     }
 
     public function isLikeUser($uid)
     {
-        return $this->user_like_users()->where('uid', $uid)->exists();
+        return $this->userLikeUsers()->where('uid', $uid)->exists();
 
     }
  
     public function isLikedUser($uid)
     {
-        return $this->user_liked_users()->where('uid', $uid)->exists();
+        return $this->userLikedUsers()->where('uid', $uid)->exists();
     }
 
     public function isLikeCast($cast_id)
     {
-        return $this->like_casts()->where('cast_id', $cast_id)->exists();
+        return $this->likeCasts()->where('cast_id', $cast_id)->exists();
     }
 }

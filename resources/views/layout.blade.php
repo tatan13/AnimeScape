@@ -115,6 +115,10 @@
                     <div id="main">
                         @yield('main')
     </main>
+    <footer>
+        <hr>
+        tatan13
+    </footer>
     <script src="{{ asset('js/app.js') }}"></script>
     @yield('vue.js')
 </body>

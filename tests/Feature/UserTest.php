@@ -107,7 +107,7 @@ class UserTest extends TestCase
     /**
     * @test 
     */
-    public function test_user_information_view()
+    public function testUserInformationView()
     {
         $response = $this->get("/user_information/{$this->user1->uid}");
 
@@ -126,7 +126,7 @@ class UserTest extends TestCase
     /**
     * @test 
     */
-    public function test_user_information_login_mypage_view()
+    public function testUserInformationLoginMypageView()
     {
         $this->actingAs($this->user1);
         $response = $this->get("/user_information/{$this->user1->uid}");
@@ -137,7 +137,7 @@ class UserTest extends TestCase
     /**
     * @test 
     */
-    public function test_user_information_login_otherpage_view()
+    public function testUserInformationLoginOtherpageView()
     {
         $this->actingAs($this->user1);
         $response = $this->get(route('user', ['uid' => $this->user2->uid]));
@@ -154,7 +154,7 @@ class UserTest extends TestCase
     /**
     * @test 
     */
-    public function test_user_information_config_view()
+    public function testUserInformationConfigView()
     {
         $this->get(route('user.config', ['uid' => $this->user1->uid]))->assertRedirect('/login');
         $this->actingAs($this->user1);
@@ -168,7 +168,7 @@ class UserTest extends TestCase
     /**
     * @test 
     */
-    public function test_user_information_config_post()
+    public function testUserInformationConfigPost()
     {
         $this->actingAs($this->user1);
         $response = $this->post(route('user.config', [

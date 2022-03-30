@@ -7,9 +7,9 @@
 @section('main')
     <div id="modify_anime_list">
         <h2>アニメの基本情報変更申請リスト</h2>
-        @if (session('flash_message'))
+        @if (session('flash_anime_message'))
             <div class="alert alert-success">
-                {{ session('flash_message') }}
+                {{ session('flash_anime_message') }}
             </div>
         @endif
         @foreach ($modify_animes as $modify_anime)
@@ -80,6 +80,56 @@
                     </tbody>
                 </table>
             </form>
+        @endforeach
+    </div>
+    <div id="modify_occupation_list">
+        <h2>アニメの出演声優情報変更申請リスト</h2>
+        @if (session('flash_occupation_message'))
+            <div class="alert alert-success">
+                {{ session('flash_occupation_message') }}
+            </div>
+        @endif
+        @foreach ($modify_occupations_list as $modify_occupation_list)
+            <h3>{{ $loop->iteration }}件目({{ $modify_occupation_list[0]->anime->title }})</h3>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>現在の情報</strong>
+                        <table id="occupation_list_table">
+                            <tbody>
+                                <th>声優名</th>
+                                @foreach ($modify_occupation_list[0]->anime->occupations as $occupation)
+                                    <tr>
+                                        <td>{{ $occupation->cast->name }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-2">
+                        <form>
+                            @csrf
+                            <strong>変更依頼情報</strong>
+                            <table id="modify_occupation_list_table">
+                                <tbody>
+                                    <th>声優名</th>
+                                    @foreach ($modify_occupation_list as $modify_occupation)
+                                        <tr>
+                                            <td><input type="text" name="cast_name_{{ $loop->iteration }}"
+                                                    value="{{ $modify_occupation->cast_name }}">
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            <input type="submit" value="登録" formaction="{{ route('modify.occupation.update', ['id' => $modify_occupation_list[0]->anime->id]) }}"
+                                formmethod="POST">
+                            <input type="submit" value="却下" formaction="{{ route('modify.occupation.delete', ['id' => $modify_occupation_list[0]->anime->id]) }}"
+                                formmethod="GET">
+                        </form>
+                    </div>
+                </div>
+            </div>
         @endforeach
     </div>
     </div>

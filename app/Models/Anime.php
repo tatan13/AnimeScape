@@ -28,7 +28,7 @@ class Anime extends Model
         return self::COOR[$coor]['label'];
     }
 
-    public function user_reviews()
+    public function userReviews()
     {
         return $this->hasMany('App\Models\UserReview');
     }
@@ -38,8 +38,24 @@ class Anime extends Model
         return $this->hasMany('App\Models\Occupation');
     }
 
-    public function modify_animes()
+    public function modifyAnimes()
     {
         return $this->hasMany('App\Models\ModifyAnime');
     }
+
+    public function actCasts()
+    {
+        return $this->belongsToMany('App\Models\Cast', 'occupations', 'anime_id', 'cast_id');
+    }
+
+    public function isActCast($cast_name)
+    {
+        return $this->actCasts()->where('name', $cast_name)->exists();
+    }
+
+    public function modifyOccupations()
+    {
+        return $this->hasMany('App\Models\ModifyOccupation');
+    }
 }
+

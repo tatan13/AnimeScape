@@ -63,17 +63,17 @@
                                     <th>中央値</th>
                                     <th>データ数</th>
                                 </tr>
-                                @foreach ($cast->occupations as $occupation)
+                                @foreach ($cast->actAnimes as $act_anime)
                                     <tr>
                                         <td><a
-                                                href="{{ route('anime', ['id' => $occupation->anime->id]) }}">{{ $occupation->anime->title }}</a>
+                                                href="{{ route('anime', ['id' => $act_anime->id]) }}">{{ $act_anime->title }}</a>
                                         </td>
-                                        <td>{{ $occupation->anime->company }}</td>
+                                        <td>{{ $act_anime->company }}</td>
                                         <td>
-                                            {{ $occupation->anime->year }}年{{ $occupation->anime->coor_label }}クール
+                                            {{ $act_anime->year }}年{{ $act_anime->coor_label }}クール
                                         </td>
-                                        <td>{{ $occupation->anime->median }}</td>
-                                        <td>{{ $occupation->anime->count }}</td>
+                                        <td>{{ $act_anime->median }}</td>
+                                        <td>{{ $act_anime->count }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

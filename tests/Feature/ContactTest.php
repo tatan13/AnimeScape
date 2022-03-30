@@ -45,7 +45,7 @@ class ContactTest extends TestCase
     /**
     * @test 
     */
-    public function test_contact_nanashi_post()
+    public function testContactNanashiPost()
     {
         $response = $this->post('/contact',[
             'comment' => 'exellent',
@@ -61,7 +61,7 @@ class ContactTest extends TestCase
     /**
     * @test 
     */
-    public function test_contact_post_validation()
+    public function testContactPostValidation()
     {
         $response = $this->post('/contact',[
             'name' => 'user',
