@@ -22,7 +22,7 @@ class LoginTest extends TestCase
     /**
     * @test 
     */
-    public function test_login_view()
+    public function testLoginView()
     {
         $response = $this->get('/login');
         $response->assertStatus(200);
@@ -34,7 +34,7 @@ class LoginTest extends TestCase
     /**
     * @test 
     */
-    public function test_login_correct_post()
+    public function testLoginCorrectPost()
     {
         $response = $this->post('/login',[
             'uid' => $this->user->uid,
@@ -48,7 +48,7 @@ class LoginTest extends TestCase
     /**
     * @test 
     */
-    public function test_login_incorrect_post()
+    public function testLoginIncorrectPost()
     {
         $response = $this->from('/login')->post('/login',[
             'uid' => $this->user->uid,
@@ -63,7 +63,7 @@ class LoginTest extends TestCase
     /**
     * @test 
     */
-    public function test_logout()
+    public function testLogout()
     {
         $this->actingAs($this->user);
         $response = $this->post('/logout');

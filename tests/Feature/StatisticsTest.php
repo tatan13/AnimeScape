@@ -43,7 +43,7 @@ class StatisticsTest extends TestCase
     /**
     * @test 
     */
-    public function test_all_statistics_view()
+    public function testAllStatisticsView()
     {
         $response = $this->get('/all_statistics/1');
         $response->assertStatus(200);
@@ -64,7 +64,7 @@ class StatisticsTest extends TestCase
     /**
     * @test 
     */
-    public function test_year_statistics_view()
+    public function testYearStatisticsView()
     {
         $response = $this->get(route('year_statistics', ['category' => 1, 'year' => 2022]));
         $response->assertStatus(200);
@@ -85,7 +85,7 @@ class StatisticsTest extends TestCase
     /**
     * @test 
     */
-    public function test_coor_statistics_view()
+    public function testCoorStatisticsView()
     {
         $response = $this->get(route('coor_statistics', ['category' => 1, 'year' => 2022, 'coor' => 1]));
         $response->assertStatus(200);

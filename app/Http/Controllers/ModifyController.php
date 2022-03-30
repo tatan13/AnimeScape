@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class ModifyController extends Controller
 {
-    public function modify_anime_show(int $id)
+    public function modifyAnimeShow(int $id)
     {
         $anime = Anime::find($id);
 
@@ -24,7 +24,7 @@ class ModifyController extends Controller
         ]);
     }
 
-    public function modify_anime_post(Request $request, int $id)
+    public function modifyAnimePost(Request $request, int $id)
     {
         $modify_anime = new ModifyAnime();
 
@@ -47,7 +47,7 @@ class ModifyController extends Controller
         ])->with('flash_message', '変更申請が完了しました。');
     }
     
-    public function modify_anime_update(int $id, Request $request)
+    public function modifyAnimeUpdate(int $id, Request $request)
     {
         if(Auth::user()->uid != "root"){
             return redirect(route('index'));
@@ -72,7 +72,7 @@ class ModifyController extends Controller
         return redirect()->route('modify.list.show')->with('flash_anime_message', '変更が完了しました。');
     }
 
-    public function modify_anime_delete(int $id)
+    public function modifyAnimeDelete(int $id)
     {
         if(Auth::user()->uid != "root"){
             return redirect(route('index'));
@@ -84,7 +84,7 @@ class ModifyController extends Controller
         return redirect()->route('modify.list.show')->with('flash_anime_message', '削除が完了しました。');
     }
 
-    public function modify_list_show()
+    public function modifyListShow()
     {
         if(Auth::user()->uid != "root"){
             return redirect(route('index'));
@@ -99,7 +99,7 @@ class ModifyController extends Controller
         ]);
     }
 
-    public function modify_occupation_show(int $id)
+    public function modifyOccupationShow(int $id)
     {
         $anime = Anime::find($id);
 
@@ -115,7 +115,7 @@ class ModifyController extends Controller
         ]);
     }
 
-    public function modify_occupation_post(Request $request, int $id)
+    public function modifyOccupationPost(Request $request, int $id)
     {
         $anime = Anime::find($id);
         $req_casts = $request->except('_token');
@@ -135,7 +135,7 @@ class ModifyController extends Controller
         ])->with('flash_message', '変更申請が完了しました。');
     }
 
-    public function modify_occupation_update(int $id, Request $request)
+    public function modifyOccupationUpdate(int $id, Request $request)
     {
         if(Auth::user()->uid != "root"){
             return redirect(route('index'));
@@ -168,7 +168,7 @@ class ModifyController extends Controller
         return redirect()->route('modify.list.show')->with('flash_occupation_message', '変更が完了しました。');
     }
 
-    public function modify_occupation_delete(int $id)
+    public function modifyOccupationDelete(int $id)
     {
         if(Auth::user()->uid != "root"){
             return redirect(route('index'));

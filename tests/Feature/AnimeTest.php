@@ -49,7 +49,7 @@ class AnimeTest extends TestCase
     /**
     * @test 
     */
-    public function test_anime_guest_view()
+    public function testAnimeGuestView()
     {
         $this->assertDatabaseHas('animes', [
             'title' => '霊剣山',
@@ -67,7 +67,7 @@ class AnimeTest extends TestCase
     /**
     * @test 
     */
-    public function test_anime_user1_login_view()
+    public function testAnimeUser1LoginView()
     {
         $this->actingAs($this->user1);
         $response = $this->get('/anime/1');
@@ -78,7 +78,7 @@ class AnimeTest extends TestCase
     /**
     * @test 
     */
-    public function test_anime_user2_login_view()
+    public function testAnimeUser2LoginView()
     {
         $this->actingAs($this->user2);
         $response = $this->get('/anime/1');
@@ -90,7 +90,7 @@ class AnimeTest extends TestCase
     /**
     * @test 
     */
-    public function test_anime_score_guest_view()
+    public function testAnimeScoreGuestView()
     {
         $response = $this->get('/anime/1/score');
         $response->assertRedirect('/login');
@@ -99,7 +99,7 @@ class AnimeTest extends TestCase
     /**
     * @test 
     */
-    public function test_anime_score_user_login_view()
+    public function testAnimeScoreUserLoginView()
     {
         $this->actingAs($this->user1);
         $response = $this->get('/anime/1/score');
@@ -109,7 +109,7 @@ class AnimeTest extends TestCase
     /**
     * @test 
     */
-    public function test_anime_score_user1_post()
+    public function testAnimeScoreUser1Post()
     {
         $this->actingAs($this->user1);
         $response = $this->post('/anime/1/score',[
@@ -134,7 +134,7 @@ class AnimeTest extends TestCase
     /**
     * @test 
     */    
-    public function test_anime_score_user2_post()
+    public function testAnimeScoreUser2Post()
     {
         $this->actingAs($this->user2);
         $response = $this->post('/anime/1/score',[
@@ -157,7 +157,7 @@ class AnimeTest extends TestCase
     /**
     * @test 
     */   
-    public function test_anime_view()
+    public function testAnimeView()
     {
         $this->actingAs($this->user1);
         $this->post('anime/1/score',[

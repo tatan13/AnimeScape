@@ -20,7 +20,7 @@ class AnimeController extends Controller
         }
 
         //アニメに紐づいているユーザーのレビューを取得
-        $user_reviews = $anime->user_reviews()->get()->sortBy('id');
+        $user_reviews = $anime->userReviews()->get()->sortBy('id');
         $anime_casts = $anime->actCasts;
         
         $myuser_score = null;
@@ -48,7 +48,7 @@ class AnimeController extends Controller
             return redirect(route('index'));
         }
         
-        $user_review = $anime->user_reviews()->where('user_id', Auth::id())->first();
+        $user_review = $anime->userReviews()->where('user_id', Auth::id())->first();
 
         if(empty($user_review)){
             $user_review = new UserReview();
@@ -68,7 +68,7 @@ class AnimeController extends Controller
             return redirect(route('index'));
         }
 
-        $score_result = $anime->user_reviews()->where('user_id', Auth::id())->first();
+        $score_result = $anime->userReviews()->where('user_id', Auth::id())->first();
         if(empty($score_result)){
             $score_result = new UserReview();
         }
@@ -98,10 +98,10 @@ class AnimeController extends Controller
         
         
         DB::transaction(function () use($score_result, $anime) {
-            Auth::user()->user_reviews()->save($score_result);
+            Auth::user()->userReviews()->save($score_result);
             
             //animesテーブルの得点情報を更新
-            $user_reviews = $anime->user_reviews()->get();
+            $user_reviews = $anime->userReviews()->get();
             $anime->median = $user_reviews->median('score');
             $anime->average = $user_reviews->avg('score');
             $anime->max = $user_reviews->max('score');

@@ -14,14 +14,14 @@ class Cast extends Model
         return $this->hasMany('App\Models\Occupation');
     }
 
-    public function liked_users()
+    public function likedUsers()
     {
         return $this->belongsToMany('App\Models\User', 'user_like_casts', 'cast_id', 'user_id');
     }
 
     public function isLikedUser($user_id)
     {
-        return $this->liked_users()->where('user_id', $user_id)->exists();
+        return $this->likedUsers()->where('user_id', $user_id)->exists();
     }
 
     public function actAnimes()

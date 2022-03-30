@@ -65,7 +65,7 @@
                             <tr>
                                 <th>お気に入りユーザー数</th>
                                 <td><a
-                                        href="{{ route('user.like_user_list', ['uid' => $user->uid]) }}">{{ count($user->user_like_users()->get()) }}</a>
+                                        href="{{ route('user.like_user_list', ['uid' => $user->uid]) }}">{{ count($user->userLikeUsers()->get()) }}</a>
                                 </td>
                             </tr>
                             <tr>
@@ -77,7 +77,7 @@
                             <tr>
                                 <th>お気に入り声優数</th>
                                 <td><a
-                                        href="{{ route('user.like_cast_list', ['uid' => $user->uid]) }}">{{ count($user->like_casts()->get()) }}</a>
+                                        href="{{ route('user.like_cast_list', ['uid' => $user->uid]) }}">{{ count($user->likeCasts()->get()) }}</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -511,7 +511,7 @@
             data() {
                 return {
                     uid: '{{ $user->uid }}',
-                    likedUserCount: '{{ $user->user_liked_users->count() }}',
+                    likedUserCount: '{{ $user->userLikedUsers->count() }}',
                     @auth
                         isLikedUser: '{{ Auth::user()->isLikeUser($user->uid) }}',
                     @endauth

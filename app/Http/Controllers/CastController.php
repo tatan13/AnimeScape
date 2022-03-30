@@ -36,7 +36,7 @@ class CastController extends Controller
 
         if(Auth::check()){
             if(!Auth::user()->isLikeCast($id)){
-                Auth::user()->like_casts()->attach($id);
+                Auth::user()->likeCasts()->attach($id);
             }
         }
 
@@ -53,7 +53,7 @@ class CastController extends Controller
 
         if(Auth::check()){
             if(Auth::user()->isLikeCast($id)){
-                Auth::user()->like_casts()->detach($id);
+                Auth::user()->likeCasts()->detach($id);
             }
         }
 

@@ -13,7 +13,7 @@ class UserLikeUser extends Model
         return $this->belongsTo('App\Models\User', 'user_id', 'id');
     }
 
-    public function liked_user()
+    public function likedUser()
     {
         return $this->belongsTo('App\Models\User', 'liked_user_id', 'id');
     }

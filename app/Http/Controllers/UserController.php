@@ -29,13 +29,13 @@ class UserController extends Controller
         $user = User::where('uid', $uid)->first();
         if(!empty($user)){
             if(is_null($request->year)){
-                $user_reviews = $user->user_reviews;
+                $user_reviews = $user->userReviews;
             }elseif(is_null($request->coor)){
-                $user_reviews = $user->user_reviews()->whereHas('anime', function($query) use ($request){
+                $user_reviews = $user->userReviews()->whereHas('anime', function($query) use ($request){
                     $query->where('year', $request->year);
                 })->get();
             }else{
-                $user_reviews = $user->user_reviews()->whereHas('anime', function($query) use ($request){
+                $user_reviews = $user->userReviews()->whereHas('anime', function($query) use ($request){
                     $query->where('year', $request->year)->where('coor', $request->coor);
                 })->get();
             }
@@ -86,7 +86,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function show_will_watch_list($uid)
+    public function showWillWatchList($uid)
     {
         $user = User::where('uid', $uid)->first();
 
@@ -94,7 +94,7 @@ class UserController extends Controller
             return redirect(route('index'));
         }
 
-        $user_reviews = $user->user_reviews->where('will_watch', 1);
+        $user_reviews = $user->userReviews->where('will_watch', 1);
 
         return view('will_watch_list',[
             'user' => $user,
@@ -102,7 +102,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function show_like_user_list($uid)
+    public function showLikeUserList($uid)
     {
         $user = User::where('uid', $uid)->first();
 
@@ -110,7 +110,7 @@ class UserController extends Controller
             return redirect(route('index'));
         }
 
-        $like_users = $user->user_like_users;
+        $like_users = $user->userLikeUsers;
 
         return view('like_user_list',[
             'user' => $user,
@@ -118,7 +118,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function show_liked_user_list($uid)
+    public function showLikedUserList($uid)
     {
         $user = User::where('uid', $uid)->first();
 
@@ -126,7 +126,7 @@ class UserController extends Controller
             return redirect(route('index'));
         }
 
-        $liked_users = $user->user_liked_users;
+        $liked_users = $user->userLikedUsers;
 
         return view('liked_user_list',[
             'user' => $user,
@@ -134,7 +134,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function show_like_cast_list($uid)
+    public function showLikeCastList($uid)
     {
         $user = User::where('uid', $uid)->first();
 
@@ -142,7 +142,7 @@ class UserController extends Controller
             return redirect(route('index'));
         }
 
-        $like_casts = $user->like_casts;
+        $like_casts = $user->likeCasts;
 
         return view('like_cast_list',[
             'user' => $user,
@@ -162,11 +162,11 @@ class UserController extends Controller
         if(Auth::check()){
             $auth_user = Auth::user();
             if(!$auth_user->isLikeUser($uid) && $auth_user->id != $user->id){
-                $auth_user->user_like_users()->attach($user->id);
+                $auth_user->userLikeUsers()->attach($user->id);
             }
         }
         
-        $liked_user_count = $user->user_liked_users->count();
+        $liked_user_count = $user->userLikedUsers->count();
 
         return response()->json(['likedUserCount' => $liked_user_count]);
     }
@@ -182,11 +182,11 @@ class UserController extends Controller
         if(Auth::check()){
             $auth_user = Auth::user();
             if($auth_user->isLikeUser($uid) && $auth_user->id != $user->id){
-                $auth_user->user_like_users()->detach($user->id);
+                $auth_user->userLikeUsers()->detach($user->id);
             }
         }
         
-        $liked_user_count = $user->user_liked_users->count();
+        $liked_user_count = $user->userLikedUsers->count();
 
         return response()->json(['likedUserCount' => $liked_user_count]);
     }
@@ -208,7 +208,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function updateconfig(UpdateConfig $request, $uid)
+    public function updateConfig(UpdateConfig $request, $uid)
     {
         if(Auth::check()){
             if(strcmp(Auth::user()->uid, $uid) == 0){
@@ -248,7 +248,7 @@ class UserController extends Controller
         $bottom_year = $request->bottom_year ?? 0;
         $top_year = $request->top_year ?? 3000;
 
-        $liked_users_id = $user->user_like_users->pluck('id');
+        $liked_users_id = $user->userLikeUsers->pluck('id');
         $liked_users_id->push($user->id);
 
         $users_reviews = UserReview::whereIn('user_id', $liked_users_id)->get()->whereNotNull('score');
