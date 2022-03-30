@@ -7,6 +7,7 @@ use App\Models\UserReview;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\SubmitScore;
+use Illuminate\Support\Facades\DB;
 
 class AnimeController extends Controller
 {
@@ -94,8 +95,7 @@ class AnimeController extends Controller
         }
 
 
-        Auth::user()->user_reviews()->save($score_result);
-
+        
         //animesテーブルの得点情報を更新
         $user_reviews = $anime->user_reviews()->get();
         $anime->median = $user_reviews->median('score');
@@ -103,7 +103,11 @@ class AnimeController extends Controller
         $anime->max = $user_reviews->max('score');
         $anime->min = $user_reviews->min('score');
         $anime->count = $user_reviews->count();
-        $anime->save();
+        
+        DB::transaction(function () use($score_result, $anime) {
+            Auth::user()->user_reviews()->save($score_result);
+            $anime->save();
+        });
 
         return redirect()->route('anime', [
             'id' => $id,
