@@ -71,17 +71,6 @@ class CastTest extends TestCase
     /**
     * @test 
     */  
-    public function test_cast_login_not_like_view()
-    {
-        $this->actingAs($this->user);
-        $response = $this->get('/cast/1');
-
-        $response->assertSee('お気に入りの声優として登録する');
-    }
-
-    /**
-    * @test 
-    */  
     public function test_cast_login_like_view()
     {
         $this->actingAs($this->user);
@@ -95,7 +84,6 @@ class CastTest extends TestCase
         ]);
 
         $response = $this->get('/cast/1');
-        $response->assertSee('お気に入りを解除する');
 
         $this->get('/cast/1/dislike',[
             'id' => 1,

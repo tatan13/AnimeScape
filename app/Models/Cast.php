@@ -16,6 +16,11 @@ class Cast extends Model
 
     public function liked_users()
     {
-        return $this->hasMany('App\Models\UserLikeCast');
+        return $this->belongsToMany('App\Models\User', 'user_like_casts', 'cast_id', 'user_id');
+    }
+
+    public function isLikedUser($user_id)
+    {
+        return $this->liked_users()->where('user_id', $user_id)->exists();
     }
 }

@@ -50,6 +50,8 @@ Route::get('/modify/anime/{id}', [App\Http\Controllers\ModifyController::class, 
 
 Route::post('/modify/anime/{id}', [App\Http\Controllers\ModifyController::class, 'modify_anime_post'])->name('modify.anime.post');
 
+Route::get('/update_log', [App\Http\Controllers\IndexController::class, 'updateLog'])->name('update_log');
+
 //Route::get('/modify/cast/{id}', [App\Http\Controllers\ModifyController::class, 'modify_cast_show'])->name('modify.cast.show');
 
 //Route::post('/modify/cast/{id}', [App\Http\Controllers\ModifyController::class, 'modify_cast_post'])->name('modify.cast.post');

@@ -67,16 +67,32 @@ class User extends Authenticatable
 
     public function user_like_users()
     {
-        return $this->hasMany('App\Models\UserLikeUser', 'user_id', 'id');
+        return $this->belongsToMany('App\Models\User', 'user_like_users', 'user_id', 'liked_user_id');
     }
 
     public function user_liked_users()
     {
-        return $this->hasMany('App\Models\UserLikeUser', 'liked_user_id', 'id');
+        return $this->belongsToMany('App\Models\User', 'user_like_users', 'liked_user_id', 'user_id');
     }
 
     public function like_casts()
     {
-        return $this->hasMany('App\Models\UserLikeCast');
+        return $this->belongsToMany('App\Models\Cast', 'user_like_casts', 'user_id', 'cast_id');
+    }
+
+    public function isLikeUser($uid)
+    {
+        return $this->user_like_users()->where('uid', $uid)->exists();
+
+    }
+ 
+    public function isLikedUser($uid)
+    {
+        return $this->user_liked_users()->where('uid', $uid)->exists();
+    }
+
+    public function isLikeCast($cast_id)
+    {
+        return $this->like_casts()->where('cast_id', $cast_id)->exists();
     }
 }

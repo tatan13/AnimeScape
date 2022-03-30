@@ -58,7 +58,7 @@ class IndexTest extends TestCase
         $this->actingAs($user);
         $response = $this->get('/');
 
-        $response->assertSee('ログイン中です。');
+        $response->assertSee('ログイン中');
     }
 
     /**

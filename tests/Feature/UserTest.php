@@ -119,8 +119,6 @@ class UserTest extends TestCase
                        '95', 96, '霊剣山2');
         $response->assertSeeInOrder($check);
         $response->assertDontSee('Twitter :');
-        $this->get(route('user.like', ['uid' => $this->user1->uid]))->assertRedirect('/login');
-        $this->get(route('user.dislike', ['uid' => $this->user1->uid]))->assertRedirect('/login');
     
         $this->get('/user_information/notfound')->assertRedirect('/');
     }
@@ -144,10 +142,9 @@ class UserTest extends TestCase
         $this->actingAs($this->user1);
         $response = $this->get(route('user', ['uid' => $this->user2->uid]));
 
-        $response->assertSee('お気に入りユーザーを解除する');
         $response->assertDontSee('個人情報設定');
         
-        $this->get(route('user.dislike', ['uid' => $this->user2->uid]))->assertRedirect(route('user', ['uid' => $this->user2->uid]));
+        $this->get(route('user.dislike', ['uid' => $this->user2->uid]));
         $this->assertDatabaseMissing('user_like_users', [
             'user_id' => $this->user1->id,
             'liked_user_id' => $this->user2->id,
