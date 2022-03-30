@@ -1,0 +1,68 @@
+<template>
+    <div v-if="isLikedUser">
+        <a href="#" @click="dislike(uid)">お気に入りユーザーを解除する</a>
+    </div>
+    <div v-else>
+        <a href="#" @click="like(uid)">お気に入りユーザーとして登録する</a>
+    </div>
+</template>
+
+<script>
+    export default {
+        props:{
+            propsUid: {
+                type: String,
+                required: true,
+            },
+            defaultLikedUserCount: {
+                type: Number,
+                required: true,
+            },
+            defaultIsLikeUser: {
+                type: Boolean,
+                required: true,
+            },
+        },
+        data() {
+            return {
+                uid: '',
+                likedUserCount: 0,
+                isLikedUser: false,
+            };
+        },
+        created() {
+            this.uid = this.propsUid
+            this.likedUserCount = this.defaultLikedUserCount
+            this.isLikedUser = this.defaultIsLikeUser
+        },
+        methods: {
+            like(uid) {
+                let url = `/user_information/${uid}/like`
+                axios.get(url)
+                .then(response => {
+                    this.likedUserCount = response.data.likedUserCount
+                    this.isLikedUser = true
+                })
+                .catch(error =>{
+                    alert(error)
+                });
+                this.$emit('like-event', this.likedUserCount);
+            },
+            dislike(uid) {
+                let url = `/user_information/${uid}/dislike`
+                axios.get(url)
+                .then(response => {
+                    this.likedUserCount = response.data.likedUserCount
+                    this.isLikedUser = false
+                })
+                .catch(error =>{
+                    alert(error)
+                });
+                this.$emit('dislike-event', this.likedUserCount);
+            },
+        },
+        mounted() {
+            console.log('Component mounted.')
+        }
+    }
+</script>

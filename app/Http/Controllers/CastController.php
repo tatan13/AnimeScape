@@ -28,39 +28,35 @@ class CastController extends Controller
 
     public function like($id)
     {
-        $cast = Cast::where('id', $id)->first();
+        $cast = Cast::find($id);
 
         if(!isset($cast)){
             return redirect(route('index'));
         }
 
         if(Auth::check()){
-            $user_like_cast = Auth::user()->like_casts()->where('cast_id', $id)->first();
-            if(!isset($user_like_cast)){
-                $user_like_cast = new UserLikeCast();
-                $user_like_cast->cast_id = $id;
-                Auth::user()->like_casts()->save($user_like_cast);
+            if(!Auth::user()->isLikeCast($id)){
+                Auth::user()->like_casts()->attach($id);
             }
         }
 
-        return redirect(route('cast',['id' => $id]));
+        return;
     }
 
     public function dislike($id)
     {
-        $cast = Cast::where('id', $id)->first();
+        $cast = Cast::find($id);
 
         if(!isset($cast)){
             return redirect(route('index'));
         }
 
         if(Auth::check()){
-            $user_like_cast = Auth::user()->like_casts()->where('cast_id', $id)->first();
-            if(isset($user_like_cast)){
-                $user_like_cast->delete();
+            if(Auth::user()->isLikeCast($id)){
+                Auth::user()->like_casts()->detach($id);
             }
         }
 
-        return redirect(route('cast',['id' => $id]));
+        return;
     }
 }

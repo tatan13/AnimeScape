@@ -73,7 +73,6 @@ class AnimeTest extends TestCase
         $response = $this->get('/anime/1');
         $response->assertDontSee('ログインしてこのアニメに得点やコメントを登録する');
         $response->assertSee('つけた得点');
-        $response->assertDontSee($this->user1->uid);
     }
 
     /**

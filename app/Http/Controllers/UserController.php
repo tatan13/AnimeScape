@@ -154,20 +154,21 @@ class UserController extends Controller
     {
         $user = User::where('uid', $uid)->first();
 
+
         if(!isset($user)){
             return redirect(route('index'));
         }
 
         if(Auth::check()){
-            $user_like_user = Auth::user()->user_like_users->where('liked_user_id', $user->id)->first();
-            if(!isset($user_like_user)){
-                $user_like_user = new UserLikeUser();
-                $user_like_user->liked_user_id = User::where('uid', $uid)->first()->id;
-                Auth::user()->user_like_users()->save($user_like_user);
+            $auth_user = Auth::user();
+            if(!$auth_user->isLikeUser($uid) && $auth_user->id != $user->id){
+                $auth_user->user_like_users()->attach($user->id);
             }
         }
+        
+        $liked_user_count = $user->user_liked_users->count();
 
-        return redirect(route('user',['uid' => $uid]));
+        return response()->json(['likedUserCount' => $liked_user_count]);
     }
 
     public function dislike($uid)
@@ -179,13 +180,15 @@ class UserController extends Controller
         }
 
         if(Auth::check()){
-            $user_like_user = Auth::user()->user_like_users->where('liked_user_id', $user->id)->first();
-            if(isset($user_like_user)){
-                $user_like_user->delete();
+            $auth_user = Auth::user();
+            if($auth_user->isLikeUser($uid) && $auth_user->id != $user->id){
+                $auth_user->user_like_users()->detach($user->id);
             }
         }
+        
+        $liked_user_count = $user->user_liked_users->count();
 
-        return redirect(route('user',['uid' => $uid]));
+        return response()->json(['likedUserCount' => $liked_user_count]);
     }
 
     public function config($uid)
@@ -245,7 +248,7 @@ class UserController extends Controller
         $bottom_year = $request->bottom_year ?? 0;
         $top_year = $request->top_year ?? 3000;
 
-        $liked_users_id = $user->user_like_users()->pluck('liked_user_id');
+        $liked_users_id = $user->user_like_users->pluck('id');
         $liked_users_id->push($user->id);
 
         $users_reviews = UserReview::whereIn('user_id', $liked_users_id)->get()->whereNotNull('score');
