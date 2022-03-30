@@ -77,7 +77,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/modify_list', [App\Http\Controllers\ModifyController::class, 'modifyListShow'])->name('modify.list.show');
     
     Route::post('/modify/anime/{id}/update', [App\Http\Controllers\ModifyController::class, 'modifyAnimeUpdate'])->name('modify.anime.update');
-    
+
     Route::get('/modify/anime/{id}/delete', [App\Http\Controllers\ModifyController::class, 'modifyAnimeDelete'])->name('modify.anime.delete');
 
     Route::post('/modify/occupation/{id}/update', [App\Http\Controllers\ModifyController::class, 'modifyOccupationUpdate'])->name('modify.occupation.update');
