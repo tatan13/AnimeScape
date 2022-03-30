@@ -52,9 +52,9 @@ Route::post('/modify/anime/{id}', [App\Http\Controllers\ModifyController::class,
 
 Route::get('/update_log', [App\Http\Controllers\IndexController::class, 'updateLog'])->name('update_log');
 
-//Route::get('/modify/cast/{id}', [App\Http\Controllers\ModifyController::class, 'modify_cast_show'])->name('modify.cast.show');
+Route::get('/modify/occupation/{id}', [App\Http\Controllers\ModifyController::class, 'modify_occupation_show'])->name('modify.occupation.show');
 
-//Route::post('/modify/cast/{id}', [App\Http\Controllers\ModifyController::class, 'modify_cast_post'])->name('modify.cast.post');
+Route::post('/modify/occupation/{id}', [App\Http\Controllers\ModifyController::class, 'modify_occupation_post'])->name('modify.occupation.post');
 
 Route::group(['middleware' => 'auth'], function() {
     
@@ -79,4 +79,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/modify/anime/{id}/update', [App\Http\Controllers\ModifyController::class, 'modify_anime_update'])->name('modify.anime.update');
     
     Route::get('/modify/anime/{id}/delete', [App\Http\Controllers\ModifyController::class, 'modify_anime_delete'])->name('modify.anime.delete');
+
+    Route::post('/modify/occupation/{id}/update', [App\Http\Controllers\ModifyController::class, 'modify_occupation_update'])->name('modify.occupation.update');
+    
+    Route::get('/modify/occupation/{id}/delete', [App\Http\Controllers\ModifyController::class, 'modify_occupation_delete'])->name('modify.occupation.delete');
 });
