@@ -21,7 +21,7 @@ class AnimeController extends Controller
 
         //アニメに紐づいているユーザーのレビューを取得
         $user_reviews = $anime->user_reviews()->get()->sortBy('id');
-        $anime_casts = $anime->occupations()->get();
+        $anime_casts = $anime->actCasts;
         
         $myuser_score = null;
         //ログインユーザーの得点を取得

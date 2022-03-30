@@ -107,12 +107,13 @@
                     <td>
                         @foreach ($anime_casts as $anime_cast)
                             <a
-                                href="{{ route('cast', ['id' => $anime_cast->cast->id]) }}">{{ $anime_cast->cast->name }}</a>
+                                href="{{ route('cast', ['id' => $anime_cast->id]) }}">{{ $anime_cast->name }}</a>
                         @endforeach
                     </td>
                 </tr>
             </tbody>
         </table>
+        <a href="{{ route('modify.occupation.show', ['id' => $anime->id]) }}">アニメの出演声優情報の変更依頼をする</a>
     </div>
     <div id="comment">
         <h3>コメント（新着順）</h3>

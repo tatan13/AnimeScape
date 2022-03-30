@@ -23,4 +23,14 @@ class Cast extends Model
     {
         return $this->liked_users()->where('user_id', $user_id)->exists();
     }
+
+    public function actAnimes()
+    {
+        return $this->belongsToMany('App\Models\Anime', 'occupations', 'cast_id', 'anime_id');
+    }
+
+    public function isActAnime($id)
+    {
+        return $this->actAnimes()->where('id', $id)->exists();
+    }
 }

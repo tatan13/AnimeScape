@@ -18,11 +18,11 @@ class CastController extends Controller
             return redirect(route('index'));
         }
 
-        $occupations = $cast->occupations()->get();
+        $act_animes = $cast->actAnimes;
 
         return view('cast', [
             'cast' => $cast,
-            'occupations' => $occupations,
+            'act_animes' => $act_animes,
         ]);
     }
 
