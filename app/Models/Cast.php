@@ -31,6 +31,6 @@ class Cast extends Model
 
     public function isActAnime($id)
     {
-        return $this->actAnimes()->where('id', $id)->exists();
+        return $this->actAnimes()->where('anime_id', $id)->exists();
     }
 }
