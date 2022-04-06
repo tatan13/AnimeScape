@@ -29,6 +29,8 @@ jobs:
       - run: touch database/test.sqlite
       - run: php artisan migrate --env=testing
       - run: vendor/bin/phpunit
+      - run: npm install
+      - run: npm test
 
   deploy:
     machine:
