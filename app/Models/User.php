@@ -21,7 +21,7 @@ class User extends Authenticatable
 
     /**
      * 性別をラベルに変換
-     * 
+     *
      * @return string
      */
     public function getSexLabelAttribute()

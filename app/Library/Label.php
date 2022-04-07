@@ -39,7 +39,7 @@ class Label
 
     /**
      * ラベルを取得
-     * 
+     *
      * @return string
      */
     public function getLabel()

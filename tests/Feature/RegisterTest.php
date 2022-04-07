@@ -21,7 +21,7 @@ class RegisterTest extends TestCase
 
     /**
      * 会員登録ページの表示のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -37,7 +37,7 @@ class RegisterTest extends TestCase
 
     /**
      * 会員登録ページを入力した場合のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -64,7 +64,7 @@ class RegisterTest extends TestCase
 
     /**
      * 間違った会員登録情報を入力した場合のテスト
-     * 
+     *
      * @test
      * @return void
      */

@@ -12,7 +12,7 @@ class CastController extends Controller
 {
     /**
      * 声優の情報を表示
-     * 
+     *
      * @param int $id
      * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
      */
@@ -34,7 +34,7 @@ class CastController extends Controller
 
     /**
      * 声優のお気に入り登録処理
-     * 
+     *
      * @param int $id
      * @return void | \Illuminate\Http\RedirectResponse
      */
@@ -55,7 +55,7 @@ class CastController extends Controller
 
     /**
      * 声優のお気に入り解除処理
-     * 
+     *
      * @param int $id
      * @return void | \Illuminate\Http\RedirectResponse
      */

@@ -48,7 +48,7 @@ class AnimeController extends Controller
 
     /**
      * アニメの得点画面を表示
-     * 
+     *
      * @param int $id
      * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
      */
@@ -74,7 +74,7 @@ class AnimeController extends Controller
 
     /**
      * アニメの入力された得点を処理し，得点画面にリダイレクトさせる
-     * 
+     *
      * @param int $id
      * @param SubmitScore $request
      * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse

@@ -43,7 +43,7 @@ class IndexTest extends TestCase
 
     /**
      * インデックスページの表示のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -58,7 +58,7 @@ class IndexTest extends TestCase
 
     /**
      * ログイン時のインデックスページの表示のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -73,7 +73,7 @@ class IndexTest extends TestCase
 
     /**
      * 得点入力結果が正しいかのテスト
-     * 
+     *
      * @test
      * @return void
      */

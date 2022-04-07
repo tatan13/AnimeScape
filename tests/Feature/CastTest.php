@@ -58,7 +58,7 @@ class CastTest extends TestCase
 
     /**
      * ゲスト時の声優ページの表示のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -78,7 +78,7 @@ class CastTest extends TestCase
 
     /**
      * ログイン時の声優ページのテスト
-     * 
+     *
      * @test
      * @return void
      */

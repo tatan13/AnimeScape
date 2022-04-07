@@ -22,7 +22,7 @@ class UserController extends Controller
 
     /**
      * ユーザー情報を表示
-     * 
+     *
      * @param string $uid
      * @param Request $request
      * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
@@ -95,7 +95,7 @@ class UserController extends Controller
 
     /**
      * ユーザーの視聴予定アニメリストを表示
-     * 
+     *
      * @param string $uid
      * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
      */
@@ -117,7 +117,7 @@ class UserController extends Controller
 
     /**
      * ユーザーのお気に入りユーザーリストを表示
-     * 
+     *
      * @param string $uid
      * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
      */
@@ -139,7 +139,7 @@ class UserController extends Controller
 
     /**
      * ユーザーの被お気に入りユーザーリストを表示
-     * 
+     *
      * @param string $uid
      * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
      */
@@ -161,7 +161,7 @@ class UserController extends Controller
 
     /**
      * ユーザーのお気に入り声優リストを表示
-     * 
+     *
      * @param string $uid
      * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
      */
@@ -183,7 +183,7 @@ class UserController extends Controller
 
     /**
      * ユーザーをお気に入りユーザーに登録
-     * 
+     *
      * @param string $uid
      * @return \Illuminate\Http\JsonResponse | \Illuminate\Http\RedirectResponse
      */
@@ -210,7 +210,7 @@ class UserController extends Controller
 
     /**
      * ユーザーをお気に入りユーザーから解除
-     * 
+     *
      * @param string $uid
      * @return \Illuminate\Http\JsonResponse | \Illuminate\Http\RedirectResponse
      */
@@ -236,7 +236,7 @@ class UserController extends Controller
 
     /**
      * ユーザーの基本情報変更画面を表示
-     * 
+     *
      * @param string $uid
      * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
      */

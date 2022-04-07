@@ -11,7 +11,7 @@ class SearchController extends Controller
 {
     /**
      * 要求カテゴリーの検索結果を表示
-     * 
+     *
      * @param Request $request
      * @return \Illuminate\View\View
      */

@@ -43,7 +43,7 @@ class StatisticsTest extends TestCase
 
     /**
      * すべてのアニメのランキングページのテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -70,7 +70,7 @@ class StatisticsTest extends TestCase
 
     /**
      * 年別のアニメのランキングページのテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -99,7 +99,7 @@ class StatisticsTest extends TestCase
 
     /**
      * クール別のアニメのランキングページのテスト
-     * 
+     *
      * @test
      * @return void
      */

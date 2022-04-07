@@ -54,7 +54,7 @@ class AnimeTest extends TestCase
 
     /**
      * ゲスト時のアニメページのテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -75,7 +75,7 @@ class AnimeTest extends TestCase
 
     /**
      * ログイン時のアニメページの表示のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -89,7 +89,7 @@ class AnimeTest extends TestCase
 
     /**
      * ログイン時のアニメページの表示のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -104,7 +104,7 @@ class AnimeTest extends TestCase
 
     /**
      * ゲスト時のアニメ得点ページのリダイレクトのテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -116,7 +116,7 @@ class AnimeTest extends TestCase
 
     /**
      * ログイン時のアニメ得点ページの表示のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -129,7 +129,7 @@ class AnimeTest extends TestCase
 
     /**
      * ログイン時のアニメ得点入力のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -157,7 +157,7 @@ class AnimeTest extends TestCase
 
     /**
      * ログイン時のアニメ得点入力のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -183,7 +183,7 @@ class AnimeTest extends TestCase
 
     /**
      * アニメの得点入力結果の表示のテスト
-     * 
+     *
      * @test
      * @return void
      */

@@ -36,7 +36,7 @@ class SearchTest extends TestCase
 
     /**
      * アニメの検索ページの表示のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -68,7 +68,7 @@ class SearchTest extends TestCase
 
     /**
      * 声優の検索ページの表示のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -95,7 +95,7 @@ class SearchTest extends TestCase
 
     /**
      * ユーザーの検索ページの表示のテスト
-     * 
+     *
      * @test
      * @return void
      */

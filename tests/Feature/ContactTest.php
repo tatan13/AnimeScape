@@ -12,7 +12,7 @@ class ContactTest extends TestCase
 
     /**
      * 要望フォームの表示のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -25,7 +25,7 @@ class ContactTest extends TestCase
 
     /**
      * 要望フォームの入力のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -50,7 +50,7 @@ class ContactTest extends TestCase
 
     /**
      * 要望フォームの名無し時の入力のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -69,7 +69,7 @@ class ContactTest extends TestCase
 
     /**
      * 要望フォームのバリデーションのテスト
-     * 
+     *
      * @test
      * @return void
      */

@@ -120,7 +120,7 @@ class UserTest extends TestCase
 
     /**
      * ユーザーページの表示のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -142,7 +142,7 @@ class UserTest extends TestCase
 
     /**
      * ログイン時の自身のユーザーページの表示のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -156,7 +156,7 @@ class UserTest extends TestCase
 
     /**
      * ログイン時の他人のユーザーページの表示のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -176,7 +176,7 @@ class UserTest extends TestCase
 
     /**
      * ユーザー情報変更ページの表示のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -193,7 +193,7 @@ class UserTest extends TestCase
 
     /**
      * ユーザー情報変更入力のテスト
-     * 
+     *
      * @test
      * @return void
      */

@@ -23,7 +23,7 @@ class StatisticsController extends Controller
 
     /**
      * すべてのアニメのランキングを表示
-     * 
+     *
      * @param Request $request
      * @param int $category
      * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
@@ -60,7 +60,7 @@ class StatisticsController extends Controller
 
     /**
      * 年別のアニメのランキングを表示
-     * 
+     *
      * @param Request $request
      * @param int $category
      * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
@@ -104,7 +104,7 @@ class StatisticsController extends Controller
 
     /**
      * クール別のアニメのランキングを表示
-     * 
+     *
      * @param Request $request
      * @param int $category
      * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse

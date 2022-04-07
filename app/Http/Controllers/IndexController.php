@@ -9,7 +9,7 @@ class IndexController extends Controller
 {
     /**
      * インデックスページを表示
-     * 
+     *
      * @return \Illuminate\View\View
      */
     public function index()
@@ -23,7 +23,7 @@ class IndexController extends Controller
 
     /**
      * 更新履歴を表示
-     * 
+     *
      * @return \Illuminate\View\View
      */
     public function updateLog()

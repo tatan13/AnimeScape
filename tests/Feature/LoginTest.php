@@ -21,7 +21,7 @@ class LoginTest extends TestCase
 
     /**
      * ログインページの表示のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -36,7 +36,7 @@ class LoginTest extends TestCase
 
     /**
      * 正しいログイン情報を入力した場合のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -53,7 +53,7 @@ class LoginTest extends TestCase
 
     /**
      * 間違ったログイン情報を入力した場合のテスト
-     * 
+     *
      * @test
      * @return void
      */
@@ -71,7 +71,7 @@ class LoginTest extends TestCase
 
     /**
      * ログアウトのテスト
-     * 
+     *
      * @test
      * @return void
      */

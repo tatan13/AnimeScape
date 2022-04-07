@@ -14,7 +14,7 @@ class ModifyController extends Controller
 {
     /**
      * アニメの基本情報修正画面を表示
-     * 
+     *
      * @param int $id
      * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
      */
@@ -33,7 +33,7 @@ class ModifyController extends Controller
 
     /**
      * アニメの基本情報修正依頼をデータベースに保存し，元の画面にリダイレクト
-     * 
+     *
      * @param int $id
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
@@ -63,7 +63,7 @@ class ModifyController extends Controller
 
     /**
      * アニメの基本情報修正を処理し，元の画面にリダイレクト
-     * 
+     *
      * @param int $id
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
@@ -95,7 +95,7 @@ class ModifyController extends Controller
 
     /**
      * アニメの基本情報修正依頼を却下し，元の画面にリダイレクト
-     * 
+     *
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -132,7 +132,7 @@ class ModifyController extends Controller
 
     /**
      * アニメの出演声優情報修正依頼画面を表示
-     * 
+     *
      * @param int $id
      * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
      */
@@ -154,7 +154,7 @@ class ModifyController extends Controller
 
     /**
      * アニメの出演声優情報修正依頼をデータベースに保存し，元の画面にリダイレクト
-     * 
+     *
      * @param int $id
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
@@ -181,7 +181,7 @@ class ModifyController extends Controller
 
     /**
      * アニメの出演声優情報修正依頼を処理し，元の画面にリダイレクト
-     * 
+     *
      * @param int $id
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
@@ -221,7 +221,7 @@ class ModifyController extends Controller
 
     /**
      * アニメの出演声優情報修正依頼を却下し，元の画面にリダイレクト
-     * 
+     *
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */

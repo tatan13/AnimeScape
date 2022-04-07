@@ -18,7 +18,7 @@ class Anime extends Model
 
     /**
      * クールをラベルに変換
-     * 
+     *
      * @return string
      */
     public function getCoorLabelAttribute()
