@@ -14,6 +14,7 @@ use App\Http\Requests\UpdateConfig;
 class UserController extends Controller
 {
     private const COOR = [
+        0 => '',
         1 => '冬',
         2 => '春',
         3 => '夏',
@@ -29,7 +30,7 @@ class UserController extends Controller
      */
     public function show($uid, Request $request)
     {
-        $coorLabel = new Label($request->coor);
+        $coorLabel = new Label((int)$request->coor);
         $coorLabel->setLabel(self::COOR);
 
         $user = User::where('uid', $uid)->first();
