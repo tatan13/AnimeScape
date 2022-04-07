@@ -30,6 +30,11 @@ class UpdateConfig extends FormRequest
         ];
     }
 
+    /**
+     * ユーザー情報変更フォームのバリデーションメッセージ
+     *
+     * @return array
+     */
     public function messages()
     {
         return [

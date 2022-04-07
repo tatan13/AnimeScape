@@ -32,7 +32,7 @@
         <div class="container-fruid">
             <div class="row">
                 <div class="col-md-6">
-                    <h3>統計情報{{ !is_null($year) ? '(' . $year . '年' : '(すべて' }}{{ !is_null($coor->getNum()) ? $coor->getLabel() . 'クール)' : ')' }}
+                    <h3>統計情報{{ !is_null($year) ? '(' . $year . '年' : '(すべて' }}{{ $coor->getNum() != 0 ? $coor->getLabel() . 'クール)' : ')' }}
                     </h3>
                     <table id="statistics_information">
                         <tbody>
@@ -150,7 +150,7 @@
                 </div>
             </div>
         </div>
-        <h3>得点とアニメの対応表{{ !is_null($year) ? '(' . $year . '年' : '(すべて' }}{{ !is_null($coor->getNum()) ? $coor->getLabel() . 'クール)' : ')' }}
+        <h3>得点とアニメの対応表{{ !is_null($year) ? '(' . $year . '年' : '(すべて' }}{{ $coor->getNum() != 0 ? $coor->getLabel() . 'クール)' : ')' }}
         </h3>
         <div class="container-fruid">
             <div class="row">

@@ -13,10 +13,16 @@ class AnimeTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $anime, $user1, $user2, $user3, $user4, $review1, $review2;
+    private Anime $anime;
+    private User $user1;
+    private User $user2;
+    private User $user3;
+    private User $user4;
+    private UserReview $review1;
+    private UserReview $review2;
 
     protected function setUp(): void
-    {   
+    {
         parent::setUp();
         $this->anime = new Anime();
         $this->anime->title = '霊剣山';
@@ -47,8 +53,11 @@ class AnimeTest extends TestCase
     }
 
     /**
-    * @test 
-    */
+     * ゲスト時のアニメページのテスト
+     *
+     * @test
+     * @return void
+     */
     public function testAnimeGuestView()
     {
         $this->assertDatabaseHas('animes', [
@@ -65,8 +74,11 @@ class AnimeTest extends TestCase
     }
 
     /**
-    * @test 
-    */
+     * ログイン時のアニメページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
     public function testAnimeUser1LoginView()
     {
         $this->actingAs($this->user1);
@@ -76,8 +88,11 @@ class AnimeTest extends TestCase
     }
 
     /**
-    * @test 
-    */
+     * ログイン時のアニメページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
     public function testAnimeUser2LoginView()
     {
         $this->actingAs($this->user2);
@@ -88,8 +103,11 @@ class AnimeTest extends TestCase
     }
 
     /**
-    * @test 
-    */
+     * ゲスト時のアニメ得点ページのリダイレクトのテスト
+     *
+     * @test
+     * @return void
+     */
     public function testAnimeScoreGuestView()
     {
         $response = $this->get('/anime/1/score');
@@ -97,8 +115,11 @@ class AnimeTest extends TestCase
     }
 
     /**
-    * @test 
-    */
+     * ログイン時のアニメ得点ページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
     public function testAnimeScoreUserLoginView()
     {
         $this->actingAs($this->user1);
@@ -107,12 +128,15 @@ class AnimeTest extends TestCase
     }
 
     /**
-    * @test 
-    */
+     * ログイン時のアニメ得点入力のテスト
+     *
+     * @test
+     * @return void
+     */
     public function testAnimeScoreUser1Post()
     {
         $this->actingAs($this->user1);
-        $response = $this->post('/anime/1/score',[
+        $response = $this->post('/anime/1/score', [
             'score' => '',
             'one_comment' => 'exellent',
             'spoiler' => 'spoiler',
@@ -132,12 +156,15 @@ class AnimeTest extends TestCase
     }
 
     /**
-    * @test 
-    */    
+     * ログイン時のアニメ得点入力のテスト
+     *
+     * @test
+     * @return void
+     */
     public function testAnimeScoreUser2Post()
     {
         $this->actingAs($this->user2);
-        $response = $this->post('/anime/1/score',[
+        $response = $this->post('/anime/1/score', [
             'score' => 30,
             'one_comment' => null,
             'will_watch' => 'will_watch',
@@ -155,27 +182,30 @@ class AnimeTest extends TestCase
     }
 
     /**
-    * @test 
-    */   
+     * アニメの得点入力結果の表示のテスト
+     *
+     * @test
+     * @return void
+     */
     public function testAnimeView()
     {
         $this->actingAs($this->user1);
-        $this->post('anime/1/score',[
+        $this->post('anime/1/score', [
             'score' => 100,
         ]);
 
         $this->actingAs($this->user2);
-        $this->post('anime/1/score',[
+        $this->post('anime/1/score', [
             'score' => 20,
         ]);
 
         $this->actingAs($this->user3);
-        $this->post('anime/1/score',[
+        $this->post('anime/1/score', [
             'score' => 50,
         ]);
 
         $this->actingAs($this->user4);
-        $this->post('anime/1/score',[
+        $this->post('anime/1/score', [
             'one_comment' => 'excellent',
         ]);
 

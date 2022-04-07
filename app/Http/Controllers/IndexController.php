@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class IndexController extends Controller
 {
+    /**
+     * インデックスページを表示
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         $animes = Anime::where('year', 2022)->where('coor', 1)->get();
@@ -16,6 +21,11 @@ class IndexController extends Controller
         ]);
     }
 
+    /**
+     * 更新履歴を表示
+     *
+     * @return \Illuminate\View\View
+     */
     public function updateLog()
     {
         return view('update_log');

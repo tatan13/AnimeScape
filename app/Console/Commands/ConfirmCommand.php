@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Console\Commands;
+
 use App\Models\Anime;
 use App\Models\Cast;
 use App\Models\UserReview;
@@ -35,7 +36,7 @@ class ConfirmCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return void
      */
     public function handle()
     {
@@ -43,23 +44,23 @@ class ConfirmCommand extends Command
         $posts = mb_convert_encoding($posts, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
         $posts = json_decode($posts);
         $anime_all = Anime::all();
-        foreach($posts as $post){
+        foreach ($posts as $post) {
             $anime = $anime_all->where('title', $post->title)->first();
-            if(empty($anime)){
+            if (empty($anime)) {
                 $anime = new Anime();
                 $anime->title = $post->title;
-                $anime->title_short = NULL;
+                $anime->title_short = null;
                 $anime->year = 2022;
                 $anime->coor = 2;
-                $anime->public_url = NULL;
-                $anime->twitter = NULL;
-                $anime->hash_tag = NULL;
-                $anime->sex = NULL;
-                $anime->sequel = NULL;
+                $anime->public_url = null;
+                $anime->twitter = null;
+                $anime->hash_tag = null;
+                $anime->sex = null;
+                $anime->sequel = null;
                 $anime->company = $post->company;
-                $anime->city_name = NULL;
-                //$anime->save();
-            }else{
+                $anime->city_name = null;
+            //$anime->save();
+            } else {
                 $anime->year = 2022;
                 $anime->coor = 2;
                 $anime->company = $post->company;
@@ -67,24 +68,23 @@ class ConfirmCommand extends Command
             }
 
             $cast_all = Cast::all();
-            foreach($post->casts as $new_cast){
+            foreach ($post->casts as $new_cast) {
                 $cast = $cast_all->where('name', $new_cast)->first();
-                if(empty($cast)){
+                if (empty($cast)) {
                     $cast = new Cast();
                     $cast->name = $new_cast;
-                    $cast->furigana = NULL;
-                    $cast->sex = NULL;
-                    $cast->office = NULL;
-                    $cast->url = NULL;
-                    $cast->twitter = NULL;
-                    $cast->twitter = NULL;
-                    $cast->blog = NULL;
+                    $cast->furigana = null;
+                    $cast->sex = null;
+                    $cast->office = null;
+                    $cast->url = null;
+                    $cast->twitter = null;
+                    $cast->twitter = null;
+                    $cast->blog = null;
                     //$cast->save();
                 }
-                if(!$cast->isActAnime($anime->id)){
+                if (!$cast->isActAnime($anime->id)) {
                     //$cast->actAnimes()->attach($anime->id);
                 }
-                
             }
         }
     }

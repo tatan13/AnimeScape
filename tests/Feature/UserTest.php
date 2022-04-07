@@ -10,18 +10,32 @@ use App\Models\User;
 use App\Models\Cast;
 use App\Models\UserLikeUser;
 use App\Models\UserLikeCast;
-
 use Tests\TestCase;
 
 class UserTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $anime1, $anime2, $user1, $user2, $user3, $user4, $cast1, $cast2, $review1, $review2,
-    $user_like_user1, $user_like_user2, $user_like_user3, $user_like_user4, $user_like_user5, $user_like_cast1, $user_like_cast2;
+    private Anime $anime1;
+    private Anime $anime2;
+    private User $user1;
+    private User $user2;
+    private User $user3;
+    private User $user4;
+    private Cast $cast1;
+    private Cast $cast2;
+    private UserReview $review1;
+    private UserReview $review2;
+    private UserLikeUser $user_like_user1;
+    private UserLikeUser $user_like_user2;
+    private UserLikeUser $user_like_user3;
+    private UserLikeUser $user_like_user4;
+    private UserLikeUser $user_like_user5;
+    private UserLikeCast $user_like_cast1;
+    private UserLikeCast $user_like_cast2;
 
     protected function setUp(): void
-    {   
+    {
         parent::setUp();
 
         $this->anime1 = new Anime();
@@ -30,7 +44,7 @@ class UserTest extends TestCase
         $this->anime1->year = 2022;
         $this->anime1->coor = 1;
         $this->anime1->save();
-        
+
         $this->anime2 = new Anime();
         $this->anime2->title = '霊剣山2';
         $this->anime2->title_short = '霊剣山2';
@@ -105,8 +119,11 @@ class UserTest extends TestCase
     }
 
     /**
-    * @test 
-    */
+     * ユーザーページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
     public function testUserInformationView()
     {
         $response = $this->get("/user_information/{$this->user1->uid}");
@@ -119,13 +136,16 @@ class UserTest extends TestCase
                        '95', 96, '霊剣山2');
         $response->assertSeeInOrder($check);
         $response->assertDontSee('Twitter :');
-    
+
         $this->get('/user_information/notfound')->assertRedirect('/');
     }
 
     /**
-    * @test 
-    */
+     * ログイン時の自身のユーザーページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
     public function testUserInformationLoginMypageView()
     {
         $this->actingAs($this->user1);
@@ -135,15 +155,18 @@ class UserTest extends TestCase
     }
 
     /**
-    * @test 
-    */
+     * ログイン時の他人のユーザーページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
     public function testUserInformationLoginOtherpageView()
     {
         $this->actingAs($this->user1);
         $response = $this->get(route('user', ['uid' => $this->user2->uid]));
 
         $response->assertDontSee('個人情報設定');
-        
+
         $this->get(route('user.dislike', ['uid' => $this->user2->uid]));
         $this->assertDatabaseMissing('user_like_users', [
             'user_id' => $this->user1->id,
@@ -152,8 +175,11 @@ class UserTest extends TestCase
     }
 
     /**
-    * @test 
-    */
+     * ユーザー情報変更ページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
     public function testUserInformationConfigView()
     {
         $this->get(route('user.config', ['uid' => $this->user1->uid]))->assertRedirect('/login');
@@ -166,8 +192,11 @@ class UserTest extends TestCase
     }
 
     /**
-    * @test 
-    */
+     * ユーザー情報変更入力のテスト
+     *
+     * @test
+     * @return void
+     */
     public function testUserInformationConfigPost()
     {
         $this->actingAs($this->user1);

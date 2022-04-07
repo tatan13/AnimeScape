@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Console\Commands;
+
 use App\Models\Anime;
 use App\Models\UserReview;
 use Illuminate\Console\Command;
@@ -34,14 +35,14 @@ class FixCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return void
      */
     public function handle()
     {
         $animes = Anime::all();
 
-        foreach($animes as $anime){
-            $user_reviews = $anime->user_reviews()->get();
+        foreach ($animes as $anime) {
+            $user_reviews = $anime->userReviews()->get();
             $anime->median = $user_reviews->median('score');
             $anime->average = $user_reviews->avg('score');
             $anime->max = $user_reviews->max('score');

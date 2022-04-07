@@ -11,17 +11,20 @@ class RegisterTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $user;
+    private User $user;
 
     protected function setUp(): void
-    {   
+    {
         parent::setUp();
         $this->user = User::factory()->create();
     }
 
     /**
-    * @test 
-    */
+     * 会員登録ページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
     public function testRegisterView()
     {
         $response = $this->get('/register');
@@ -33,23 +36,26 @@ class RegisterTest extends TestCase
     }
 
     /**
-    * @test 
-    */
+     * 会員登録ページを入力した場合のテスト
+     *
+     * @test
+     * @return void
+     */
     public function testRegisterCorrectPost()
     {
-        $response = $this->post('/register',[
+        $response = $this->post('/register', [
             'uid' => 'user',
             'password' => 'secretpassword',
             'password_confirmation' => 'secretpassword',
         ]);
         $response->assertLocation('/');
-        $this->assertDatabaseHas('users',[
+        $this->assertDatabaseHas('users', [
             'uid' => 'user',
         ]);
         $this->assertAuthenticated();
 
         $this->post('/logout');
-        $this->post('/login',[
+        $this->post('/login', [
             'uid' => 'user',
             'password' => 'secretpassword',
         ]);
@@ -57,11 +63,14 @@ class RegisterTest extends TestCase
     }
 
     /**
-    * @test 
-    */
+     * 間違った会員登録情報を入力した場合のテスト
+     *
+     * @test
+     * @return void
+     */
     public function testRegisterIncorrectPost()
     {
-        $response = $this->from('/register')->post('/register',[
+        $response = $this->from('/register')->post('/register', [
             'uid' => $this->user->id,
             'password' => 'secretpassword',
             'password_confirmation' => 'secretpassword',
@@ -69,4 +78,3 @@ class RegisterTest extends TestCase
         $this->assertGuest();
     }
 }
-

@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
+    use AuthenticatesUsers;
+
     /*
     |--------------------------------------------------------------------------
     | Login Controller
@@ -18,8 +20,6 @@ class LoginController extends Controller
     | to conveniently provide its functionality to your applications.
     |
     */
-
-    use AuthenticatesUsers;
 
     /**
      * Where to redirect users after login.
@@ -38,12 +38,20 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    //オーバーライド
+    /**
+     * ログインに使用するusernameをuidに変更
+     * @return string
+     */
     public function username()
     {
         return 'uid'; //ユーザー名
     }
 
+    /**
+     * ログアウト後のリダイレクト先を指定
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     protected function loggedOut(\Illuminate\Http\Request $request)
     {
         return redirect(route('index'));

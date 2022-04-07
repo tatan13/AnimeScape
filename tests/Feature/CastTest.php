@@ -15,10 +15,15 @@ class CastTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $cast, $user, $anime1, $anime2, $occupation1, $occupation2;
+    private Cast $cast;
+    private User $user;
+    private Anime $anime1;
+    private Anime $anime2;
+    private Occupation $occupation1;
+    private Occupation $occupation2;
 
     protected function setUp(): void
-    {   
+    {
         parent::setUp();
         $this->anime1 = new Anime();
         $this->anime1->title = '霊剣山 星屑たちの宴';
@@ -52,8 +57,11 @@ class CastTest extends TestCase
     }
 
     /**
-    * @test 
-    */  
+     * ゲスト時の声優ページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
     public function testCastGuestView()
     {
         $response = $this->get('/cast/1');
@@ -69,12 +77,15 @@ class CastTest extends TestCase
     }
 
     /**
-    * @test 
-    */  
+     * ログイン時の声優ページのテスト
+     *
+     * @test
+     * @return void
+     */
     public function testCastLoginLikeView()
     {
         $this->actingAs($this->user);
-        $this->get('/cast/1/like',[
+        $this->get('/cast/1/like', [
             'id' => 1,
         ]);
 
@@ -85,7 +96,7 @@ class CastTest extends TestCase
 
         $response = $this->get('/cast/1');
 
-        $this->get('/cast/1/dislike',[
+        $this->get('/cast/1/dislike', [
             'id' => 1,
         ]);
 
@@ -93,7 +104,5 @@ class CastTest extends TestCase
             'user_id' => 1,
             'cast_id' => 1,
         ]);
-
-
     }
 }

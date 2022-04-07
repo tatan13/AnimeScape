@@ -29,6 +29,11 @@ class SubmitScore extends FormRequest
         ];
     }
 
+    /**
+     * 得点フォームのバリデーションメッセージ
+     *
+     * @return array
+     */
     public function messages()
     {
         return [

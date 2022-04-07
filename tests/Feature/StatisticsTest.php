@@ -13,10 +13,11 @@ class StatisticsTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $anime1, $anime2;
+    private Anime $anime1;
+    private Anime $anime2;
 
     protected function setUp(): void
-    {   
+    {
         parent::setUp();
         $this->anime1 = new Anime();
         $this->anime1->title = '霊剣山 星屑たちの宴';
@@ -41,8 +42,11 @@ class StatisticsTest extends TestCase
     }
 
     /**
-    * @test 
-    */
+     * すべてのアニメのランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
     public function testAllStatisticsView()
     {
         $response = $this->get('/all_statistics/1');
@@ -50,20 +54,26 @@ class StatisticsTest extends TestCase
         $response->assertSee('（中央値順）');
         $check = array('霊剣山 叡智への資格', 70, '霊剣山 星屑たちの宴', 69);
         $response->assertSeeInOrder($check);
-        $this->get(route('all_statistics', ['count' => 5, 'category' => 1]))->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（中央値順）');
+        $this->get(route('all_statistics', ['count' => 5, 'category' => 1]))
+        ->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（中央値順）');
 
         $check = array('霊剣山 星屑たちの宴', 76, '霊剣山 叡智への資格', 70);
         $this->get('/all_statistics/2')->assertSeeInOrder($check)->assertSee('（平均値順）');
-        $this->get(route('all_statistics', ['count' => 5, 'category' => 2]))->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（中央値順）');
+        $this->get(route('all_statistics', ['count' => 5, 'category' => 2]))
+        ->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（中央値順）');
 
         $check = array('霊剣山 星屑たちの宴', 76, '霊剣山 叡智への資格', 70);
         $this->get('/all_statistics/3')->assertSeeInOrder($check)->assertSee('（データ数順）');
-        $this->get(route('all_statistics', ['count' => 5, 'category' => 3]))->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（データ数順）');
+        $this->get(route('all_statistics', ['count' => 5, 'category' => 3]))
+        ->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（データ数順）');
     }
 
     /**
-    * @test 
-    */
+     * 年別のアニメのランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
     public function testYearStatisticsView()
     {
         $response = $this->get(route('year_statistics', ['category' => 1, 'year' => 2022]));
@@ -71,20 +81,28 @@ class StatisticsTest extends TestCase
         $response->assertSee('（中央値順）');
         $check = array('霊剣山 叡智への資格', 70, '霊剣山 星屑たちの宴', 69);
         $response->assertSeeInOrder($check);
-        $this->get(route('year_statistics', ['count' => 5, 'category' => 1, 'year' => 2022]))->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（中央値順）');
+        $this->get(route('year_statistics', ['count' => 5, 'category' => 1, 'year' => 2022]))
+        ->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（中央値順）');
 
         $check = array('霊剣山 星屑たちの宴', 76, '霊剣山 叡智への資格', 70);
-        $this->get(route('year_statistics', ['category' => 2, 'year' => 2022]))->assertSeeInOrder($check)->assertSee('（平均値順）');
-        $this->get(route('year_statistics', ['count' => 5, 'category' => 2, 'year' => 2022]))->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（中央値順）');
+        $this->get(route('year_statistics', ['category' => 2, 'year' => 2022]))
+        ->assertSeeInOrder($check)->assertSee('（平均値順）');
+        $this->get(route('year_statistics', ['count' => 5, 'category' => 2, 'year' => 2022]))
+        ->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（中央値順）');
 
         $check = array('霊剣山 星屑たちの宴', 76, '霊剣山 叡智への資格', 70);
-        $this->get(route('year_statistics', ['category' => 3, 'year' => 2022]))->assertSeeInOrder($check)->assertSee('（データ数順）');
-        $this->get(route('year_statistics', ['count' => 5, 'category' => 3, 'year' => 2022]))->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（データ数順）');
+        $this->get(route('year_statistics', ['category' => 3, 'year' => 2022]))
+        ->assertSeeInOrder($check)->assertSee('（データ数順）');
+        $this->get(route('year_statistics', ['count' => 5, 'category' => 3, 'year' => 2022]))
+        ->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（データ数順）');
     }
 
     /**
-    * @test 
-    */
+     * クール別のアニメのランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
     public function testCoorStatisticsView()
     {
         $response = $this->get(route('coor_statistics', ['category' => 1, 'year' => 2022, 'coor' => 1]));
@@ -92,14 +110,19 @@ class StatisticsTest extends TestCase
         $response->assertSee('（中央値順）');
         $check = array('霊剣山 叡智への資格', 70, '霊剣山 星屑たちの宴', 69);
         $response->assertSeeInOrder($check);
-        $this->get(route('coor_statistics', ['count' => 5, 'category' => 1, 'year' => 2022, 'coor' => 1]))->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（中央値順）');
+        $this->get(route('coor_statistics', ['count' => 5, 'category' => 1, 'year' => 2022, 'coor' => 1]))
+        ->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（中央値順）');
 
         $check = array('霊剣山 星屑たちの宴', 76, '霊剣山 叡智への資格', 70);
-        $this->get(route('coor_statistics', ['category' => 2, 'year' => 2022, 'coor' => 1]))->assertSeeInOrder($check)->assertSee('（平均値順）');
-        $this->get(route('coor_statistics', ['count' => 5, 'category' => 2, 'year' => 2022, 'coor' => 1]))->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（中央値順）');
+        $this->get(route('coor_statistics', ['category' => 2, 'year' => 2022, 'coor' => 1]))
+        ->assertSeeInOrder($check)->assertSee('（平均値順）');
+        $this->get(route('coor_statistics', ['count' => 5, 'category' => 2, 'year' => 2022, 'coor' => 1]))
+        ->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（中央値順）');
 
         $check = array('霊剣山 星屑たちの宴', 76, '霊剣山 叡智への資格', 70);
-        $this->get(route('coor_statistics', ['category' => 3, 'year' => 2022, 'coor' => 1]))->assertSeeInOrder($check)->assertSee('（データ数順）');
-        $this->get(route('coor_statistics', ['count' => 5, 'category' => 3, 'year' => 2022, 'coor' => 1]))->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（データ数順）');
+        $this->get(route('coor_statistics', ['category' => 3, 'year' => 2022, 'coor' => 1]))
+        ->assertSeeInOrder($check)->assertSee('（データ数順）');
+        $this->get(route('coor_statistics', ['count' => 5, 'category' => 3, 'year' => 2022, 'coor' => 1]))
+        ->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（データ数順）');
     }
 }

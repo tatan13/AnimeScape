@@ -7,6 +7,8 @@ IDを作成し，ログインすることで各アニメの点数や感想をつ
 * PHP 8.1.3
 * Laravel 9.2.0
 	* guzzlehttp/guzzle
+	* PHP_CodeSniffer
+	* Larastan
 * JavaScript
 * Vue.js 2.6.12
 	* axios
@@ -19,8 +21,9 @@ IDを作成し，ログインすることで各アニメの点数や感想をつ
 * Docker/Docker-compose
 * CircleCI CI/CD
 * PHPUnit
+* Jest
 * ShangriLa Anime API
-* Python
+* Python3
 	* Selenium
 
 # AWS構成図
@@ -28,7 +31,7 @@ IDを作成し，ログインすることで各アニメの点数や感想をつ
 
 ## CircleCI CI/CD
 * Githubへpushし，Pull requestを作成すると，PHPUnitが自動で実行されます．
-* mainブランチにpushすると，PHPUnitが自動で実行され，成功した場合，EC2に自動でSSH接続し，デプロイを行います．
+* mainブランチにpushすると，PHPUnit，Jestのテストが自動で実行され，成功した場合，EC2に自動でSSH接続し，デプロイを行います．
 
 # 機能一覧
 * ユーザー登録，ログイン機能

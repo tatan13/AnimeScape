@@ -10,11 +10,17 @@ use Illuminate\Support\Facades\Auth;
 
 class CastController extends Controller
 {
+    /**
+     * 声優の情報を表示
+     *
+     * @param int $id
+     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     */
     public function show($id)
     {
         $cast = Cast::find($id);
 
-        if(!isset($cast)){
+        if (!isset($cast)) {
             return redirect(route('index'));
         }
 
@@ -26,37 +32,45 @@ class CastController extends Controller
         ]);
     }
 
+    /**
+     * 声優のお気に入り登録処理
+     *
+     * @param int $id
+     * @return void | \Illuminate\Http\RedirectResponse
+     */
     public function like($id)
     {
         $cast = Cast::find($id);
 
-        if(!isset($cast)){
+        if (!isset($cast)) {
             return redirect(route('index'));
         }
 
-        if(Auth::check()){
-            if(!Auth::user()->isLikeCast($id)){
+        if (Auth::check()) {
+            if (!Auth::user()->isLikeCast($id)) {
                 Auth::user()->likeCasts()->attach($id);
             }
         }
-
-        return;
     }
 
+    /**
+     * 声優のお気に入り解除処理
+     *
+     * @param int $id
+     * @return void | \Illuminate\Http\RedirectResponse
+     */
     public function dislike($id)
     {
         $cast = Cast::find($id);
 
-        if(!isset($cast)){
+        if (!isset($cast)) {
             return redirect(route('index'));
         }
 
-        if(Auth::check()){
-            if(Auth::user()->isLikeCast($id)){
+        if (Auth::check()) {
+            if (Auth::user()->isLikeCast($id)) {
                 Auth::user()->likeCasts()->detach($id);
             }
         }
-
-        return;
     }
 }

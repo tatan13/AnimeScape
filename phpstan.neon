@@ -1,0 +1,12 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+parameters:
+    paths:
+        - app
+        - tests
+        - database/seeders
+    level: 5
+    ignoreErrors:
+        - '#Access to an undefined property App\\Models\\[a-zA-Z0-9\\_]+::\$#'
+        - '#\$sex \(0\|1\|bool\) does not accept null#'
+        - '#Undefined variable: \$score_[0-9]+_anime_reviews#'

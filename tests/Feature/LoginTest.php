@@ -11,17 +11,20 @@ class LoginTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $user;
+    private User $user;
 
     protected function setUp(): void
-    {   
+    {
         parent::setUp();
         $this->user = User::factory()->create();
     }
 
     /**
-    * @test 
-    */
+     * ログインページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
     public function testLoginView()
     {
         $response = $this->get('/login');
@@ -32,11 +35,14 @@ class LoginTest extends TestCase
     }
 
     /**
-    * @test 
-    */
+     * 正しいログイン情報を入力した場合のテスト
+     *
+     * @test
+     * @return void
+     */
     public function testLoginCorrectPost()
     {
-        $response = $this->post('/login',[
+        $response = $this->post('/login', [
             'uid' => $this->user->uid,
             'password' => 'secret',
         ]);
@@ -46,11 +52,14 @@ class LoginTest extends TestCase
     }
 
     /**
-    * @test 
-    */
+     * 間違ったログイン情報を入力した場合のテスト
+     *
+     * @test
+     * @return void
+     */
     public function testLoginIncorrectPost()
     {
-        $response = $this->from('/login')->post('/login',[
+        $response = $this->from('/login')->post('/login', [
             'uid' => $this->user->uid,
             'password' => 'public',
         ]);
@@ -61,8 +70,11 @@ class LoginTest extends TestCase
     }
 
     /**
-    * @test 
-    */
+     * ログアウトのテスト
+     *
+     * @test
+     * @return void
+     */
     public function testLogout()
     {
         $this->actingAs($this->user);
