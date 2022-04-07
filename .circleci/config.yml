@@ -32,7 +32,7 @@ jobs:
 
   deploy:
     machine:
-      image: cimg/base:edge
+      image: circleci/classic:edge
     steps:
       - add_ssh_keys:
           fingerprints:
