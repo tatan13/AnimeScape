@@ -122,9 +122,11 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            <input type="submit" value="登録" formaction="{{ route('modify.occupation.update', ['id' => $modify_occupation_list[0]->anime->id]) }}"
+                            <input type="submit" value="登録"
+                                formaction="{{ route('modify.occupation.update', ['id' => $modify_occupation_list[0]->anime->id]) }}"
                                 formmethod="POST">
-                            <input type="submit" value="却下" formaction="{{ route('modify.occupation.delete', ['id' => $modify_occupation_list[0]->anime->id]) }}"
+                            <input type="submit" value="却下"
+                                formaction="{{ route('modify.occupation.delete', ['id' => $modify_occupation_list[0]->anime->id]) }}"
                                 formmethod="GET">
                         </form>
                     </div>

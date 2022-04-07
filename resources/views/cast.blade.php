@@ -27,8 +27,7 @@
                 </tr>
                 @foreach ($act_animes as $act_anime)
                     <tr>
-                        <td><a
-                                href="{{ route('anime', ['id' => $act_anime->id]) }}">{{ $act_anime->title }}</a>
+                        <td><a href="{{ route('anime', ['id' => $act_anime->id]) }}">{{ $act_anime->title }}</a>
                         </td>
                         <td>{{ $act_anime->company }}</td>
                         <td>

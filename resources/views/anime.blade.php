@@ -106,8 +106,7 @@
                     <th>声優</th>
                     <td>
                         @foreach ($anime_casts as $anime_cast)
-                            <a
-                                href="{{ route('cast', ['id' => $anime_cast->id]) }}">{{ $anime_cast->name }}</a>
+                            <a href="{{ route('cast', ['id' => $anime_cast->id]) }}">{{ $anime_cast->name }}</a>
                         @endforeach
                     </td>
                 </tr>
