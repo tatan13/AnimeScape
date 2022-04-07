@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Anime;
 use App\Models\Cast;
 use App\Models\ModifyAnime;
@@ -15,7 +16,7 @@ class ModifyController extends Controller
     {
         $anime = Anime::find($id);
 
-        if(!isset($anime)){
+        if (!isset($anime)) {
             return redirect(route('index'));
         }
 
@@ -46,10 +47,10 @@ class ModifyController extends Controller
             'id' => $id,
         ])->with('flash_message', '変更申請が完了しました。');
     }
-    
+
     public function modifyAnimeUpdate(int $id, Request $request)
     {
-        if(Auth::user()->uid != "root"){
+        if (Auth::user()->uid != "root") {
             return redirect(route('index'));
         }
 
@@ -74,7 +75,7 @@ class ModifyController extends Controller
 
     public function modifyAnimeDelete(int $id)
     {
-        if(Auth::user()->uid != "root"){
+        if (Auth::user()->uid != "root") {
             return redirect(route('index'));
         }
 
@@ -86,7 +87,7 @@ class ModifyController extends Controller
 
     public function modifyListShow()
     {
-        if(Auth::user()->uid != "root"){
+        if (Auth::user()->uid != "root") {
             return redirect(route('index'));
         }
 
@@ -103,7 +104,7 @@ class ModifyController extends Controller
     {
         $anime = Anime::find($id);
 
-        if(!isset($anime)){
+        if (!isset($anime)) {
             return redirect(route('index'));
         }
 
@@ -121,8 +122,8 @@ class ModifyController extends Controller
         $req_casts = $request->except('_token');
         $modify_occupation_list = $anime->modifyOccupations;
 
-        foreach($req_casts as $req_cast){
-            if(!is_null($req_cast) && !$modify_occupation_list->contains('cast_name', $req_cast)){
+        foreach ($req_casts as $req_cast) {
+            if (!is_null($req_cast) && !$modify_occupation_list->contains('cast_name', $req_cast)) {
                 $modify_occupation = new ModifyOccupation();
                 $modify_occupation->anime_id = $id;
                 $modify_occupation->cast_name = $req_cast;
@@ -137,23 +138,23 @@ class ModifyController extends Controller
 
     public function modifyOccupationUpdate(int $id, Request $request)
     {
-        if(Auth::user()->uid != "root"){
+        if (Auth::user()->uid != "root") {
             return redirect(route('index'));
         }
         $anime = Anime::find($id);
         $anime->occupations()->delete();
-        
+
         $req_casts = $request->except('_token');
 
-        foreach($req_casts as $req_cast){
+        foreach ($req_casts as $req_cast) {
             $cast = Cast::where('name', $req_cast);
-            if($cast->exists()){
+            if ($cast->exists()) {
                 $cast = $cast->first();
                 $occupation = new Occupation();
                 $occupation->cast_id = $cast->id;
                 $occupation->anime_id = $anime->id;
                 $occupation->save();
-            }else if(!is_null($req_cast)){
+            } elseif (!is_null($req_cast)) {
                 $new_cast = new Cast();
                 $new_cast->name = $req_cast;
                 $new_cast->save();
@@ -170,7 +171,7 @@ class ModifyController extends Controller
 
     public function modifyOccupationDelete(int $id)
     {
-        if(Auth::user()->uid != "root"){
+        if (Auth::user()->uid != "root") {
             return redirect(route('index'));
         }
         $anime = Anime::find($id);

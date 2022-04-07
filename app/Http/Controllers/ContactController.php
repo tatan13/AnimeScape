@@ -12,22 +12,22 @@ class ContactController extends Controller
     {
         $contacts = Contact::all();
 
-        return view('contact',[
+        return view('contact', [
             'contacts' => $contacts,
         ]);
     }
 
     public function post(ContactForm $request)
     {
-        if(strcmp($request->auth, "にんしょう") == 0){
+        if (strcmp($request->auth, "にんしょう") == 0) {
             $contact = new Contact();
-            if(!is_null($request->name)){
+            if (!is_null($request->name)) {
                 $contact->name = $request->name;
             }
             $contact->comment = $request->comment;
             $contact->save();
         }
 
-        return redirect( route('contact.index') );
+        return redirect(route('contact.index'));
     }
 }

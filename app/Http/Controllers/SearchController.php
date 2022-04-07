@@ -14,8 +14,8 @@ class SearchController extends Controller
         $search_word = $request->search_word;
 
         //検索ワードが空文字でなければ検索実行
-        if(isset($search_word)){
-            switch($request->category){
+        if (isset($search_word)) {
+            switch ($request->category) {
                 case "anime":
                     $search_results = Anime::where('title', 'like', "%$search_word%")->get();
                     break;
@@ -28,7 +28,7 @@ class SearchController extends Controller
                 default:
                     $search_results = array();
             }
-        }else{
+        } else {
             $search_results = array();
         }
         return view('search', [

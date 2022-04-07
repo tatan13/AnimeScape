@@ -14,13 +14,13 @@ class LoginTest extends TestCase
     private $user;
 
     protected function setUp(): void
-    {   
+    {
         parent::setUp();
         $this->user = User::factory()->create();
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testLoginView()
     {
@@ -32,11 +32,11 @@ class LoginTest extends TestCase
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testLoginCorrectPost()
     {
-        $response = $this->post('/login',[
+        $response = $this->post('/login', [
             'uid' => $this->user->uid,
             'password' => 'secret',
         ]);
@@ -46,11 +46,11 @@ class LoginTest extends TestCase
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testLoginIncorrectPost()
     {
-        $response = $this->from('/login')->post('/login',[
+        $response = $this->from('/login')->post('/login', [
             'uid' => $this->user->uid,
             'password' => 'public',
         ]);
@@ -61,7 +61,7 @@ class LoginTest extends TestCase
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testLogout()
     {

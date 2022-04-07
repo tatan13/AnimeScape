@@ -11,9 +11,9 @@ class ContactTest extends TestCase
     use RefreshDatabase;
 
     /**
-    * @test 
+    * @test
     */
-    public function test_contact_view()
+    public function testContactView()
     {
         $response = $this->get('/contact');
 
@@ -21,11 +21,11 @@ class ContactTest extends TestCase
     }
 
     /**
-    * @test 
+    * @test
     */
-    public function test_contact_post()
+    public function testContactPost()
     {
-        $response = $this->post('/contact',[
+        $response = $this->post('/contact', [
             'name' => 'user',
             'comment' => 'exellent',
             'auth' => 'にんしょう',
@@ -37,17 +37,17 @@ class ContactTest extends TestCase
         ]);
 
         $response->assertRedirect('/contact');
-        
+
         $check = array('user', 'exellent');
         $this->get(route('contact.post'))->assertSeeInOrder($check);
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testContactNanashiPost()
     {
-        $response = $this->post('/contact',[
+        $response = $this->post('/contact', [
             'comment' => 'exellent',
             'auth' => 'にんしょう',
         ]);
@@ -59,11 +59,11 @@ class ContactTest extends TestCase
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testContactPostValidation()
     {
-        $response = $this->post('/contact',[
+        $response = $this->post('/contact', [
             'name' => 'user',
             'auth' => 'にんしょ',
         ]);

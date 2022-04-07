@@ -17,22 +17,21 @@ class AnimesTableSeeder extends Seeder
      */
     public function run()
     {
-        
-        for($year=2022;$year<=2022;$year++){
-            for($coor=2;$coor<=2;$coor++){
+        for ($year = 2022; $year <= 2022; $year++) {
+            for ($coor = 2; $coor <= 2; $coor++) {
                 $url = "https://api.moemoe.tokyo/anime/v1/master/{$year}/{$coor}";
                 $method = "GET";
-        
-                $client =new Client();
-        
+
+                $client = new Client();
+
                 $response = $client->request($method, $url);
-        
+
                 $posts = $response->getBody();
                 $posts = json_decode($posts);
                 $anime_all = Anime::all();
-                foreach($posts as $post){
+                foreach ($posts as $post) {
                     $anime = $anime_all->where('title', $post->title)->first();
-                    if(empty($anime)){
+                    if (empty($anime)) {
                         /*
                         $anime = new Anime();
                         $anime->title = $post->title;
@@ -48,7 +47,7 @@ class AnimesTableSeeder extends Seeder
                         $anime->city_name = $post->city_name;
                         $anime->save();
                         */
-                    }else{
+                    } else {
                         $anime->title_short = $post->title_short1;
                         $anime->year = $year;
                         $anime->coor = $coor;
@@ -61,8 +60,7 @@ class AnimesTableSeeder extends Seeder
                         $anime->save();
                     }
                 }
-        
-            }   
-        } 
+            }
+        }
     }
 }

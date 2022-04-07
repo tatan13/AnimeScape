@@ -11,13 +11,14 @@ use Tests\TestCase;
 
 class SearchTest extends TestCase
 {
-
     use RefreshDatabase;
 
-    private $anime, $user, $cast;
+    private $anime;
+    private $user;
+    private $cast;
 
     protected function setUp(): void
-    {   
+    {
         parent::setUp();
         $this->anime = new Anime();
         $this->anime->title = '霊剣山 星屑たちの宴';
@@ -32,9 +33,9 @@ class SearchTest extends TestCase
 
         $this->user = User::factory()->create();
     }
-    
+
     /**
-    * @test 
+    * @test
     */
     public function testSearchAnimeView()
     {
@@ -63,7 +64,7 @@ class SearchTest extends TestCase
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testSearchCastView()
     {
@@ -87,7 +88,7 @@ class SearchTest extends TestCase
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testSearchUserView()
     {

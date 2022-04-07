@@ -10,17 +10,17 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
-
-    const SEX = [
+    private const SEX = [
         0 => [ 'label' => '女性' ],
         1 => [ 'label' => '男性' ],
     ];
 
     public function getSexLabelAttribute()
     {
-
         $sex = $this->attributes['sex'];
 
         if (!isset(self::SEX[$sex])) {
@@ -83,9 +83,8 @@ class User extends Authenticatable
     public function isLikeUser($uid)
     {
         return $this->userLikeUsers()->where('uid', $uid)->exists();
-
     }
- 
+
     public function isLikedUser($uid)
     {
         return $this->userLikedUsers()->where('uid', $uid)->exists();

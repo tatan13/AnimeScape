@@ -14,13 +14,13 @@ class RegisterTest extends TestCase
     private $user;
 
     protected function setUp(): void
-    {   
+    {
         parent::setUp();
         $this->user = User::factory()->create();
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testRegisterView()
     {
@@ -33,23 +33,23 @@ class RegisterTest extends TestCase
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testRegisterCorrectPost()
     {
-        $response = $this->post('/register',[
+        $response = $this->post('/register', [
             'uid' => 'user',
             'password' => 'secretpassword',
             'password_confirmation' => 'secretpassword',
         ]);
         $response->assertLocation('/');
-        $this->assertDatabaseHas('users',[
+        $this->assertDatabaseHas('users', [
             'uid' => 'user',
         ]);
         $this->assertAuthenticated();
 
         $this->post('/logout');
-        $this->post('/login',[
+        $this->post('/login', [
             'uid' => 'user',
             'password' => 'secretpassword',
         ]);
@@ -57,11 +57,11 @@ class RegisterTest extends TestCase
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testRegisterIncorrectPost()
     {
-        $response = $this->from('/register')->post('/register',[
+        $response = $this->from('/register')->post('/register', [
             'uid' => $this->user->id,
             'password' => 'secretpassword',
             'password_confirmation' => 'secretpassword',
@@ -69,4 +69,3 @@ class RegisterTest extends TestCase
         $this->assertGuest();
     }
 }
-

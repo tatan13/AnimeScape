@@ -13,10 +13,16 @@ class AnimeTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $anime, $user1, $user2, $user3, $user4, $review1, $review2;
+    private $anime;
+    private $user1;
+    private $user2;
+    private $user3;
+    private $user4;
+    private $review1;
+    private $review2;
 
     protected function setUp(): void
-    {   
+    {
         parent::setUp();
         $this->anime = new Anime();
         $this->anime->title = '霊剣山';
@@ -47,7 +53,7 @@ class AnimeTest extends TestCase
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testAnimeGuestView()
     {
@@ -65,7 +71,7 @@ class AnimeTest extends TestCase
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testAnimeUser1LoginView()
     {
@@ -76,7 +82,7 @@ class AnimeTest extends TestCase
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testAnimeUser2LoginView()
     {
@@ -88,7 +94,7 @@ class AnimeTest extends TestCase
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testAnimeScoreGuestView()
     {
@@ -97,7 +103,7 @@ class AnimeTest extends TestCase
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testAnimeScoreUserLoginView()
     {
@@ -107,12 +113,12 @@ class AnimeTest extends TestCase
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testAnimeScoreUser1Post()
     {
         $this->actingAs($this->user1);
-        $response = $this->post('/anime/1/score',[
+        $response = $this->post('/anime/1/score', [
             'score' => '',
             'one_comment' => 'exellent',
             'spoiler' => 'spoiler',
@@ -132,12 +138,12 @@ class AnimeTest extends TestCase
     }
 
     /**
-    * @test 
-    */    
+    * @test
+    */
     public function testAnimeScoreUser2Post()
     {
         $this->actingAs($this->user2);
-        $response = $this->post('/anime/1/score',[
+        $response = $this->post('/anime/1/score', [
             'score' => 30,
             'one_comment' => null,
             'will_watch' => 'will_watch',
@@ -155,27 +161,27 @@ class AnimeTest extends TestCase
     }
 
     /**
-    * @test 
-    */   
+    * @test
+    */
     public function testAnimeView()
     {
         $this->actingAs($this->user1);
-        $this->post('anime/1/score',[
+        $this->post('anime/1/score', [
             'score' => 100,
         ]);
 
         $this->actingAs($this->user2);
-        $this->post('anime/1/score',[
+        $this->post('anime/1/score', [
             'score' => 20,
         ]);
 
         $this->actingAs($this->user3);
-        $this->post('anime/1/score',[
+        $this->post('anime/1/score', [
             'score' => 50,
         ]);
 
         $this->actingAs($this->user4);
-        $this->post('anime/1/score',[
+        $this->post('anime/1/score', [
             'one_comment' => 'excellent',
         ]);
 

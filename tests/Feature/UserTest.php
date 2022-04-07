@@ -10,18 +10,32 @@ use App\Models\User;
 use App\Models\Cast;
 use App\Models\UserLikeUser;
 use App\Models\UserLikeCast;
-
 use Tests\TestCase;
 
 class UserTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $anime1, $anime2, $user1, $user2, $user3, $user4, $cast1, $cast2, $review1, $review2,
-    $user_like_user1, $user_like_user2, $user_like_user3, $user_like_user4, $user_like_user5, $user_like_cast1, $user_like_cast2;
+    private $anime1;
+    private $anime2;
+    private $user1;
+    private $user2;
+    private $user3;
+    private $user4;
+    private $cast1;
+    private $cast2;
+    private $review1;
+    private $review2;
+    private $user_like_user1;
+    private $user_like_user2;
+    private $user_like_user3;
+    private $user_like_user4;
+    private $user_like_user5;
+    private $user_like_cast1;
+    private $user_like_cast2;
 
     protected function setUp(): void
-    {   
+    {
         parent::setUp();
 
         $this->anime1 = new Anime();
@@ -30,7 +44,7 @@ class UserTest extends TestCase
         $this->anime1->year = 2022;
         $this->anime1->coor = 1;
         $this->anime1->save();
-        
+
         $this->anime2 = new Anime();
         $this->anime2->title = '霊剣山2';
         $this->anime2->title_short = '霊剣山2';
@@ -105,7 +119,7 @@ class UserTest extends TestCase
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testUserInformationView()
     {
@@ -119,12 +133,12 @@ class UserTest extends TestCase
                        '95', 96, '霊剣山2');
         $response->assertSeeInOrder($check);
         $response->assertDontSee('Twitter :');
-    
+
         $this->get('/user_information/notfound')->assertRedirect('/');
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testUserInformationLoginMypageView()
     {
@@ -135,7 +149,7 @@ class UserTest extends TestCase
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testUserInformationLoginOtherpageView()
     {
@@ -143,7 +157,7 @@ class UserTest extends TestCase
         $response = $this->get(route('user', ['uid' => $this->user2->uid]));
 
         $response->assertDontSee('個人情報設定');
-        
+
         $this->get(route('user.dislike', ['uid' => $this->user2->uid]));
         $this->assertDatabaseMissing('user_like_users', [
             'user_id' => $this->user1->id,
@@ -152,7 +166,7 @@ class UserTest extends TestCase
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testUserInformationConfigView()
     {
@@ -166,7 +180,7 @@ class UserTest extends TestCase
     }
 
     /**
-    * @test 
+    * @test
     */
     public function testUserInformationConfigPost()
     {

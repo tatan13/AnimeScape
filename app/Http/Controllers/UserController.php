@@ -6,49 +6,49 @@ use App\Models\User;
 use App\Models\UserReview;
 use App\Models\Anime;
 use App\Models\UserLikeUser;
-
 use App\Library\Label;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateConfig;
 
 class UserController extends Controller
 {
-    const COOR = [
+    private const COOR = [
         1 => '冬',
         2 => '春',
         3 => '夏',
         4 => '秋',
     ];
+
     public function show($uid, Request $request)
     {
         $coorLabel = new Label($request->coor);
         $coorLabel->setLabel(self::COOR);
 
         $user = User::where('uid', $uid)->first();
-        if(!empty($user)){
-            if(is_null($request->year)){
+        if (!empty($user)) {
+            if (is_null($request->year)) {
                 $user_reviews = $user->userReviews;
-            }elseif(is_null($request->coor)){
-                $user_reviews = $user->userReviews()->whereHas('anime', function($query) use ($request){
+            } elseif (is_null($request->coor)) {
+                $user_reviews = $user->userReviews()->whereHas('anime', function ($query) use ($request) {
                     $query->where('year', $request->year);
                 })->get();
-            }else{
-                $user_reviews = $user->userReviews()->whereHas('anime', function($query) use ($request){
+            } else {
+                $user_reviews = $user->userReviews()->whereHas('anime', function ($query) use ($request) {
                     $query->where('year', $request->year)->where('coor', $request->coor);
                 })->get();
             }
-        }else{
+        } else {
             return redirect(route('index'));
         }
 
-        //ユーザーが100点を付けたアニメのレビューリストを取得
+        // ユーザーが100点を付けたアニメのレビューリストを取得
         $score_100_anime_reviews = $user_reviews->where('score', 100)->sortByDesc('score');
 
-        //ユーザーがi点~i+4点を付けたアニメのレビューリストを取得
-        for($i=95;$i>=0;$i=$i-5){
-            ${"score_".$i."_anime_reviews"} = $user_reviews->whereNotNull('score')->whereBetween('score', [$i, $i+4])->sortByDesc('score');
+        // ユーザーがi点~i+4点を付けたアニメのレビューリストを取得
+        for ($i = 95; $i >= 0; $i = $i - 5) {
+            ${"score_" . $i . "_anime_reviews"} = $user_reviews
+            ->whereNotNull('score')->whereBetween('score', [$i, $i + 4])->sortByDesc('score');
         }
 
         return view('user_information', [
@@ -90,13 +90,13 @@ class UserController extends Controller
     {
         $user = User::where('uid', $uid)->first();
 
-        if(!isset($user)){
+        if (!isset($user)) {
             return redirect(route('index'));
         }
 
         $user_reviews = $user->userReviews->where('will_watch', 1);
 
-        return view('will_watch_list',[
+        return view('will_watch_list', [
             'user' => $user,
             'user_reviews' => $user_reviews,
         ]);
@@ -106,13 +106,13 @@ class UserController extends Controller
     {
         $user = User::where('uid', $uid)->first();
 
-        if(!isset($user)){
+        if (!isset($user)) {
             return redirect(route('index'));
         }
 
         $like_users = $user->userLikeUsers;
 
-        return view('like_user_list',[
+        return view('like_user_list', [
             'user' => $user,
             'like_users' => $like_users,
         ]);
@@ -122,13 +122,13 @@ class UserController extends Controller
     {
         $user = User::where('uid', $uid)->first();
 
-        if(!isset($user)){
+        if (!isset($user)) {
             return redirect(route('index'));
         }
 
         $liked_users = $user->userLikedUsers;
 
-        return view('liked_user_list',[
+        return view('liked_user_list', [
             'user' => $user,
             'liked_users' => $liked_users,
         ]);
@@ -138,13 +138,13 @@ class UserController extends Controller
     {
         $user = User::where('uid', $uid)->first();
 
-        if(!isset($user)){
+        if (!isset($user)) {
             return redirect(route('index'));
         }
 
         $like_casts = $user->likeCasts;
 
-        return view('like_cast_list',[
+        return view('like_cast_list', [
             'user' => $user,
             'like_casts' => $like_casts,
         ]);
@@ -155,17 +155,17 @@ class UserController extends Controller
         $user = User::where('uid', $uid)->first();
 
 
-        if(!isset($user)){
+        if (!isset($user)) {
             return redirect(route('index'));
         }
 
-        if(Auth::check()){
+        if (Auth::check()) {
             $auth_user = Auth::user();
-            if(!$auth_user->isLikeUser($uid) && $auth_user->id != $user->id){
+            if (!$auth_user->isLikeUser($uid) && $auth_user->id != $user->id) {
                 $auth_user->userLikeUsers()->attach($user->id);
             }
         }
-        
+
         $liked_user_count = $user->userLikedUsers->count();
 
         return response()->json(['likedUserCount' => $liked_user_count]);
@@ -175,17 +175,17 @@ class UserController extends Controller
     {
         $user = User::where('uid', $uid)->first();
 
-        if(!isset($user)){
+        if (!isset($user)) {
             return redirect(route('index'));
         }
 
-        if(Auth::check()){
+        if (Auth::check()) {
             $auth_user = Auth::user();
-            if($auth_user->isLikeUser($uid) && $auth_user->id != $user->id){
+            if ($auth_user->isLikeUser($uid) && $auth_user->id != $user->id) {
                 $auth_user->userLikeUsers()->detach($user->id);
             }
         }
-        
+
         $liked_user_count = $user->userLikedUsers->count();
 
         return response()->json(['likedUserCount' => $liked_user_count]);
@@ -193,30 +193,30 @@ class UserController extends Controller
 
     public function config($uid)
     {
-        if(Auth::check()){
-            if(strcmp(Auth::user()->uid, $uid) == 0){
+        if (Auth::check()) {
+            if (strcmp(Auth::user()->uid, $uid) == 0) {
                 $user = Auth::user();
-            }else{
+            } else {
                 return redirect(route('index'));
             }
-        }else{
+        } else {
             return redirect(route('index'));
         }
 
-        return view('user_config',[
+        return view('user_config', [
             'user' => $user,
         ]);
     }
 
     public function updateConfig(UpdateConfig $request, $uid)
     {
-        if(Auth::check()){
-            if(strcmp(Auth::user()->uid, $uid) == 0){
+        if (Auth::check()) {
+            if (strcmp(Auth::user()->uid, $uid) == 0) {
                 $user = Auth::user();
-            }else{
+            } else {
                 return redirect(route('index'));
             }
-        }else{
+        } else {
             return redirect(route('index'));
         }
 
@@ -224,10 +224,10 @@ class UserController extends Controller
         $user->onewordcomment = $request->one_comment;
         $user->twitter = $request->twitter;
         $user->birth = $request->birth;
-        if(strcmp($request->sex, 'm') == 0){
-            $user->sex = TRUE;
-        }elseif(strcmp($request->sex, 'f') == 0){
-            $user->sex = FALSE;
+        if (strcmp($request->sex, 'm') == 0) {
+            $user->sex = true;
+        } elseif (strcmp($request->sex, 'f') == 0) {
+            $user->sex = false;
         }
 
         $user->save();
@@ -239,7 +239,7 @@ class UserController extends Controller
     {
         $user = User::where('uid', $uid)->first();
 
-        if(!isset($user)){
+        if (!isset($user)) {
             return redirect(route('index'));
         }
 
@@ -255,23 +255,27 @@ class UserController extends Controller
 
         $users_animes_reviews = $users_reviews->groupBy('anime_id');
         $animes = collect([]);
-        foreach($users_animes_reviews as $anime_id => $users_anime_reviews){
+        foreach ($users_animes_reviews as $anime_id => $users_anime_reviews) {
             $anime = Anime::find($anime_id);
             $median = $users_anime_reviews->median('score');
             $count = $users_anime_reviews->count();
             $watch = $users_anime_reviews->contains('user_id', $user->id) ? '済' : '';
-            if($anime->year >= $bottom_year && $anime->year <= $top_year && $count >= $req_count && $median >= $req_median )
-            $animes->push([
+            if (
+                $anime->year >= $bottom_year && $anime->year <= $top_year &&
+                $count >= $req_count && $median >= $req_median
+            ) {
+                $animes->push([
                 'anime' => $anime,
                 'median' => $median,
                 'count' => $count,
-                'watch'=> $watch,
-            ]);
+                'watch' => $watch,
+                ]);
+            }
         }
 
         $animes = $animes->sortByDesc('median');
 
-        return view('user_statistics',[
+        return view('user_statistics', [
             'user' => $user,
             'animes' => $animes,
             'median' => $request->median,

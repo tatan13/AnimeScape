@@ -14,7 +14,7 @@ class CastController extends Controller
     {
         $cast = Cast::find($id);
 
-        if(!isset($cast)){
+        if (!isset($cast)) {
             return redirect(route('index'));
         }
 
@@ -30,12 +30,12 @@ class CastController extends Controller
     {
         $cast = Cast::find($id);
 
-        if(!isset($cast)){
+        if (!isset($cast)) {
             return redirect(route('index'));
         }
 
-        if(Auth::check()){
-            if(!Auth::user()->isLikeCast($id)){
+        if (Auth::check()) {
+            if (!Auth::user()->isLikeCast($id)) {
                 Auth::user()->likeCasts()->attach($id);
             }
         }
@@ -47,12 +47,12 @@ class CastController extends Controller
     {
         $cast = Cast::find($id);
 
-        if(!isset($cast)){
+        if (!isset($cast)) {
             return redirect(route('index'));
         }
 
-        if(Auth::check()){
-            if(Auth::user()->isLikeCast($id)){
+        if (Auth::check()) {
+            if (Auth::user()->isLikeCast($id)) {
                 Auth::user()->likeCasts()->detach($id);
             }
         }

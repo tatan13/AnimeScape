@@ -9,7 +9,7 @@ class Anime extends Model
 {
     use HasFactory;
 
-    const COOR = [
+    private const COOR = [
         1 => [ 'label' => '冬' ],
         2 => [ 'label' => '春' ],
         3 => [ 'label' => '夏' ],
@@ -18,7 +18,6 @@ class Anime extends Model
 
     public function getCoorLabelAttribute()
     {
-
         $coor = $this->attributes['coor'];
 
         if (!isset(self::COOR[$coor])) {
@@ -58,4 +57,3 @@ class Anime extends Model
         return $this->hasMany('App\Models\ModifyOccupation');
     }
 }
-

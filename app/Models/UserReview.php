@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserReview extends Model
 {
     use HasFactory;
+
     public function anime()
     {
         return $this->belongsTo('App\Models\Anime');
