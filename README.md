@@ -8,6 +8,7 @@ IDを作成し，ログインすることで各アニメの点数や感想をつ
 * Laravel 9.2.0
 	* guzzlehttp/guzzle
 	* PHP_CodeSniffer
+	* Larastan
 * JavaScript
 * Vue.js 2.6.12
 	* axios
