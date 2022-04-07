@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/php:latest
+      - image: cimg/php:latest-node
     steps:
       - checkout
       - run: sudo apt update
@@ -36,7 +36,7 @@ jobs:
 
   deploy:
     machine:
-      image: circleci/classic:edge
+      image: cimg/base:edge
     steps:
       - add_ssh_keys:
           fingerprints:
