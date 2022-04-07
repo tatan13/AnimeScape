@@ -11,7 +11,13 @@ use Illuminate\Support\Facades\DB;
 
 class AnimeController extends Controller
 {
-    public function show(int $id)
+    /**
+     * アニメの情報を表示
+     *
+     * @param int $id
+     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     */
+    public function show($id)
     {
         $anime = Anime::find($id);
 
@@ -40,7 +46,13 @@ class AnimeController extends Controller
         ]);
     }
 
-    public function score(int $id)
+    /**
+     * アニメの得点画面を表示
+     * 
+     * @param int $id
+     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     */
+    public function score($id)
     {
         $anime = Anime::find($id);
 
@@ -60,7 +72,14 @@ class AnimeController extends Controller
         ]);
     }
 
-    public function result(int $id, SubmitScore $request)
+    /**
+     * アニメの入力された得点を処理し，得点画面にリダイレクトさせる
+     * 
+     * @param int $id
+     * @param SubmitScore $request
+     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     */
+    public function result($id, SubmitScore $request)
     {
         $anime = Anime::find($id);
 

@@ -13,11 +13,11 @@ class IndexTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $anime1;
-    private $anime2;
-    private $user1;
-    private $user2;
-    private $user3;
+    private Anime $anime1;
+    private Anime $anime2;
+    private User $user1;
+    private User $user2;
+    private User $user3;
 
     protected function setUp(): void
     {
@@ -42,8 +42,11 @@ class IndexTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * インデックスページの表示のテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testIndexView()
     {
         $response = $this->get('/');
@@ -54,8 +57,11 @@ class IndexTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * ログイン時のインデックスページの表示のテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testLoginView()
     {
         $user = User::factory()->create();
@@ -66,8 +72,11 @@ class IndexTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * 得点入力結果が正しいかのテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testIndexAnimeView()
     {
         $this->actingAs($this->user1);

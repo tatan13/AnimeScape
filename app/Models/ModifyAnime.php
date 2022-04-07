@@ -9,6 +9,9 @@ class ModifyAnime extends Model
 {
     use HasFactory;
 
+    /**
+     * アニメを取得
+     */
     public function anime()
     {
         return $this->belongsTo('App\Models\Anime');

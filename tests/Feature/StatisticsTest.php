@@ -13,8 +13,8 @@ class StatisticsTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $anime1;
-    private $anime2;
+    private Anime $anime1;
+    private Anime $anime2;
 
     protected function setUp(): void
     {
@@ -42,8 +42,11 @@ class StatisticsTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * すべてのアニメのランキングページのテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testAllStatisticsView()
     {
         $response = $this->get('/all_statistics/1');
@@ -66,8 +69,11 @@ class StatisticsTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * 年別のアニメのランキングページのテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testYearStatisticsView()
     {
         $response = $this->get(route('year_statistics', ['category' => 1, 'year' => 2022]));
@@ -92,8 +98,11 @@ class StatisticsTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * クール別のアニメのランキングページのテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testCoorStatisticsView()
     {
         $response = $this->get(route('coor_statistics', ['category' => 1, 'year' => 2022, 'coor' => 1]));

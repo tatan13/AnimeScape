@@ -11,8 +11,11 @@ class ContactTest extends TestCase
     use RefreshDatabase;
 
     /**
-    * @test
-    */
+     * 要望フォームの表示のテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testContactView()
     {
         $response = $this->get('/contact');
@@ -21,8 +24,11 @@ class ContactTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * 要望フォームの入力のテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testContactPost()
     {
         $response = $this->post('/contact', [
@@ -43,8 +49,11 @@ class ContactTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * 要望フォームの名無し時の入力のテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testContactNanashiPost()
     {
         $response = $this->post('/contact', [
@@ -59,8 +68,11 @@ class ContactTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * 要望フォームのバリデーションのテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testContactPostValidation()
     {
         $response = $this->post('/contact', [

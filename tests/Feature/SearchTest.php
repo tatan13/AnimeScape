@@ -13,9 +13,9 @@ class SearchTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $anime;
-    private $user;
-    private $cast;
+    private Anime $anime;
+    private User $user;
+    private Cast $cast;
 
     protected function setUp(): void
     {
@@ -35,8 +35,11 @@ class SearchTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * アニメの検索ページの表示のテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testSearchAnimeView()
     {
         $response = $this->get(route('search', [
@@ -64,8 +67,11 @@ class SearchTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * 声優の検索ページの表示のテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testSearchCastView()
     {
         $response = $this->get(route('search', [
@@ -88,8 +94,11 @@ class SearchTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * ユーザーの検索ページの表示のテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testSearchUserView()
     {
         $response = $this->get(route('search', [

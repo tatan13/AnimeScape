@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class AnimesCastsTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * animesテーブル，castsテーブルのシーダーを起動
      *
      * @return void
      */

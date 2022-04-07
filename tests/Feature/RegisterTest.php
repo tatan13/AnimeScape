@@ -11,7 +11,7 @@ class RegisterTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $user;
+    private User $user;
 
     protected function setUp(): void
     {
@@ -20,8 +20,11 @@ class RegisterTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * 会員登録ページの表示のテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testRegisterView()
     {
         $response = $this->get('/register');
@@ -33,8 +36,11 @@ class RegisterTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * 会員登録ページを入力した場合のテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testRegisterCorrectPost()
     {
         $response = $this->post('/register', [
@@ -57,8 +63,11 @@ class RegisterTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * 間違った会員登録情報を入力した場合のテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testRegisterIncorrectPost()
     {
         $response = $this->from('/register')->post('/register', [

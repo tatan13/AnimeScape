@@ -20,6 +20,13 @@ class UserController extends Controller
         4 => '秋',
     ];
 
+    /**
+     * ユーザー情報を表示
+     * 
+     * @param string $uid
+     * @param Request $request
+     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     */
     public function show($uid, Request $request)
     {
         $coorLabel = new Label($request->coor);
@@ -86,6 +93,12 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * ユーザーの視聴予定アニメリストを表示
+     * 
+     * @param string $uid
+     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     */
     public function showWillWatchList($uid)
     {
         $user = User::where('uid', $uid)->first();
@@ -102,6 +115,12 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * ユーザーのお気に入りユーザーリストを表示
+     * 
+     * @param string $uid
+     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     */
     public function showLikeUserList($uid)
     {
         $user = User::where('uid', $uid)->first();
@@ -118,6 +137,12 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * ユーザーの被お気に入りユーザーリストを表示
+     * 
+     * @param string $uid
+     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     */
     public function showLikedUserList($uid)
     {
         $user = User::where('uid', $uid)->first();
@@ -134,6 +159,12 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * ユーザーのお気に入り声優リストを表示
+     * 
+     * @param string $uid
+     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     */
     public function showLikeCastList($uid)
     {
         $user = User::where('uid', $uid)->first();
@@ -150,6 +181,12 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * ユーザーをお気に入りユーザーに登録
+     * 
+     * @param string $uid
+     * @return \Illuminate\Http\JsonResponse | \Illuminate\Http\RedirectResponse
+     */
     public function like($uid)
     {
         $user = User::where('uid', $uid)->first();
@@ -171,6 +208,12 @@ class UserController extends Controller
         return response()->json(['likedUserCount' => $liked_user_count]);
     }
 
+    /**
+     * ユーザーをお気に入りユーザーから解除
+     * 
+     * @param string $uid
+     * @return \Illuminate\Http\JsonResponse | \Illuminate\Http\RedirectResponse
+     */
     public function dislike($uid)
     {
         $user = User::where('uid', $uid)->first();
@@ -191,6 +234,12 @@ class UserController extends Controller
         return response()->json(['likedUserCount' => $liked_user_count]);
     }
 
+    /**
+     * ユーザーの基本情報変更画面を表示
+     * 
+     * @param string $uid
+     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     */
     public function config($uid)
     {
         if (Auth::check()) {
@@ -208,6 +257,12 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * ユーザーの基本情報変更画面を表示
+     * @param UpdateConfig $request
+     * @param string $uid
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updateConfig(UpdateConfig $request, $uid)
     {
         if (Auth::check()) {
@@ -235,6 +290,12 @@ class UserController extends Controller
         return redirect()->route('user.config', ['uid' => $uid])->with('flash_message', '個人情報の登録が完了しました。');
     }
 
+    /**
+     * お気に入りユーザーの統計表を表示
+     * @param string $uid
+     * @param Request $request
+     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     */
     public function statistics($uid, Request $request)
     {
         $user = User::where('uid', $uid)->first();

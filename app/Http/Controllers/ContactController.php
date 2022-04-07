@@ -8,6 +8,11 @@ use App\Http\Requests\ContactForm;
 
 class ContactController extends Controller
 {
+    /**
+     * 要望フォームを表示
+     * 
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         $contacts = Contact::all();
@@ -17,6 +22,11 @@ class ContactController extends Controller
         ]);
     }
 
+    /**
+     * 要望を処理し，要望フォームにリダイレクト
+     * 
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function post(ContactForm $request)
     {
         if (strcmp($request->auth, "にんしょう") == 0) {

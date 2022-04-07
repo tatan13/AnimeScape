@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
+    /**
+     * 要求カテゴリーの検索結果を表示
+     * 
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
     public function search(Request $request)
     {
         $search_word = $request->search_word;

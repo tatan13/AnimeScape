@@ -16,23 +16,23 @@ class UserTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $anime1;
-    private $anime2;
-    private $user1;
-    private $user2;
-    private $user3;
-    private $user4;
-    private $cast1;
-    private $cast2;
-    private $review1;
-    private $review2;
-    private $user_like_user1;
-    private $user_like_user2;
-    private $user_like_user3;
-    private $user_like_user4;
-    private $user_like_user5;
-    private $user_like_cast1;
-    private $user_like_cast2;
+    private Anime $anime1;
+    private Anime $anime2;
+    private User $user1;
+    private User $user2;
+    private User $user3;
+    private User $user4;
+    private Cast $cast1;
+    private Cast $cast2;
+    private UserReview $review1;
+    private UserReview $review2;
+    private UserLikeUser $user_like_user1;
+    private UserLikeUser $user_like_user2;
+    private UserLikeUser $user_like_user3;
+    private UserLikeUser $user_like_user4;
+    private UserLikeUser $user_like_user5;
+    private UserLikeCast $user_like_cast1;
+    private UserLikeCast $user_like_cast2;
 
     protected function setUp(): void
     {
@@ -119,8 +119,11 @@ class UserTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * ユーザーページの表示のテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testUserInformationView()
     {
         $response = $this->get("/user_information/{$this->user1->uid}");
@@ -138,8 +141,11 @@ class UserTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * ログイン時の自身のユーザーページの表示のテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testUserInformationLoginMypageView()
     {
         $this->actingAs($this->user1);
@@ -149,8 +155,11 @@ class UserTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * ログイン時の他人のユーザーページの表示のテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testUserInformationLoginOtherpageView()
     {
         $this->actingAs($this->user1);
@@ -166,8 +175,11 @@ class UserTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * ユーザー情報変更ページの表示のテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testUserInformationConfigView()
     {
         $this->get(route('user.config', ['uid' => $this->user1->uid]))->assertRedirect('/login');
@@ -180,8 +192,11 @@ class UserTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * ユーザー情報変更入力のテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testUserInformationConfigPost()
     {
         $this->actingAs($this->user1);

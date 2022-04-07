@@ -15,12 +15,12 @@ class CastTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $cast;
-    private $user;
-    private $anime1;
-    private $anime2;
-    private $occupation1;
-    private $occupation2;
+    private Cast $cast;
+    private User $user;
+    private Anime $anime1;
+    private Anime $anime2;
+    private Occupation $occupation1;
+    private Occupation $occupation2;
 
     protected function setUp(): void
     {
@@ -57,8 +57,11 @@ class CastTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * ゲスト時の声優ページの表示のテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testCastGuestView()
     {
         $response = $this->get('/cast/1');
@@ -74,8 +77,11 @@ class CastTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * ログイン時の声優ページのテスト
+     * 
+     * @test
+     * @return void
+     */
     public function testCastLoginLikeView()
     {
         $this->actingAs($this->user);

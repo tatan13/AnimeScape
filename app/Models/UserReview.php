@@ -9,11 +9,17 @@ class UserReview extends Model
 {
     use HasFactory;
 
+    /**
+     * アニメの取得
+     */
     public function anime()
     {
         return $this->belongsTo('App\Models\Anime');
     }
 
+    /**
+     * ユーザーの取得
+     */
     public function user()
     {
         return $this->belongsTo('App\Models\User');

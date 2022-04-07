@@ -14,7 +14,7 @@ use App\Models\Occupation;
 class CastsTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * castsテーブルのシーダーを起動
      *
      * @return void
      */

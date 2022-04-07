@@ -21,6 +21,13 @@ class StatisticsController extends Controller
         4 => '秋',
     ];
 
+    /**
+     * すべてのアニメのランキングを表示
+     * 
+     * @param Request $request
+     * @param int $category
+     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     */
     public function showAll(Request $request, $category)
     {
         $categoryLabel = new Label($category);
@@ -33,13 +40,13 @@ class StatisticsController extends Controller
         }
         switch ($category) {
             case 1:
-                $animes = Anime::all()->where('count', '>=', $datacount)->sortByDesc('median');
+                $animes = Anime::where('count', '>=', $datacount)->get()->sortByDesc('median');
                 break;
             case 2:
-                $animes = Anime::all()->where('count', '>=', $datacount)->sortByDesc('average');
+                $animes = Anime::where('count', '>=', $datacount)->get()->sortByDesc('average');
                 break;
             case 3:
-                $animes = Anime::all()->where('count', '>=', $datacount)->sortByDesc('count');
+                $animes = Anime::where('count', '>=', $datacount)->get()->sortByDesc('count');
                 break;
             default:
                 return redirect(route('all_statistics', ['category' => 1]));
@@ -51,6 +58,13 @@ class StatisticsController extends Controller
         ]);
     }
 
+    /**
+     * 年別のアニメのランキングを表示
+     * 
+     * @param Request $request
+     * @param int $category
+     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     */
     public function showYear(Request $request, $category)
     {
         $categoryLabel = new Label($category);
@@ -63,16 +77,16 @@ class StatisticsController extends Controller
         }
         switch ($category) {
             case 1:
-                $animes = Anime::all()->where('year', (int)$request->year)
-                ->where('count', '>=', $datacount)->sortByDesc('median');
+                $animes = Anime::where('year', (int)$request->year)
+                ->where('count', '>=', $datacount)->get()->sortByDesc('median');
                 break;
             case 2:
-                $animes = Anime::all()->where('year', (int)$request->year)
-                ->where('count', '>=', $datacount)->sortByDesc('average');
+                $animes = Anime::where('year', (int)$request->year)
+                ->where('count', '>=', $datacount)->get()->sortByDesc('average');
                 break;
             case 3:
-                $animes = Anime::all()->where('year', (int)$request->year)
-                ->where('count', '>=', $datacount)->sortByDesc('count');
+                $animes = Anime::where('year', (int)$request->year)
+                ->where('count', '>=', $datacount)->get()->sortByDesc('count');
                 break;
             default:
                 return redirect(route('year_statistics', [
@@ -88,6 +102,13 @@ class StatisticsController extends Controller
         ]);
     }
 
+    /**
+     * クール別のアニメのランキングを表示
+     * 
+     * @param Request $request
+     * @param int $category
+     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     */
     public function showCoor(Request $request, $category)
     {
         $categoryLabel = new Label($category);
@@ -103,17 +124,16 @@ class StatisticsController extends Controller
         }
         switch ($category) {
             case 1:
-                $animes = Anime::all()
-                ->where('coor', (int)$request->coor)->where('year', (int)$request->year)
-                ->where('count', '>=', $datacount)->sortByDesc('median');
+                $animes = Anime::where('coor', (int)$request->coor)->where('year', (int)$request->year)
+                ->where('count', '>=', $datacount)->get()->sortByDesc('median');
                 break;
             case 2:
-                $animes = Anime::all()->where('coor', (int)$request->coor)->where('year', (int)$request->year)
-                ->where('count', '>=', $datacount)->sortByDesc('average');
+                $animes = Anime::where('coor', (int)$request->coor)->where('year', (int)$request->year)
+                ->where('count', '>=', $datacount)->get()->sortByDesc('average');
                 break;
             case 3:
-                $animes = Anime::all()->where('coor', (int)$request->coor)->where('year', (int)$request->year)
-                ->where('count', '>=', $datacount)->sortByDesc('count');
+                $animes = Anime::where('coor', (int)$request->coor)->where('year', (int)$request->year)
+                ->where('count', '>=', $datacount)->get()->sortByDesc('count');
                 break;
             default:
                 return redirect(route('coor_statistics', [

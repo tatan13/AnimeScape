@@ -29,6 +29,11 @@ class ContactForm extends FormRequest
         ];
     }
 
+    /**
+     * 要望フォームのバリデーションメッセージ
+     *
+     * @return array
+     */
     public function messages()
     {
         return [
