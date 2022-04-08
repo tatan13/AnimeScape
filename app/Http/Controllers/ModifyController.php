@@ -16,14 +16,14 @@ class ModifyController extends Controller
      * アニメの基本情報修正画面を表示
      *
      * @param int $id
-     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
-    public function modifyAnimeShow(int $id)
+    public function modifyAnimeShow($id)
     {
         $anime = Anime::find($id);
 
         if (!isset($anime)) {
-            return redirect(route('index'));
+            abort(404);
         }
 
         return view('modify_anime', [
@@ -38,7 +38,7 @@ class ModifyController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function modifyAnimePost(Request $request, int $id)
+    public function modifyAnimePost(Request $request, $id)
     {
         $modify_anime = new ModifyAnime();
 
@@ -71,7 +71,7 @@ class ModifyController extends Controller
     public function modifyAnimeUpdate(int $id, Request $request)
     {
         if (Auth::user()->uid != "root") {
-            return redirect(route('index'));
+            abort(404);
         }
 
         $modify_anime = ModifyAnime::find($id);
@@ -99,10 +99,10 @@ class ModifyController extends Controller
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function modifyAnimeDelete(int $id)
+    public function modifyAnimeDelete($id)
     {
         if (Auth::user()->uid != "root") {
-            return redirect(route('index'));
+            abort(404);
         }
 
         $modify_anime = ModifyAnime::find($id);
@@ -113,12 +113,12 @@ class ModifyController extends Controller
 
     /**
      * アニメ，声優の情報修正依頼リストを表示
-     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
     public function modifyListShow()
     {
         if (Auth::user()->uid != "root") {
-            return redirect(route('index'));
+            abort(404);
         }
 
         $modify_animes = ModifyAnime::all();
@@ -134,14 +134,14 @@ class ModifyController extends Controller
      * アニメの出演声優情報修正依頼画面を表示
      *
      * @param int $id
-     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
-    public function modifyOccupationShow(int $id)
+    public function modifyOccupationShow($id)
     {
         $anime = Anime::find($id);
 
         if (!isset($anime)) {
-            return redirect(route('index'));
+            abort(404);
         }
 
         $act_casts = $anime->actCasts;
@@ -159,7 +159,7 @@ class ModifyController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function modifyOccupationPost(Request $request, int $id)
+    public function modifyOccupationPost(Request $request, $id)
     {
         $anime = Anime::find($id);
         $req_casts = $request->except('_token');
@@ -186,10 +186,10 @@ class ModifyController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function modifyOccupationUpdate(int $id, Request $request)
+    public function modifyOccupationUpdate($id, Request $request)
     {
         if (Auth::user()->uid != "root") {
-            return redirect(route('index'));
+            abort(404);
         }
         $anime = Anime::find($id);
         $anime->occupations()->delete();
@@ -225,10 +225,10 @@ class ModifyController extends Controller
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function modifyOccupationDelete(int $id)
+    public function modifyOccupationDelete($id)
     {
         if (Auth::user()->uid != "root") {
-            return redirect(route('index'));
+            abort(404);
         }
         $anime = Anime::find($id);
 

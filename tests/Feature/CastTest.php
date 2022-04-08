@@ -73,7 +73,7 @@ class CastTest extends TestCase
         $response->assertSee('霊剣山 星屑たちの宴');
         $response->assertSee('霊剣山 叡智への資格');
 
-        $this->get('/cast/3333')->assertRedirect('/');
+        $this->get('/cast/3333')->assertStatus(404);
     }
 
     /**

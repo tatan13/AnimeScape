@@ -137,7 +137,7 @@ class UserTest extends TestCase
         $response->assertSeeInOrder($check);
         $response->assertDontSee('Twitter :');
 
-        $this->get('/user_information/notfound')->assertRedirect('/');
+        $this->get('/user_information/notfound')->assertStatus(404);
     }
 
     /**
@@ -184,7 +184,7 @@ class UserTest extends TestCase
     {
         $this->get(route('user.config', ['uid' => $this->user1->uid]))->assertRedirect('/login');
         $this->actingAs($this->user1);
-        $this->get(route('user.config', ['uid' => $this->user2->uid]))->assertRedirect('/');
+        $this->get(route('user.config', ['uid' => $this->user2->uid]))->assertStatus(404);
         $response = $this->get(route('user.config', ['uid' => $this->user1->uid]));
 
         $response->assertStatus(200);

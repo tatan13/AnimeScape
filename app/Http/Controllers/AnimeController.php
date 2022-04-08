@@ -15,14 +15,14 @@ class AnimeController extends Controller
      * アニメの情報を表示
      *
      * @param int $id
-     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
     public function show($id)
     {
         $anime = Anime::find($id);
 
         if (!isset($anime)) {
-            return redirect(route('index'));
+            abort(404);
         }
 
         // アニメに紐づいているユーザーのレビューを取得
@@ -50,14 +50,14 @@ class AnimeController extends Controller
      * アニメの得点画面を表示
      *
      * @param int $id
-     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
     public function score($id)
     {
         $anime = Anime::find($id);
 
         if (!isset($anime)) {
-            return redirect(route('index'));
+            abort(404);
         }
 
         $user_review = $anime->userReviews()->where('user_id', Auth::id())->first();
@@ -77,14 +77,14 @@ class AnimeController extends Controller
      *
      * @param int $id
      * @param SubmitScore $request
-     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
     public function result($id, SubmitScore $request)
     {
         $anime = Anime::find($id);
 
         if (!isset($anime)) {
-            return redirect(route('index'));
+            abort(404);
         }
 
         $score_result = $anime->userReviews()->where('user_id', Auth::id())->first();

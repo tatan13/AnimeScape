@@ -70,7 +70,7 @@ class AnimeTest extends TestCase
         $response->assertDontSee('つけた得点');
         $response->assertStatus(200);
 
-        $this->get('/anime/3333')->assertRedirect('/');
+        $this->get('/anime/3333')->assertStatus(404);
     }
 
     /**

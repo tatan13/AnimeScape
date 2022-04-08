@@ -26,7 +26,7 @@ class UserController extends Controller
      *
      * @param string $uid
      * @param Request $request
-     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
     public function show($uid, Request $request)
     {
@@ -47,7 +47,7 @@ class UserController extends Controller
                 })->get();
             }
         } else {
-            return redirect(route('index'));
+            abort(404);
         }
 
         // ユーザーが100点を付けたアニメのレビューリストを取得
@@ -98,14 +98,14 @@ class UserController extends Controller
      * ユーザーの視聴予定アニメリストを表示
      *
      * @param string $uid
-     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
     public function showWillWatchList($uid)
     {
         $user = User::where('uid', $uid)->first();
 
         if (!isset($user)) {
-            return redirect(route('index'));
+            abort(404);
         }
 
         $user_reviews = $user->userReviews->where('will_watch', 1);
@@ -120,14 +120,14 @@ class UserController extends Controller
      * ユーザーのお気に入りユーザーリストを表示
      *
      * @param string $uid
-     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
     public function showLikeUserList($uid)
     {
         $user = User::where('uid', $uid)->first();
 
         if (!isset($user)) {
-            return redirect(route('index'));
+            abort(404);
         }
 
         $like_users = $user->userLikeUsers;
@@ -142,14 +142,14 @@ class UserController extends Controller
      * ユーザーの被お気に入りユーザーリストを表示
      *
      * @param string $uid
-     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
     public function showLikedUserList($uid)
     {
         $user = User::where('uid', $uid)->first();
 
         if (!isset($user)) {
-            return redirect(route('index'));
+            abort(404);
         }
 
         $liked_users = $user->userLikedUsers;
@@ -164,14 +164,14 @@ class UserController extends Controller
      * ユーザーのお気に入り声優リストを表示
      *
      * @param string $uid
-     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
     public function showLikeCastList($uid)
     {
         $user = User::where('uid', $uid)->first();
 
         if (!isset($user)) {
-            return redirect(route('index'));
+            abort(404);
         }
 
         $like_casts = $user->likeCasts;
@@ -186,7 +186,7 @@ class UserController extends Controller
      * ユーザーをお気に入りユーザーに登録
      *
      * @param string $uid
-     * @return \Illuminate\Http\JsonResponse | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function like($uid)
     {
@@ -194,7 +194,7 @@ class UserController extends Controller
 
 
         if (!isset($user)) {
-            return redirect(route('index'));
+            abort(404);
         }
 
         if (Auth::check()) {
@@ -213,14 +213,14 @@ class UserController extends Controller
      * ユーザーをお気に入りユーザーから解除
      *
      * @param string $uid
-     * @return \Illuminate\Http\JsonResponse | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function dislike($uid)
     {
         $user = User::where('uid', $uid)->first();
 
         if (!isset($user)) {
-            return redirect(route('index'));
+            abort(404);
         }
 
         if (Auth::check()) {
@@ -239,7 +239,7 @@ class UserController extends Controller
      * ユーザーの基本情報変更画面を表示
      *
      * @param string $uid
-     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
     public function config($uid)
     {
@@ -247,10 +247,10 @@ class UserController extends Controller
             if (strcmp(Auth::user()->uid, $uid) == 0) {
                 $user = Auth::user();
             } else {
-                return redirect(route('index'));
+                abort(404);
             }
         } else {
-            return redirect(route('index'));
+            abort(404);
         }
 
         return view('user_config', [
@@ -270,10 +270,10 @@ class UserController extends Controller
             if (strcmp(Auth::user()->uid, $uid) == 0) {
                 $user = Auth::user();
             } else {
-                return redirect(route('index'));
+                abort(404);
             }
         } else {
-            return redirect(route('index'));
+            abort(404);
         }
 
         $user->email = $request->email;
@@ -295,14 +295,14 @@ class UserController extends Controller
      * お気に入りユーザーの統計表を表示
      * @param string $uid
      * @param Request $request
-     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
     public function statistics($uid, Request $request)
     {
         $user = User::where('uid', $uid)->first();
 
         if (!isset($user)) {
-            return redirect(route('index'));
+            abort(404);
         }
 
         $req_median = $request->median ?? 0;
