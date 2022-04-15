@@ -5,11 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cast;
 use App\Models\User;
-use App\Models\UserLikeCast;
+use App\Services\ExceptionService;
 use Illuminate\Support\Facades\Auth;
 
 class CastController extends Controller
 {
+    private $exceptionService;
+
+    public function __construct(ExceptionService $exceptionService)
+    {
+        $this->exceptionService = $exceptionService;
+    }
+
     /**
      * 声優の情報を表示
      *
@@ -20,9 +27,7 @@ class CastController extends Controller
     {
         $cast = Cast::find($id);
 
-        if (!isset($cast)) {
-            abort(404);
-        }
+        $this->exceptionService->render404IfNotExist($cast);
 
         $act_animes = $cast->actAnimes;
 
@@ -42,13 +47,12 @@ class CastController extends Controller
     {
         $cast = Cast::find($id);
 
-        if (!isset($cast)) {
-            abort(404);
-        }
+        $this->exceptionService->render404IfNotExist($cast);
 
         if (Auth::check()) {
-            if (!Auth::user()->isLikeCast($id)) {
-                Auth::user()->likeCasts()->attach($id);
+            $auth_user = Auth::user();
+            if (!$auth_user->isLikeCast($id)) {
+                $auth_user->likeCasts()->attach($id);
             }
         }
     }
@@ -59,17 +63,16 @@ class CastController extends Controller
      * @param int $id
      * @return void
      */
-    public function dislike($id)
+    public function unlike($id)
     {
         $cast = Cast::find($id);
 
-        if (!isset($cast)) {
-            abort(404);
-        }
+        $this->exceptionService->render404IfNotExist($cast);
 
         if (Auth::check()) {
-            if (Auth::user()->isLikeCast($id)) {
-                Auth::user()->likeCasts()->detach($id);
+            $auth_user = Auth::user();
+            if ($auth_user->isLikeCast($id)) {
+                $auth_user->likeCasts()->detach($id);
             }
         }
     }

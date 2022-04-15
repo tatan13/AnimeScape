@@ -7,6 +7,7 @@ use App\Models\UserReview;
 use App\Models\Anime;
 use App\Models\UserLikeUser;
 use App\Library\Label;
+use App\Services\ExceptionService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateConfig;
@@ -20,6 +21,13 @@ class UserController extends Controller
         3 => '夏',
         4 => '秋',
     ];
+    private $animeService;
+    private $exceptionService;
+
+    public function __construct(ExceptionService $exceptionService)
+    {
+        $this->exceptionService = $exceptionService;
+    }
 
     /**
      * ユーザー情報を表示
@@ -33,21 +41,20 @@ class UserController extends Controller
         $coorLabel = new Label((int)$request->coor);
         $coorLabel->setLabel(self::COOR);
 
-        $user = User::where('uid', $uid)->first();
-        if (!empty($user)) {
-            if (is_null($request->year)) {
-                $user_reviews = $user->userReviews;
-            } elseif (is_null($request->coor)) {
-                $user_reviews = $user->userReviews()->whereHas('anime', function ($query) use ($request) {
-                    $query->where('year', $request->year);
-                })->get();
-            } else {
-                $user_reviews = $user->userReviews()->whereHas('anime', function ($query) use ($request) {
-                    $query->where('year', $request->year)->where('coor', $request->coor);
-                })->get();
-            }
+        $user = User::where('uid', $uid)->with(['userLikeUsers', 'likeCasts'])->first();
+
+        $this->exceptionService->render404IfNotExist($user);
+//わかりづらい
+        if (is_null($request->year)) {
+            $user_reviews = $user->userReviews()->with('anime')->get();
+        } elseif (is_null($request->coor)) {
+            $user_reviews = $user->userReviews()->whereHas('anime', function ($query) use ($request) {
+                $query->where('year', $request->year);
+            })->with('anime')->get();
         } else {
-            abort(404);
+            $user_reviews = $user->userReviews()->whereHas('anime', function ($query) use ($request) {
+                $query->where('year', $request->year)->where('coor', $request->coor);
+            })->with('anime')->get();
         }
 
         // ユーザーが100点を付けたアニメのレビューリストを取得
@@ -104,9 +111,7 @@ class UserController extends Controller
     {
         $user = User::where('uid', $uid)->first();
 
-        if (!isset($user)) {
-            abort(404);
-        }
+        $this->exceptionService->render404IfNotExist($user);
 
         $user_reviews = $user->userReviews->where('will_watch', 1);
 
@@ -126,11 +131,11 @@ class UserController extends Controller
     {
         $user = User::where('uid', $uid)->first();
 
-        if (!isset($user)) {
-            abort(404);
-        }
-
-        $like_users = $user->userLikeUsers;
+        $this->exceptionService->render404IfNotExist($user);
+        //共通
+        $like_users = $user->userLikeUsers()->with(['userReviews' => function ($query) {
+            $query->orderBy('updated_at', 'desc');
+        }])->get();
 
         return view('like_user_list', [
             'user' => $user,
@@ -148,11 +153,11 @@ class UserController extends Controller
     {
         $user = User::where('uid', $uid)->first();
 
-        if (!isset($user)) {
-            abort(404);
-        }
-
-        $liked_users = $user->userLikedUsers;
+        $this->exceptionService->render404IfNotExist($user);
+        //共通
+        $liked_users = $user->userLikedUsers()->with(['userReviews' => function ($query) {
+            $query->orderBy('updated_at', 'desc');
+        }])->get();
 
         return view('liked_user_list', [
             'user' => $user,
@@ -170,9 +175,7 @@ class UserController extends Controller
     {
         $user = User::where('uid', $uid)->first();
 
-        if (!isset($user)) {
-            abort(404);
-        }
+        $this->exceptionService->render404IfNotExist($user);
 
         $like_casts = $user->likeCasts;
 
@@ -193,9 +196,7 @@ class UserController extends Controller
         $user = User::where('uid', $uid)->first();
 
 
-        if (!isset($user)) {
-            abort(404);
-        }
+        $this->exceptionService->render404IfNotExist($user);
 
         if (Auth::check()) {
             $auth_user = Auth::user();
@@ -215,13 +216,11 @@ class UserController extends Controller
      * @param string $uid
      * @return \Illuminate\Http\JsonResponse
      */
-    public function dislike($uid)
+    public function unlike($uid)
     {
         $user = User::where('uid', $uid)->first();
 
-        if (!isset($user)) {
-            abort(404);
-        }
+        $this->exceptionService->render404IfNotExist($user);
 
         if (Auth::check()) {
             $auth_user = Auth::user();
@@ -301,9 +300,7 @@ class UserController extends Controller
     {
         $user = User::where('uid', $uid)->first();
 
-        if (!isset($user)) {
-            abort(404);
-        }
+        $this->exceptionService->render404IfNotExist($user);
 
         $req_median = $request->median ?? 0;
         $req_count = $request->count ?? 0;

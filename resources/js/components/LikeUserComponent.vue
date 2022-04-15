@@ -1,6 +1,6 @@
 <template>
     <div v-if="isLikedUser">
-        <a href="#" @click="dislike(uid)">お気に入りユーザーを解除する</a>
+        <a href="#" @click="unlike(uid)">お気に入りユーザーを解除する</a>
     </div>
     <div v-else>
         <a href="#" @click="like(uid)">お気に入りユーザーとして登録する</a>
@@ -48,8 +48,8 @@
                 });
                 this.$emit('like-event', this.likedUserCount);
             },
-            dislike(uid) {
-                let url = `/user_information/${uid}/dislike`
+            unlike(uid) {
+                let url = `/user_information/${uid}/unlike`
                 axios.get(url)
                 .then(response => {
                     this.likedUserCount = response.data.likedUserCount
@@ -58,11 +58,8 @@
                 .catch(error =>{
                     alert(error)
                 });
-                this.$emit('dislike-event', this.likedUserCount);
+                this.$emit('unlike-event', this.likedUserCount);
             },
         },
-        mounted() {
-            console.log('Component mounted.')
-        }
     }
 </script>

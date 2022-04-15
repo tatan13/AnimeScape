@@ -60,19 +60,19 @@ Route::group(['middleware' => 'auth'], function() {
     
     Route::get('/cast/{id}/like', [App\Http\Controllers\CastController::class, 'like'])->name('cast.like');
     
-    Route::get('/cast/{id}/dislike', [App\Http\Controllers\CastController::class, 'dislike'])->name('cast.dislike');
+    Route::get('/cast/{id}/unlike', [App\Http\Controllers\CastController::class, 'unlike'])->name('cast.unlike');
     
     Route::get('/user_information/{uid}/like', [App\Http\Controllers\UserController::class, 'like'])->name('user.like');
 
-    Route::get('/user_information/{uid}/dislike', [App\Http\Controllers\UserController::class, 'dislike'])->name('user.dislike');
+    Route::get('/user_information/{uid}/unlike', [App\Http\Controllers\UserController::class, 'unlike'])->name('user.unlike');
 
     Route::get('/user_information/{uid}/config', [App\Http\Controllers\UserController::class, 'config'])->name('user.config');
 
     Route::post('/user_information/{uid}/config', [App\Http\Controllers\UserController::class, 'updateConfig'])->name('user.config.update');
 
-    Route::get('/anime/{id}/score', [App\Http\Controllers\AnimeController::class, 'score'])->name('score');
+    Route::get('/anime/{id}/score', [App\Http\Controllers\AnimeController::class, 'score'])->name('anime.score');
 
-    Route::post('/anime/{id}/score', [App\Http\Controllers\AnimeController::class, 'result'])->name('result');
+    Route::post('/anime/{id}/score', [App\Http\Controllers\AnimeController::class, 'postScore'])->name('anime.score.post');
 
     Route::get('/modify_list', [App\Http\Controllers\ModifyController::class, 'modifyListShow'])->name('modify.list.show');
     
