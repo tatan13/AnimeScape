@@ -7,11 +7,20 @@ use App\Models\Cast;
 use App\Models\ModifyAnime;
 use App\Models\ModifyOccupation;
 use App\Models\Occupation;
+use App\Services\ExceptionService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ModifyController extends Controller
 {
+    private $exceptionService;
+
+    public function __construct(ExceptionService $exceptionService)
+    {
+        $this->exceptionService = $exceptionService;
+    }
+
     /**
      * アニメの基本情報修正画面を表示
      *
@@ -21,10 +30,7 @@ class ModifyController extends Controller
     public function modifyAnimeShow($id)
     {
         $anime = Anime::find($id);
-
-        if (!isset($anime)) {
-            abort(404);
-        }
+        $this->exceptionService->render404IfNotExist($anime);
 
         return view('modify_anime', [
             'anime' => $anime,
@@ -70,11 +76,10 @@ class ModifyController extends Controller
      */
     public function modifyAnimeUpdate(int $id, Request $request)
     {
-        if (Auth::user()->uid != "root") {
-            abort(404);
-        }
+        $this->exceptionService->render404IfNotRootUser();
 
         $modify_anime = ModifyAnime::find($id);
+        $this->exceptionService->render404IfNotExist($modify_anime);
         $anime = $modify_anime->anime;
         $anime->title = $request->title;
         $anime->title_short = $request->title_short;
@@ -83,12 +88,13 @@ class ModifyController extends Controller
         $anime->public_url = $request->public_url;
         $anime->twitter = $request->twitter;
         $anime->hash_tag = $request->hash_tag;
-        //$anime->sex = $request->sex;
         $anime->sequel = $request->sequel;
         $anime->company = $request->company;
         $anime->city_name = $request->city_name;
-        $anime->save();
-        $modify_anime->delete();
+        DB::transaction(function () use ($anime, $modify_anime) {
+            $anime->save();
+            $modify_anime->delete();
+        });
 
         return redirect()->route('modify.list.show')->with('flash_anime_message', '変更が完了しました。');
     }
@@ -101,11 +107,10 @@ class ModifyController extends Controller
      */
     public function modifyAnimeDelete($id)
     {
-        if (Auth::user()->uid != "root") {
-            abort(404);
-        }
+        $this->exceptionService->render404IfNotRootUser();
 
         $modify_anime = ModifyAnime::find($id);
+        $this->exceptionService->render404IfNotExist($modify_anime);
         $modify_anime->delete();
 
         return redirect()->route('modify.list.show')->with('flash_anime_message', '削除が完了しました。');
@@ -117,12 +122,12 @@ class ModifyController extends Controller
      */
     public function modifyListShow()
     {
-        if (Auth::user()->uid != "root") {
-            abort(404);
-        }
+        $this->exceptionService->render404IfNotRootUser();
 
         $modify_animes = ModifyAnime::all();
-        $modify_occupations_list = ModifyOccupation::all()->groupBy('anime_id');
+
+        //アニメに出演する声優の情報修正依頼リスト
+        $modify_occupations_list = ModifyOccupation::with('anime.occupations')->get()->groupBy('anime_id');
 
         return view('modify_list', [
             'modify_animes' => $modify_animes,
@@ -139,10 +144,7 @@ class ModifyController extends Controller
     public function modifyOccupationShow($id)
     {
         $anime = Anime::find($id);
-
-        if (!isset($anime)) {
-            abort(404);
-        }
+        $this->exceptionService->render404IfNotExist($anime);
 
         $act_casts = $anime->actCasts;
 
@@ -162,6 +164,7 @@ class ModifyController extends Controller
     public function modifyOccupationPost(Request $request, $id)
     {
         $anime = Anime::find($id);
+        $this->exceptionService->render404IfNotExist($anime);
         $req_casts = $request->except('_token');
         $modify_occupation_list = $anime->modifyOccupations;
 
@@ -188,31 +191,24 @@ class ModifyController extends Controller
      */
     public function modifyOccupationUpdate($id, Request $request)
     {
-        if (Auth::user()->uid != "root") {
-            abort(404);
-        }
+        $this->exceptionService->render404IfNotRootUser();
         $anime = Anime::find($id);
+        $this->exceptionService->render404IfNotExist($anime);
         $anime->occupations()->delete();
 
         $req_casts = $request->except('_token');
 
         foreach ($req_casts as $req_cast) {
-            $cast = Cast::where('name', $req_cast);
-            if ($cast->exists()) {
-                $cast = $cast->first();
-                $occupation = new Occupation();
-                $occupation->cast_id = $cast->id;
-                $occupation->anime_id = $anime->id;
-                $occupation->save();
-            } elseif (!is_null($req_cast)) {
-                $new_cast = new Cast();
-                $new_cast->name = $req_cast;
-                $new_cast->save();
-                $occupation = new Occupation();
-                $occupation->cast_id = $new_cast->id;
-                $occupation->anime_id = $anime->id;
-                $occupation->save();
+            $cast = Cast::where('name', $req_cast)->first();
+            if (!is_null($req_cast)) {
+                $cast = new Cast();
+                $cast->name = $req_cast;
+                $cast->save();
             }
+            $occupation = new Occupation();
+            $occupation->cast_id = $cast->id;
+            $occupation->anime_id = $anime->id;
+            $occupation->save();
         }
 
         $anime->modifyOccupations()->delete();
@@ -227,10 +223,9 @@ class ModifyController extends Controller
      */
     public function modifyOccupationDelete($id)
     {
-        if (Auth::user()->uid != "root") {
-            abort(404);
-        }
+        $this->exceptionService->render404IfNotRootUser();
         $anime = Anime::find($id);
+        $this->exceptionService->render404IfNotExist($anime);
 
         $modify_occupation_list = $anime->modifyOccupations();
         $modify_occupation_list->delete();

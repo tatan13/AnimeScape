@@ -13,7 +13,7 @@
                 <a href="{{ route('user.config', ['uid' => Auth::user()->uid]) }}">個人情報設定</a>
             @else
                 <div v-if="isLikedUser">
-                    <a href="#" @click="dislike(uid)">お気に入りユーザーを解除する</a>
+                    <a href="#" @click="unlike(uid)">お気に入りユーザーを解除する</a>
                 </div>
                 <div v-else>
                     <a href="#" @click="like(uid)">お気に入りユーザーとして登録する</a>
@@ -65,7 +65,7 @@
                             <tr>
                                 <th>お気に入りユーザー数</th>
                                 <td><a
-                                        href="{{ route('user.like_user_list', ['uid' => $user->uid]) }}">{{ count($user->userLikeUsers()->get()) }}</a>
+                                        href="{{ route('user.like_user_list', ['uid' => $user->uid]) }}">{{ $user->userLikeUsers->count() }}</a>
                                 </td>
                             </tr>
                             <tr>
@@ -77,7 +77,7 @@
                             <tr>
                                 <th>お気に入り声優数</th>
                                 <td><a
-                                        href="{{ route('user.like_cast_list', ['uid' => $user->uid]) }}">{{ count($user->likeCasts()->get()) }}</a>
+                                        href="{{ route('user.like_cast_list', ['uid' => $user->uid]) }}">{{ $user->likeCasts->count() }}</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -93,56 +93,56 @@
                             </tr>
                             <tr>
                                 <td>100</td>
-                                <td>{{ count($score_100_anime_reviews) }}</td>
+                                <td>{{ $score_100_anime_reviews->count() }}</td>
                             </tr>
                             <tr>
                                 <td>90～99</td>
-                                <td>{{ count($score_95_anime_reviews) + count($score_90_anime_reviews) }}
+                                <td>{{ $score_95_anime_reviews->count() + $score_90_anime_reviews->count() }}
                                 </td>
                             </tr>
                             <tr>
                                 <td>80～89</td>
-                                <td>{{ count($score_85_anime_reviews) + count($score_80_anime_reviews) }}
+                                <td>{{ $score_85_anime_reviews->count() + $score_80_anime_reviews->count() }}
                                 </td>
                             </tr>
                             <tr>
                                 <td>70～79</td>
-                                <td>{{ count($score_75_anime_reviews) + count($score_70_anime_reviews) }}
+                                <td>{{ $score_75_anime_reviews->count() + $score_70_anime_reviews->count() }}
                                 </td>
                             </tr>
                             <tr>
                                 <td>60～69</td>
-                                <td>{{ count($score_65_anime_reviews) + count($score_60_anime_reviews) }}
+                                <td>{{ $score_65_anime_reviews->count() + $score_60_anime_reviews->count() }}
                                 </td>
                             </tr>
                             <tr>
                                 <td>50～59</td>
-                                <td>{{ count($score_55_anime_reviews) + count($score_50_anime_reviews) }}
+                                <td>{{ $score_55_anime_reviews->count() + $score_50_anime_reviews->count() }}
                                 </td>
                             </tr>
                             <tr>
                                 <td>40～49</td>
-                                <td>{{ count($score_45_anime_reviews) + count($score_40_anime_reviews) }}
+                                <td>{{ $score_45_anime_reviews->count() + $score_40_anime_reviews->count() }}
                                 </td>
                             </tr>
                             <tr>
                                 <td>30～39</td>
-                                <td>{{ count($score_35_anime_reviews) + count($score_30_anime_reviews) }}
+                                <td>{{ $score_35_anime_reviews->count() + $score_30_anime_reviews->count() }}
                                 </td>
                             </tr>
                             <tr>
                                 <td>20～29</td>
-                                <td>{{ count($score_25_anime_reviews) + count($score_20_anime_reviews) }}
+                                <td>{{ $score_25_anime_reviews->count() + $score_20_anime_reviews->count() }}
                                 </td>
                             </tr>
                             <tr>
                                 <td>10～19</td>
-                                <td>{{ count($score_15_anime_reviews) + count($score_10_anime_reviews) }}
+                                <td>{{ $score_15_anime_reviews->count() + $score_10_anime_reviews->count() }}
                                 </td>
                             </tr>
                             <tr>
                                 <td>0～9</td>
-                                <td>{{ count($score_5_anime_reviews) + count($score_0_anime_reviews) }}
+                                <td>{{ $score_5_anime_reviews->count() + $score_0_anime_reviews->count() }}
                                 </td>
                             </tr>
                         </tbody>
@@ -529,8 +529,8 @@
                             alert(error)
                         });
                 },
-                dislike(uid) {
-                    let url = `/user_information/${uid}/dislike`
+                unlike(uid) {
+                    let url = `/user_information/${uid}/unlike`
                     axios.get(url)
                         .then(response => {
                             this.likedUserCount = response.data.likedUserCount

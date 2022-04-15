@@ -74,6 +74,7 @@ class Anime extends Model
 
     /**
      * 声優が引数に指定されたアニメに出演しているかを調べる
+     * 
      * @param string $cast_name
      */
     public function isActCast($cast_name)

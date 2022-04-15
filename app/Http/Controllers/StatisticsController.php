@@ -26,7 +26,7 @@ class StatisticsController extends Controller
      *
      * @param Request $request
      * @param int $category
-     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
     public function showAll(Request $request, $category)
     {
@@ -39,17 +39,17 @@ class StatisticsController extends Controller
             $datacount = $request->count;
         }
         switch ($category) {
-            case 1:
+            case array_search('中央値', self::CATEGORY):
                 $animes = Anime::where('count', '>=', $datacount)->get()->sortByDesc('median');
                 break;
-            case 2:
+            case array_search('平均値', self::CATEGORY):
                 $animes = Anime::where('count', '>=', $datacount)->get()->sortByDesc('average');
                 break;
-            case 3:
+            case array_search('データ数', self::CATEGORY):
                 $animes = Anime::where('count', '>=', $datacount)->get()->sortByDesc('count');
                 break;
             default:
-                return redirect(route('all_statistics', ['category' => 1]));
+            abort(404);
         }
 
         return view('all_statistics', [
@@ -63,7 +63,7 @@ class StatisticsController extends Controller
      *
      * @param Request $request
      * @param int $category
-     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
     public function showYear(Request $request, $category)
     {
@@ -76,23 +76,20 @@ class StatisticsController extends Controller
             $datacount = $request->count;
         }
         switch ($category) {
-            case 1:
+            case array_search('中央値', self::CATEGORY):
                 $animes = Anime::where('year', (int)$request->year)
                 ->where('count', '>=', $datacount)->get()->sortByDesc('median');
                 break;
-            case 2:
+            case array_search('平均値', self::CATEGORY):
                 $animes = Anime::where('year', (int)$request->year)
                 ->where('count', '>=', $datacount)->get()->sortByDesc('average');
                 break;
-            case 3:
+            case array_search('データ数', self::CATEGORY):
                 $animes = Anime::where('year', (int)$request->year)
                 ->where('count', '>=', $datacount)->get()->sortByDesc('count');
                 break;
             default:
-                return redirect(route('year_statistics', [
-                    'category' => 1,
-                    'year' => (int)$request->year,
-                ]));
+            abort(404);
         }
 
         return view('year_statistics', [
@@ -107,7 +104,7 @@ class StatisticsController extends Controller
      *
      * @param Request $request
      * @param int $category
-     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
     public function showCoor(Request $request, $category)
     {
@@ -123,24 +120,20 @@ class StatisticsController extends Controller
             $datacount = $request->count;
         }
         switch ($category) {
-            case 1:
+            case array_search('中央値', self::CATEGORY):
                 $animes = Anime::where('coor', (int)$request->coor)->where('year', (int)$request->year)
                 ->where('count', '>=', $datacount)->get()->sortByDesc('median');
                 break;
-            case 2:
+            case array_search('平均値', self::CATEGORY):
                 $animes = Anime::where('coor', (int)$request->coor)->where('year', (int)$request->year)
                 ->where('count', '>=', $datacount)->get()->sortByDesc('average');
                 break;
-            case 3:
+            case array_search('データ数', self::CATEGORY):
                 $animes = Anime::where('coor', (int)$request->coor)->where('year', (int)$request->year)
                 ->where('count', '>=', $datacount)->get()->sortByDesc('count');
                 break;
             default:
-                return redirect(route('coor_statistics', [
-                    'category' => 1,
-                    'coor' => (int)$request->coor,
-                    'year' => (int)$request->year,
-                ]));
+            abort(404);
         }
 
         return view('coor_statistics', [

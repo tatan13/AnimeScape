@@ -78,10 +78,10 @@
                             <th>最低点</th>
                             <td>{{ $anime->min }}</td>
                         </tr>
-                        @if (isset($myuser_score))
-                            <tr id="myuser_score">
+                        @if (isset($my_review->score))
+                            <tr id="my_score">
                                 <th>つけた得点</th>
-                                <td>{{ $myuser_score }}</td>
+                                <td>{{ $my_review->score }}</td>
                             </tr>
                         @endif
                     </tbody>
@@ -92,10 +92,10 @@
     <div id="toContents" class="d-grid gap-2">
         @if (Auth::check())
             <button type="button" class="btn btn-primary"
-                onclick="location.href='{{ route('score', ['id' => $anime->id]) }}'">このアニメに得点やコメントを登録する</button>
+                onclick="location.href='{{ route('anime.score', ['id' => $anime->id]) }}'">このアニメに得点やコメントを登録する</button>
         @else
             <button type="button" class="btn btn-primary"
-                onclick="location.href='{{ route('score', ['id' => $anime->id]) }}'">ログインしてこのアニメに得点やコメントを登録する</button>
+                onclick="location.href='{{ route('anime.score', ['id' => $anime->id]) }}'">ログインしてこのアニメに得点やコメントを登録する</button>
         @endif
     </div>
     <div id="cast_information">

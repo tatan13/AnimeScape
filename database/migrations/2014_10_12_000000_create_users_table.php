@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('password');
             $table->string('twitter')->nullable();
             $table->text('onewordcomment')->nullable();
-            //削除
             $table->boolean('visible')->default(1);
             $table->boolean('sex')->nullable();
             $table->integer('birth')->nullable();

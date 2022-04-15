@@ -59,9 +59,6 @@
                     this.texts.push('');
                 },
             },
-            mounted() {
-                console.log('Component mounted.')
-            }
         });
     </script>
 @endsection
