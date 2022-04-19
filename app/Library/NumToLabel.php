@@ -2,7 +2,7 @@
 
 namespace App\Library;
 
-class Label
+class NumToLabel
 {
     private array $label = [];
     private int $num;

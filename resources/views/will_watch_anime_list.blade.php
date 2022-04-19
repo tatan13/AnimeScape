@@ -8,8 +8,8 @@
     <h2>{{ $user->uid }}さんの視聴予定表</h2>
     <strong>{{ $user->uid }}</strong>
     <h3>視聴予定表</h3>
-    <div id="will_watch">
-        <table id="will_watch_table">
+    <div id="will_watch_anime">
+        <table id="will_watch_anime_table">
             <tbody>
                 <tr>
                     <th>アニメ名</th>
@@ -18,17 +18,17 @@
                     <th>中央値</th>
                     <th>データ数</th>
                 </tr>
-                @foreach ($user_reviews as $user_review)
+                @foreach ($will_watch_anime_list as $will_watch_anime)
                     <tr>
                         <td><a
-                                href="{{ route('anime', ['id' => $user_review->anime->id]) }}">{{ $user_review->anime->title }}</a>
+                                href="{{ route('anime', ['id' => $will_watch_anime->id]) }}">{{ $will_watch_anime->title }}</a>
                         </td>
-                        <td>{{ $user_review->anime->company }}</td>
+                        <td>{{ $will_watch_anime->company }}</td>
                         <td>
-                            {{ $user_review->anime->year }}年{{ $user_review->anime->coor_label }}クール
+                            {{ $will_watch_anime->year }}年{{ $will_watch_anime->coor_label }}クール
                         </td>
-                        <td>{{ $user_review->anime->median }}</td>
-                        <td>{{ $user_review->anime->count }}</td>
+                        <td>{{ $will_watch_anime->median }}</td>
+                        <td>{{ $will_watch_anime->count }}</td>
                     </tr>
                 @endforeach
             </tbody>

@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
 use Illuminate\Http\Request;
-use App\Http\Requests\ContactForm;
+use App\Http\Requests\ContactRequest;
+use App\Services\ContactService;
 
 class ContactController extends Controller
 {
+    private $contactService;
+
+    public function __construct(ContactService $contactService)
+    {
+        $this->contactService = $contactService;
+    }
+
     /**
      * 要望フォームを表示
      *
@@ -15,8 +22,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::all()->sortByDesc('created_at');
-
+        $contacts = $this->contactService->getLatestContactList();
         return view('contact', [
             'contacts' => $contacts,
         ]);
@@ -27,17 +33,9 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function post(ContactForm $request)
+    public function post(ContactRequest $request)
     {
-        if (strcmp($request->auth, "にんしょう") == 0) {
-            $contact = new Contact();
-            if (!is_null($request->name)) {
-                $contact->name = $request->name;
-            }
-            $contact->comment = $request->comment;
-            $contact->save();
-        }
-
+        $this->contactService->createContact($request);
         return redirect(route('contact.index'));
     }
 }

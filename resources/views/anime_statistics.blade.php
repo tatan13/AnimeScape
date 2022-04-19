@@ -5,26 +5,22 @@
 @endsection
 
 @section('main')
-    <h2>アニメランキング（{{ $category->getLabel() }}順）</h2>
+    <h2>{{ !is_null($year) ? $year.'年' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor).'クール' : ''  }}アニメランキング（{{ App\Models\Anime::getCategoryLabel($category) }}順）</h2>
     <h3>検索条件変更</h3>
-    <form action="{{ route('all_statistics', ['category' => $category->getNum()]) }}">
+    <form action="{{ route('anime_statistics') }}">
         @csrf
+        <input type="hidden" name="year" value="{{ $year }}">
+        <input type="hidden" name="coor" value="{{ $coor }}">
         データ数が
-        <select name="count">
-            <option value="5" selected="selected">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-            <option value="200">200</option>
-            <option value="500">500</option>
-        </select>
+        <input type="number" name="count" value="{{ $count ?? 0 }}" style="width:60px;">
         以上のアニメで
-        <input type="submit" value="絞り込む">
+        <select name="category">
+            <option value="median" {{ $category == 'median' ? 'selected' : '' }} >中央値</option>
+            <option value="average" {{ $category == 'average' ? 'selected'  : '' }} >平均値</option>
+            <option value="count" {{ $category == 'count' ? 'selected'  : '' }} >データ数</option>
+        </select>
+        順に<input type="submit" value="絞り込む">
     </form>
-    <a href="{{ route('all_statistics', ['category' => 1]) }}">中央値順</a><br>
-    <a href="{{ route('all_statistics', ['category' => 2]) }}">平均値順</a><br>
-    <a href="{{ route('all_statistics', ['category' => 3]) }}">データ数順</a><br>
     <h3>ランキング</h3>
     <div id=ranking_table>
         <table>

@@ -122,7 +122,7 @@
                     <strong>{{ $user_review->score }}点</strong><br>
                 @endif
                 {{ $user_review->one_word_comment }}<br>
-                {{ $user_review->updated_at }} <a
+                {{ $user_review->created_at }} <a
                     href="{{ route('user', ['uid' => $user_review->user->uid]) }}">{{ $user_review->user->uid }}</a><br>
                 <hr>
             @endif

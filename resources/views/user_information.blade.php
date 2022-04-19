@@ -10,7 +10,7 @@
         <p>{{ $user->uid }}</p>
         @auth
             @if (strcmp(Auth::user()->uid, $user->uid) == 0)
-                <a href="{{ route('user.config', ['uid' => Auth::user()->uid]) }}">個人情報設定</a>
+                <a href="{{ route('user.config') }}">個人情報設定</a>
             @else
                 <div v-if="isLikedUser">
                     <a href="#" @click="unlike(uid)">お気に入りユーザーを解除する</a>
@@ -32,7 +32,7 @@
         <div class="container-fruid">
             <div class="row">
                 <div class="col-md-6">
-                    <h3>統計情報{{ !is_null($year) ? '(' . $year . '年' : '(すべて' }}{{ $coor->getNum() != 0 ? $coor->getLabel() . 'クール)' : ')' }}
+                    <h3>統計情報{{ !is_null($year) ? '(' . $year . '年' : '(すべて' }}{{ $coor != 0 ? App\Models\Anime::getCoorLabel($coor) . 'クール)' : ')' }}
                     </h3>
                     <table id="statistics_information">
                         <tbody>
@@ -55,7 +55,7 @@
                             <tr>
                                 <th>視聴予定数</th>
                                 <td><a
-                                        href="{{ route('user.will_watch_list', ['uid' => $user->uid]) }}">{{ $will_watches_count }}</a>
+                                        href="{{ route('user.will_watch_anime_list', ['uid' => $user->uid]) }}">{{ $will_watches_count }}</a>
                                 </td>
                             </tr>
                             <tr>
@@ -150,7 +150,7 @@
                 </div>
             </div>
         </div>
-        <h3>得点とアニメの対応表{{ !is_null($year) ? '(' . $year . '年' : '(すべて' }}{{ $coor->getNum() != 0 ? $coor->getLabel() . 'クール)' : ')' }}
+        <h3>得点とアニメの対応表{{ !is_null($year) ? '(' . $year . '年' : '(すべて' }}{{ $coor != 0 ? App\Models\Anime::getCoorLabel($coor) . 'クール)' : ')' }}
         </h3>
         <div class="container-fruid">
             <div class="row">
@@ -164,10 +164,10 @@
                         年
                         <select name="coor" id="coor">
                             <option value="">-</option>
-                            <option value="1" {{ $coor->getNum() == 1 ? 'selected' : '' }}>冬</option>
-                            <option value="2" {{ $coor->getNum() == 2 ? 'selected' : '' }}>春</option>
-                            <option value="3" {{ $coor->getNum() == 3 ? 'selected' : '' }}>夏</option>
-                            <option value="4" {{ $coor->getNum() == 4 ? 'selected' : '' }}>秋</option>
+                            <option value="1" {{ $coor == 1 ? 'selected' : '' }}>冬</option>
+                            <option value="2" {{ $coor == 2 ? 'selected' : '' }}>春</option>
+                            <option value="3" {{ $coor == 3 ? 'selected' : '' }}>夏</option>
+                            <option value="4" {{ $coor == 4 ? 'selected' : '' }}>秋</option>
                         </select>
                         <input type="submit" value="絞り込み"> <a
                             href="{{ route('user', ['uid' => $user->uid]) }}">絞り込み解除</a>
@@ -513,7 +513,7 @@
                     uid: '{{ $user->uid }}',
                     likedUserCount: '{{ $user->userLikedUsers->count() }}',
                     @auth
-                        isLikedUser: '{{ Auth::user()->isLikeUser($user->uid) }}',
+                        isLikedUser: '{{ Auth::user()->isLikeUser($user->id) }}',
                     @endauth
                 };
             },
@@ -541,9 +541,6 @@
                         });
                 },
             },
-            mounted() {
-                console.log('Component mounted.')
-            }
         });
     </script>
 @endsection

@@ -19,7 +19,7 @@
                     <th>性別</th>
                     <th>最終データ登録日</th>
                 </tr>
-                @foreach ($like_users as $like_user)
+                @foreach ($like_user_list as $like_user)
                     <tr>
                         <td><a href="{{ route('user', ['uid' => $like_user->uid]) }}">{{ $like_user->uid }}</a>
                         </td>

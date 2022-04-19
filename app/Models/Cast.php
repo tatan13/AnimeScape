@@ -9,6 +9,8 @@ class Cast extends Model
 {
     use HasFactory;
 
+    public const SEARCH_COLUMN = 'name';
+
     /**
      * 声優の所属アニメ情報を取得
      */

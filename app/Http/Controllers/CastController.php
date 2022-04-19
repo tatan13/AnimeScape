@@ -3,18 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Cast;
-use App\Models\User;
-use App\Services\ExceptionService;
-use Illuminate\Support\Facades\Auth;
+use App\Services\CastService;
+use App\Services\AnimeService;
+use App\Services\UserService;
 
 class CastController extends Controller
 {
-    private $exceptionService;
+    private $castService;
+    private $animeService;
+    private $userService;
 
-    public function __construct(ExceptionService $exceptionService)
+    public function __construct(
+        CastService $castService,
+        AnimeService $animeService,
+        UserService $userService,
+    )
     {
-        $this->exceptionService = $exceptionService;
+        $this->castService = $castService;
+        $this->animeService = $animeService;
+        $this->userService = $userService;
     }
 
     /**
@@ -25,12 +32,8 @@ class CastController extends Controller
      */
     public function show($id)
     {
-        $cast = Cast::find($id);
-
-        $this->exceptionService->render404IfNotExist($cast);
-
-        $act_animes = $cast->actAnimes;
-
+        $cast = $this->castService->getCast($id);
+        $act_animes = $this->animeService->getActAnimes($cast);
         return view('cast', [
             'cast' => $cast,
             'act_animes' => $act_animes,
@@ -45,16 +48,8 @@ class CastController extends Controller
      */
     public function like($id)
     {
-        $cast = Cast::find($id);
-
-        $this->exceptionService->render404IfNotExist($cast);
-
-        if (Auth::check()) {
-            $auth_user = Auth::user();
-            if (!$auth_user->isLikeCast($id)) {
-                $auth_user->likeCasts()->attach($id);
-            }
-        }
+        $cast = $this->castService->getCast($id);
+        $this->userService->likeCast($cast);
     }
 
     /**
@@ -65,15 +60,7 @@ class CastController extends Controller
      */
     public function unlike($id)
     {
-        $cast = Cast::find($id);
-
-        $this->exceptionService->render404IfNotExist($cast);
-
-        if (Auth::check()) {
-            $auth_user = Auth::user();
-            if ($auth_user->isLikeCast($id)) {
-                $auth_user->likeCasts()->detach($id);
-            }
-        }
+        $cast = $this->castService->getCast($id);
+        $this->userService->unlikeCast($cast);
     }
 }

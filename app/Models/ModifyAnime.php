@@ -9,6 +9,20 @@ class ModifyAnime extends Model
 {
     use HasFactory;
 
+
+    protected $fillable = [
+        'title',
+        'title_short',
+        'year',
+        'coor',
+        'public_url',
+        'twitter',
+        'hash_tag',
+        'sequel',
+        'company',
+        'city_name',
+    ];
+
     /**
      * アニメを取得
      */

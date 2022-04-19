@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Anime;
 use Illuminate\Http\Request;
+use App\Services\AnimeService;
 
 class IndexController extends Controller
 {
+    private $animeService;
+
+    public function __construct(AnimeService $animeService)
+    {
+        $this->animeService = $animeService;
+    }
     /**
      * インデックスページを表示
      *
@@ -14,8 +20,7 @@ class IndexController extends Controller
      */
     public function index()
     {
-        $animes = Anime::where('year', 2022)->where('coor', 1)->get();
-        $animes = $animes->sortByDesc('median');
+        $animes = $this->animeService->getNowCoorAnimeList();
         return view('index', [
             'animes' => $animes,
         ]);

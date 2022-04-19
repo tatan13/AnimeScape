@@ -14,6 +14,8 @@ class User extends Authenticatable
     use HasFactory;
     use Notifiable;
 
+    public const SEARCH_COLUMN = 'uid';
+
     private const SEX = [
         0 => [ 'label' => '女性' ],
         1 => [ 'label' => '男性' ],
@@ -43,6 +45,11 @@ class User extends Authenticatable
     protected $fillable = [
         'uid',
         'password',
+        'email',
+        'onewordcomment',
+        'twitter',
+        'birth',
+        'sex',
     ];
 
     /**
@@ -63,6 +70,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * レビューしているアニメを取得
+     */
+    public function reviewAnimes()
+    {
+        return $this->belongsToMany('App\Models\Anime', 'user_reviews', 'user_id', 'anime_id')
+                    ->withTimestamps();
+
+    }
 
     /**
      * ユーザーのレビューを取得
@@ -98,20 +115,20 @@ class User extends Authenticatable
 
     /**
      * 引数に指定されたユーザーをお気に入り登録しているか調べる
-     * @param string $uid
+     * @param int $user_id
      */
-    public function isLikeUser($uid)
+    public function isLikeUser($user_id)
     {
-        return $this->userLikeUsers()->where('uid', $uid)->exists();
+        return $this->userLikeUsers()->where('liked_user_id', $user_id)->exists();
     }
 
     /**
      * 引数に指定されたユーザーにお気に入り登録されているか調べる
-     * @param string $uid
+     * @param int $user_id
      */
-    public function isLikedUser($uid)
+    public function isLikedUser($user_id)
     {
-        return $this->userLikedUsers()->where('uid', $uid)->exists();
+        return $this->userLikedUsers()->where('like_user_id', $user_id)->exists();
     }
 
     /**

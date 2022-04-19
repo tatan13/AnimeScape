@@ -10,7 +10,7 @@
     <h3>お気に入り声優</h3>
     <div id="like_casts">
         <ul>
-            @foreach ($like_casts as $cast)
+            @foreach ($like_cast_list as $cast)
                 <li>
                     <a href="{{ route('cast', ['id' => $cast->id]) }}">{{ $cast->name }}</a>
                 </li>

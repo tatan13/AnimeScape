@@ -24,7 +24,7 @@ Route::get('/cast/{id}', [App\Http\Controllers\CastController::class, 'show'])->
 
 Route::get('/user_information/{uid}', [App\Http\Controllers\UserController::class, 'show'])->name('user');
 
-Route::get('/user_information/{uid}/will_watch_list', [App\Http\Controllers\UserController::class, 'showWillWatchList'])->name('user.will_watch_list');
+Route::get('/user_information/{uid}/will_watch_anime_list', [App\Http\Controllers\UserController::class, 'showWillWatchAnimeList'])->name('user.will_watch_anime_list');
 
 Route::get('/user_information/{uid}/like_user_list', [App\Http\Controllers\UserController::class, 'showLikeUserList'])->name('user.like_user_list');
 
@@ -40,11 +40,7 @@ Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])
 
 Route::post('/contact', [App\Http\Controllers\ContactController::class, 'post'])->name('contact.post');
 
-Route::get('/all_statistics/{category}', [App\Http\Controllers\StatisticsController::class, 'showAll'])->name('all_statistics');
-
-Route::get('/year_statistics/{category}', [App\Http\Controllers\StatisticsController::class, 'showYear'])->name('year_statistics');
-
-Route::get('/coor_statistics/{category}', [App\Http\Controllers\StatisticsController::class, 'showCoor'])->name('coor_statistics');
+Route::get('/anime_statistics', [App\Http\Controllers\StatisticsController::class, 'show'])->name('anime_statistics');
 
 Route::get('/modify/anime/{id}', [App\Http\Controllers\ModifyController::class, 'modifyAnimeShow'])->name('modify.anime.show');
 
@@ -66,9 +62,9 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/user_information/{uid}/unlike', [App\Http\Controllers\UserController::class, 'unlike'])->name('user.unlike');
 
-    Route::get('/user_information/{uid}/config', [App\Http\Controllers\UserController::class, 'config'])->name('user.config');
+    Route::get('/user_config', [App\Http\Controllers\UserController::class, 'config'])->name('user.config');
 
-    Route::post('/user_information/{uid}/config', [App\Http\Controllers\UserController::class, 'updateConfig'])->name('user.config.update');
+    Route::post('/user_config', [App\Http\Controllers\UserController::class, 'updateConfig'])->name('user.config.update');
 
     Route::get('/anime/{id}/score', [App\Http\Controllers\AnimeController::class, 'score'])->name('anime.score');
 

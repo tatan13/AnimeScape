@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateConfig extends FormRequest
+class ConfigRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,10 @@ class UpdateConfig extends FormRequest
     {
         return [
             'email' => 'email|string|nullable',
-            'one_comment' => 'max:40|string|nullable',
+            'onewordcomment' => 'max:40|string|nullable',
+            'twitter' => 'nullable|string',
             'birth' => 'integer|nullable',
+            'sex' => 'nullable|bool',
         ];
     }
 
@@ -40,7 +42,7 @@ class UpdateConfig extends FormRequest
         return [
           'email.email' => '有効なメールアドレスを指定してください。',
           'email.string' => 'メールアドレスには文字列を入力してください。',
-          'one_comment.string' => '一言には文字列を入力してください。',
+          'onewordcomment.string' => '一言には文字列を入力してください。',
           'birth.integer' => '整数で入力してください。',
         ];
     }
