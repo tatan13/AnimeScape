@@ -32,7 +32,7 @@
                     <th>入力済み</th>
                     <th>入力ユーザー</th>
                 </tr>
-                @foreach ($anime_list as $anime)
+                @foreach ($user_anime_statistics as $anime)
                     <tr>
                         <td><a href="{{ route('anime', ['id' => $anime->id]) }}">{{ $anime->title }}</a>
                         </td>

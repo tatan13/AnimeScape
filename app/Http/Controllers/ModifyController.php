@@ -7,9 +7,7 @@ use App\Services\ModifyService;
 use App\Services\AnimeService;
 use App\Services\CastService;
 use App\Services\ExceptionService;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ModifyController extends Controller
 {
@@ -23,8 +21,7 @@ class ModifyController extends Controller
         AnimeService $animeService,
         CastService $castService,
         ExceptionService $exceptionService
-    )
-    {
+    ) {
         $this->modifyService = $modifyService;
         $this->animeService = $animeService;
         $this->castService = $castService;
@@ -32,7 +29,7 @@ class ModifyController extends Controller
     }
 
     /**
-     * アニメの基本情報修正画面を表示
+     * アニメの基本情報修正申請ページを表示
      *
      * @param int $id
      * @return \Illuminate\View\View
@@ -46,10 +43,10 @@ class ModifyController extends Controller
     }
 
     /**
-     * アニメの基本情報修正依頼をデータベースに保存し，元の画面にリダイレクト
+     * アニメの基本情報修正申請をデータベースに保存し，元の画面にリダイレクト
      *
      * @param int $id
-     * @param Request $request
+     * @param ModifyAnimeRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function modifyAnimePost(ModifyAnimeRequest $request, $id)
@@ -65,7 +62,7 @@ class ModifyController extends Controller
      * アニメの基本情報修正を処理し，元の画面にリダイレクト
      *
      * @param int $id
-     * @param Request $request
+     * @param ModifyAnimeRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function modifyAnimeUpdate(int $id, ModifyAnimeRequest $request)
@@ -77,7 +74,7 @@ class ModifyController extends Controller
     }
 
     /**
-     * アニメの基本情報修正依頼を却下し，元の画面にリダイレクト
+     * アニメの基本情報修正申請を却下し，元の画面にリダイレクト
      *
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
@@ -91,23 +88,22 @@ class ModifyController extends Controller
     }
 
     /**
-     * アニメ，声優の情報修正依頼リストを表示
+     * アニメ，声優の情報修正申請リストを表示
      * @return \Illuminate\View\View
      */
     public function modifyListShow()
     {
         $this->exceptionService->render404IfNotRootUser();
-        $modify_animes = $this->modifyService->getModifyAnimeList();
-        //アニメに出演する声優の情報修正依頼リスト
-        $modify_occupations_list = $this->modifyService->getModifyOccupationsList();
+        $modify_anime_list = $this->modifyService->getModifyAnimeListWithAnime();
+        $anime_list = $this->animeService->getAnimeListWithModifyOccupationList();
         return view('modify_list', [
-            'modify_animes' => $modify_animes,
-            'modify_occupations_list' => $modify_occupations_list,
+            'modify_anime_list' => $modify_anime_list,
+            'anime_list' => $anime_list,
         ]);
     }
 
     /**
-     * アニメの出演声優情報修正依頼画面を表示
+     * アニメの出演声優情報修正申請ページを表示
      *
      * @param int $id
      * @return \Illuminate\View\View

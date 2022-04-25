@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Anime extends Model
 {
@@ -21,17 +23,31 @@ class Anime extends Model
     public const TYPE_COUNT = 'count';
 
     private const COOR = [
-        Self::WINTER => [ 'label' => '冬' ],
-        Self::SPRING => [ 'label' => '春' ],
-        Self::SUMMER => [ 'label' => '夏' ],
-        Self::AUTUMN => [ 'label' => '秋' ],
+        self::WINTER => [ 'label' => '冬' ],
+        self::SPRING => [ 'label' => '春' ],
+        self::SUMMER => [ 'label' => '夏' ],
+        self::AUTUMN => [ 'label' => '秋' ],
     ];
 
     private const CATEGORY = [
-        Self::TYPE_MEDIAN => ['label' => '中央値' ],
-        Self::TYPE_AVERAGE => ['label' => '平均値' ],
-        Self::TYPE_COUNT => ['label' => 'データ数' ],
+        self::TYPE_MEDIAN => ['label' => '中央値' ],
+        self::TYPE_AVERAGE => ['label' => '平均値' ],
+        self::TYPE_COUNT => ['label' => 'データ数' ],
     ];
+
+    protected $fillable = [
+        'title',
+        'title_short',
+        'year',
+        'coor',
+        'public_url',
+        'twitter',
+        'hash_tag',
+        'company',
+        'city_name',
+    ];
+
+    protected $appends = ['year_coor'];
 
     /**
      * クールをラベルに変換
@@ -67,7 +83,7 @@ class Anime extends Model
     /**
      * 引数に指定されたカテゴリーをラベルに変換
      *
-     * @param int $coor
+     * @param string $category
      * @return string
      */
     public static function getCategoryLabel($category)
@@ -80,7 +96,19 @@ class Anime extends Model
     }
 
     /**
+     * 年とクールを結合した値を取得
+     *
+     * @return int
+     */
+    public function getYearCoorAttribute()
+    {
+        return (int)($this->attributes['year'] . $this->attributes['coor']);
+    }
+
+    /**
      * レビューユーザーを取得
+     *
+     * @return BelongsToMany
      */
     public function reviewUsers()
     {
@@ -90,6 +118,8 @@ class Anime extends Model
 
     /**
      * ユーザーのレビューを取得
+     *
+     * @return HasMany
      */
     public function userReviews()
     {
@@ -98,6 +128,8 @@ class Anime extends Model
 
     /**
      * 声優の所属アニメ情報を取得
+     *
+     * @return HasMany
      */
     public function occupations()
     {
@@ -106,6 +138,8 @@ class Anime extends Model
 
     /**
      * アニメの基本情報修正依頼を取得
+     *
+     * @return HasMany
      */
     public function modifyAnimes()
     {
@@ -114,6 +148,8 @@ class Anime extends Model
 
     /**
      * 出演している声優を取得
+     *
+     * @return BelongsToMany
      */
     public function actCasts()
     {
@@ -122,6 +158,8 @@ class Anime extends Model
 
     /**
      * 出演声優情報修正依頼を取得
+     *
+     * @return HasMany
      */
     public function modifyOccupations()
     {
@@ -130,17 +168,28 @@ class Anime extends Model
 
     /**
      * 声優が引数に指定されたアニメに出演しているかを調べる
-     * 
+     *
      * @param string $cast_name
+     * @return bool
      */
     public function isActCast($cast_name)
     {
         return $this->actCasts()->where('name', $cast_name)->exists();
     }
 
+    /**
+     * yearのクエリスコープ
+     *
+     * @param int $year
+     */
     public function scopeWhereYear($query, $year)
     {
         $query->where('year', $year);
+    }
+
+    public function scopeWhereBetWeenYear($query, $bottom_year, $top_year)
+    {
+        $query->whereBetWeen('year', [$bottom_year ?? 0, $top_year ?? 3000]);
     }
 
     public function scopeWhereCoor($query, $coor)
@@ -148,8 +197,13 @@ class Anime extends Model
         $query->where('coor', $coor);
     }
 
-    public function scopeWhereCount($query, $count)
+    public function scopeWhereAboveCount($query, $count)
     {
         $query->where('count', '>=', $count ?? 0);
+    }
+
+    public function scopeWhereAboveMedian($query, $median)
+    {
+        $query->where('median', '>=', $median ?? 0);
     }
 }

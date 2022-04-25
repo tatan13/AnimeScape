@@ -39,6 +39,7 @@ class FixCommand extends Command
      */
     public function handle()
     {
+        /*
         $animes = Anime::all();
 
         foreach ($animes as $anime) {
@@ -50,5 +51,6 @@ class FixCommand extends Command
             $anime->count = $user_reviews->count();
             $anime->save();
         }
+        */
     }
 }

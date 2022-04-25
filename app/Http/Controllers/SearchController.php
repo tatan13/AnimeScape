@@ -11,8 +11,7 @@ class SearchController extends Controller
 
     public function __construct(
         SearchService $searchService,
-    )
-    {
+    ) {
         $this->searchService = $searchService;
     }
 

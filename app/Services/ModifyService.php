@@ -2,35 +2,42 @@
 
 namespace App\Services;
 
-use App\Models\Anime;
-use App\Models\Cast;
 use App\Models\ModifyAnime;
 use App\Models\ModifyOccupation;
-use App\Models\UserReview;
-use App\Http\Requests\ModifyAnimeRequest;
-use App\Repositories\AnimeRepository;
-use App\Repositories\CastRepository;
+use App\Models\Anime;
+use App\Models\Cast;
 use App\Repositories\ModifyAnimeRepository;
 use App\Repositories\ModifyOccupationRepository;
+use App\Repositories\AnimeRepository;
+use App\Repositories\CastRepository;
 use Illuminate\Http\Request;
+use App\Http\Requests\ModifyAnimeRequest;
 use App\Http\Requests\ReviewRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Collection;
 
 class ModifyService
 {
-    private $modifyAnimeRepository;
-    private $modifyOccupationRepository;
-    private $animeRepository;
-    private $castRepository;
+    private ModifyAnimeRepository $modifyAnimeRepository;
+    private ModifyOccupationRepository $modifyOccupationRepository;
+    private AnimeRepository $animeRepository;
+    private CastRepository $castRepository;
 
+    /**
+     * コンストラクタ
+     *
+     * @param ModifyAnimeRepository $modifyAnimeRepository
+     * @param ModifyOccupationRepository $modifyOccupationRepository
+     * @param AnimeRepository $animeRepository
+     * @param CastRepository $castRepository
+     * @return void
+     */
     public function __construct(
         ModifyAnimeRepository $modifyAnimeRepository,
         ModifyOccupationRepository $modifyOccupationRepository,
         AnimeRepository $animeRepository,
         CastRepository $castRepository,
-    )
-    {
+    ) {
         $this->modifyAnimeRepository = $modifyAnimeRepository;
         $this->modifyOccupationRepository = $modifyOccupationRepository;
         $this->animeRepository = $animeRepository;
@@ -38,7 +45,10 @@ class ModifyService
     }
 
     /**
+     * idからアニメの基本情報修正申請データを取得
      *
+     * @param int $id
+     * @return ModifyAnime
      */
     public function getModifyAnime($id)
     {
@@ -46,7 +56,11 @@ class ModifyService
     }
 
     /**
+     * アニメの基本情報修正申請データを作成
      *
+     * @param Anime $anime
+     * @param ModifyAnimeRequest $request
+     * @return void
      */
     public function createModifyAnime(Anime $anime, ModifyAnimeRequest $request)
     {
@@ -54,29 +68,26 @@ class ModifyService
     }
 
     /**
+     * アニメの基本情報修正申請データからアニメの基本情報を更新
      *
+     * @param ModifyAnime $modify_anime
+     * @param ModifyAnimeRequest $request
+     * @return void
      */
     public function updateAnimeInfoBy(ModifyAnime $modify_anime, ModifyAnimeRequest $request)
     {
         $anime = $this->modifyAnimeRepository->getAnime($modify_anime);
-        $anime->title = $request->title;
-        $anime->title_short = $request->title_short;
-        $anime->year = $request->year;
-        $anime->coor = $request->coor;
-        $anime->public_url = $request->public_url;
-        $anime->twitter = $request->twitter;
-        $anime->hash_tag = $request->hash_tag;
-        $anime->sequel = $request->sequel;
-        $anime->company = $request->company;
-        $anime->city_name = $request->city_name;
-        DB::transaction(function () use ($anime, $modify_anime) {
-            $this->animeRepository->update($anime);
+        DB::transaction(function () use ($anime, $modify_anime, $request) {
+            $this->animeRepository->updateInformation($anime, $request);
             $this->modifyAnimeRepository->delete($modify_anime);
         });
     }
 
     /**
+     * アニメの基本情報修正申請データを削除
      *
+     * @param ModifyAnime $modify_anime
+     * @return void
      */
     public function deleteModifyAnime(ModifyAnime $modify_anime)
     {
@@ -84,23 +95,20 @@ class ModifyService
     }
 
     /**
+     * アニメの基本情報修正申請データリストをアニメと共に取得
      *
+     * @return Collection<int,ModifyAnime> | Collection<null>
      */
-    public function getModifyAnimeList()
+    public function getModifyAnimeListWithAnime()
     {
-        return $this->modifyAnimeRepository->getAll();
+        return $this->modifyAnimeRepository->getModifyAnimeListWithAnime();
     }
 
     /**
+     * アニメからアニメの出演声優変更申請データリストを取得
      *
-     */
-    public function getModifyOccupationsList()
-    {
-        return $this->modifyOccupationRepository->getModifyOccupationsList();
-    }
-
-    /**
-     *
+     * @param Anime $anime
+     * @return Collection<int,ModifyOccupation> | Collection<null>
      */
     public function getModifyOccupationListOfAnime(Anime $anime)
     {
@@ -108,7 +116,10 @@ class ModifyService
     }
 
     /**
+     * アニメの出演声優変更申請データを削除
      *
+     * @param Anime $anime
+     * @return void
      */
     public function deleteModifyOccupationsOfAnime(Anime $anime)
     {
@@ -116,7 +127,11 @@ class ModifyService
     }
 
     /**
+     * アニメの出演声優変更申請データを作成
      *
+     * @param Anime $anime
+     * @param Request $request
+     * @return void
      */
     public function createModifyOccupations(Anime $anime, Request $request)
     {
@@ -129,31 +144,46 @@ class ModifyService
         }
     }
 
+    /**
+     * アニメの出演声優を更新
+     *
+     * @param Anime $anime
+     * @param Request $request
+     * @return void
+     */
     public function updateAnimeCastsInfo(Anime $anime, Request $request)
     {
         $req_casts = $this->filterRequest($request);
         DB::transaction(function () use ($anime, $req_casts) {
             $this->animeRepository->deleteOccupations($anime);
             foreach ($req_casts as $req_cast) {
-                $cast = $this->castRepository->getCastByName($req_cast);
-                if (!isset($cast)) {
-                    $cast = new Cast();
-                    $cast->name = $req_cast;
-                    $this->castRepository->update($cast);
-                }
+                $cast = $this->castRepository->getCastByName($req_cast) ?? $this->castRepository->create($req_cast);
                 $this->castRepository->createOccupation($cast, $anime);
             }
             $this->animeRepository->deleteModifyOccupationsOfAnime($anime);
         });
     }
 
+    /**
+     * リクエストのトークンとnull値を削除
+     *
+     * @param Request $request
+     * @return array<int, string>
+     */
     public function filterRequest(Request $request)
     {
         $request = $request->except('_token');
         return array_filter($request);
     }
 
-    public function isContainCastName(Collection $list, String $cast_name)
+    /**
+     * コレクション内に$cast_nameが含まれているか判定
+     *
+     * @param Collection<int,ModifyOccupation> $list
+     * @param string $cast_name
+     * @return bool
+     */
+    public function isContainCastName(Collection $list, string $cast_name)
     {
         return $list->contains('cast_name', $cast_name);
     }

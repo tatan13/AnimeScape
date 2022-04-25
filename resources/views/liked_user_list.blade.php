@@ -27,7 +27,7 @@
                             {{ $liked_user->sex_label }}
                         </td>
                         <td>
-                            {{ $liked_user->userReviews->isEmpty()? '-': $liked_user->userReviews->first()->updated_at }}
+                            {{ $liked_user->userReviews->isEmpty()? '-': $liked_user->latestUserReviewUpdatedAt->updated_at }}
                         </td>
                     </tr>
                 @endforeach

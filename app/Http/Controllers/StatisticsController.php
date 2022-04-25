@@ -18,7 +18,6 @@ class StatisticsController extends Controller
      * アニメのランキングを表示
      *
      * @param Request $request
-     * @param int $category
      * @return \Illuminate\View\View
      */
     public function show(Request $request)
@@ -26,7 +25,7 @@ class StatisticsController extends Controller
         $animes = $this->animeService->getAnimeListFor($request);
         return view('anime_statistics', [
             'animes' => $animes,
-            'category' => $request->category,            
+            'category' => $request->category,
             'year' => $request->year,
             'coor' => $request->coor,
             'count' => (int)$request->count,

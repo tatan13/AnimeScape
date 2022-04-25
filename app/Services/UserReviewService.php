@@ -2,35 +2,42 @@
 
 namespace App\Services;
 
-use App\Models\Anime;
 use App\Models\UserReview;
 use App\Models\User;
+use App\Models\Anime;
 use App\Repositories\UserReviewRepository;
-use App\Repositories\UserRepository;
 use App\Repositories\AnimeRepository;
-use App\Http\Requests\ReviewRequest;
 use Illuminate\Http\Request;
+use App\Http\Requests\ReviewRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserReviewService
 {
-    private $userReviewRepository;
-    private $animeRepository;
+    private UserReviewRepository $userReviewRepository;
+    private AnimeRepository $animeRepository;
 
+    /**
+     * コンストラクタ
+     *
+     * @param UserReviewRepository $userReviewRepository
+     * @param AnimeRepository $animeRepository
+     * @return void
+     */
     public function __construct(
         UserReviewRepository $userReviewRepository,
-        UserRepository $userRepository,
         AnimeRepository $animeRepository
-    )
-    {
+    ) {
         $this->userReviewRepository = $userReviewRepository;
-        $this->userRepository = $userRepository;
         $this->animeRepository = $animeRepository;
     }
 
     /**
+     * idからユーザーレビューを取得
      *
+     * @param int $id
+     * @return UserReview
      */
     public function getUserReview($id)
     {
@@ -38,43 +45,36 @@ class UserReviewService
     }
 
     /**
+     * アニメに紐づくユーザーレビューを取得
      *
+     * @param Anime $anime
+     * @return Collection<int,UserReview> | Collection<null>
      */
     public function getUserReviewsOfAnime(Anime $anime)
     {
         return $this->animeRepository->getUserReviewsOfAnime($anime);
     }
 
-    public function getLatestUserReviewsOfAnime(Anime $anime)
-    {
-        return $this->animeRepository->getLatestUserReviews($anime);
-    }
-
     /**
+     * アニメに紐づくユーザーレビューを降順に並び替えて取得
      *
+     * @param Anime $anime
+     * @return Collection<int,UserReview> | Collection<null>
      */
-    public function getUserReviewsOfUserFor(User $user, Request $request)
+    public function getLatestUserReviewsOfAnimeWithUser(Anime $anime)
     {
-        if (is_null($request->year)) {
-            return $this->userRepository->getUserReviewsForAll($user);
-        }
-        if (!is_null($request->year) && is_null($request->coor)) {
-            return $this->userRepository->getUserReviewsForEachYear($user, $request);
-        }
-        if (!is_null($request->year) && !is_null($request->coor)) {
-
-            return $this->userRepository->getUserReviewsForEachCoor($user, $request);
-        }
+        return $this->animeRepository->getLatestUserReviewsWithUser($anime);
     }
 
     /**
      * ログインユーザーのアニメレビューを取得
+     *
      * @param Anime $anime
-     * @return UserReview
+     * @return UserReview | null
      */
     public function getMyReview(Anime $anime)
     {
-        if (Auth::check()){
+        if (Auth::check()) {
             $my_review = $this->animeRepository->getMyReview($anime) ?? new UserReview();
         } else {
             $my_review = null;
@@ -82,6 +82,12 @@ class UserReviewService
         return $my_review;
     }
 
+    /**
+     * ログインユーザーのアニメに紐づくユーザーレビューを作成または更新
+     * @param Anime $anime
+     * @param ReviewRequest $submit_score
+     * @return void
+     */
     public function createOrUpdateMyReview(Anime $anime, ReviewRequest $submit_score)
     {
         $my_review = $this->animeRepository->getMyReview($anime);

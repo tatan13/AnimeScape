@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ModifyAnime extends Model
 {
@@ -25,6 +26,8 @@ class ModifyAnime extends Model
 
     /**
      * アニメを取得
+     *
+     * @return BelongsTo
      */
     public function anime()
     {

@@ -19,7 +19,6 @@ return new class extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('score')->nullable();
             $table->string('one_word_comment', 400)->nullable();
-            //削除
             $table->text('long_word_comment')->nullable();
             $table->boolean('spoiler')->nullable();
             $table->boolean('watch')->default(0);

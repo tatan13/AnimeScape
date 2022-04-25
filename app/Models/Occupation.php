@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Occupation extends Model
 {
@@ -11,6 +12,8 @@ class Occupation extends Model
 
     /**
      * 声優を取得
+     *
+     * @return BelongsTo
      */
     public function cast()
     {
@@ -19,6 +22,8 @@ class Occupation extends Model
 
     /**
      * アニメを取得
+     *
+     * @return BelongsTo
      */
     public function anime()
     {

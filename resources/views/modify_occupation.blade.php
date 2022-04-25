@@ -44,8 +44,8 @@
     </div>
     </div>
 @endsection
-
 @section('vue.js')
+    <script src="{{ asset('js/app.js') }}"></script>
     <script>
         const vue = new Vue({
             el: '#addForm',

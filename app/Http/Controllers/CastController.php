@@ -17,8 +17,7 @@ class CastController extends Controller
         CastService $castService,
         AnimeService $animeService,
         UserService $userService,
-    )
-    {
+    ) {
         $this->castService = $castService;
         $this->animeService = $animeService;
         $this->userService = $userService;

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UserLikeUser extends Model
 {
@@ -11,6 +12,8 @@ class UserLikeUser extends Model
 
     /**
      * ユーザーの取得
+     *
+     * @return BelongsTo
      */
     public function user()
     {
@@ -19,6 +22,8 @@ class UserLikeUser extends Model
 
     /**
      * 被お気に入りユーザーの取得
+     *
+     * @return BelongsTo
      */
     public function likedUser()
     {

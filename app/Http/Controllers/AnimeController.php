@@ -18,8 +18,7 @@ class AnimeController extends Controller
         AnimeService $animeService,
         UserReviewService $userReviewService,
         CastService $castService,
-    )
-    {
+    ) {
         $this->animeService = $animeService;
         $this->userReviewService = $userReviewService;
         $this->castService = $castService;
@@ -34,7 +33,7 @@ class AnimeController extends Controller
     public function show($id)
     {
         $anime = $this->animeService->getAnime($id);
-        $user_reviews = $this->userReviewService->getLatestUserReviewsOfAnime($anime);
+        $user_reviews = $this->userReviewService->getLatestUserReviewsOfAnimeWithUser($anime);
         $anime_casts = $this->castService->getActCasts($anime);
         $my_review = $this->userReviewService->getMyReview($anime);
         return view('anime', [

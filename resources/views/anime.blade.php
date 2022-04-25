@@ -31,12 +31,6 @@
                                 {{ $anime->year }}年{{ $anime->coor_label }}クール
                             </td>
                         </tr>
-                        <tr id="title_short">
-                            <th>略称</th>
-                            <td>
-                                {{ $anime->title_short }}
-                            </td>
-                        </tr>
                         <tr id="twitter_account">
                             <th>ツイッターアカウント</th>
                             <td>

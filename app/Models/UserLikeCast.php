@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UserLikeCast extends Model
 {
@@ -11,6 +12,8 @@ class UserLikeCast extends Model
 
     /**
      * ユーザーの取得
+     *
+     * @return BelongsTo
      */
     public function user()
     {
@@ -19,6 +22,8 @@ class UserLikeCast extends Model
 
     /**
      * 声優の取得
+     *
+     * @return BelongsTo
      */
     public function cast()
     {

@@ -8,7 +8,7 @@ class ExceptionService
 {
     /**
      * ルートユーザーでなければ404ページを表示
-     * 
+     *
      * @return void
      */
     public function render404IfNotRootUser()

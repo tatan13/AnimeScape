@@ -43,3 +43,6 @@
     </div>
     </div>
 @endsection
+@section('vue.js')
+    <script src="{{ asset('js/app.js') }}"></script>
+@endsection

@@ -15,57 +15,98 @@ class StatisticsTest extends TestCase
 
     private Anime $anime1;
     private Anime $anime2;
+    private Anime $anime3;
+    private Anime $anime4;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->anime1 = new Anime();
-        $this->anime1->title = '霊剣山 星屑たちの宴';
-        $this->anime1->title_short = '霊剣山 星屑たちの宴';
-        $this->anime1->year = 2022;
-        $this->anime1->coor = 1;
-        $this->anime1->median = 69;
-        $this->anime1->average = 76;
-        $this->anime1->count = 5;
-        $this->anime1->save();
-
-        parent::setUp();
-        $this->anime2 = new Anime();
-        $this->anime2->title = '霊剣山 叡智への資格';
-        $this->anime2->title_short = '霊剣山 叡智への資格';
-        $this->anime2->year = 2022;
-        $this->anime2->coor = 1;
-        $this->anime2->median = 70;
-        $this->anime2->average = 70;
-        $this->anime2->count = 1;
-        $this->anime2->save();
+        $this->anime1 = Anime::factory()->create([
+            'year' => 2022,
+            'coor' => 1,
+            'median' => 75,
+            'average' => 70,
+            'count' => 5,
+        ]);
+        $this->anime2 = Anime::factory()->create([
+            'year' => 2022,
+            'coor' => 1,
+            'median' => 74,
+            'average' => 73,
+            'count' => 1,
+        ]);
+        $this->anime3 = Anime::factory()->create([
+            'year' => 2021,
+            'coor' => 2,
+            'median' => 73,
+            'average' => 75,
+            'count' => 2,
+        ]);
+        $this->anime4 = Anime::factory()->create([
+            'year' => 2022,
+            'coor' => 2,
+            'median' => 72,
+            'average' => 77,
+            'count' => 3,
+        ]);
     }
 
     /**
-     * すべてのアニメのランキングページのテスト
+     * すべてのアニメの中央値順ランキングページのテスト
      *
      * @test
      * @return void
      */
-    public function testAllStatisticsView()
+    public function testAllStatisticsMedianView()
     {
-        $response = $this->get('/all_statistics/1');
-        $response->assertStatus(200);
-        $response->assertSee('（中央値順）');
-        $check = array('霊剣山 叡智への資格', 70, '霊剣山 星屑たちの宴', 69);
-        $response->assertSeeInOrder($check);
-        $this->get(route('all_statistics', ['count' => 5, 'category' => 1]))
-        ->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（中央値順）');
+        $response = $this->get(route('anime_statistics', ['category' => Anime::TYPE_MEDIAN]));
+        $response->assertSeeInOrder([
+            '（中央値順）',
+            $this->anime1->title,
+            75,
+            $this->anime2->title,
+            74,
+            $this->anime3->title,
+            73,
+            $this->anime4->title,
+            72
+        ]);
+    }
 
-        $check = array('霊剣山 星屑たちの宴', 76, '霊剣山 叡智への資格', 70);
-        $this->get('/all_statistics/2')->assertSeeInOrder($check)->assertSee('（平均値順）');
-        $this->get(route('all_statistics', ['count' => 5, 'category' => 2]))
-        ->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（中央値順）');
+    /**
+     * すべてのアニメの平均値順ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAllStatisticsAverageView()
+    {
+        $response = $this->get(route('anime_statistics', ['category' => Anime::TYPE_AVERAGE]));
+        $response->assertSeeInOrder([
+            '（平均値順）',
+            $this->anime4->title,
+            $this->anime3->title,
+            $this->anime2->title,
+            $this->anime1->title
+        ]);
+    }
 
-        $check = array('霊剣山 星屑たちの宴', 76, '霊剣山 叡智への資格', 70);
-        $this->get('/all_statistics/3')->assertSeeInOrder($check)->assertSee('（データ数順）');
-        $this->get(route('all_statistics', ['count' => 5, 'category' => 3]))
-        ->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（データ数順）');
+    /**
+     * すべてのアニメのデータ数順ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAllStatisticsCountView()
+    {
+        $response = $this->get(route('anime_statistics', ['count' => 2, 'category' => Anime::TYPE_COUNT]));
+        $response->assertSeeInOrder([
+            '（データ数順）',
+            $this->anime1->title,
+            $this->anime4->title,
+            $this->anime3->title
+        ]);
+        $response->assertDontSee($this->anime2->title);
     }
 
     /**
@@ -76,25 +117,14 @@ class StatisticsTest extends TestCase
      */
     public function testYearStatisticsView()
     {
-        $response = $this->get(route('year_statistics', ['category' => 1, 'year' => 2022]));
-        $response->assertStatus(200);
-        $response->assertSee('（中央値順）');
-        $check = array('霊剣山 叡智への資格', 70, '霊剣山 星屑たちの宴', 69);
-        $response->assertSeeInOrder($check);
-        $this->get(route('year_statistics', ['count' => 5, 'category' => 1, 'year' => 2022]))
-        ->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（中央値順）');
-
-        $check = array('霊剣山 星屑たちの宴', 76, '霊剣山 叡智への資格', 70);
-        $this->get(route('year_statistics', ['category' => 2, 'year' => 2022]))
-        ->assertSeeInOrder($check)->assertSee('（平均値順）');
-        $this->get(route('year_statistics', ['count' => 5, 'category' => 2, 'year' => 2022]))
-        ->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（中央値順）');
-
-        $check = array('霊剣山 星屑たちの宴', 76, '霊剣山 叡智への資格', 70);
-        $this->get(route('year_statistics', ['category' => 3, 'year' => 2022]))
-        ->assertSeeInOrder($check)->assertSee('（データ数順）');
-        $this->get(route('year_statistics', ['count' => 5, 'category' => 3, 'year' => 2022]))
-        ->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（データ数順）');
+        $response = $this->get(route('anime_statistics', ['category' => Anime::TYPE_MEDIAN, 'year' => 2022]));
+        $response->assertSeeInOrder([
+            '（中央値順）',
+            $this->anime1->title,
+            $this->anime2->title,
+            $this->anime4->title
+        ]);
+        $response->assertDontSee($this->anime3->title);
     }
 
     /**
@@ -105,24 +135,26 @@ class StatisticsTest extends TestCase
      */
     public function testCoorStatisticsView()
     {
-        $response = $this->get(route('coor_statistics', ['category' => 1, 'year' => 2022, 'coor' => 1]));
-        $response->assertStatus(200);
-        $response->assertSee('（中央値順）');
-        $check = array('霊剣山 叡智への資格', 70, '霊剣山 星屑たちの宴', 69);
-        $response->assertSeeInOrder($check);
-        $this->get(route('coor_statistics', ['count' => 5, 'category' => 1, 'year' => 2022, 'coor' => 1]))
-        ->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（中央値順）');
+        $response = $this->get(route('anime_statistics', [
+            'category' => Anime::TYPE_MEDIAN, 'year' => 2022, 'coor' => Anime::WINTER
+        ]));
+        $response->assertSeeInOrder([
+            '（中央値順）',
+            $this->anime1->title,
+            $this->anime2->title
+        ]);
+        $response->assertDontSee($this->anime4->title);
+    }
 
-        $check = array('霊剣山 星屑たちの宴', 76, '霊剣山 叡智への資格', 70);
-        $this->get(route('coor_statistics', ['category' => 2, 'year' => 2022, 'coor' => 1]))
-        ->assertSeeInOrder($check)->assertSee('（平均値順）');
-        $this->get(route('coor_statistics', ['count' => 5, 'category' => 2, 'year' => 2022, 'coor' => 1]))
-        ->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（中央値順）');
-
-        $check = array('霊剣山 星屑たちの宴', 76, '霊剣山 叡智への資格', 70);
-        $this->get(route('coor_statistics', ['category' => 3, 'year' => 2022, 'coor' => 1]))
-        ->assertSeeInOrder($check)->assertSee('（データ数順）');
-        $this->get(route('coor_statistics', ['count' => 5, 'category' => 3, 'year' => 2022, 'coor' => 1]))
-        ->assertDontSee('霊剣山 叡智への資格')->assertSee('霊剣山 星屑たちの宴')->assertSee('（データ数順）');
+    /**
+     * クール別のアニメのランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testStatisticsExceptionCategory()
+    {
+        $response = $this->get(route('anime_statistics', ['category' => 'exception']));
+        $response->assertStatus(404);
     }
 }
