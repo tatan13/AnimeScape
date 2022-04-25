@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ContactForm extends FormRequest
+class ModifyAnimeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,16 @@ class ContactForm extends FormRequest
     public function rules()
     {
         return [
-            'comment' => 'required|string',
-            'auth' => 'regex:/にんしょう/',
+            'title' => 'required|string',
+            'title_short'  => 'nullable|string',
+            'year'  => 'required|integer',
+            'coor' => 'required|integer',
+            'public_url'  => 'nullable|string',
+            'twitter' => 'nullable|string',
+            'hash_tag' => 'nullable|string',
+            'sequel'  => 'nullable|integer',
+            'company'  => 'nullable|string',
+            'city_name'  => 'nullable|string',
         ];
     }
 
@@ -37,9 +45,6 @@ class ContactForm extends FormRequest
     public function messages()
     {
         return [
-          'comment.required' => '要望内容を入力してください。',
-          'comment.string' => '要望内容には文字列を入力してください。',
-          'auth.regex' => '「にんしょう」と入力してください。'
         ];
     }
 }

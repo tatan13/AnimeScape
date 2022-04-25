@@ -31,12 +31,6 @@
                                 {{ $anime->year }}年{{ $anime->coor_label }}クール
                             </td>
                         </tr>
-                        <tr id="title_short">
-                            <th>略称</th>
-                            <td>
-                                {{ $anime->title_short }}
-                            </td>
-                        </tr>
                         <tr id="twitter_account">
                             <th>ツイッターアカウント</th>
                             <td>
@@ -78,10 +72,10 @@
                             <th>最低点</th>
                             <td>{{ $anime->min }}</td>
                         </tr>
-                        @if (isset($myuser_score))
-                            <tr id="myuser_score">
+                        @if (isset($my_review->score))
+                            <tr id="my_score">
                                 <th>つけた得点</th>
-                                <td>{{ $myuser_score }}</td>
+                                <td>{{ $my_review->score }}</td>
                             </tr>
                         @endif
                     </tbody>
@@ -92,10 +86,10 @@
     <div id="toContents" class="d-grid gap-2">
         @if (Auth::check())
             <button type="button" class="btn btn-primary"
-                onclick="location.href='{{ route('score', ['id' => $anime->id]) }}'">このアニメに得点やコメントを登録する</button>
+                onclick="location.href='{{ route('anime.score', ['id' => $anime->id]) }}'">このアニメに得点やコメントを登録する</button>
         @else
             <button type="button" class="btn btn-primary"
-                onclick="location.href='{{ route('score', ['id' => $anime->id]) }}'">ログインしてこのアニメに得点やコメントを登録する</button>
+                onclick="location.href='{{ route('anime.score', ['id' => $anime->id]) }}'">ログインしてこのアニメに得点やコメントを登録する</button>
         @endif
     </div>
     <div id="cast_information">
@@ -106,8 +100,7 @@
                     <th>声優</th>
                     <td>
                         @foreach ($anime_casts as $anime_cast)
-                            <a
-                                href="{{ route('cast', ['id' => $anime_cast->id]) }}">{{ $anime_cast->name }}</a>
+                            <a href="{{ route('cast', ['id' => $anime_cast->id]) }}">{{ $anime_cast->name }}</a>
                         @endforeach
                     </td>
                 </tr>
@@ -123,7 +116,7 @@
                     <strong>{{ $user_review->score }}点</strong><br>
                 @endif
                 {{ $user_review->one_word_comment }}<br>
-                {{ $user_review->updated_at }} <a
+                {{ $user_review->created_at }} <a
                     href="{{ route('user', ['uid' => $user_review->user->uid]) }}">{{ $user_review->user->uid }}</a><br>
                 <hr>
             @endif

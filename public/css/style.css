@@ -84,6 +84,12 @@ li{
     margin-left: 0px;
 }
 
+#user_statistics li{
+    display: inline;
+    list-style-type: none;
+    margin-left: 0px;
+}
+
 .score{
     font-size: 50%;
 }

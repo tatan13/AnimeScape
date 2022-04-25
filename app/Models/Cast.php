@@ -4,13 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Cast extends Model
 {
     use HasFactory;
 
+    public const SEARCH_COLUMN = 'name';
+
+    protected $fillable = [
+        'name',
+    ];
+
     /**
      * 声優の所属アニメ情報を取得
+     *
+     * @return HasMany
      */
     public function occupations()
     {
@@ -19,6 +29,8 @@ class Cast extends Model
 
     /**
      * 被お気に入りユーザーを取得
+     *
+     * @return BelongsToMany
      */
     public function likedUsers()
     {
@@ -27,7 +39,9 @@ class Cast extends Model
 
     /**
      * 引数に指定されたユーザーが自身をお気に入り登録しているか調べる
+     *
      * @param int $user_id
+     * @return bool
      */
     public function isLikedUser($user_id)
     {
@@ -36,6 +50,8 @@ class Cast extends Model
 
     /**
      * 声優の出演するアニメを取得する
+     *
+     * @return BelongsToMany
      */
     public function actAnimes()
     {
@@ -44,7 +60,9 @@ class Cast extends Model
 
     /**
      * 引数に指定されたアニメに出演しているか調べる
+     *
      * @param int $anime_id
+     * @return bool
      */
     public function isActAnime($anime_id)
     {

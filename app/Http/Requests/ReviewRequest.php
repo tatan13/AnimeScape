@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SubmitScore extends FormRequest
+class ReviewRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,10 @@ class SubmitScore extends FormRequest
     {
         return [
             'score' => 'integer|between:0,100|nullable',
-            'one_comment' => 'max:400|string|nullable',
+            'one_word_comment' => 'max:400|string|nullable',
+            'will_watch' => 'bool',
+            'watch' => 'bool',
+            'spoiler' => 'bool',
         ];
     }
 
@@ -39,8 +42,8 @@ class SubmitScore extends FormRequest
         return [
           'score.integer' => '得点は整数で入力してください。',
           'score.between' => '得点は0～100点で入力してください。',
-          'one_comment.max' => '一言感想は400文字以下で入力してください。',
-          'one_comment.string' => '一言感想には文字列を入力してください。',
+          'one_word_comment.max' => '一言感想は400文字以下で入力してください。',
+          'one_word_comment.string' => '一言感想には文字列を入力してください。',
         ];
     }
 }

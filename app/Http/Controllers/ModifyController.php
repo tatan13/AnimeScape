@@ -2,60 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Anime;
-use App\Models\Cast;
-use App\Models\ModifyAnime;
-use App\Models\ModifyOccupation;
-use App\Models\Occupation;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ModifyAnimeRequest;
+use App\Services\ModifyService;
+use App\Services\AnimeService;
+use App\Services\CastService;
+use App\Services\ExceptionService;
 use Illuminate\Http\Request;
 
 class ModifyController extends Controller
 {
+    private $modifyService;
+    private $animeService;
+    private $castService;
+    private $exceptionService;
+
+    public function __construct(
+        ModifyService $modifyService,
+        AnimeService $animeService,
+        CastService $castService,
+        ExceptionService $exceptionService
+    ) {
+        $this->modifyService = $modifyService;
+        $this->animeService = $animeService;
+        $this->castService = $castService;
+        $this->exceptionService = $exceptionService;
+    }
+
     /**
-     * アニメの基本情報修正画面を表示
+     * アニメの基本情報修正申請ページを表示
      *
      * @param int $id
-     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
-    public function modifyAnimeShow(int $id)
+    public function modifyAnimeShow($id)
     {
-        $anime = Anime::find($id);
-
-        if (!isset($anime)) {
-            return redirect(route('index'));
-        }
-
+        $anime = $this->animeService->getAnime($id);
         return view('modify_anime', [
             'anime' => $anime,
         ]);
     }
 
     /**
-     * アニメの基本情報修正依頼をデータベースに保存し，元の画面にリダイレクト
+     * アニメの基本情報修正申請をデータベースに保存し，元の画面にリダイレクト
      *
      * @param int $id
-     * @param Request $request
+     * @param ModifyAnimeRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function modifyAnimePost(Request $request, int $id)
+    public function modifyAnimePost(ModifyAnimeRequest $request, $id)
     {
-        $modify_anime = new ModifyAnime();
-
-        $modify_anime->anime_id = $id;
-        $modify_anime->title = $request->title;
-        $modify_anime->title_short = $request->title_short;
-        $modify_anime->year = $request->year;
-        $modify_anime->coor = $request->coor;
-        $modify_anime->public_url = $request->public_url;
-        $modify_anime->twitter = $request->twitter;
-        $modify_anime->hash_tag = $request->hash_tag;
-        $modify_anime->sex = $request->sex;
-        $modify_anime->sequel = $request->sequel;
-        $modify_anime->company = $request->company;
-        $modify_anime->city_name = $request->city_name;
-        $modify_anime->save();
-
+        $anime = $this->animeService->getAnime($id);
+        $this->modifyService->createModifyAnime($anime, $request);
         return redirect()->route('modify.anime.show', [
             'id' => $id,
         ])->with('flash_message', '変更申請が完了しました。');
@@ -65,87 +62,56 @@ class ModifyController extends Controller
      * アニメの基本情報修正を処理し，元の画面にリダイレクト
      *
      * @param int $id
-     * @param Request $request
+     * @param ModifyAnimeRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function modifyAnimeUpdate(int $id, Request $request)
+    public function modifyAnimeUpdate(int $id, ModifyAnimeRequest $request)
     {
-        if (Auth::user()->uid != "root") {
-            return redirect(route('index'));
-        }
-
-        $modify_anime = ModifyAnime::find($id);
-        $anime = $modify_anime->anime;
-        $anime->title = $request->title;
-        $anime->title_short = $request->title_short;
-        $anime->year = $request->year;
-        $anime->coor = $request->coor;
-        $anime->public_url = $request->public_url;
-        $anime->twitter = $request->twitter;
-        $anime->hash_tag = $request->hash_tag;
-        //$anime->sex = $request->sex;
-        $anime->sequel = $request->sequel;
-        $anime->company = $request->company;
-        $anime->city_name = $request->city_name;
-        $anime->save();
-        $modify_anime->delete();
-
+        $this->exceptionService->render404IfNotRootUser();
+        $modify_anime = $this->modifyService->getModifyAnime($id);
+        $this->modifyService->updateAnimeInfoBy($modify_anime, $request);
         return redirect()->route('modify.list.show')->with('flash_anime_message', '変更が完了しました。');
     }
 
     /**
-     * アニメの基本情報修正依頼を却下し，元の画面にリダイレクト
+     * アニメの基本情報修正申請を却下し，元の画面にリダイレクト
      *
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function modifyAnimeDelete(int $id)
+    public function modifyAnimeDelete($id)
     {
-        if (Auth::user()->uid != "root") {
-            return redirect(route('index'));
-        }
-
-        $modify_anime = ModifyAnime::find($id);
-        $modify_anime->delete();
-
+        $this->exceptionService->render404IfNotRootUser();
+        $modify_anime = $this->modifyService->getModifyAnime($id);
+        $this->modifyService->deleteModifyAnime($modify_anime);
         return redirect()->route('modify.list.show')->with('flash_anime_message', '削除が完了しました。');
     }
 
     /**
-     * アニメ，声優の情報修正依頼リストを表示
-     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     * アニメ，声優の情報修正申請リストを表示
+     * @return \Illuminate\View\View
      */
     public function modifyListShow()
     {
-        if (Auth::user()->uid != "root") {
-            return redirect(route('index'));
-        }
-
-        $modify_animes = ModifyAnime::all();
-        $modify_occupations_list = ModifyOccupation::all()->groupBy('anime_id');
-
+        $this->exceptionService->render404IfNotRootUser();
+        $modify_anime_list = $this->modifyService->getModifyAnimeListWithAnime();
+        $anime_list = $this->animeService->getAnimeListWithModifyOccupationList();
         return view('modify_list', [
-            'modify_animes' => $modify_animes,
-            'modify_occupations_list' => $modify_occupations_list,
+            'modify_anime_list' => $modify_anime_list,
+            'anime_list' => $anime_list,
         ]);
     }
 
     /**
-     * アニメの出演声優情報修正依頼画面を表示
+     * アニメの出演声優情報修正申請ページを表示
      *
      * @param int $id
-     * @return \Illuminate\View\View | \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View
      */
-    public function modifyOccupationShow(int $id)
+    public function modifyOccupationShow($id)
     {
-        $anime = Anime::find($id);
-
-        if (!isset($anime)) {
-            return redirect(route('index'));
-        }
-
-        $act_casts = $anime->actCasts;
-
+        $anime = $this->animeService->getAnime($id);
+        $act_casts = $this->castService->getActCasts($anime);
         return view('modify_occupation', [
             'anime' => $anime,
             'act_casts' => $act_casts,
@@ -159,21 +125,10 @@ class ModifyController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function modifyOccupationPost(Request $request, int $id)
+    public function modifyOccupationPost(Request $request, $id)
     {
-        $anime = Anime::find($id);
-        $req_casts = $request->except('_token');
-        $modify_occupation_list = $anime->modifyOccupations;
-
-        foreach ($req_casts as $req_cast) {
-            if (!is_null($req_cast) && !$modify_occupation_list->contains('cast_name', $req_cast)) {
-                $modify_occupation = new ModifyOccupation();
-                $modify_occupation->anime_id = $id;
-                $modify_occupation->cast_name = $req_cast;
-                $modify_occupation->save();
-            }
-        }
-
+        $anime = $this->animeService->getAnime($id);
+        $this->modifyService->createModifyOccupations($anime, $request);
         return redirect()->route('modify.occupation.show', [
             'id' => $id,
         ])->with('flash_message', '変更申請が完了しました。');
@@ -186,36 +141,11 @@ class ModifyController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function modifyOccupationUpdate(int $id, Request $request)
+    public function modifyOccupationUpdate($id, Request $request)
     {
-        if (Auth::user()->uid != "root") {
-            return redirect(route('index'));
-        }
-        $anime = Anime::find($id);
-        $anime->occupations()->delete();
-
-        $req_casts = $request->except('_token');
-
-        foreach ($req_casts as $req_cast) {
-            $cast = Cast::where('name', $req_cast);
-            if ($cast->exists()) {
-                $cast = $cast->first();
-                $occupation = new Occupation();
-                $occupation->cast_id = $cast->id;
-                $occupation->anime_id = $anime->id;
-                $occupation->save();
-            } elseif (!is_null($req_cast)) {
-                $new_cast = new Cast();
-                $new_cast->name = $req_cast;
-                $new_cast->save();
-                $occupation = new Occupation();
-                $occupation->cast_id = $new_cast->id;
-                $occupation->anime_id = $anime->id;
-                $occupation->save();
-            }
-        }
-
-        $anime->modifyOccupations()->delete();
+        $this->exceptionService->render404IfNotRootUser();
+        $anime = $this->animeService->getAnime($id);
+        $this->modifyService->updateAnimeCastsInfo($anime, $request);
         return redirect()->route('modify.list.show')->with('flash_occupation_message', '変更が完了しました。');
     }
 
@@ -225,16 +155,11 @@ class ModifyController extends Controller
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function modifyOccupationDelete(int $id)
+    public function modifyOccupationDelete($id)
     {
-        if (Auth::user()->uid != "root") {
-            return redirect(route('index'));
-        }
-        $anime = Anime::find($id);
-
-        $modify_occupation_list = $anime->modifyOccupations();
-        $modify_occupation_list->delete();
-
+        $this->exceptionService->render404IfNotRootUser();
+        $anime = $this->animeService->getAnime($id);
+        $this->modifyService->deleteModifyOccupationsOfAnime($anime);
         return redirect()->route('modify.list.show')->with('flash_occupation_message', '削除が完了しました。');
     }
 }

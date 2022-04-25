@@ -19,7 +19,7 @@
                     <th>性別</th>
                     <th>最終データ登録日</th>
                 </tr>
-                @foreach ($like_users as $like_user)
+                @foreach ($like_user_list as $like_user)
                     <tr>
                         <td><a href="{{ route('user', ['uid' => $like_user->uid]) }}">{{ $like_user->uid }}</a>
                         </td>
@@ -29,7 +29,7 @@
                             {{ $like_user->sex_label }}
                         </td>
                         <td>
-                            {{ $like_user->userReviews()->get()->isEmpty()? '-': $like_user->userReviews()->get()->last()->created_at }}
+                            {{ $like_user->userReviews->isEmpty()? '-': $like_user->latestUserReviewUpdatedAt->updated_at }}
                         </td>
                     </tr>
                 @endforeach

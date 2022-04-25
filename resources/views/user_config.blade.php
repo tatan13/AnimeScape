@@ -21,7 +21,7 @@
             {{ session('flash_message') }}
         </div>
     @endif
-    <form action="{{ route('user.config.update', ['uid' => $user->uid]) }}" method="POST">
+    <form action="{{ route('user.config.update') }}" method="POST">
         @csrf
         <table>
             <tbody>
@@ -45,7 +45,7 @@
                 <tr>
                     <td>一言</td>
                     <td>
-                        <input type="text" name="one_comment" id="one_comment_form" value="{{ $user->onewordcomment }}">
+                        <input type="text" name="onewordcomment" id="one_comment_form" value="{{ $user->onewordcomment }}">
                     </td>
                     <td>400文字以下でお願いします。改行したい場合は&lt;br&gt;と書いてください。</td>
                 </tr>
@@ -67,9 +67,9 @@
                     <td>性別</td>
                     <td>
                         <select name="sex">
-                            <option value="n">-</option>
-                            <option value="m">男性</option>
-                            <option value="f">女性</option>
+                            <option value="" {{ is_null($user->sex) ? 'selected' : '' }}>-</option>
+                            <option value="1" {{ $user->sex == 1 ? 'selected' : '' }}>男性</option>
+                            <option value="0" {{ $user->sex == 0 ? 'selected' : '' }}>女性</option>
                         </select>
                     </td>
                     <td></td>

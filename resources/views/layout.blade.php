@@ -58,15 +58,15 @@
                         <h3>ランキング</h3>
                         <ul>
                             <li>
-                                <form action="{{ route('all_statistics', ['category' => 1]) }}" name="all_statistics"
-                                    method="get">
+                                <form action="{{ route('anime_statistics') }}" name="all_statistics" method="get">
                                     @csrf
+                                    <input type="hidden" name="category" value="median">
                                     <a href="javascript:all_statistics.submit()">すべて</a>
                                 </form>
                             </li>
-                            <form action="{{ route('year_statistics', ['category' => 1]) }}" name="year_statistics"
-                                method="get">
+                            <form action="{{ route('anime_statistics') }}" name="year_statistics" method="get">
                                 @csrf
+                                <input type="hidden" name="category" value="median">
                                 <li><a href="javascript:year_statistics.submit()">年度ごと</a>
                                     <ul>
                                         <li>
@@ -79,9 +79,10 @@
                                 </li>
                             </form>
 
-                            <form action="{{ route('coor_statistics', ['category' => 1]) }}" name="coor_statistics"
-                                method="get">
+                            <form action="{{ route('anime_statistics', ['category' => 'median']) }}"
+                                name="coor_statistics" method="get">
                                 @csrf
+                                <input type="hidden" name="category" value="median">
                                 <li><a href="javascript:coor_statistics.submit()">クールごと</a>
                                     <ul>
                                         <li>
@@ -119,7 +120,6 @@
         <hr>
         tatan13
     </footer>
-    <script src="{{ asset('js/app.js') }}"></script>
     @yield('vue.js')
 </body>
 

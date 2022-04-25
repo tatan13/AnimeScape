@@ -5440,19 +5440,16 @@ __webpack_require__.r(__webpack_exports__);
         alert(error);
       });
     },
-    dislike: function dislike(castId) {
+    unlike: function unlike(castId) {
       var _this2 = this;
 
-      var url = "/cast/".concat(castId, "/dislike");
+      var url = "/cast/".concat(castId, "/unlike");
       axios.get(url).then(function (response) {
         _this2.isLikeCast = false;
       })["catch"](function (error) {
         alert(error);
       });
     }
-  },
-  mounted: function mounted() {
-    console.log('Component mounted.');
   }
 });
 
@@ -5518,21 +5515,18 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.$emit('like-event', this.likedUserCount);
     },
-    dislike: function dislike(uid) {
+    unlike: function unlike(uid) {
       var _this2 = this;
 
-      var url = "/user_information/".concat(uid, "/dislike");
+      var url = "/user_information/".concat(uid, "/unlike");
       axios.get(url).then(function (response) {
         _this2.likedUserCount = response.data.likedUserCount;
         _this2.isLikedUser = false;
       })["catch"](function (error) {
         alert(error);
       });
-      this.$emit('dislike-event', this.likedUserCount);
+      this.$emit('unlike-event', this.likedUserCount);
     }
-  },
-  mounted: function mounted() {
-    console.log('Component mounted.');
   }
 });
 
@@ -28347,7 +28341,7 @@ var render = function () {
             attrs: { href: "#" },
             on: {
               click: function ($event) {
-                return _vm.dislike(_vm.castId)
+                return _vm.unlike(_vm.castId)
               },
             },
           },
@@ -28400,7 +28394,7 @@ var render = function () {
             attrs: { href: "#" },
             on: {
               click: function ($event) {
-                return _vm.dislike(_vm.uid)
+                return _vm.unlike(_vm.uid)
               },
             },
           },

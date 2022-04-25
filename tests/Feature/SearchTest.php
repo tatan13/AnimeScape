@@ -13,110 +13,180 @@ class SearchTest extends TestCase
 {
     use RefreshDatabase;
 
-    private Anime $anime;
-    private User $user;
-    private Cast $cast;
+    private Anime $anime1;
+    private Anime $anime2;
+    private Anime $anime3;
+    private Cast $cast1;
+    private Cast $cast2;
+    private Cast $cast3;
+    private User $user1;
+    private User $user2;
+    private User $user3;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->anime = new Anime();
-        $this->anime->title = '霊剣山 星屑たちの宴';
-        $this->anime->title_short = '霊剣山 星屑たちの宴';
-        $this->anime->year = 2022;
-        $this->anime->coor = 1;
-        $this->anime->save();
-
-        $this->cast = new Cast();
-        $this->cast->name = 'castname';
-        $this->cast->save();
-
-        $this->user = User::factory()->create();
+        $this->anime1 = Anime::factory()->create(['title' => '霊剣山 星屑たちの宴']);
+        $this->anime2 = Anime::factory()->create(['title' => '霊剣山 叡智への資格']);
+        $this->anime3 = Anime::factory()->create(['title' => 'animeName']);
+        $this->cast1 = Cast::factory()->create(['name' => 'castName1']);
+        $this->cast2 = Cast::factory()->create(['name' => 'castName2']);
+        $this->cast3 = Cast::factory()->create(['name' => 'cname']);
+        $this->user1 = User::factory()->create(['uid' => 'userName1']);
+        $this->user2 = User::factory()->create(['uid' => 'userName2']);
+        $this->user3 = User::factory()->create(['uid' => 'uname']);
     }
 
     /**
-     * アニメの検索ページの表示のテスト
+     * 複数のアニメ検索のテスト
      *
      * @test
      * @return void
      */
-    public function testSearchAnimeView()
+    public function testSearchSomeAnimeView()
     {
         $response = $this->get(route('search', [
             'category' => 'anime',
             'search_word' => '霊剣山',
         ]));
-
-        $response->assertStatus(200);
-        $response->assertSee('霊剣山 星屑たちの宴');
-
-        $this->get(route('search', [
-            'category' => 'anime',
-            'search_word' => '',
-        ]))->assertSee('検索キーワードを入力してください。');
-
-        $this->get(route('search', [
-            'category' => 'anime',
-            'search_word' => 'not found',
-        ]))->assertSee('該当するアニメがありませんでした。');
-
-        $this->get(route('search', [
-            'category' => 'anim',
-            'search_word' => 'not found',
-        ]))->assertSee('不正なアクセスです。');
+        $response->assertSeeInOrder([$this->anime1->title, $this->anime2->title,]);
+        $response->assertDontSee($this->anime3->title);
     }
 
     /**
-     * 声優の検索ページの表示のテスト
+     * アニメ検索に空文字を入力した場合のテスト
      *
      * @test
      * @return void
      */
-    public function testSearchCastView()
+    public function testSearchNullWordAnimeView()
     {
         $response = $this->get(route('search', [
-            'category' => 'cast',
-            'search_word' => 'cast',
-        ]));
-
-        $response->assertStatus(200);
-        $response->assertSee('castname');
-
-        $this->get(route('search', [
-            'category' => 'cast',
+            'category' => 'anime',
             'search_word' => '',
-        ]))->assertSee('検索キーワードを入力してください。');
-
-        $this->get(route('search', [
-            'category' => 'cast',
-            'search_word' => 'not found',
-        ]))->assertSee('該当する声優がいませんでした。');
+        ]));
+        $response->assertSee('検索キーワードを入力してください。');
     }
 
     /**
-     * ユーザーの検索ページの表示のテスト
+     * 検索に該当するアニメがない場合のテスト
      *
      * @test
      * @return void
      */
-    public function testSearchUserView()
+    public function testSearchNoAnimeView()
+    {
+        $response = $this->get(route('search', [
+            'category' => 'anime',
+            'search_word' => 'not found',
+        ]));
+        $response->assertSee('該当するアニメがありませんでした。');
+    }
+
+    /**
+     * 複数の声優検索のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testSearchSomeCastView()
+    {
+        $response = $this->get(route('search', [
+            'category' => 'cast',
+            'search_word' => 'castName',
+        ]));
+        $response->assertSeeInOrder([$this->cast1->name, $this->cast2->name]);
+        $response->assertDontSee($this->cast3->name);
+    }
+
+    /**
+     * 声優検索に空文字を入力した場合のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testSearchNullWordCastView()
+    {
+        $response = $this->get(route('search', [
+            'category' => 'cast',
+            'search_word' => '',
+        ]));
+        $response->assertSee('検索キーワードを入力してください。');
+    }
+
+    /**
+     * 検索に該当する声優がいない場合のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testSearchNoCastView()
+    {
+        $response = $this->get(route('search', [
+            'category' => 'cast',
+            'search_word' => 'not found',
+        ]));
+        $response->assertSee('該当する声優がいませんでした。');
+    }
+
+    /**
+     * 複数のユーザー検索のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testSearchSomeUserView()
     {
         $response = $this->get(route('search', [
             'category' => 'user',
-            'search_word' => $this->user->uid,
+            'search_word' => 'userName',
         ]));
+        $response->assertSeeInOrder([$this->user1->uid, $this->user2->uid]);
+        $response->assertDontSee($this->user3->uid);
+    }
 
-        $response->assertStatus(200);
-        $response->assertSee($this->user->uid);
-
-        $this->get(route('search', [
+    /**
+     * ユーザー検索に空文字を入力した場合のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testSearchNullWordUserView()
+    {
+        $response = $this->get(route('search', [
             'category' => 'user',
             'search_word' => '',
-        ]))->assertSee('検索キーワードを入力してください。');
+        ]));
+        $response->assertSee('検索キーワードを入力してください。');
+    }
 
-        $this->get(route('search', [
+    /**
+     * 検索に該当するユーザーがいない場合のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testSearchNoUserView()
+    {
+        $response = $this->get(route('search', [
             'category' => 'user',
             'search_word' => 'not found',
-        ]))->assertSee('該当するユーザーがいませんでした。');
+        ]));
+        $response->assertSee('該当するユーザーがいませんでした。');
+    }
+
+    /**
+     * 不正なカテゴリー検索をした場合のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testSearchExceptionCategory()
+    {
+        $response = $this->get(route('search', [
+            'category' => 'ExceptionCategory',
+            'search_word' => 'not found',
+        ]));
+        $response->assertstatus(404);
     }
 }

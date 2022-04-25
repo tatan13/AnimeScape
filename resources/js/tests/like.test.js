@@ -1,5 +1,4 @@
 import LikeCastComponent from "../components/LikeCastComponent";
-import { nextTick } from 'vue';
 
 const { mount } = require("@vue/test-utils");
 

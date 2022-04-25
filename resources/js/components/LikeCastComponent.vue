@@ -1,6 +1,6 @@
 <template>
     <div v-if="isLikeCast">
-        <a href="#" @click="dislike(castId)">お気に入りを解除する</a>
+        <a href="#" @click="unlike(castId)">お気に入りを解除する</a>
     </div>
     <div v-else>
         <a href="#" @click="like(castId)">お気に入り声優として登録する</a>
@@ -40,8 +40,8 @@
                     alert(error)
                 });
             },
-            dislike(castId) {
-                let url = `/cast/${castId}/dislike`
+            unlike(castId) {
+                let url = `/cast/${castId}/unlike`
                 axios.get(url)
                 .then(response => {
                     this.isLikeCast = false
@@ -51,8 +51,5 @@
                 });
             },
         },
-        mounted() {
-            console.log('Component mounted.')
-        }
     }
 </script>

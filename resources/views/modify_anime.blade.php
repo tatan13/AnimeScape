@@ -72,11 +72,6 @@
                         <td><input type="text" name="hash_tag" value="{{ $anime->hash_tag }}"></td>
                     </tr>
                     <tr>
-                        <th>新規、続編</th>
-                        <td>{{ $anime->sequel }}</td>
-                        <td><input type="number" name="sequel" value="{{ $anime->sequel }}"></td>
-                    </tr>
-                    <tr>
                         <th>制作会社</th>
                         <td>{{ $anime->company }}</td>
                         <td><input type="text" name="company" value="{{ $anime->company }}"></td>

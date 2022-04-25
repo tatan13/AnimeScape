@@ -44,8 +44,8 @@
     </div>
     </div>
 @endsection
-
 @section('vue.js')
+    <script src="{{ asset('js/app.js') }}"></script>
     <script>
         const vue = new Vue({
             el: '#addForm',
@@ -59,9 +59,6 @@
                     this.texts.push('');
                 },
             },
-            mounted() {
-                console.log('Component mounted.')
-            }
         });
     </script>
 @endsection

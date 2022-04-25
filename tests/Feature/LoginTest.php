@@ -29,7 +29,16 @@ class LoginTest extends TestCase
     {
         $response = $this->get('/login');
         $response->assertStatus(200);
+    }
 
+    /**
+     * ログイン時のログインページアクセス時のリダイレクトテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUserLoginLoginRedirect()
+    {
         $this->actingAs($this->user);
         $this->get('/login')->assertRedirect('/');
     }
@@ -46,7 +55,6 @@ class LoginTest extends TestCase
             'uid' => $this->user->uid,
             'password' => 'secret',
         ]);
-
         $response->assertRedirect('/');
         $this->assertAuthenticatedAs($this->user);
     }
@@ -63,7 +71,6 @@ class LoginTest extends TestCase
             'uid' => $this->user->uid,
             'password' => 'public',
         ]);
-
         $response->assertRedirect('/login');
         $this->assertGuest();
         $this->get('/login')->assertSee('ログインIDとパスワードが一致していません。');

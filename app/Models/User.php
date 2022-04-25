@@ -7,12 +7,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
+
+    public const SEARCH_COLUMN = 'uid';
 
     private const SEX = [
         0 => [ 'label' => '女性' ],
@@ -43,6 +48,11 @@ class User extends Authenticatable
     protected $fillable = [
         'uid',
         'password',
+        'email',
+        'onewordcomment',
+        'twitter',
+        'birth',
+        'sex',
     ];
 
     /**
@@ -65,7 +75,20 @@ class User extends Authenticatable
     ];
 
     /**
+     * レビューしているアニメを取得
+     *
+     * @return BelongsToMany
+     */
+    public function reviewAnimes()
+    {
+        return $this->belongsToMany('App\Models\Anime', 'user_reviews', 'user_id', 'anime_id')
+                    ->withTimestamps();
+    }
+
+    /**
      * ユーザーのレビューを取得
+     *
+     * @return HasMany
      */
     public function userReviews()
     {
@@ -73,7 +96,18 @@ class User extends Authenticatable
     }
 
     /**
+     * ユーザーの最新レビューを取得
+     *
+     * @return HasOne
+     */
+    public function latestUserReviewUpdatedAt()
+    {
+        return $this->hasOne('App\Models\UserReview', 'user_id', 'id')->latestOfMany('updated_at');
+    }
+    /**
      * お気に入りユーザーを取得
+     *
+     * @return BelongsToMany
      */
     public function userLikeUsers()
     {
@@ -82,6 +116,8 @@ class User extends Authenticatable
 
     /**
      * 被お気に入りユーザーを取得
+     *
+     * @return BelongsToMany
      */
     public function userLikedUsers()
     {
@@ -90,6 +126,8 @@ class User extends Authenticatable
 
     /**
      * お気に入り声優を取得
+     *
+     * @return BelongsToMany
      */
     public function likeCasts()
     {
@@ -98,28 +136,39 @@ class User extends Authenticatable
 
     /**
      * 引数に指定されたユーザーをお気に入り登録しているか調べる
-     * @param string $uid
+     *
+     * @param int $user_id
+     * @return bool
      */
-    public function isLikeUser($uid)
+    public function isLikeUser($user_id)
     {
-        return $this->userLikeUsers()->where('uid', $uid)->exists();
+        return $this->userLikeUsers()->where('liked_user_id', $user_id)->exists();
     }
 
     /**
      * 引数に指定されたユーザーにお気に入り登録されているか調べる
-     * @param string $uid
+     *
+     * @param int $user_id
+     * @return bool
      */
-    public function isLikedUser($uid)
+    public function isLikedUser($user_id)
     {
-        return $this->userLikedUsers()->where('uid', $uid)->exists();
+        return $this->userLikedUsers()->where('like_user_id', $user_id)->exists();
     }
 
     /**
      * 引数に指定された声優をお気に入り登録しているか調べる
+     *
      * @param int $cast_id
+     * @return bool
      */
     public function isLikeCast($cast_id)
     {
         return $this->likeCasts()->where('cast_id', $cast_id)->exists();
+    }
+
+    public function scopeWhereAboveMedian($query, $uid)
+    {
+        $query->whereUid('uid', $uid);
     }
 }

@@ -19,6 +19,11 @@ class UserFactory extends Factory
     {
         return [
             'uid' => $this->faker->name(),
+            'twitter' => 'twitterId',
+            'onewordcomment' => 'exellent',
+            'visible' => 1,
+            'sex' => null,
+            'birth' => 1998,
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => bcrypt('secret'), // password

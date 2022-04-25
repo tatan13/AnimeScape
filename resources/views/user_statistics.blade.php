@@ -9,6 +9,7 @@
     <strong>{{ $user->uid }}</strong>
     <h3>表示設定</h3>
     <form action="{{ route('user.statistics', ['uid' => $user->uid]) }}" method="get">
+        @csrf
         中央値
         <input type="number" name="median" value="{{ $median ?? 70 }}" style="width:50px;">以上<br>
         データ数
@@ -29,19 +30,30 @@
                     <th>中央値</th>
                     <th>データ数</th>
                     <th>入力済み</th>
+                    <th>入力ユーザー</th>
                 </tr>
-                @foreach ($animes as $anime)
+                @foreach ($user_anime_statistics as $anime)
                     <tr>
-                        <td><a
-                                href="{{ route('anime', ['id' => $anime['anime']->id]) }}">{{ $anime['anime']->title }}</a>
+                        <td><a href="{{ route('anime', ['id' => $anime->id]) }}">{{ $anime->title }}</a>
                         </td>
-                        <td>{{ $anime['anime']->year }}年{{ $anime['anime']->coor_label }}クール</td>
-                        <td>{{ $anime['median'] }}</td>
+                        <td>{{ $anime->year }}年{{ $anime->coor_label }}クール</td>
+                        <td>{{ $anime->median }}</td>
                         <td>
-                            {{ $anime['count'] }}
+                            {{ $anime->count }}
                         </td>
                         <td>
-                            {{ $anime['watch'] }}
+                            {{ $anime->isContainMe == 1 ? '済' : '' }}
+                        </td>
+                        <td>
+                            <ul>
+                                @foreach ($anime->userReviews as $user_review)
+                                    <li>
+                                        <span class="score">{{ $user_review->score }}</span>
+                                        <a href="{{ route('user', ['uid' => $user_review->user->uid]) }}">{{ $user_review->user->uid }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
                         </td>
                     </tr>
                 @endforeach

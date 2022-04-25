@@ -8,7 +8,6 @@ use App\Models\Cast;
 use App\Models\User;
 use App\Models\Anime;
 use App\Models\UserLikeCast;
-use App\Models\Occupation;
 use Tests\TestCase;
 
 class CastTest extends TestCase
@@ -16,44 +15,73 @@ class CastTest extends TestCase
     use RefreshDatabase;
 
     private Cast $cast;
-    private User $user;
+    private User $user1;
+    private User $user2;
     private Anime $anime1;
     private Anime $anime2;
-    private Occupation $occupation1;
-    private Occupation $occupation2;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->anime1 = new Anime();
-        $this->anime1->title = '霊剣山 星屑たちの宴';
-        $this->anime1->title_short = '霊剣山 星屑たちの宴';
-        $this->anime1->year = 2022;
-        $this->anime1->coor = 1;
-        $this->anime1->save();
+        $this->anime1 = Anime::factory()->create([
+            'title' => '霊剣山 星屑たちの宴',
+            'company' => 'company1',
+            'median' => 78,
+            'count' => 332,
+        ]);
+        $this->anime2 = Anime::factory()->create([
+            'title' => '霊剣山 叡智への資格',
+            'company' => 'company2',
+            'median' => 80,
+            'count' => 232,
+        ]);
 
-        $this->anime2 = new Anime();
-        $this->anime2->title = '霊剣山 叡智への資格';
-        $this->anime2->title_short = '霊剣山 叡智への資格';
-        $this->anime2->year = 2022;
-        $this->anime2->coor = 1;
-        $this->anime2->save();
+        $this->cast = Cast::factory()->create();
 
-        $this->user = User::factory()->create();
+        $this->user1 = User::factory()->create();
+        $this->user2 = User::factory()->create();
 
-        $this->cast = new Cast();
-        $this->cast->name = 'castname';
-        $this->cast->save();
+        $this->user2->likeCasts()->attach($this->cast->id);
 
-        $this->occupation1 = new occupation();
-        $this->occupation1->anime_id = $this->anime1->id;
-        $this->occupation1->cast_id = $this->cast->id;
-        $this->occupation1->save();
+        $this->anime1->actCasts()->attach($this->cast->id);
+        $this->anime2->actCasts()->attach($this->cast->id);
+    }
 
-        $this->occupation2 = new occupation();
-        $this->occupation2->anime_id = $this->anime2->id;
-        $this->occupation2->cast_id = $this->cast->id;
-        $this->occupation2->save();
+    /**
+     * 声優ページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCastView()
+    {
+        $response = $this->get("/cast/{$this->cast->id}");
+        $response->assertStatus(200);
+    }
+
+    /**
+     * 声優ページの情報の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCastInformationView()
+    {
+        $response = $this->get("/cast/{$this->cast->id}");
+        $response->assertSeeInOrder([
+            $this->cast->name,
+            '計2本',
+            '霊剣山 星屑たちの宴',
+            'company1',
+            '2022年冬クール',
+            78,
+            332,
+            '霊剣山 叡智への資格',
+            'company2',
+            '2022年冬クール',
+            80,
+            232,
+        ]);
     }
 
     /**
@@ -62,47 +90,106 @@ class CastTest extends TestCase
      * @test
      * @return void
      */
-    public function testCastGuestView()
+    public function testGuestCastView()
     {
-        $response = $this->get('/cast/1');
-
-        $response->assertStatus(200);
-        $response->assertSee('castname');
+        $response = $this->get("/cast/{$this->cast->id}");
         $response->assertDontSee('お気に入り');
-        $response->assertSee('計2本');
-        $response->assertSee('霊剣山 星屑たちの宴');
-        $response->assertSee('霊剣山 叡智への資格');
-
-        $this->get('/cast/3333')->assertRedirect('/');
     }
 
     /**
-     * ログイン時の声優ページのテスト
+     * お気に入り登録していない声優のお気に入り登録のテスト
      *
      * @test
      * @return void
      */
-    public function testCastLoginLikeView()
+    public function testUser1LoginCastLike()
     {
-        $this->actingAs($this->user);
-        $this->get('/cast/1/like', [
-            'id' => 1,
+        $this->actingAs($this->user1);
+        $this->get("/cast/{$this->cast->id}/like", [
+            'id' => $this->cast->id,
         ]);
-
         $this->assertDatabaseHas('user_like_casts', [
-            'user_id' => 1,
-            'cast_id' => 1,
+            'id' => 2,
+            'user_id' => $this->user1->id,
+            'cast_id' => $this->cast->id,
         ]);
+    }
 
-        $response = $this->get('/cast/1');
-
-        $this->get('/cast/1/dislike', [
-            'id' => 1,
+    /**
+     * お気に入り登録している声優のお気に入り登録のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginCastLike()
+    {
+        $this->actingAs($this->user2);
+        $this->get("/cast/{$this->cast->id}/like", [
+            'id' => $this->cast->id,
         ]);
-
         $this->assertDatabaseMissing('user_like_casts', [
-            'user_id' => 1,
-            'cast_id' => 1,
+            'id' => 3,
+            'user_id' => $this->user1->id,
+            'cast_id' => $this->cast->id,
         ]);
+    }
+
+    /**
+     * お気に入り登録している声優のお気に入り解除のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginCastUnlike()
+    {
+        $this->actingAs($this->user2);
+        $this->get("/cast/{$this->cast->id}/unlike", [
+            'id' => $this->cast->id,
+        ]);
+        $this->assertDatabaseMissing('user_like_casts', [
+            'id' => 1,
+            'user_id' => $this->user2->id,
+            'cast_id' => $this->cast->id,
+        ]);
+    }
+
+    /**
+     * 存在しない声優ページにアクセスしたときのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistCastView()
+    {
+        $response = $this->get('/cast/3333333333333333333333333');
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲスト時の声優のお気に入り登録時リダイレクトテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestCastLike()
+    {
+        $response = $this->get("/cast/{$this->cast->id}/like", [
+            'id' => $this->cast->id,
+        ]);
+        $response->assertRedirect('/login');
+    }
+
+    /**
+     * ゲスト時の声優のお気に入り解除時リダイレクトテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestCastUnlike()
+    {
+        $response = $this->get("/cast/{$this->cast->id}/unlike", [
+            'id' => $this->cast->id,
+        ]);
+        $response->assertRedirect('/login');
     }
 }

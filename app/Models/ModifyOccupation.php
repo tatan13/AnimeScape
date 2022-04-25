@@ -4,13 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ModifyOccupation extends Model
 {
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'cast_name',
+    ];
+
+    /**
      * アニメを取得
+     *
+     * @return BelongsTo
      */
     public function anime()
     {
