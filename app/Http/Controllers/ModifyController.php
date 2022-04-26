@@ -6,7 +6,6 @@ use App\Http\Requests\ModifyAnimeRequest;
 use App\Services\ModifyService;
 use App\Services\AnimeService;
 use App\Services\CastService;
-use App\Services\ExceptionService;
 use Illuminate\Http\Request;
 
 class ModifyController extends Controller
@@ -14,18 +13,15 @@ class ModifyController extends Controller
     private $modifyService;
     private $animeService;
     private $castService;
-    private $exceptionService;
 
     public function __construct(
         ModifyService $modifyService,
         AnimeService $animeService,
         CastService $castService,
-        ExceptionService $exceptionService
     ) {
         $this->modifyService = $modifyService;
         $this->animeService = $animeService;
         $this->castService = $castService;
-        $this->exceptionService = $exceptionService;
     }
 
     /**
@@ -67,7 +63,6 @@ class ModifyController extends Controller
      */
     public function modifyAnimeUpdate(int $id, ModifyAnimeRequest $request)
     {
-        $this->exceptionService->render404IfNotRootUser();
         $modify_anime = $this->modifyService->getModifyAnime($id);
         $this->modifyService->updateAnimeInfoBy($modify_anime, $request);
         return redirect()->route('modify.list.show')->with('flash_anime_message', '変更が完了しました。');
@@ -81,7 +76,6 @@ class ModifyController extends Controller
      */
     public function modifyAnimeDelete($id)
     {
-        $this->exceptionService->render404IfNotRootUser();
         $modify_anime = $this->modifyService->getModifyAnime($id);
         $this->modifyService->deleteModifyAnime($modify_anime);
         return redirect()->route('modify.list.show')->with('flash_anime_message', '削除が完了しました。');
@@ -93,7 +87,6 @@ class ModifyController extends Controller
      */
     public function modifyListShow()
     {
-        $this->exceptionService->render404IfNotRootUser();
         $modify_anime_list = $this->modifyService->getModifyAnimeListWithAnime();
         $anime_list = $this->animeService->getAnimeListWithModifyOccupationList();
         return view('modify_list', [
@@ -143,7 +136,6 @@ class ModifyController extends Controller
      */
     public function modifyOccupationUpdate($id, Request $request)
     {
-        $this->exceptionService->render404IfNotRootUser();
         $anime = $this->animeService->getAnime($id);
         $this->modifyService->updateAnimeCastsInfo($anime, $request);
         return redirect()->route('modify.list.show')->with('flash_occupation_message', '変更が完了しました。');
@@ -157,7 +149,6 @@ class ModifyController extends Controller
      */
     public function modifyOccupationDelete($id)
     {
-        $this->exceptionService->render404IfNotRootUser();
         $anime = $this->animeService->getAnime($id);
         $this->modifyService->deleteModifyOccupationsOfAnime($anime);
         return redirect()->route('modify.list.show')->with('flash_occupation_message', '削除が完了しました。');
