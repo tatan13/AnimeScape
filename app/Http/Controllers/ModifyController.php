@@ -30,7 +30,7 @@ class ModifyController extends Controller
      * @param int $id
      * @return \Illuminate\View\View
      */
-    public function modifyAnimeShow($id)
+    public function showModifyAnime($id)
     {
         $anime = $this->animeService->getAnime($id);
         return view('modify_anime', [
@@ -45,11 +45,11 @@ class ModifyController extends Controller
      * @param ModifyAnimeRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function modifyAnimePost(ModifyAnimeRequest $request, $id)
+    public function postModifyAnime(ModifyAnimeRequest $request, $id)
     {
         $anime = $this->animeService->getAnime($id);
         $this->modifyService->createModifyAnime($anime, $request);
-        return redirect()->route('modify.anime.show', [
+        return redirect()->route('modify_anime.show', [
             'id' => $id,
         ])->with('flash_message', '変更申請が完了しました。');
     }
@@ -61,11 +61,11 @@ class ModifyController extends Controller
      * @param ModifyAnimeRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function modifyAnimeUpdate(int $id, ModifyAnimeRequest $request)
+    public function updateModifyAnime(int $id, ModifyAnimeRequest $request)
     {
         $modify_anime = $this->modifyService->getModifyAnime($id);
         $this->modifyService->updateAnimeInfoBy($modify_anime, $request);
-        return redirect()->route('modify.list.show')->with('flash_anime_message', '変更が完了しました。');
+        return redirect()->route('modify_list.show')->with('flash_anime_message', '変更が完了しました。');
     }
 
     /**
@@ -74,18 +74,18 @@ class ModifyController extends Controller
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function modifyAnimeDelete($id)
+    public function deleteModifyAnime($id)
     {
         $modify_anime = $this->modifyService->getModifyAnime($id);
         $this->modifyService->deleteModifyAnime($modify_anime);
-        return redirect()->route('modify.list.show')->with('flash_anime_message', '削除が完了しました。');
+        return redirect()->route('modify_list.show')->with('flash_anime_message', '削除が完了しました。');
     }
 
     /**
      * アニメ，声優の情報修正申請リストを表示
      * @return \Illuminate\View\View
      */
-    public function modifyListShow()
+    public function showModifyList()
     {
         $modify_anime_list = $this->modifyService->getModifyAnimeListWithAnime();
         $anime_list = $this->animeService->getAnimeListWithModifyOccupationList();
@@ -101,7 +101,7 @@ class ModifyController extends Controller
      * @param int $id
      * @return \Illuminate\View\View
      */
-    public function modifyOccupationShow($id)
+    public function showModifyOccupation($id)
     {
         $anime = $this->animeService->getAnime($id);
         $act_casts = $this->castService->getActCasts($anime);
@@ -118,11 +118,11 @@ class ModifyController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function modifyOccupationPost(Request $request, $id)
+    public function postModifyOccupation(Request $request, $id)
     {
         $anime = $this->animeService->getAnime($id);
         $this->modifyService->createModifyOccupations($anime, $request);
-        return redirect()->route('modify.occupation.show', [
+        return redirect()->route('modify_occupation.show', [
             'id' => $id,
         ])->with('flash_message', '変更申請が完了しました。');
     }
@@ -134,11 +134,11 @@ class ModifyController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function modifyOccupationUpdate($id, Request $request)
+    public function updateModifyOccupation($id, Request $request)
     {
         $anime = $this->animeService->getAnime($id);
         $this->modifyService->updateAnimeCastsInfo($anime, $request);
-        return redirect()->route('modify.list.show')->with('flash_occupation_message', '変更が完了しました。');
+        return redirect()->route('modify_list.show')->with('flash_occupation_message', '変更が完了しました。');
     }
 
     /**
@@ -147,10 +147,10 @@ class ModifyController extends Controller
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function modifyOccupationDelete($id)
+    public function deleteModifyOccupation($id)
     {
         $anime = $this->animeService->getAnime($id);
         $this->modifyService->deleteModifyOccupationsOfAnime($anime);
-        return redirect()->route('modify.list.show')->with('flash_occupation_message', '削除が完了しました。');
+        return redirect()->route('modify_list.show')->with('flash_occupation_message', '削除が完了しました。');
     }
 }

@@ -17,9 +17,9 @@
             <form>
                 @csrf
                 <input type="submit" value="登録"
-                    formaction="{{ route('modify.anime.update', ['id' => $modify_anime->id]) }}" formmethod="POST">
+                    formaction="{{ route('modify_anime.update', ['id' => $modify_anime->id]) }}" formmethod="POST">
                 <input type="submit" value="却下"
-                    formaction="{{ route('modify.anime.delete', ['id' => $modify_anime->id]) }}" formmethod="GET">
+                    formaction="{{ route('modify_anime.delete', ['id' => $modify_anime->id]) }}" formmethod="GET">
                 <table id="modify_anime_list_table">
                     <tbody>
                         <tr>
@@ -133,10 +133,10 @@
                                 </tbody>
                             </table>
                             <input type="submit" value="登録"
-                                formaction="{{ route('modify.occupation.update', ['id' => $anime->id]) }}"
+                                formaction="{{ route('modify_occupation.update', ['id' => $anime->id]) }}"
                                 formmethod="POST">
                             <input type="submit" value="却下"
-                                formaction="{{ route('modify.occupation.delete', ['id' => $anime->id]) }}"
+                                formaction="{{ route('modify_occupation.delete', ['id' => $anime->id]) }}"
                                 formmethod="GET">
                         </form>
                     </div>

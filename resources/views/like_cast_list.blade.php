@@ -12,7 +12,7 @@
         <ul>
             @foreach ($like_cast_list as $cast)
                 <li>
-                    <a href="{{ route('cast', ['id' => $cast->id]) }}">{{ $cast->name }}</a>
+                    <a href="{{ route('cast.show', ['id' => $cast->id]) }}">{{ $cast->name }}</a>
                 </li>
             @endforeach
             <ul>

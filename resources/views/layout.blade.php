@@ -13,7 +13,7 @@
 
 <body>
     <header>
-        <h1><a href="{{ route('index') }}">AnimeScape -アニメ批評空間-</a></h1><br>
+        <h1><a href="{{ route('index.show') }}">AnimeScape -アニメ批評空間-</a></h1><br>
     </header>
     <main>
         <div class="container-fluid">
@@ -25,7 +25,7 @@
                         @if (Auth::check())
                             ログイン中 : {{ Auth::user()->uid }}
                             <ul>
-                                <li><a href="{{ route('user', ['uid' => auth()->user()->uid]) }}">マイページ</a><br></li>
+                                <li><a href="{{ route('user.show', ['uid' => auth()->user()->uid]) }}">マイページ</a><br></li>
                                 <li>
                                     <form action="{{ route('logout') }}" name="logout" method="POST">
                                         @csrf
@@ -42,7 +42,7 @@
                     </div>
                     <div id="search_menu">
                         <h3>検索</h3>
-                        <form action="{{ route('search') }}" method="get">
+                        <form action="{{ route('search.show') }}" method="get">
                             @csrf
                             <select name="category">
                                 <option value="anime" id="search_category_anime">アニメ</option>
@@ -58,13 +58,13 @@
                         <h3>ランキング</h3>
                         <ul>
                             <li>
-                                <form action="{{ route('anime_statistics') }}" name="all_statistics" method="get">
+                                <form action="{{ route('anime_statistics.show') }}" name="all_statistics" method="get">
                                     @csrf
                                     <input type="hidden" name="category" value="median">
                                     <a href="javascript:all_statistics.submit()">すべて</a>
                                 </form>
                             </li>
-                            <form action="{{ route('anime_statistics') }}" name="year_statistics" method="get">
+                            <form action="{{ route('anime_statistics.show') }}" name="year_statistics" method="get">
                                 @csrf
                                 <input type="hidden" name="category" value="median">
                                 <li><a href="javascript:year_statistics.submit()">年度ごと</a>
@@ -79,7 +79,7 @@
                                 </li>
                             </form>
 
-                            <form action="{{ route('anime_statistics', ['category' => 'median']) }}"
+                            <form action="{{ route('anime_statistics.show', ['category' => 'median']) }}"
                                 name="coor_statistics" method="get">
                                 @csrf
                                 <input type="hidden" name="category" value="median">
@@ -104,11 +104,11 @@
                         </ul>
                         <h3>要望フォーム</h3>
                         <ul>
-                            <li><a href="{{ route('contact.index') }}">要望フォーム</a></li>
+                            <li><a href="{{ route('contact.show') }}">要望フォーム</a></li>
                         </ul>
                         <h3>更新履歴</h3>
                         <ul>
-                            <li><a href="{{ route('update_log') }}">更新履歴</a></li>
+                            <li><a href="{{ route('update_log.show') }}">更新履歴</a></li>
                         </ul>
                     </div>
                 </div>

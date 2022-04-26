@@ -7,7 +7,7 @@
 @section('main')
     <div id="app">
         <h2>
-            <a href="{{ route('cast', ['id' => $cast->id]) }}">{{ $cast->name }}</a>
+            <a href="{{ route('cast.show', ['id' => $cast->id]) }}">{{ $cast->name }}</a>
         </h2>
         <span><strong>{{ $cast->name }}</strong></span><br>
         @auth
@@ -15,7 +15,35 @@
                 :default-is-like-cast="{{ json_encode(Auth::user()->isLikeCast($cast->id)) }}">
                 ></like-cast-component>
         @endauth
-        <h3>声優（計{{ $act_animes->count() }}本）</h3>
+        <h3>プロフィール</h3>
+        <table id="cast_profile">
+            <tr>
+                <th>フリガナ</th>
+                <td>{{ $cast->furigana ?? '-' }}</td>
+            </tr>
+            <tr>
+                <th>性別</th>
+                <td>{{ $cast->sex_label ?? '-' }}</td>
+            </tr>
+            <tr>
+                <th>所属事務所</th>
+                <td>{{ $cast->office ?? '-' }}</td>
+            </tr>
+            <tr>
+                <th>公式HP</th>
+                <td>{{ $cast->url ?? '-' }}</td>
+            </tr>
+            <tr>
+                <th>ツイッター</th>
+                <td>{{ $cast->twitter ?? '-' }}</td>
+            </tr>
+            <tr>
+                <th>公式ブログ</th>
+                <td>{{ $cast->blog ?? '-' }}</td>
+            </tr>
+
+        </table>
+        <h3>出演アニメ（計{{ $act_animes->count() }}本）</h3>
         <table>
             <tbody>
                 <tr>
@@ -27,7 +55,7 @@
                 </tr>
                 @foreach ($act_animes as $act_anime)
                     <tr>
-                        <td><a href="{{ route('anime', ['id' => $act_anime->id]) }}">{{ $act_anime->title }}</a>
+                        <td><a href="{{ route('anime.show', ['id' => $act_anime->id]) }}">{{ $act_anime->title }}</a>
                         </td>
                         <td>{{ $act_anime->company }}</td>
                         <td>

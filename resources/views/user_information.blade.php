@@ -10,7 +10,7 @@
         <p>{{ $user_information->uid }}</p>
         @auth
             @if (strcmp(Auth::user()->uid, $user_information->uid) == 0)
-                <a href="{{ route('user.config') }}">個人情報設定</a>
+                <a href="{{ route('user_config.show') }}">個人情報設定</a>
             @else
                 <div v-if="isLikedUser">
                     <a href="#" @click="unlike(uid)">お気に入りユーザーを解除する</a>
@@ -55,7 +55,7 @@
                             <tr>
                                 <th>視聴予定数</th>
                                 <td><a
-                                        href="{{ route('user.will_watch_anime_list', ['uid' => $user_information->uid]) }}">{{ $user_information->will_watches_count }}</a>
+                                        href="{{ route('user_will_watch_anime_list.show', ['uid' => $user_information->uid]) }}">{{ $user_information->will_watches_count }}</a>
                                 </td>
                             </tr>
                             <tr>
@@ -65,19 +65,19 @@
                             <tr>
                                 <th>お気に入りユーザー数</th>
                                 <td><a
-                                        href="{{ route('user.like_user_list', ['uid' => $user_information->uid]) }}">{{ $user_information->userLikeUsers->count() }}</a>
+                                        href="{{ route('user_like_user_list.show', ['uid' => $user_information->uid]) }}">{{ $user_information->userLikeUsers->count() }}</a>
                                 </td>
                             </tr>
                             <tr>
                                 <th>被お気に入りユーザー数</th>
                                 <td><a
-                                        href="{{ route('user.liked_user_list', ['uid' => $user_information->uid]) }}">@{{ likedUserCount }}</a>
+                                        href="{{ route('user_liked_user_list.show', ['uid' => $user_information->uid]) }}">@{{ likedUserCount }}</a>
                                 </td>
                             </tr>
                             <tr>
                                 <th>お気に入り声優数</th>
                                 <td><a
-                                        href="{{ route('user.like_cast_list', ['uid' => $user_information->uid]) }}">{{ $user_information->likeCasts->count() }}</a>
+                                        href="{{ route('user_like_cast_list.show', ['uid' => $user_information->uid]) }}">{{ $user_information->likeCasts->count() }}</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -111,7 +111,7 @@
         <div class="container-fruid">
             <div class="row">
                 <div class="col-md-12">
-                    <form action="{{ route('user', ['uid' => $user_information->uid]) }}" name="coor_score_animelist"
+                    <form action="{{ route('user.show', ['uid' => $user_information->uid]) }}" name="coor_score_animelist"
                         method="get">
                         @csrf
                         <select name="year" id="coor_year">
@@ -127,7 +127,7 @@
                             <option value="4" {{ $coor == 4 ? 'selected' : '' }}>秋</option>
                         </select>
                         <input type="submit" value="絞り込み"> <a
-                            href="{{ route('user', ['uid' => $user_information->uid]) }}">絞り込み解除</a>
+                            href="{{ route('user.show', ['uid' => $user_information->uid]) }}">絞り込み解除</a>
                     </form>
                     <table id="anime_score_list">
                         <thead>
@@ -147,7 +147,7 @@
                                                     <span
                                                         class="score">{{ ${'score_' . $i . '_anime_review'}->score }}</span>
                                                     <a
-                                                        href="{{ route('anime', ['id' => ${'score_' . $i . '_anime_review'}->anime->id]) }}">{{ ${'score_' . $i . '_anime_review'}->anime->title }}
+                                                        href="{{ route('anime.show', ['id' => ${'score_' . $i . '_anime_review'}->anime->id]) }}">{{ ${'score_' . $i . '_anime_review'}->anime->title }}
                                                     </a>
                                                 </li>
                                             @endforeach

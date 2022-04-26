@@ -18,7 +18,7 @@ class IndexController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function show()
     {
         $animes = $this->animeService->getNowCoorAnimeList();
         return view('index', [
@@ -31,7 +31,7 @@ class IndexController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function updateLog()
+    public function showUpdateLog()
     {
         return view('update_log');
     }

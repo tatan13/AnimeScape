@@ -193,7 +193,7 @@ class AnimeTest extends TestCase
      */
     public function testGuestScoreAnimeView()
     {
-        $response = $this->get("/anime/{$this->anime->id}/score");
+        $response = $this->get("/anime/{$this->anime->id}/review");
         $response->assertRedirect('/login');
     }
 
@@ -206,7 +206,7 @@ class AnimeTest extends TestCase
     public function testUser1LoginScoreAnimeView()
     {
         $this->actingAs($this->user1);
-        $response = $this->get("/anime/{$this->anime->id}/score");
+        $response = $this->get("/anime/{$this->anime->id}/review");
         $response->assertStatus(200);
     }
 
@@ -219,7 +219,7 @@ class AnimeTest extends TestCase
     public function testUser4ScoreAnimePost()
     {
         $this->actingAs($this->user4);
-        $response = $this->post("/anime/{$this->anime->id}/score", [
+        $response = $this->post("/anime/{$this->anime->id}/review", [
             'score' => '35',
             'one_word_comment' => 'exellent',
             'watch' => true,
@@ -256,7 +256,7 @@ class AnimeTest extends TestCase
     public function testUser3ScoreAnimePost()
     {
         $this->actingAs($this->user3);
-        $response = $this->post("/anime/{$this->anime->id}/score", [
+        $response = $this->post("/anime/{$this->anime->id}/review", [
             'score' => '',
             'one_word_comment' => '',
             'watch' => false,

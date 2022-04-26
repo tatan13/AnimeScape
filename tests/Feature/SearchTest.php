@@ -45,7 +45,7 @@ class SearchTest extends TestCase
      */
     public function testSearchSomeAnimeView()
     {
-        $response = $this->get(route('search', [
+        $response = $this->get(route('search.show', [
             'category' => 'anime',
             'search_word' => '霊剣山',
         ]));
@@ -61,7 +61,7 @@ class SearchTest extends TestCase
      */
     public function testSearchNullWordAnimeView()
     {
-        $response = $this->get(route('search', [
+        $response = $this->get(route('search.show', [
             'category' => 'anime',
             'search_word' => '',
         ]));
@@ -76,7 +76,7 @@ class SearchTest extends TestCase
      */
     public function testSearchNoAnimeView()
     {
-        $response = $this->get(route('search', [
+        $response = $this->get(route('search.show', [
             'category' => 'anime',
             'search_word' => 'not found',
         ]));
@@ -91,7 +91,7 @@ class SearchTest extends TestCase
      */
     public function testSearchSomeCastView()
     {
-        $response = $this->get(route('search', [
+        $response = $this->get(route('search.show', [
             'category' => 'cast',
             'search_word' => 'castName',
         ]));
@@ -107,7 +107,7 @@ class SearchTest extends TestCase
      */
     public function testSearchNullWordCastView()
     {
-        $response = $this->get(route('search', [
+        $response = $this->get(route('search.show', [
             'category' => 'cast',
             'search_word' => '',
         ]));
@@ -122,7 +122,7 @@ class SearchTest extends TestCase
      */
     public function testSearchNoCastView()
     {
-        $response = $this->get(route('search', [
+        $response = $this->get(route('search.show', [
             'category' => 'cast',
             'search_word' => 'not found',
         ]));
@@ -137,7 +137,7 @@ class SearchTest extends TestCase
      */
     public function testSearchSomeUserView()
     {
-        $response = $this->get(route('search', [
+        $response = $this->get(route('search.show', [
             'category' => 'user',
             'search_word' => 'userName',
         ]));
@@ -153,7 +153,7 @@ class SearchTest extends TestCase
      */
     public function testSearchNullWordUserView()
     {
-        $response = $this->get(route('search', [
+        $response = $this->get(route('search.show', [
             'category' => 'user',
             'search_word' => '',
         ]));
@@ -168,7 +168,7 @@ class SearchTest extends TestCase
      */
     public function testSearchNoUserView()
     {
-        $response = $this->get(route('search', [
+        $response = $this->get(route('search.show', [
             'category' => 'user',
             'search_word' => 'not found',
         ]));
@@ -183,7 +183,7 @@ class SearchTest extends TestCase
      */
     public function testSearchExceptionCategory()
     {
-        $response = $this->get(route('search', [
+        $response = $this->get(route('search.show', [
             'category' => 'ExceptionCategory',
             'search_word' => 'not found',
         ]));

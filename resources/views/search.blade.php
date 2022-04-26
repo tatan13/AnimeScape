@@ -25,7 +25,7 @@
                                         </tr>
                                         @foreach ($search_results as $anime)
                                             <tr>
-                                                <td><a href="{{ route('anime', ['id' => $anime->id]) }}">{{ $anime->title }}</a>
+                                                <td><a href="{{ route('anime.show', ['id' => $anime->id]) }}">{{ $anime->title }}</a>
                                                 </td>
                                                 <td>{{ $anime->company }}</td>
                                                 <td>{{ $anime->year }}年{{ $anime->coor_label }}クール</td>
@@ -52,7 +52,7 @@
                 <h2>検索結果 cast:{{ $search_word }}</h2>
                 @if (count($search_results) > 0)
                     @foreach ($search_results as $cast)
-                        <h3><a href="{{ route('cast', ['id' => $cast->id]) }}">{{ $cast->name }}</a></h3>
+                        <h3><a href="{{ route('cast.show', ['id' => $cast->id]) }}">{{ $cast->name }}</a></h3>
                         <strong>声優</strong>
                         <table>
                             <tbody>
@@ -66,7 +66,7 @@
                                 @foreach ($cast->actAnimes as $act_anime)
                                     <tr>
                                         <td><a
-                                                href="{{ route('anime', ['id' => $act_anime->id]) }}">{{ $act_anime->title }}</a>
+                                                href="{{ route('anime.show', ['id' => $act_anime->id]) }}">{{ $act_anime->title }}</a>
                                         </td>
                                         <td>{{ $act_anime->company }}</td>
                                         <td>
@@ -94,7 +94,7 @@
                     <ul>
                         @foreach ($search_results as $user)
                             <li>
-                                <a href="{{ route('user', ['uid' => $user->uid]) }}">{{ $user->uid }}</a>
+                                <a href="{{ route('user.show', ['uid' => $user->uid]) }}">{{ $user->uid }}</a>
                             </li>
                         @endforeach
                         <ul>

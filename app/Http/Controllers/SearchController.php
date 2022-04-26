@@ -21,7 +21,7 @@ class SearchController extends Controller
      * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function search(Request $request)
+    public function show(Request $request)
     {
         $search_results = $this->searchService->getSearchResult($request);
         return view('search', [

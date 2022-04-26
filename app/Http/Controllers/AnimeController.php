@@ -50,11 +50,11 @@ class AnimeController extends Controller
      * @param int $id
      * @return \Illuminate\View\View
      */
-    public function score($id)
+    public function showAnimeReview($id)
     {
         $anime = $this->animeService->getAnime($id);
         $my_review = $this->userReviewService->getMyReview($anime);
-        return view('score_anime', [
+        return view('anime_review', [
             'anime' => $anime,
             'my_review' => $my_review,
         ]);
@@ -67,11 +67,11 @@ class AnimeController extends Controller
      * @param ReviewRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postScore($id, ReviewRequest $request)
+    public function postAnimeReview($id, ReviewRequest $request)
     {
         $anime = $this->animeService->getAnime($id);
         $this->userReviewService->createOrUpdateMyReview($anime, $request);
-        return redirect()->route('anime', [
+        return redirect()->route('anime.show', [
             'id' => $id,
         ])->with('flash_message', '入力が完了しました。');
     }

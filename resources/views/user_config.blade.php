@@ -21,7 +21,7 @@
             {{ session('flash_message') }}
         </div>
     @endif
-    <form action="{{ route('user.config.update') }}" method="POST">
+    <form action="{{ route('user_config.post') }}" method="POST">
         @csrf
         <table>
             <tbody>

@@ -69,7 +69,7 @@ class UserController extends Controller
      * @param string $uid
      * @return \Illuminate\View\View
      */
-    public function showLikeUserList($uid)
+    public function showUserLikeUserList($uid)
     {
         $user = $this->userService->getUser($uid);
         $like_user_list = $this->userService->getLikeUserListWithLatestUserReview($user);
@@ -85,7 +85,7 @@ class UserController extends Controller
      * @param string $uid
      * @return \Illuminate\View\View
      */
-    public function showLikedUserList($uid)
+    public function showUserLikedUserList($uid)
     {
         $user = $this->userService->getUser($uid);
         $liked_user_list = $this->userService->getLikedUserListWithLatestUserReview($user);
@@ -101,7 +101,7 @@ class UserController extends Controller
      * @param string $uid
      * @return \Illuminate\View\View
      */
-    public function showLikeCastList($uid)
+    public function showUserLikeCastList($uid)
     {
         $user = $this->userService->getUser($uid);
         $like_cast_list = $this->castService->getLikeCastList($user);
@@ -144,7 +144,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function config()
+    public function showUserConfig()
     {
         $user = $this->userService->getAuthUser();
         return view('user_config', [
@@ -158,10 +158,10 @@ class UserController extends Controller
      * @param ConfigRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function updateConfig(ConfigRequest $request)
+    public function postUserConfig(ConfigRequest $request)
     {
         $this->userService->updateConfig($request);
-        return redirect()->route('user.config')->with('flash_message', '登録が完了しました。');
+        return redirect()->route('user_config.show')->with('flash_message', '登録が完了しました。');
     }
 
     /**
@@ -170,7 +170,7 @@ class UserController extends Controller
      * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function statistics($uid, Request $request)
+    public function showUserStatistics($uid, Request $request)
     {
         $user = $this->userService->getUser($uid);
         $user_anime_statistics = $this->animeService->getAnimeListForStatistics($user, $request);

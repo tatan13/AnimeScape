@@ -8,13 +8,13 @@
     <div id="addForm">
         <div id="modify_anime">
             <h2>{{ $anime->title }}の出演声優情報変更申請</h2>
-            <h3><a href="{{ route('anime', ['id' => $anime->id]) }}">{{ $anime->title }}</a></h3>
+            <h3><a href="{{ route('anime.show', ['id' => $anime->id]) }}">{{ $anime->title }}</a></h3>
             @if (session('flash_message'))
                 <div class="alert alert-success">
                     {{ session('flash_message') }}
                 </div>
             @endif
-            <form action="{{ route('modify.occupation.post', ['id' => $anime->id]) }}" method="POST">
+            <form action="{{ route('modify_occupation.post', ['id' => $anime->id]) }}" method="POST">
                 @csrf
                 <input type="submit" value="登録">
                 <table id="modify_occupation_table">

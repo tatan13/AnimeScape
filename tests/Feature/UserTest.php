@@ -274,7 +274,7 @@ class UserTest extends TestCase
      */
     public function testUser1YearStatisticView()
     {
-        $response = $this->get(route('user', [
+        $response = $this->get(route('user.show', [
                 'uid' => $this->user1->uid,
                 'year' => 2022,
             ]));
@@ -321,7 +321,7 @@ class UserTest extends TestCase
      */
     public function testUser1CoorStatisticView()
     {
-        $response = $this->get(route('user', [
+        $response = $this->get(route('user.show', [
             'uid' => $this->user1->uid,
             'year' => 2022,
             'coor' => 1,
@@ -366,7 +366,7 @@ class UserTest extends TestCase
      */
     public function testUser1CoorNullYearStatisticView()
     {
-        $response = $this->get(route('user', [
+        $response = $this->get(route('user.show', [
             'uid' => $this->user1->uid,
             'coor' => 1,
         ]));
@@ -381,7 +381,7 @@ class UserTest extends TestCase
      */
     public function testUser1NullStatisticView()
     {
-        $response = $this->get(route('user', [
+        $response = $this->get(route('user.show', [
             'uid' => $this->user1->uid,
             'year' => 0,
             'coor' => 0,
@@ -397,7 +397,7 @@ class UserTest extends TestCase
      */
     public function testNotExistUser1View()
     {
-        $response = $this->get(route('user', [
+        $response = $this->get(route('user.show', [
             'uid' => 'NotExistUser',
         ]));
         $response->assertStatus(404);
