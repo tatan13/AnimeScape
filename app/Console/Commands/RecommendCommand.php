@@ -51,15 +51,15 @@ class RecommendCommand extends Command
                     $user_reviews_list = $all_user_reviews->whereIn('user_id', [$my_id, $partner_id]);
                     $user_reviews_group_by_anime_id = $user_reviews_list->groupBy('anime_id');
                     $sum = 0;
-                    $flag = FALSE;
+                    $flag = false;
                     foreach ($user_reviews_group_by_anime_id as $user_reviews) {
                         if ($user_reviews->count() == 2) {
-                            $flag = TRUE;
+                            $flag = true;
                             $distance = pow($user_reviews[0]->score - $user_reviews[1]->score, 2);
                             $sum += $distance;
                         }
                     }
-                    $similarity = $flag ? 1/(1 + sqrt($sum)) : 0;
+                    $similarity = $flag ? 1 / (1 + sqrt($sum)) : null;
                     echo $my_id . " " . $partner_id . " " . $similarity . "\n";
                     $similarity_list->push([
                         'user_id' => $partner_id,
@@ -67,15 +67,18 @@ class RecommendCommand extends Command
                     ]);
                 }
             }
-            
-            $similarity_list = $similarity_list->whereNotIn('similarity', 0)->sortByDesc('similarity')->take(5);
+
+            $similarity_list = $similarity_list->whereNotNull('similarity')->sortByDesc('similarity')->take(5);
             foreach ($similarity_list as $similarity) {
-                $partner_user_reviews =  $all_user_reviews->where('user_id', $similarity['user_id'])->sortByDesc('score')->whereNotIn('anime_id', $my_review_anime_id_list)->take(5);
+                $partner_user_reviews =  $all_user_reviews->where('user_id', $similarity['user_id'])
+                ->sortByDesc('score')->whereNotIn('anime_id', $my_review_anime_id_list)->take(5);
                 echo $my_review_anime_id_list . "\n";
                 echo $partner_user_reviews . "\n";
                 foreach ($partner_user_reviews as $partner_user_review) {
                     $score = ($similarity['similarity'] * $partner_user_review->score);
-                    echo $my_id . " " . $similarity['user_id'] . " " . $similarity['similarity'] . " " . $partner_user_review->score . " " . ($similarity['similarity'] * $partner_user_review->score) . "\n";
+                    echo $my_id . " " . $similarity['user_id'] . " " . $similarity['similarity']
+                    . " " . $partner_user_review->score
+                    . " " . ($similarity['similarity'] * $partner_user_review->score) . "\n";
                     $anime = Anime::find($partner_user_review->anime_id);
                     $recommend_anime_list->push(['anime' => $anime, 'score' => $score]);
                 }

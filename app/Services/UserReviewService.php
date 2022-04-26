@@ -87,7 +87,7 @@ class UserReviewService
      * ログインユーザーのアニメに紐づくユーザーレビューを作成または更新
      *
      * @param Anime $anime
-     * @param ReviewRequest $submit_score
+     * @param ReviewRequest $submit_review
      * @return void
      */
     public function createOrUpdateMyReview(Anime $anime, ReviewRequest $submit_review)
@@ -135,8 +135,8 @@ class UserReviewService
                         $this->animeRepository->updateMyReviewByReviewsRequest($anime, $submit_reviews, $key);
                         $this->updateScoreStatistics($anime);
                     });
-                } 
-              }
+                }
+            }
         }
     }
 

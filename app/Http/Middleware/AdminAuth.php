@@ -17,10 +17,8 @@ class AdminAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::check() && Auth::user()->uid === 'root') {
-
+        if (Auth::check() && Auth::user()->uid === 'root') {
             return $next($request);
-    
         }
         abort(403, '管理者権限がありません。');
     }
