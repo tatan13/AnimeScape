@@ -49,6 +49,7 @@ class SearchTest extends TestCase
             'category' => 'anime',
             'search_word' => '霊剣山',
         ]));
+        $response->assertStatus(200);
         $response->assertSeeInOrder([$this->anime1->title, $this->anime2->title,]);
         $response->assertDontSee($this->anime3->title);
     }
@@ -65,6 +66,7 @@ class SearchTest extends TestCase
             'category' => 'anime',
             'search_word' => '',
         ]));
+        $response->assertStatus(200);
         $response->assertSee('検索キーワードを入力してください。');
     }
 
@@ -80,6 +82,7 @@ class SearchTest extends TestCase
             'category' => 'anime',
             'search_word' => 'not found',
         ]));
+        $response->assertStatus(200);
         $response->assertSee('該当するアニメがありませんでした。');
     }
 
@@ -95,6 +98,7 @@ class SearchTest extends TestCase
             'category' => 'cast',
             'search_word' => 'castName',
         ]));
+        $response->assertStatus(200);
         $response->assertSeeInOrder([$this->cast1->name, $this->cast2->name]);
         $response->assertDontSee($this->cast3->name);
     }
@@ -111,6 +115,7 @@ class SearchTest extends TestCase
             'category' => 'cast',
             'search_word' => '',
         ]));
+        $response->assertStatus(200);
         $response->assertSee('検索キーワードを入力してください。');
     }
 
@@ -126,6 +131,7 @@ class SearchTest extends TestCase
             'category' => 'cast',
             'search_word' => 'not found',
         ]));
+        $response->assertStatus(200);
         $response->assertSee('該当する声優がいませんでした。');
     }
 
@@ -141,6 +147,7 @@ class SearchTest extends TestCase
             'category' => 'user',
             'search_word' => 'userName',
         ]));
+        $response->assertStatus(200);
         $response->assertSeeInOrder([$this->user1->uid, $this->user2->uid]);
         $response->assertDontSee($this->user3->uid);
     }
@@ -157,6 +164,7 @@ class SearchTest extends TestCase
             'category' => 'user',
             'search_word' => '',
         ]));
+        $response->assertStatus(200);
         $response->assertSee('検索キーワードを入力してください。');
     }
 
@@ -172,6 +180,7 @@ class SearchTest extends TestCase
             'category' => 'user',
             'search_word' => 'not found',
         ]));
+        $response->assertStatus(200);
         $response->assertSee('該当するユーザーがいませんでした。');
     }
 

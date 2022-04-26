@@ -141,7 +141,6 @@ class AnimeTest extends TestCase
     public function testGuestAnimeView()
     {
         $response = $this->get("/anime/{$this->anime->id}");
-        //ゲスト時の表示確認
         $response->assertSee('ログインしてこのアニメに得点やコメントを登録する');
         $response->assertDontSee('つけた得点');
     }
@@ -156,6 +155,7 @@ class AnimeTest extends TestCase
     {
         $this->actingAs($this->user1);
         $response = $this->get("/anime/{$this->anime->id}");
+        $response->assertStatus(200);
         $response->assertDontSee('ログインしてこのアニメに得点やコメントを登録する');
         $response->assertSee('つけた得点');
     }

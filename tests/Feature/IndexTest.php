@@ -21,7 +21,6 @@ class IndexTest extends TestCase
     public function testIndexView()
     {
         $response = $this->get('/');
-
         $response->assertStatus(200);
     }
 
@@ -34,10 +33,7 @@ class IndexTest extends TestCase
     public function testGuestIndexView()
     {
         $response = $this->get('/');
-
         $response->assertStatus(200);
-
-        // ゲスト時の表示確認
         $response->assertSee('新規ID作成');
     }
 
@@ -52,8 +48,7 @@ class IndexTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
         $response = $this->get('/');
-
-        // ログイン時の表示確認
+        $response->assertStatus(200);
         $response->assertSee('ログイン中');
     }
 
@@ -68,8 +63,7 @@ class IndexTest extends TestCase
         Anime::factory()->create(['title' => '霊剣山1', 'median' => 100, 'count' => 200]);
         Anime::factory()->create(['title' => '霊剣山2', 'median' => 0, 'count' => 300]);
         $response = $this->get('/');
-
-        // 中央値順に並べられているか確認
+        $response->assertStatus(200);
         $response->assertSeeInOrder(['霊剣山1', 100, 200, '霊剣山2', 0, 300]);
     }
 

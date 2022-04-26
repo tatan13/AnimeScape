@@ -60,6 +60,7 @@ class StatisticsTest extends TestCase
     public function testAllStatisticsMedianView()
     {
         $response = $this->get(route('anime_statistics.show', ['category' => Anime::TYPE_MEDIAN]));
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             '（中央値順）',
             $this->anime1->title,
@@ -82,6 +83,7 @@ class StatisticsTest extends TestCase
     public function testAllStatisticsAverageView()
     {
         $response = $this->get(route('anime_statistics.show', ['category' => Anime::TYPE_AVERAGE]));
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             '（平均値順）',
             $this->anime4->title,
@@ -100,6 +102,7 @@ class StatisticsTest extends TestCase
     public function testAllStatisticsCountView()
     {
         $response = $this->get(route('anime_statistics.show', ['count' => 2, 'category' => Anime::TYPE_COUNT]));
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             '（データ数順）',
             $this->anime1->title,
@@ -118,6 +121,7 @@ class StatisticsTest extends TestCase
     public function testYearStatisticsView()
     {
         $response = $this->get(route('anime_statistics.show', ['category' => Anime::TYPE_MEDIAN, 'year' => 2022]));
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             '（中央値順）',
             $this->anime1->title,
@@ -138,6 +142,7 @@ class StatisticsTest extends TestCase
         $response = $this->get(route('anime_statistics.show', [
             'category' => Anime::TYPE_MEDIAN, 'year' => 2022, 'coor' => Anime::WINTER
         ]));
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             '（中央値順）',
             $this->anime1->title,

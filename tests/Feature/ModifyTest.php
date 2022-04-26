@@ -57,6 +57,7 @@ class ModifyTest extends TestCase
     public function testModifyAnimeView()
     {
         $response = $this->get("/modify/anime/{$this->anime->id}");
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->anime->title,
             $this->anime->title_short,
@@ -114,6 +115,7 @@ class ModifyTest extends TestCase
     public function testModifyOccupationView()
     {
         $response = $this->get("/modify/occupation/{$this->anime->id}");
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->cast1->name,
             $this->cast2->name,
@@ -190,6 +192,7 @@ class ModifyTest extends TestCase
     {
         $this->actingAs($this->user1);
         $response = $this->get('/modify_list');
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             '1件目',
             'modify_title',

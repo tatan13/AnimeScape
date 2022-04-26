@@ -118,6 +118,7 @@ class UserTest extends TestCase
     public function testGuestUser1ProfileView()
     {
         $response = $this->get("/user_information/{$this->user1->uid}");
+        $response->assertStatus(200);
         $response->assertDontSee('個人情報設定');
         $response->assertSeeInOrder([
             $this->user1->uid,
@@ -136,6 +137,7 @@ class UserTest extends TestCase
     {
         $this->actingAs($this->user1);
         $response = $this->get("/user_information/{$this->user2->uid}");
+        $response->assertStatus(200);
         $response->assertDontSee('個人情報設定');
         $response->assertDontSee('class="one_comment"');
         $response->assertDontSee('Twitter : ');
@@ -225,6 +227,7 @@ class UserTest extends TestCase
     public function testUser1AllStatisticView()
     {
         $response = $this->get("/user_information/{$this->user1->uid}");
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             '統計情報(すべて)',
             '得点入力数',
@@ -278,6 +281,7 @@ class UserTest extends TestCase
                 'uid' => $this->user1->uid,
                 'year' => 2022,
             ]));
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
                 '統計情報(2022年)',
                 '得点入力数',
@@ -326,6 +330,7 @@ class UserTest extends TestCase
             'year' => 2022,
             'coor' => 1,
         ]));
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             '統計情報(2022年冬クール)',
             '得点入力数',
@@ -412,6 +417,7 @@ class UserTest extends TestCase
     public function testUser1WillWatchAnimeListView()
     {
         $response = $this->get("/user_information/{$this->user1->uid}/will_watch_anime_list");
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->anime6->title,
             $this->anime5->title,
@@ -427,6 +433,7 @@ class UserTest extends TestCase
     public function testUser1LikeUserListView()
     {
         $response = $this->get("/user_information/{$this->user1->uid}/like_user_list");
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->user2->uid,
             $this->user3->uid,
@@ -443,6 +450,7 @@ class UserTest extends TestCase
     public function testUser1LikedUserListView()
     {
         $response = $this->get("/user_information/{$this->user1->uid}/liked_user_list");
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->user3->uid,
             $this->user4->uid,
@@ -458,6 +466,7 @@ class UserTest extends TestCase
     public function testUser1LikeCastListView()
     {
         $response = $this->get("/user_information/{$this->user1->uid}/like_cast_list");
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->cast1->name,
             $this->cast2->name,
@@ -486,6 +495,7 @@ class UserTest extends TestCase
     {
         $this->actingAs($this->user1);
         $response = $this->get("/user_config");
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->user1->uid,
             $this->user1->email,

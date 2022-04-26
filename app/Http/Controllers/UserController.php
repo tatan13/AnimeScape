@@ -153,7 +153,7 @@ class UserController extends Controller
     }
 
     /**
-     * ユーザーの基本情報変更画面を表示
+     * ユーザーの基本情報を更新
      *
      * @param ConfigRequest $request
      * @return \Illuminate\Http\RedirectResponse
@@ -165,7 +165,7 @@ class UserController extends Controller
     }
 
     /**
-     * お気に入りユーザー内でのの統計表を表示
+     * お気に入りユーザー内での統計表を表示
      * @param string $uid
      * @param Request $request
      * @return \Illuminate\View\View
