@@ -191,4 +191,15 @@ class AnimeService
     {
         return $this->animeRepository->getAnimeListWithModifyOccupationList();
     }
+
+    /**
+     * アニメリストをログインユーザーのレビューと共に取得
+     *
+     * @param Request $request
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getAnimeListWithMyReviewsFor(Request $request)
+    {
+        return $this->animeRepository->getAnimeListWithMyReviewsFor($request);
+    }
 }

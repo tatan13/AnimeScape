@@ -25,13 +25,36 @@
                         @if (Auth::check())
                             ログイン中 : {{ Auth::user()->uid }}
                             <ul>
-                                <li><a href="{{ route('user.show', ['uid' => auth()->user()->uid]) }}">マイページ</a><br></li>
+                                <li><a href="{{ route('user.show', ['uid' => auth()->user()->uid]) }}">マイページ</a><br>
+                                </li>
                                 <li>
                                     <form action="{{ route('logout') }}" name="logout" method="POST">
                                         @csrf
                                         <a href="javascript:logout.submit()">ログアウト</a>
                                     </form>
                                 </li>
+                                <form action="{{ route('anime_review_list.show') }}" name="anime_review_list"
+                                    method="get">
+                                    @csrf
+                                    <li>
+                                        <a href="javascript:anime_review_list.submit()">得点一括入力</a>
+                                        <ul>
+                                            <li>
+                                                <select name="year" id="coor_year">
+                                                    <option value="2022">2022</option>
+                                                    <option value="2021">2021</option>
+                                                </select>
+                                                年
+                                                <select name="coor" id="coor">
+                                                    <option value="1">冬</option>
+                                                    <option value="2">春</option>
+                                                    <option value="3">夏</option>
+                                                    <option value="4">秋</option>
+                                                </select>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </form>
                             </ul>
                         @else
                             <ul>
@@ -58,7 +81,8 @@
                         <h3>ランキング</h3>
                         <ul>
                             <li>
-                                <form action="{{ route('anime_statistics.show') }}" name="all_statistics" method="get">
+                                <form action="{{ route('anime_statistics.show') }}" name="all_statistics"
+                                    method="get">
                                     @csrf
                                     <input type="hidden" name="category" value="median">
                                     <a href="javascript:all_statistics.submit()">すべて</a>
@@ -78,7 +102,6 @@
                                     </ul>
                                 </li>
                             </form>
-
                             <form action="{{ route('anime_statistics.show', ['category' => 'median']) }}"
                                 name="coor_statistics" method="get">
                                 @csrf

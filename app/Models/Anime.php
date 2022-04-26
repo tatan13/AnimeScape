@@ -127,6 +127,16 @@ class Anime extends Model
     }
 
     /**
+     * ユーザーのレビューを取得
+     *
+     * @return HasOne
+     */
+    public function userReview()
+    {
+        return $this->hasOne('App\Models\UserReview');
+    }
+
+    /**
      * 声優の所属アニメ情報を取得
      *
      * @return HasMany

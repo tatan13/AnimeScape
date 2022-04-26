@@ -22,13 +22,13 @@
             <label for="will_watch_check">視聴予定:</label>
             <input type="hidden" name="will_watch" value="0">
             <input type="checkbox" name="will_watch" value="1" id="will_watch"
-                {{ $my_review->will_watch == 1 ? 'checked' : '' }}>
+                {{ $my_review->will_watch == TRUE ? 'checked' : '' }}>
             <hr>
             <label for="score">得点</label><br>
             <input type="number" size="3" name="score" id="score" value="{{ $my_review->score }}"><br>
             <label for="watch_check">視聴した？:</label>
             <input type="hidden" name="watch" value="0">
-            <input type="checkbox" name="watch" value="1" id="watch" {{ $my_review->watch == 1 ? 'checked' : '' }}>
+            <input type="checkbox" name="watch" value="1" id="watch" {{ $my_review->watch == TRUE ? 'checked' : '' }}>
 
             <hr>
             <label for="one_comment">一言感想</label><br>
@@ -37,7 +37,7 @@
             <label for="netabare_check">ネタバレ？:</label>
             <input type="hidden" name="spoiler" value="0">
             <input type="checkbox" name="spoiler" value="1" id="spoiler"
-                {{ $my_review->spoiler == 1 ? 'checked' : '' }}><br>
+                {{ $my_review->spoiler == TRUE ? 'checked' : '' }}><br>
             <input type="submit" value="送信"><br>
         </form>
     </div>

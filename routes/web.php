@@ -64,11 +64,15 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/user_config', [App\Http\Controllers\UserController::class, 'showUserConfig'])->name('user_config.show');
 
-    Route::post('/user_config', [App\Http\Controllers\UserController::class, 'postUserConfig'])->name('user_config.update');
+    Route::post('/user_config', [App\Http\Controllers\UserController::class, 'postUserConfig'])->name('user_config.post');
 
     Route::get('/anime/{id}/review', [App\Http\Controllers\AnimeController::class, 'showAnimeReview'])->name('anime_review.show');
 
     Route::post('/anime/{id}/review', [App\Http\Controllers\AnimeController::class, 'postAnimeReview'])->name('anime_review.post');
+
+    Route::get('/anime_review_list', [App\Http\Controllers\AnimeController::class, 'showAnimeReviewList'])->name('anime_review_list.show');
+
+    Route::post('/anime_review_list', [App\Http\Controllers\AnimeController::class, 'postAnimeReviewList'])->name('anime_review_list.post');
 });
 
 Route::group(['middleware' => 'admin_auth'], function () {
