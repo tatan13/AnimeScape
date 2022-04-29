@@ -118,6 +118,17 @@ class Anime extends Model
     }
 
     /**
+     * アニメのおすすめデータのユーザーを取得
+     *
+     * @return BelongsToMany
+     */
+    public function recommendAnimeUsers()
+    {
+        return $this->belongsToMany('App\Models\User', 'anime_recommends', 'anime_id', 'user_id')
+                    ->withTimestamps();
+    }
+
+    /**
      * ユーザーのレビューを取得
      *
      * @return HasMany
@@ -125,6 +136,16 @@ class Anime extends Model
     public function userReviews()
     {
         return $this->hasMany('App\Models\UserReview');
+    }
+
+    /**
+     * アニメのおすすめデータを取得
+     *
+     * @return HasMany
+     */
+    public function animeRecommends()
+    {
+        return $this->hasMany('App\Models\AnimeRecommed');
     }
 
     /**

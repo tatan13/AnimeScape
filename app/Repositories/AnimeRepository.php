@@ -83,7 +83,7 @@ class AnimeRepository extends AbstractRepository
             $query->whereInUserIdAndWhereNotNullScore($like_users_and_my_id);
         })->with('userReviews', function ($query) use ($like_users_and_my_id) {
             $query->whereInUserIdAndWhereNotNullScore($like_users_and_my_id)->with('user', function ($query) {
-                $query->select('id', 'uid');
+                $query->select('id', 'name');
             });
         })->select(['id', 'title', 'year', 'coor'])->get();
     }
@@ -271,5 +271,26 @@ class AnimeRepository extends AbstractRepository
         return Anime::whereYear($request->year)->whereCoor($request->coor)->with('userReview', function ($query) {
             $query->where('user_id', Auth::id());
         })->get();
+    }
+
+    /**
+     * おすすめアニメリストを取得
+     *
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getRecommendAnimeList()
+    {
+        return Auth::user()->recommendAnimes()->latest('recommendation_score')->get();
+    }
+
+    /**
+     * ログインユーザーがまだ得点入力していない中央値順のTOP5アニメリストを取得
+     *
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getTopAnimeList()
+    {
+        return Anime::whereNotIn('id', Auth::user()->userReviews()->whereNotNull('score')->pluck('anime_id'))
+        ->latest('median')->whereAboveCount(1)->take(5)->get();
     }
 }

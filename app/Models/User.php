@@ -17,7 +17,7 @@ class User extends Authenticatable
     use HasFactory;
     use Notifiable;
 
-    public const SEARCH_COLUMN = 'uid';
+    public const SEARCH_COLUMN = 'name';
 
     private const SEX = [
         0 => [ 'label' => '女性' ],
@@ -46,10 +46,10 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'uid',
+        'name',
         'password',
         'email',
-        'onewordcomment',
+        'one_comment',
         'twitter',
         'birth',
         'sex',
@@ -86,6 +86,17 @@ class User extends Authenticatable
     }
 
     /**
+     * ユーザーのおすすめアニメを取得
+     *
+     * @return BelongsToMany
+     */
+    public function recommendAnimes()
+    {
+        return $this->belongsToMany('App\Models\Anime', 'anime_recommends', 'user_id', 'anime_id')
+                    ->withTimestamps();
+    }
+
+    /**
      * ユーザーのレビューを取得
      *
      * @return HasMany
@@ -93,6 +104,16 @@ class User extends Authenticatable
     public function userReviews()
     {
         return $this->hasMany('App\Models\UserReview');
+    }
+
+    /**
+     * ユーザーのおすすめアニメのデータを取得
+     *
+     * @return HasMany
+     */
+    public function animeRecommends()
+    {
+        return $this->hasMany('App\Models\AnimeRecommend');
     }
 
     /**
@@ -167,8 +188,8 @@ class User extends Authenticatable
         return $this->likeCasts()->where('cast_id', $cast_id)->exists();
     }
 
-    public function scopeWhereAboveMedian($query, $uid)
+    public function scopeWhereName($query, $user_name)
     {
-        $query->whereUid('uid', $uid);
+        $query->where('name', $user_name);
     }
 }
