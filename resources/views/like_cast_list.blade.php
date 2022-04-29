@@ -1,12 +1,12 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ $user->uid }}さんのお気に入り声優 AnimeScape -アニメ批評空間-</title>
+    <title>{{ $user->name }}さんのお気に入り声優 AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('main')
-    <h2>{{ $user->uid }}さんのお気に入り声優</h2>
-    <strong>{{ $user->uid }}</strong>
+    <h2>{{ $user->name }}さんのお気に入り声優</h2>
+    <strong>{{ $user->name }}</strong>
     <h3>お気に入り声優</h3>
     <div id="like_casts">
         <ul>

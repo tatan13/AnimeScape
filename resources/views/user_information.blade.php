@@ -1,28 +1,28 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ $user_information->uid }}さんの情報 AnimeScape -アニメ批評空間-</title>
+    <title>{{ $user_information->name }}さんの情報 AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('main')
     <div id="likeUser">
-        <h2>{{ $user_information->uid }}さんの情報</h2>
-        <p>{{ $user_information->uid }}</p>
+        <h2>{{ $user_information->name }}さんの情報</h2>
+        <p>{{ $user_information->name }}</p>
         @auth
-            @if (strcmp(Auth::user()->uid, $user_information->uid) == 0)
+            @if (strcmp(Auth::user()->name, $user_information->name) == 0)
                 <a href="{{ route('user_config.show') }}">個人情報設定</a>
             @else
                 <div v-if="isLikedUser">
-                    <a href="#" @click="unlike(uid)">お気に入りユーザーを解除する</a>
+                    <a href="#" @click="unlike(user_name)">お気に入りユーザーを解除する</a>
                 </div>
                 <div v-else>
-                    <a href="#" @click="like(uid)">お気に入りユーザーとして登録する</a>
+                    <a href="#" @click="like(user_name)">お気に入りユーザーとして登録する</a>
                 </div>
             @endif
         @endauth
-        @if (!is_null($user_information->onewordcomment))
+        @if (!is_null($user_information->one_comment))
             <div id="one_comment">
-                <p class="one_comment">{{ $user_information->onewordcomment }}</p>
+                <p class="one_comment">{{ $user_information->one_comment }}</p>
             </div>
         @endif
         @if (!is_null($user_information->twitter))
@@ -55,7 +55,7 @@
                             <tr>
                                 <th>視聴予定数</th>
                                 <td><a
-                                        href="{{ route('user_will_watch_anime_list.show', ['uid' => $user_information->uid]) }}">{{ $user_information->will_watches_count }}</a>
+                                        href="{{ route('user_will_watch_anime_list.show', ['user_name' => $user_information->name]) }}">{{ $user_information->will_watches_count }}</a>
                                 </td>
                             </tr>
                             <tr>
@@ -65,19 +65,19 @@
                             <tr>
                                 <th>お気に入りユーザー数</th>
                                 <td><a
-                                        href="{{ route('user_like_user_list.show', ['uid' => $user_information->uid]) }}">{{ $user_information->userLikeUsers->count() }}</a>
+                                        href="{{ route('user_like_user_list.show', ['user_name' => $user_information->name]) }}">{{ $user_information->userLikeUsers->count() }}</a>
                                 </td>
                             </tr>
                             <tr>
                                 <th>被お気に入りユーザー数</th>
                                 <td><a
-                                        href="{{ route('user_liked_user_list.show', ['uid' => $user_information->uid]) }}">@{{ likedUserCount }}</a>
+                                        href="{{ route('user_liked_user_list.show', ['user_name' => $user_information->name]) }}">@{{ likedUserCount }}</a>
                                 </td>
                             </tr>
                             <tr>
                                 <th>お気に入り声優数</th>
                                 <td><a
-                                        href="{{ route('user_like_cast_list.show', ['uid' => $user_information->uid]) }}">{{ $user_information->likeCasts->count() }}</a>
+                                        href="{{ route('user_like_cast_list.show', ['user_name' => $user_information->name]) }}">{{ $user_information->likeCasts->count() }}</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -111,7 +111,7 @@
         <div class="container-fruid">
             <div class="row">
                 <div class="col-md-12">
-                    <form action="{{ route('user.show', ['uid' => $user_information->uid]) }}" name="coor_score_animelist"
+                    <form action="{{ route('user.show', ['user_name' => $user_information->name]) }}" name="coor_score_animelist"
                         method="get">
                         @csrf
                         <select name="year" id="coor_year">
@@ -127,7 +127,7 @@
                             <option value="4" {{ $coor == 4 ? 'selected' : '' }}>秋</option>
                         </select>
                         <input type="submit" value="絞り込み"> <a
-                            href="{{ route('user.show', ['uid' => $user_information->uid]) }}">絞り込み解除</a>
+                            href="{{ route('user.show', ['user_name' => $user_information->name]) }}">絞り込み解除</a>
                     </form>
                     <table id="anime_score_list">
                         <thead>
@@ -171,7 +171,7 @@
             el: '#likeUser',
             data() {
                 return {
-                    uid: '{{ $user_information->uid }}',
+                    user_name: '{{ $user_information->name }}',
                     likedUserCount: '{{ $user_information->userLikedUsers->count() }}',
                     @auth
                         isLikedUser: '{{ Auth::user()->isLikeUser($user_information->id) }}',
@@ -179,8 +179,8 @@
                 };
             },
             methods: {
-                like(uid) {
-                    let url = `/user_information/${uid}/like`
+                like(user_name) {
+                    let url = `/user_information/${user_name}/like`
                     axios.get(url)
                         .then(response => {
                             this.likedUserCount = response.data.likedUserCount
@@ -190,8 +190,8 @@
                             alert(error)
                         });
                 },
-                unlike(uid) {
-                    let url = `/user_information/${uid}/unlike`
+                unlike(user_name) {
+                    let url = `/user_information/${user_name}/unlike`
                     axios.get(url)
                         .then(response => {
                             this.likedUserCount = response.data.likedUserCount

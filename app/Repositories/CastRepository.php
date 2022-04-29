@@ -61,4 +61,16 @@ class CastRepository extends AbstractRepository
     {
         $cast->actAnimes()->attach($anime->id);
     }
+
+    /**
+     *
+     */
+    public function getBySearchWithactAnimes($search_word)
+    {
+        if (is_null($search_word)) {
+            return array();
+        }
+        $casts = Cast::where(Cast::SEARCH_COLUMN, 'like', "%$search_word%")->with('actAnimes')->get();
+        return $casts->isEmpty() ? array() : $casts;
+    }
 }

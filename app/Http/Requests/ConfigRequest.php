@@ -25,10 +25,10 @@ class ConfigRequest extends FormRequest
     {
         return [
             'email' => 'email|string|nullable',
-            'onewordcomment' => 'max:40|string|nullable',
+            'one_comment' => 'max:40|string|nullable',
             'twitter' => 'nullable|string',
             'birth' => 'integer|nullable',
-            'sex' => 'nullable|bool',
+            'sex' => 'nullable|integer',
         ];
     }
 
@@ -42,7 +42,7 @@ class ConfigRequest extends FormRequest
         return [
           'email.email' => '有効なメールアドレスを指定してください。',
           'email.string' => 'メールアドレスには文字列を入力してください。',
-          'onewordcomment.string' => '一言には文字列を入力してください。',
+          'one_comment.string' => '一言には文字列を入力してください。',
           'birth.integer' => '整数で入力してください。',
         ];
     }

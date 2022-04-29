@@ -1,12 +1,12 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ $user->uid }}さんの視聴予定表 AnimeScape -アニメ批評空間-</title>
+    <title>{{ $user->name }}さんの視聴予定表 AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('main')
-    <h2>{{ $user->uid }}さんの視聴予定表</h2>
-    <strong>{{ $user->uid }}</strong>
+    <h2>{{ $user->name }}さんの視聴予定表</h2>
+    <strong>{{ $user->name }}</strong>
     <h3>視聴予定表</h3>
     <div id="will_watch_anime">
         <table id="will_watch_anime_table">

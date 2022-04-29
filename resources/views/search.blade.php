@@ -94,7 +94,7 @@
                     <ul>
                         @foreach ($search_results as $user)
                             <li>
-                                <a href="{{ route('user.show', ['uid' => $user->uid]) }}">{{ $user->uid }}</a>
+                                <a href="{{ route('user.show', ['user_name' => $user->name]) }}">{{ $user->name }}</a>
                             </li>
                         @endforeach
                         <ul>

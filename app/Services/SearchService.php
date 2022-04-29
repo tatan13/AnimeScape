@@ -52,7 +52,7 @@ class SearchService
             return $this->animeRepository->getBySearch($search_word);
         }
         if ($request->category === self::TYPE_CAST) {
-            return $this->castRepository->getBySearch($search_word);
+            return $this->castRepository->getBySearchWithactAnimes($search_word);
         }
         if ($request->category === self::TYPE_USER) {
             return $this->userRepository->getBySearch($search_word);

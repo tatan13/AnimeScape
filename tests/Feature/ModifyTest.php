@@ -44,7 +44,7 @@ class ModifyTest extends TestCase
         $this->anime->actCasts()->attach($this->cast1->id);
         $this->anime->actCasts()->attach($this->cast2->id);
 
-        $this->user1 = User::factory()->create(['uid' => 'root']);
+        $this->user1 = User::factory()->create(['name' => 'root']);
         $this->user2 = User::factory()->create();
     }
 

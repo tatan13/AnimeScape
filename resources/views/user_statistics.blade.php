@@ -1,14 +1,14 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ $user->uid }}さんのお気に入りユーザーの統計表 AnimeScape -アニメ批評空間-</title>
+    <title>{{ $user->name }}さんのお気に入りユーザーの統計表 AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('main')
-    <h2>{{ $user->uid }}さんのお気に入りユーザーの統計表</h2>
-    <strong>{{ $user->uid }}</strong>
+    <h2>{{ $user->name }}さんのお気に入りユーザーの統計表</h2>
+    <strong>{{ $user->name }}</strong>
     <h3>表示設定</h3>
-    <form action="{{ route('user_statistics.show', ['uid' => $user->uid]) }}" method="get">
+    <form action="{{ route('user_statistics.show', ['user_name' => $user->name]) }}" method="get">
         @csrf
         中央値
         <input type="number" name="median" value="{{ $median ?? 70 }}" style="width:50px;">以上<br>
@@ -18,7 +18,7 @@
         <input type="number" name="bottom_year" value="{{ $bottom_year ?? 1900 }}" style="width:70px;">～
         <input type="number" name="top_year" value="{{ $top_year ?? 2100 }}" style="width:70px;"><br>
         <input type="submit" value="絞り込み">
-        <a href="{{ route('user_statistics.show', ['uid' => $user->uid]) }}">絞り込み解除</a>
+        <a href="{{ route('user_statistics.show', ['user_name' => $user->name]) }}">絞り込み解除</a>
     </form>
     <h3>統計表</h3>
     <div id="user_statistics">
@@ -49,7 +49,7 @@
                                 @foreach ($anime->userReviews as $user_review)
                                     <li>
                                         <span class="score">{{ $user_review->score }}</span>
-                                        <a href="{{ route('user.show', ['uid' => $user_review->user->uid]) }}">{{ $user_review->user->uid }}
+                                        <a href="{{ route('user.show', ['user_name' => $user_review->user->name]) }}">{{ $user_review->user->name }}
                                         </a>
                                     </li>
                                 @endforeach

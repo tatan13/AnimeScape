@@ -13,7 +13,7 @@ class ExceptionService
      */
     public function render404IfNotRootUser()
     {
-        if (Auth::user()->uid != "root") {
+        if (Auth::user()->name != "root") {
             abort(404);
         }
     }

@@ -5,5 +5,3 @@ parameters:
         - app
         - tests
     level: 5
-    ignoreErrors:
-        - '#\$sex \(0\|1\|bool\) does not accept null#'

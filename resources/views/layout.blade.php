@@ -23,9 +23,9 @@
                     <div id="login">
                         <h3>ログインメニュー</h3>
                         @if (Auth::check())
-                            ログイン中 : {{ Auth::user()->uid }}
+                            ログイン中 : {{ Auth::user()->name }}
                             <ul>
-                                <li><a href="{{ route('user.show', ['uid' => auth()->user()->uid]) }}">マイページ</a><br>
+                                <li><a href="{{ route('user.show', ['user_name' => auth()->user()->name]) }}">マイページ</a><br>
                                 </li>
                                 <li>
                                     <form action="{{ route('logout') }}" name="logout" method="POST">

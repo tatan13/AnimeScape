@@ -1,13 +1,13 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ $user->uid }}さんのお気に入りユーザー AnimeScape -アニメ批評空間-</title>
+    <title>{{ $user->name }}さんのお気に入りユーザー AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('main')
-    <h2>{{ $user->uid }}さんのお気に入りユーザー</h2>
-    <strong>{{ $user->uid }}</strong><br>
-    <a href=" {{ route('user_statistics.show', ['uid' => $user->uid]) }} ">統計表</a>
+    <h2>{{ $user->name }}さんのお気に入りユーザー</h2>
+    <strong>{{ $user->name }}</strong><br>
+    <a href=" {{ route('user_statistics.show', ['user_name' => $user->name]) }} ">統計表</a>
     <h3>お気に入りユーザー</h3>
     <div id="like_users">
         <table id="like_users_table">
@@ -21,7 +21,7 @@
                 </tr>
                 @foreach ($like_user_list as $like_user)
                     <tr>
-                        <td><a href="{{ route('user.show', ['uid' => $like_user->uid]) }}">{{ $like_user->uid }}</a>
+                        <td><a href="{{ route('user.show', ['user_name' => $like_user->name]) }}">{{ $like_user->name }}</a>
                         </td>
                         <td>{{ $like_user->twitter ?? '-' }}</td>
                         <td>{{ $like_user->birth ?? '-' }}</td>
@@ -29,7 +29,7 @@
                             {{ $like_user->sex_label }}
                         </td>
                         <td>
-                            {{ $like_user->userReviews->isEmpty()? '-': $like_user->latestUserReviewUpdatedAt->updated_at }}
+                            {{  $like_user->latestUserReviewUpdatedAt->updated_at ?? '-' }}
                         </td>
                     </tr>
                 @endforeach

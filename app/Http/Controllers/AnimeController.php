@@ -11,9 +11,9 @@ use Illuminate\Http\Request;
 
 class AnimeController extends Controller
 {
-    private $animeService;
-    private $userReviewService;
-    private $castService;
+    private AnimeService $animeService;
+    private UserReviewService $userReviewService;
+    private CastService $castService;
 
     public function __construct(
         AnimeService $animeService,

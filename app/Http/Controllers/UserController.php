@@ -33,13 +33,13 @@ class UserController extends Controller
     /**
      * ユーザー情報を表示
      *
-     * @param string $uid
+     * @param string $user_name
      * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function show($uid, Request $request)
+    public function show($user_name, Request $request)
     {
-        $user_information = $this->userService->getUserWithInformation($uid, $request);
+        $user_information = $this->userService->getUserWithInformation($user_name, $request);
         return view('user_information', [
             'user_information' => $user_information,
             'year' => $request->year,
@@ -50,12 +50,12 @@ class UserController extends Controller
     /**
      * ユーザーの視聴予定アニメリストを表示
      *
-     * @param string $uid
+     * @param string $user_name
      * @return \Illuminate\View\View
      */
-    public function showWillWatchAnimeList($uid)
+    public function showWillWatchAnimeList($user_name)
     {
-        $user = $this->userService->getUser($uid);
+        $user = $this->userService->getUser($user_name);
         $will_watch_anime_list = $this->animeService->getWillWatchAnimeList($user);
         return view('will_watch_anime_list', [
             'user' => $user,
@@ -66,12 +66,12 @@ class UserController extends Controller
     /**
      * ユーザーのお気に入りユーザーリストを表示
      *
-     * @param string $uid
+     * @param string $user_name
      * @return \Illuminate\View\View
      */
-    public function showUserLikeUserList($uid)
+    public function showUserLikeUserList($user_name)
     {
-        $user = $this->userService->getUser($uid);
+        $user = $this->userService->getUser($user_name);
         $like_user_list = $this->userService->getLikeUserListWithLatestUserReview($user);
         return view('like_user_list', [
             'user' => $user,
@@ -82,12 +82,12 @@ class UserController extends Controller
     /**
      * ユーザーの被お気に入りユーザーリストを表示
      *
-     * @param string $uid
+     * @param string $user_name
      * @return \Illuminate\View\View
      */
-    public function showUserLikedUserList($uid)
+    public function showUserLikedUserList($user_name)
     {
-        $user = $this->userService->getUser($uid);
+        $user = $this->userService->getUser($user_name);
         $liked_user_list = $this->userService->getLikedUserListWithLatestUserReview($user);
         return view('liked_user_list', [
             'user' => $user,
@@ -98,12 +98,12 @@ class UserController extends Controller
     /**
      * ユーザーのお気に入り声優リストを表示
      *
-     * @param string $uid
+     * @param string $user_name
      * @return \Illuminate\View\View
      */
-    public function showUserLikeCastList($uid)
+    public function showUserLikeCastList($user_name)
     {
-        $user = $this->userService->getUser($uid);
+        $user = $this->userService->getUser($user_name);
         $like_cast_list = $this->castService->getLikeCastList($user);
         return view('like_cast_list', [
             'user' => $user,
@@ -114,12 +114,12 @@ class UserController extends Controller
     /**
      * ユーザーをお気に入りユーザーに登録
      *
-     * @param string $uid
+     * @param string $user_name
      * @return \Illuminate\Http\JsonResponse
      */
-    public function like($uid)
+    public function like($user_name)
     {
-        $user = $this->userService->getUser($uid);
+        $user = $this->userService->getUser($user_name);
         $this->userService->likeUser($user);
         $liked_user_count = $user->userLikedUsers->count();
         return response()->json(['likedUserCount' => $liked_user_count]);
@@ -128,12 +128,12 @@ class UserController extends Controller
     /**
      * ユーザーをお気に入りユーザーから解除
      *
-     * @param string $uid
+     * @param string $user_name
      * @return \Illuminate\Http\JsonResponse
      */
-    public function unlike($uid)
+    public function unlike($user_name)
     {
-        $user = $this->userService->getUser($uid);
+        $user = $this->userService->getUser($user_name);
         $this->userService->unlikeUser($user);
         $liked_user_count = $user->userLikedUsers->count();
         return response()->json(['likedUserCount' => $liked_user_count]);
@@ -166,13 +166,13 @@ class UserController extends Controller
 
     /**
      * お気に入りユーザー内での統計表を表示
-     * @param string $uid
+     * @param string $user_name
      * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function showUserStatistics($uid, Request $request)
+    public function showUserStatistics($user_name, Request $request)
     {
-        $user = $this->userService->getUser($uid);
+        $user = $this->userService->getUser($user_name);
         $user_anime_statistics = $this->animeService->getAnimeListForStatistics($user, $request);
         return view('user_statistics', [
             'user' => $user,

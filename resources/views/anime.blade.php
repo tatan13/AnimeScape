@@ -117,7 +117,7 @@
                 @endif
                 {{ $user_review->one_word_comment }}<br>
                 {{ $user_review->created_at }} <a
-                    href="{{ route('user.show', ['uid' => $user_review->user->uid]) }}">{{ $user_review->user->uid }}</a><br>
+                    href="{{ route('user.show', ['user_name' => $user_review->user->name]) }}">{{ $user_review->user->name }}</a><br>
                 <hr>
             @endif
         @endforeach

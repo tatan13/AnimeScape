@@ -8,7 +8,7 @@ use App\Services\ContactService;
 
 class ContactController extends Controller
 {
-    private $contactService;
+    private ContactService $contactService;
 
     public function __construct(ContactService $contactService)
     {

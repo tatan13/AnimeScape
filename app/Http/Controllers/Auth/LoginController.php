@@ -39,12 +39,12 @@ class LoginController extends Controller
     }
 
     /**
-     * ログインに使用するusernameをuidに変更
+     * ログインに使用するusernameをnameに変更
      * @return string
      */
     public function username()
     {
-        return 'uid'; //ユーザー名
+        return 'name'; //ユーザー名
     }
 
     /**

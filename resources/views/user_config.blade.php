@@ -32,7 +32,7 @@
                 </tr>
                 <tr>
                     <td>ユーザーID</td>
-                    <td>{{ $user->uid }}</td>
+                    <td>{{ $user->name }}</td>
                     <td>ユーザー名の変更はできません。</td>
                 </tr>
                 <tr>
@@ -45,7 +45,7 @@
                 <tr>
                     <td>一言</td>
                     <td>
-                        <input type="text" name="onewordcomment" id="one_comment_form" value="{{ $user->onewordcomment }}">
+                        <input type="text" name="one_comment" id="one_comment_form" value="{{ $user->one_comment }}">
                     </td>
                     <td>400文字以下でお願いします。改行したい場合は&lt;br&gt;と書いてください。</td>
                 </tr>

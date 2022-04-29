@@ -10,9 +10,9 @@ use Illuminate\Http\Request;
 
 class ModifyController extends Controller
 {
-    private $modifyService;
-    private $animeService;
-    private $castService;
+    private ModifyService $modifyService;
+    private AnimeService $animeService;
+    private CastService $castService;
 
     public function __construct(
         ModifyService $modifyService,

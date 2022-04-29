@@ -52,7 +52,7 @@ class LoginTest extends TestCase
     public function testLoginCorrectPost()
     {
         $response = $this->post('/login', [
-            'uid' => $this->user->uid,
+            'name' => $this->user->name,
             'password' => 'secret',
         ]);
         $response->assertRedirect('/');
@@ -68,7 +68,7 @@ class LoginTest extends TestCase
     public function testLoginIncorrectPost()
     {
         $response = $this->from('/login')->post('/login', [
-            'uid' => $this->user->uid,
+            'name' => $this->user->name,
             'password' => 'public',
         ]);
         $response->assertRedirect('/login');

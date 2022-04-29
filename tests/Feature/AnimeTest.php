@@ -15,6 +15,8 @@ class AnimeTest extends TestCase
     use RefreshDatabase;
 
     private Anime $anime;
+    private Anime $anime1;
+    private Anime $anime2;
     private Cast $cast1;
     private Cast $cast2;
     private User $user1;
@@ -34,6 +36,8 @@ class AnimeTest extends TestCase
             'max' => 100,
             'min' => 0,
         ]);
+        $this->anime1 = Anime::factory()->create();
+        $this->anime2 = Anime::factory()->create();
 
         $this->cast1 = Cast::factory()->create();
         $this->cast2 = Cast::factory()->create();
@@ -123,13 +127,13 @@ class AnimeTest extends TestCase
         $response = $this->get("/anime/{$this->anime->id}");
         $response->assertSeeInOrder([
             'excellent',
-            $this->user2->uid,
+            $this->user2->name,
             '100点',
             'not sad',
-            $this->user3->uid,
+            $this->user3->name,
         ]);
         // コメントしていないユーザーのレビュー情報の非表示を確認
-        $response->assertDontSee($this->user1->uid);
+        $response->assertDontSee($this->user1->name);
     }
 
     /**
@@ -191,7 +195,7 @@ class AnimeTest extends TestCase
      * @test
      * @return void
      */
-    public function testGuestScoreAnimeView()
+    public function testGuestAnimeReviewView()
     {
         $response = $this->get("/anime/{$this->anime->id}/review");
         $response->assertRedirect('/login');
@@ -203,7 +207,7 @@ class AnimeTest extends TestCase
      * @test
      * @return void
      */
-    public function testUser1LoginScoreAnimeView()
+    public function testUser1LoginAnimeReviewView()
     {
         $this->actingAs($this->user1);
         $response = $this->get("/anime/{$this->anime->id}/review");
@@ -216,7 +220,7 @@ class AnimeTest extends TestCase
      * @test
      * @return void
      */
-    public function testUser4ScoreAnimePost()
+    public function testUser4AnimeReviewPost()
     {
         $this->actingAs($this->user4);
         $response = $this->post("/anime/{$this->anime->id}/review", [
@@ -253,7 +257,7 @@ class AnimeTest extends TestCase
      * @test
      * @return void
      */
-    public function testUser3ScoreAnimePost()
+    public function testUser3AnimeReviewPost()
     {
         $this->actingAs($this->user3);
         $response = $this->post("/anime/{$this->anime->id}/review", [
@@ -271,6 +275,107 @@ class AnimeTest extends TestCase
             'watch' => false,
             'will_watch' => false,
             'spoiler' => false,
+        ]);
+    }
+
+    /**
+     * ゲストのアニメ得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestAnimeReviewListView()
+    {
+        $response = $this->get(route("anime_review_list.show", [
+            'year' => 2022,
+            'coor' => 1,
+        ]));
+        $response->assertRedirect('/login');
+    }
+
+    /**
+     * ログイン時のアニメ得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginAnimeReviewListView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route("anime_review_list.show", [
+            'year' => 2022,
+            'coor' => 1,
+        ]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->anime->title,
+            $this->anime1->title,
+            $this->anime2->title,
+        ]);
+    }
+
+    /**
+     * ログイン時のアニメ得点一括入力のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginAnimeReviewListPost()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route("anime_review_list.post", [
+            "year" => "2022",
+            "coor" => "1",
+            'anime_id[1]' => $this->anime->id,
+            'score[1]' => 40,
+            'watch[1]' => true,
+            'will_watch[1]' => true,
+            'spoiler[1]' => true,
+            'one_word_comment[1]' => 'not sad',
+            'anime_id[2]' => $this->anime1->id,
+            'score[2]' => 35,
+            'watch[2]' => true,
+            'will_watch[2]' => true,
+            'spoiler[2]' => true,
+            'one_word_comment[2]' => 'not sad',
+            'anime_id[3]' => $this->anime2->id,
+            'score[3]' => '',
+            'watch[3]' => 0,
+            'will_watch[3]' => 0,
+            'spoiler[3]' => 0,
+            'one_word_comment[3]' => '',
+        ]));
+        $response->assertRedirect('/anime_review_list?year=2022&coor=1');
+        $this->get('/anime_review_list?year=2022&coor=1')->assertSee('入力が完了しました。');
+        $this->assertDatabaseHas('user_reviews', [
+            'anime_id' => $this->anime->id,
+            'user_id' => $this->user1->id,
+            'score' => 40,
+            'one_word_comment' => 'not sad',
+            'watch' => true,
+            'will_watch' => true,
+            'spoiler' => true,
+        ]);
+        $this->assertDatabaseHas('user_reviews', [
+            'anime_id' => $this->anime1->id,
+            'user_id' => $this->user1->id,
+            'score' => 35,
+            'one_word_comment' => 'not sad',
+            'watch' => true,
+            'will_watch' => true,
+            'spoiler' => true,
+        ]);
+        $this->assertDatabaseMissing('user_reviews', [
+            'anime_id' => $this->anime2->id,
+            'user_id' => $this->user1->id,
+        ]);
+        $this->assertDatabaseHas('animes', [
+            'id' => $this->anime->id,
+            'median' => 70,
+            'average' => 70,
+            'count' => 3,
+            'max' => 100,
+            'min' => 40,
         ]);
     }
 }

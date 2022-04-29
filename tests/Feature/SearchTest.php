@@ -32,9 +32,9 @@ class SearchTest extends TestCase
         $this->cast1 = Cast::factory()->create(['name' => 'castName1']);
         $this->cast2 = Cast::factory()->create(['name' => 'castName2']);
         $this->cast3 = Cast::factory()->create(['name' => 'cname']);
-        $this->user1 = User::factory()->create(['uid' => 'userName1']);
-        $this->user2 = User::factory()->create(['uid' => 'userName2']);
-        $this->user3 = User::factory()->create(['uid' => 'uname']);
+        $this->user1 = User::factory()->create(['name' => 'userName1']);
+        $this->user2 = User::factory()->create(['name' => 'userName2']);
+        $this->user3 = User::factory()->create(['name' => 'uname']);
     }
 
     /**
@@ -148,8 +148,8 @@ class SearchTest extends TestCase
             'search_word' => 'userName',
         ]));
         $response->assertStatus(200);
-        $response->assertSeeInOrder([$this->user1->uid, $this->user2->uid]);
-        $response->assertDontSee($this->user3->uid);
+        $response->assertSeeInOrder([$this->user1->name, $this->user2->name]);
+        $response->assertDontSee($this->user3->name);
     }
 
     /**
