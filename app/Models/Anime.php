@@ -209,11 +209,6 @@ class Anime extends Model
         return $this->actCasts()->where('name', $cast_name)->exists();
     }
 
-    /**
-     * yearのクエリスコープ
-     *
-     * @param int $year
-     */
     public function scopeWhereYear($query, $year)
     {
         $query->where('year', $year);

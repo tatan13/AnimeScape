@@ -43,7 +43,7 @@ class SearchService
      * リクエストに従って検索した結果を取得
      *
      * @param Request $request
-     * @return Collection<int,Anime> | Collection<int,Cast> | Collection<int,User> | Collection<null>
+     * @return Collection<int,Anime> | Collection<int,Cast> | Collection<int,User> | Collection<null> | array<null>
      */
     public function getSearchResult(Request $request)
     {

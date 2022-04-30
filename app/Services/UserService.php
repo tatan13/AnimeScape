@@ -39,10 +39,12 @@ class UserService
             $user_information = $this->userRepository->getByNameWithUserReviewsAndAnimeForAll($user_name);
         }
         if (!is_null($request->year) && is_null($request->coor)) {
-            $user_information = $this->userRepository->getByNameWithUserReviewsAndAnimeForEachYear($user_name, $request);
+            $user_information = $this->userRepository
+            ->getByNameWithUserReviewsAndAnimeForEachYear($user_name, $request);
         }
         if (!is_null($request->year) && !is_null($request->coor)) {
-            $user_information = $this->userRepository->getByNameWithUserReviewsAndAnimeForEachCoor($user_name, $request);
+            $user_information = $this->userRepository
+            ->getByNameWithUserReviewsAndAnimeForEachCoor($user_name, $request);
         }
         if (is_null($request->year) && !is_null($request->coor)) {
             abort(404);

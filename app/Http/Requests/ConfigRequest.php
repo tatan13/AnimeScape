@@ -19,7 +19,7 @@ class ConfigRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return array<string>
      */
     public function rules()
     {
@@ -35,7 +35,7 @@ class ConfigRequest extends FormRequest
     /**
      * ユーザー情報変更フォームのバリデーションメッセージ
      *
-     * @return array
+     * @return array<string>
      */
     public function messages()
     {

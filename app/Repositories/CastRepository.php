@@ -50,6 +50,7 @@ class CastRepository extends AbstractRepository
     {
         return Cast::where('name', $cast_name)->first();
     }
+
     /**
      * アニメの出演声優を作成
      *
@@ -63,7 +64,9 @@ class CastRepository extends AbstractRepository
     }
 
     /**
+     * 声優を検索して出演アニメと共に取得
      *
+     * @return Collection<int|Cast> | array<null>
      */
     public function getBySearchWithactAnimes($search_word)
     {

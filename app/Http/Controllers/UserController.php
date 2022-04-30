@@ -16,9 +16,9 @@ use App\Http\Requests\ConfigRequest;
 
 class UserController extends Controller
 {
-    private $userService;
-    private $animeService;
-    private $castService;
+    private UserService $userService;
+    private AnimeService $animeService;
+    private CastService $castService;
 
     public function __construct(
         UserService $userService,

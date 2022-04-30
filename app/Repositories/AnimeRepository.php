@@ -74,7 +74,7 @@ class AnimeRepository extends AbstractRepository
     /**
      * リクエストに従ってお気に入りユーザー内の統計情報を取得
      *
-     * @param array $like_users_and_my_id
+     * @param array<int> $like_users_and_my_id
      * @return Collection<int,Anime>
      */
     public function getUserAnimeStatisticsWithUserReviewsAndUsers($like_users_and_my_id)

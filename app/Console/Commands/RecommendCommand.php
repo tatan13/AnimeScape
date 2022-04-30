@@ -92,7 +92,11 @@ class RecommendCommand extends Command
                 //類似度とアニメにつけられた点数の積をおすすめ度とする
                 foreach ($partner_user_reviews as $partner_user_review) {
                     $score = ($similarity['similarity'] * $partner_user_review->score);
-                    $recommend_anime_list->push(['user_id' => $my_id, 'anime_id' => $partner_user_review->anime_id, 'recommendation_score' => $score]);
+                    $recommend_anime_list->push([
+                        'user_id' => $my_id,
+                        'anime_id' => $partner_user_review->anime_id,
+                        'recommendation_score' => $score
+                    ]);
                 }
             }
             $recommend_anime_list = $recommend_anime_list->sortByDesc('score')->unique('anime_id')->take(5);
