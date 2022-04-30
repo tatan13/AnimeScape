@@ -19,7 +19,7 @@ class ContactRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return array<string>
      */
     public function rules()
     {
@@ -33,7 +33,7 @@ class ContactRequest extends FormRequest
     /**
      * 要望フォームのバリデーションメッセージ
      *
-     * @return array
+     * @return array<string>
      */
     public function messages()
     {

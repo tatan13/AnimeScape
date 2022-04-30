@@ -17,6 +17,26 @@ class Cast extends Model
         'name',
     ];
 
+    private const SEX = [
+        0 => [ 'label' => '女性' ],
+        1 => [ 'label' => '男性' ],
+    ];
+
+    /**
+     * 性別をラベルに変換
+     *
+     * @return string
+     */
+    public function getSexLabelAttribute()
+    {
+        $sex = $this->attributes['sex'];
+
+        if (!isset(self::SEX[$sex])) {
+            return '-';
+        }
+
+        return self::SEX[$sex]['label'];
+    }
     /**
      * 声優の所属アニメ情報を取得
      *

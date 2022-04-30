@@ -1,16 +1,16 @@
 <template>
     <div v-if="isLikedUser">
-        <a href="#" @click="unlike(uid)">お気に入りユーザーを解除する</a>
+        <a href="#" @click="unlike(user_name)">お気に入りユーザーを解除する</a>
     </div>
     <div v-else>
-        <a href="#" @click="like(uid)">お気に入りユーザーとして登録する</a>
+        <a href="#" @click="like(user_name)">お気に入りユーザーとして登録する</a>
     </div>
 </template>
 
 <script>
     export default {
         props:{
-            propsUid: {
+            propsName: {
                 type: String,
                 required: true,
             },
@@ -25,19 +25,19 @@
         },
         data() {
             return {
-                uid: '',
+                user_name: '',
                 likedUserCount: 0,
                 isLikedUser: false,
             };
         },
         created() {
-            this.uid = this.propsUid
+            this.user_name = this.propsName
             this.likedUserCount = this.defaultLikedUserCount
             this.isLikedUser = this.defaultIsLikeUser
         },
         methods: {
-            like(uid) {
-                let url = `/user_information/${uid}/like`
+            like(user_name) {
+                let url = `/user_information/${user_name}/like`
                 axios.get(url)
                 .then(response => {
                     this.likedUserCount = response.data.likedUserCount
@@ -48,8 +48,8 @@
                 });
                 this.$emit('like-event', this.likedUserCount);
             },
-            unlike(uid) {
-                let url = `/user_information/${uid}/unlike`
+            unlike(user_name) {
+                let url = `/user_information/${user_name}/unlike`
                 axios.get(url)
                 .then(response => {
                     this.likedUserCount = response.data.likedUserCount

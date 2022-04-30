@@ -7,7 +7,7 @@ use App\Services\AnimeService;
 
 class StatisticsController extends Controller
 {
-    private $animeService;
+    private AnimeService $animeService;
 
     public function __construct(AnimeService $animeService)
     {

@@ -32,14 +32,14 @@ class UserTest extends TestCase
         parent::setUp();
 
         $this->user1 = User::factory()->create([
-            'onewordcomment' => 'exellent',
+            'one_comment' => 'exellent',
             'twitter' => 'twitterId',
             'birth' => 1998,
             'sex' => 1,
         ]);
         $this->user2 = User::factory()->create([
             'email' => null,
-            'onewordcomment' => null,
+            'one_comment' => null,
             'twitter' => null,
             'birth' => null,
             'sex' => null,
@@ -117,11 +117,12 @@ class UserTest extends TestCase
      */
     public function testGuestUser1ProfileView()
     {
-        $response = $this->get("/user_information/{$this->user1->uid}");
+        $response = $this->get("/user_information/{$this->user1->name}");
+        $response->assertStatus(200);
         $response->assertDontSee('個人情報設定');
         $response->assertSeeInOrder([
-            $this->user1->uid,
-            $this->user1->onewordcomment,
+            $this->user1->name,
+            $this->user1->one_comment,
             $this->user1->twitter,
         ]);
     }
@@ -135,7 +136,8 @@ class UserTest extends TestCase
     public function testUser1LoginUser2ProfileView()
     {
         $this->actingAs($this->user1);
-        $response = $this->get("/user_information/{$this->user2->uid}");
+        $response = $this->get("/user_information/{$this->user2->name}");
+        $response->assertStatus(200);
         $response->assertDontSee('個人情報設定');
         $response->assertDontSee('class="one_comment"');
         $response->assertDontSee('Twitter : ');
@@ -150,7 +152,7 @@ class UserTest extends TestCase
     public function testUser2LoginUser1Like()
     {
         $this->actingAs($this->user2);
-        $response = $this->get("/user_information/{$this->user1->uid}/like");
+        $response = $this->get("/user_information/{$this->user1->name}/like");
         $this->assertDatabaseHas('user_like_users', [
             'id' => 6,
             'user_id' => $this->user2->id,
@@ -167,7 +169,7 @@ class UserTest extends TestCase
     public function testUser1LoginUser2Unlike()
     {
         $this->actingAs($this->user1);
-        $response = $this->get("/user_information/{$this->user2->uid}/unlike");
+        $response = $this->get("/user_information/{$this->user2->name}/unlike");
         $this->assertDatabaseMissing('user_like_users', [
             'id' => 1,
             'user_id' => $this->user1->id,
@@ -184,7 +186,7 @@ class UserTest extends TestCase
     public function testUser1LoginUser2Like()
     {
         $this->actingAs($this->user1);
-        $response = $this->get("/user_information/{$this->user2->uid}/like");
+        $response = $this->get("/user_information/{$this->user2->name}/like");
         $this->assertDatabaseMissing('user_like_users', [
             'id' => 6,
             'user_id' => $this->user1->id,
@@ -200,7 +202,7 @@ class UserTest extends TestCase
      */
     public function testGuestUser1Like()
     {
-        $response = $this->get("/user_information/{$this->user1->uid}/like");
+        $response = $this->get("/user_information/{$this->user1->name}/like");
         $response->assertRedirect('/login');
     }
 
@@ -212,7 +214,7 @@ class UserTest extends TestCase
      */
     public function testGuestUser1Unlike()
     {
-        $response = $this->get("/user_information/{$this->user1->uid}/unlike");
+        $response = $this->get("/user_information/{$this->user1->name}/unlike");
         $response->assertRedirect('/login');
     }
 
@@ -224,7 +226,8 @@ class UserTest extends TestCase
      */
     public function testUser1AllStatisticView()
     {
-        $response = $this->get("/user_information/{$this->user1->uid}");
+        $response = $this->get("/user_information/{$this->user1->name}");
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             '統計情報(すべて)',
             '得点入力数',
@@ -274,10 +277,11 @@ class UserTest extends TestCase
      */
     public function testUser1YearStatisticView()
     {
-        $response = $this->get(route('user', [
-                'uid' => $this->user1->uid,
+        $response = $this->get(route('user.show', [
+                'user_name' => $this->user1->name,
                 'year' => 2022,
             ]));
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
                 '統計情報(2022年)',
                 '得点入力数',
@@ -321,11 +325,12 @@ class UserTest extends TestCase
      */
     public function testUser1CoorStatisticView()
     {
-        $response = $this->get(route('user', [
-            'uid' => $this->user1->uid,
+        $response = $this->get(route('user.show', [
+            'user_name' => $this->user1->name,
             'year' => 2022,
             'coor' => 1,
         ]));
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             '統計情報(2022年冬クール)',
             '得点入力数',
@@ -366,8 +371,8 @@ class UserTest extends TestCase
      */
     public function testUser1CoorNullYearStatisticView()
     {
-        $response = $this->get(route('user', [
-            'uid' => $this->user1->uid,
+        $response = $this->get(route('user.show', [
+            'user_name' => $this->user1->name,
             'coor' => 1,
         ]));
         $response->assertStatus(404);
@@ -381,8 +386,8 @@ class UserTest extends TestCase
      */
     public function testUser1NullStatisticView()
     {
-        $response = $this->get(route('user', [
-            'uid' => $this->user1->uid,
+        $response = $this->get(route('user.show', [
+            'user_name' => $this->user1->name,
             'year' => 0,
             'coor' => 0,
         ]));
@@ -397,8 +402,8 @@ class UserTest extends TestCase
      */
     public function testNotExistUser1View()
     {
-        $response = $this->get(route('user', [
-            'uid' => 'NotExistUser',
+        $response = $this->get(route('user.show', [
+            'user_name' => 'NotExistUser',
         ]));
         $response->assertStatus(404);
     }
@@ -411,7 +416,8 @@ class UserTest extends TestCase
      */
     public function testUser1WillWatchAnimeListView()
     {
-        $response = $this->get("/user_information/{$this->user1->uid}/will_watch_anime_list");
+        $response = $this->get("/user_information/{$this->user1->name}/will_watch_anime_list");
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->anime6->title,
             $this->anime5->title,
@@ -426,11 +432,12 @@ class UserTest extends TestCase
      */
     public function testUser1LikeUserListView()
     {
-        $response = $this->get("/user_information/{$this->user1->uid}/like_user_list");
+        $response = $this->get("/user_information/{$this->user1->name}/like_user_list");
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
-            $this->user2->uid,
-            $this->user3->uid,
-            $this->user4->uid,
+            $this->user2->name,
+            $this->user3->name,
+            $this->user4->name,
         ]);
     }
 
@@ -442,10 +449,11 @@ class UserTest extends TestCase
      */
     public function testUser1LikedUserListView()
     {
-        $response = $this->get("/user_information/{$this->user1->uid}/liked_user_list");
+        $response = $this->get("/user_information/{$this->user1->name}/liked_user_list");
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
-            $this->user3->uid,
-            $this->user4->uid,
+            $this->user3->name,
+            $this->user4->name,
         ]);
     }
 
@@ -457,7 +465,8 @@ class UserTest extends TestCase
      */
     public function testUser1LikeCastListView()
     {
-        $response = $this->get("/user_information/{$this->user1->uid}/like_cast_list");
+        $response = $this->get("/user_information/{$this->user1->name}/like_cast_list");
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->cast1->name,
             $this->cast2->name,
@@ -486,10 +495,11 @@ class UserTest extends TestCase
     {
         $this->actingAs($this->user1);
         $response = $this->get("/user_config");
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
-            $this->user1->uid,
+            $this->user1->name,
             $this->user1->email,
-            $this->user1->onewordcomment,
+            $this->user1->one_comment,
             $this->user1->twitter,
             $this->user1->birth,
         ]);
@@ -506,16 +516,16 @@ class UserTest extends TestCase
         $this->actingAs($this->user1);
         $response = $this->post("/user_config", [
             'email' => null,
-            'onewordcomment' => null,
+            'one_comment' => null,
             'twitter' => null,
             'birth' => null,
             'sex' => null,
         ]);
         $response->assertRedirect("/user_config");
         $this->assertDatabaseHas('users', [
-            'uid' => $this->user1->uid,
+            'name' => $this->user1->name,
             'email' => null,
-            'onewordcomment' => null,
+            'one_comment' => null,
             'twitter' => null,
             'birth' => null,
             'sex' => null,
@@ -533,19 +543,19 @@ class UserTest extends TestCase
         $this->actingAs($this->user2);
         $response = $this->post("/user_config", [
             'email' => 'example@gmail.com',
-            'onewordcomment' => 'excellent',
+            'one_comment' => 'excellent',
             'twitter' => 't_id',
             'birth' => 1998,
-            'sex' => false,
+            'sex' => 0,
         ]);
         $response->assertRedirect("/user_config");
         $this->assertDatabaseHas('users', [
-            'uid' => $this->user2->uid,
+            'name' => $this->user2->name,
             'email' => 'example@gmail.com',
-            'onewordcomment' => 'excellent',
+            'one_comment' => 'excellent',
             'twitter' => 't_id',
             'birth' => 1998,
-            'sex' => false,
+            'sex' => 0,
         ]);
     }
 }

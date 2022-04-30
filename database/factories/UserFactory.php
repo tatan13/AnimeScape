@@ -18,9 +18,9 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'uid' => $this->faker->name(),
+            'name' => $this->faker->name(),
             'twitter' => 'twitterId',
-            'onewordcomment' => 'exellent',
+            'one_comment' => 'exellent',
             'visible' => 1,
             'sex' => null,
             'birth' => 1998,

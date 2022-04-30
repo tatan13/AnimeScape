@@ -7,22 +7,25 @@ use App\Services\AnimeService;
 
 class IndexController extends Controller
 {
-    private $animeService;
+    private AnimeService $animeService;
 
     public function __construct(AnimeService $animeService)
     {
         $this->animeService = $animeService;
     }
+
     /**
      * インデックスページを表示
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function show()
     {
         $animes = $this->animeService->getNowCoorAnimeList();
+        $recommend_anime_list = $this->animeService->getRecommendAnimeList();
         return view('index', [
             'animes' => $animes,
+            'recommend_anime_list' => $recommend_anime_list,
         ]);
     }
 
@@ -31,7 +34,7 @@ class IndexController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function updateLog()
+    public function showUpdateLog()
     {
         return view('update_log');
     }

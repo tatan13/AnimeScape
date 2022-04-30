@@ -9,9 +9,9 @@ use App\Services\UserService;
 
 class CastController extends Controller
 {
-    private $castService;
-    private $animeService;
-    private $userService;
+    private CastService $castService;
+    private AnimeService $animeService;
+    private UserService $userService;
 
     public function __construct(
         CastService $castService,

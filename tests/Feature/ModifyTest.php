@@ -44,7 +44,7 @@ class ModifyTest extends TestCase
         $this->anime->actCasts()->attach($this->cast1->id);
         $this->anime->actCasts()->attach($this->cast2->id);
 
-        $this->user1 = User::factory()->create(['uid' => 'root']);
+        $this->user1 = User::factory()->create(['name' => 'root']);
         $this->user2 = User::factory()->create();
     }
 
@@ -57,6 +57,7 @@ class ModifyTest extends TestCase
     public function testModifyAnimeView()
     {
         $response = $this->get("/modify/anime/{$this->anime->id}");
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->anime->title,
             $this->anime->title_short,
@@ -114,6 +115,7 @@ class ModifyTest extends TestCase
     public function testModifyOccupationView()
     {
         $response = $this->get("/modify/occupation/{$this->anime->id}");
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->cast1->name,
             $this->cast2->name,
@@ -164,7 +166,7 @@ class ModifyTest extends TestCase
     public function testGuestModifyListView()
     {
         $response = $this->get('/modify_list');
-        $response->assertRedirect('/login');
+        $response->assertStatus(403);
     }
 
     /**
@@ -177,7 +179,7 @@ class ModifyTest extends TestCase
     {
         $this->actingAs($this->user2);
         $response = $this->get('/modify_list');
-        $response->assertStatus(404);
+        $response->assertStatus(403);
     }
 
     /**
@@ -190,6 +192,7 @@ class ModifyTest extends TestCase
     {
         $this->actingAs($this->user1);
         $response = $this->get('/modify_list');
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             '1件目',
             'modify_title',
@@ -225,7 +228,7 @@ class ModifyTest extends TestCase
     public function testGuestModifyAnimeUpdate()
     {
         $response = $this->post("/modify/anime/{$this->modifyAnime->id}/update");
-        $response->assertRedirect("/login");
+        $response->assertStatus(403);
     }
 
     /**
@@ -248,7 +251,7 @@ class ModifyTest extends TestCase
             'company' => 'modify_company',
             'city_name' => 'modify_city_name',
         ]);
-        $response->assertStatus(404);
+        $response->assertStatus(403);
     }
 
     /**
@@ -308,7 +311,7 @@ class ModifyTest extends TestCase
     public function testGuestModifyAnimeDelete()
     {
         $response = $this->get("/modify/anime/{$this->modifyAnime->id}/delete");
-        $response->assertRedirect("/login");
+        $response->assertStatus(403);
     }
 
     /**
@@ -321,7 +324,7 @@ class ModifyTest extends TestCase
     {
         $this->actingAs($this->user2);
         $response = $this->get("/modify/anime/{$this->modifyAnime->id}/delete");
-        $response->assertStatus(404);
+        $response->assertStatus(403);
     }
 
     /**
@@ -359,7 +362,7 @@ class ModifyTest extends TestCase
     public function testGuestModifyOccupationUpdate()
     {
         $response = $this->post("/modify/occupation/{$this->anime->id}/update");
-        $response->assertRedirect("/login");
+        $response->assertStatus(403);
     }
 
     /**
@@ -375,7 +378,7 @@ class ModifyTest extends TestCase
             $this->cast1->name,
             'modify_cast1',
         ]);
-        $response->assertStatus(404);
+        $response->assertStatus(403);
     }
 
     /**
@@ -422,7 +425,7 @@ class ModifyTest extends TestCase
     public function testGuestModifyOccupationDelete()
     {
         $response = $this->get("/modify/occupation/{$this->anime->id}/delete");
-        $response->assertRedirect("/login");
+        $response->assertStatus(403);
     }
 
     /**
@@ -435,7 +438,7 @@ class ModifyTest extends TestCase
     {
         $this->actingAs($this->user2);
         $response = $this->get("/modify/occupation/{$this->anime->id}/delete");
-        $response->assertStatus(404);
+        $response->assertStatus(403);
     }
 
     /**

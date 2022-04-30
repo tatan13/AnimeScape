@@ -32,9 +32,9 @@ class SearchTest extends TestCase
         $this->cast1 = Cast::factory()->create(['name' => 'castName1']);
         $this->cast2 = Cast::factory()->create(['name' => 'castName2']);
         $this->cast3 = Cast::factory()->create(['name' => 'cname']);
-        $this->user1 = User::factory()->create(['uid' => 'userName1']);
-        $this->user2 = User::factory()->create(['uid' => 'userName2']);
-        $this->user3 = User::factory()->create(['uid' => 'uname']);
+        $this->user1 = User::factory()->create(['name' => 'userName1']);
+        $this->user2 = User::factory()->create(['name' => 'userName2']);
+        $this->user3 = User::factory()->create(['name' => 'uname']);
     }
 
     /**
@@ -45,10 +45,11 @@ class SearchTest extends TestCase
      */
     public function testSearchSomeAnimeView()
     {
-        $response = $this->get(route('search', [
+        $response = $this->get(route('search.show', [
             'category' => 'anime',
             'search_word' => '霊剣山',
         ]));
+        $response->assertStatus(200);
         $response->assertSeeInOrder([$this->anime1->title, $this->anime2->title,]);
         $response->assertDontSee($this->anime3->title);
     }
@@ -61,10 +62,11 @@ class SearchTest extends TestCase
      */
     public function testSearchNullWordAnimeView()
     {
-        $response = $this->get(route('search', [
+        $response = $this->get(route('search.show', [
             'category' => 'anime',
             'search_word' => '',
         ]));
+        $response->assertStatus(200);
         $response->assertSee('検索キーワードを入力してください。');
     }
 
@@ -76,10 +78,11 @@ class SearchTest extends TestCase
      */
     public function testSearchNoAnimeView()
     {
-        $response = $this->get(route('search', [
+        $response = $this->get(route('search.show', [
             'category' => 'anime',
             'search_word' => 'not found',
         ]));
+        $response->assertStatus(200);
         $response->assertSee('該当するアニメがありませんでした。');
     }
 
@@ -91,10 +94,11 @@ class SearchTest extends TestCase
      */
     public function testSearchSomeCastView()
     {
-        $response = $this->get(route('search', [
+        $response = $this->get(route('search.show', [
             'category' => 'cast',
             'search_word' => 'castName',
         ]));
+        $response->assertStatus(200);
         $response->assertSeeInOrder([$this->cast1->name, $this->cast2->name]);
         $response->assertDontSee($this->cast3->name);
     }
@@ -107,10 +111,11 @@ class SearchTest extends TestCase
      */
     public function testSearchNullWordCastView()
     {
-        $response = $this->get(route('search', [
+        $response = $this->get(route('search.show', [
             'category' => 'cast',
             'search_word' => '',
         ]));
+        $response->assertStatus(200);
         $response->assertSee('検索キーワードを入力してください。');
     }
 
@@ -122,10 +127,11 @@ class SearchTest extends TestCase
      */
     public function testSearchNoCastView()
     {
-        $response = $this->get(route('search', [
+        $response = $this->get(route('search.show', [
             'category' => 'cast',
             'search_word' => 'not found',
         ]));
+        $response->assertStatus(200);
         $response->assertSee('該当する声優がいませんでした。');
     }
 
@@ -137,12 +143,13 @@ class SearchTest extends TestCase
      */
     public function testSearchSomeUserView()
     {
-        $response = $this->get(route('search', [
+        $response = $this->get(route('search.show', [
             'category' => 'user',
             'search_word' => 'userName',
         ]));
-        $response->assertSeeInOrder([$this->user1->uid, $this->user2->uid]);
-        $response->assertDontSee($this->user3->uid);
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([$this->user1->name, $this->user2->name]);
+        $response->assertDontSee($this->user3->name);
     }
 
     /**
@@ -153,10 +160,11 @@ class SearchTest extends TestCase
      */
     public function testSearchNullWordUserView()
     {
-        $response = $this->get(route('search', [
+        $response = $this->get(route('search.show', [
             'category' => 'user',
             'search_word' => '',
         ]));
+        $response->assertStatus(200);
         $response->assertSee('検索キーワードを入力してください。');
     }
 
@@ -168,10 +176,11 @@ class SearchTest extends TestCase
      */
     public function testSearchNoUserView()
     {
-        $response = $this->get(route('search', [
+        $response = $this->get(route('search.show', [
             'category' => 'user',
             'search_word' => 'not found',
         ]));
+        $response->assertStatus(200);
         $response->assertSee('該当するユーザーがいませんでした。');
     }
 
@@ -183,7 +192,7 @@ class SearchTest extends TestCase
      */
     public function testSearchExceptionCategory()
     {
-        $response = $this->get(route('search', [
+        $response = $this->get(route('search.show', [
             'category' => 'ExceptionCategory',
             'search_word' => 'not found',
         ]));

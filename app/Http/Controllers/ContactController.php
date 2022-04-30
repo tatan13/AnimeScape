@@ -8,7 +8,7 @@ use App\Services\ContactService;
 
 class ContactController extends Controller
 {
-    private $contactService;
+    private ContactService $contactService;
 
     public function __construct(ContactService $contactService)
     {
@@ -20,7 +20,7 @@ class ContactController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function show()
     {
         $contacts = $this->contactService->getLatestContactList();
         return view('contact', [
@@ -36,6 +36,6 @@ class ContactController extends Controller
     public function post(ContactRequest $request)
     {
         $this->contactService->createContact($request);
-        return redirect(route('contact.index'));
+        return redirect(route('contact.show'));
     }
 }

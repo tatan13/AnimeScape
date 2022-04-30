@@ -17,7 +17,7 @@
         <form action="{{ route('login') }}" method="POST">
             @csrf
             <label for="name">ログインID</label><br>
-            <input type="text" size="15" name="uid" required><br>
+            <input type="text" size="15" name="name" required><br>
             <label for="password">パスワード</label><br>
             <input type="password" size="15" name="password" required><br>
             <input type="submit" value="ログイン">

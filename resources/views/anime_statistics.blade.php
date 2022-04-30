@@ -7,7 +7,7 @@
 @section('main')
     <h2>{{ !is_null($year) ? $year.'年' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor).'クール' : ''  }}アニメランキング（{{ App\Models\Anime::getCategoryLabel($category) }}順）</h2>
     <h3>検索条件変更</h3>
-    <form action="{{ route('anime_statistics') }}">
+    <form action="{{ route('anime_statistics.show') }}">
         @csrf
         <input type="hidden" name="year" value="{{ $year }}">
         <input type="hidden" name="coor" value="{{ $coor }}">
@@ -26,16 +26,20 @@
         <table>
             <tbody>
                 <tr>
+                    <th>順位</th>
                     <th>アニメ名</th>
                     <th>会社名</th>
+                    <th>放送クール</th>
                     <th>中央値</th>
                     <th>平均値</th>
                     <th>データ数</th>
                 </tr>
                 @foreach ($animes as $anime)
                     <tr>
-                        <td><a href="{{ route('anime', ['id' => $anime->id]) }}">{{ $anime->title }}</a></td>
+                        <td>{{ $loop->iteration }}</td>
+                        <td><a href="{{ route('anime.show', ['id' => $anime->id]) }}">{{ $anime->title }}</a></td>
                         <td>{{ $anime->company }}</td>
+                        <td>{{ $anime->year }}年{{ $anime->coor_label }}クール</td>
                         <td>{{ $anime->median }}</td>
                         <td>{{ $anime->average }}</td>
                         <td>{{ $anime->count }}</td>

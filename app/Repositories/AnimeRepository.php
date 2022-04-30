@@ -10,6 +10,7 @@ use App\Models\ModifyOccupation;
 use Illuminate\Http\Request;
 use App\Http\Requests\ModifyAnimeRequest;
 use App\Http\Requests\ReviewRequest;
+use App\Http\Requests\ReviewsRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -73,7 +74,7 @@ class AnimeRepository extends AbstractRepository
     /**
      * リクエストに従ってお気に入りユーザー内の統計情報を取得
      *
-     * @param array $like_users_and_my_id
+     * @param array<int> $like_users_and_my_id
      * @return Collection<int,Anime>
      */
     public function getUserAnimeStatisticsWithUserReviewsAndUsers($like_users_and_my_id)
@@ -82,7 +83,7 @@ class AnimeRepository extends AbstractRepository
             $query->whereInUserIdAndWhereNotNullScore($like_users_and_my_id);
         })->with('userReviews', function ($query) use ($like_users_and_my_id) {
             $query->whereInUserIdAndWhereNotNullScore($like_users_and_my_id)->with('user', function ($query) {
-                $query->select('id', 'uid');
+                $query->select('id', 'name');
             });
         })->select(['id', 'title', 'year', 'coor'])->get();
     }
@@ -168,24 +169,62 @@ class AnimeRepository extends AbstractRepository
      * ログインユーザーのアニメに紐づくユーザーレビューを作成
      *
      * @param Anime $anime
-     * @param ReviewRequest $submit_score
+     * @param ReviewRequest $submit_review
      * @return void
      */
-    public function createMyReview(Anime $anime, ReviewRequest $submit_score)
+    public function createMyReview(Anime $anime, ReviewRequest $submit_review)
     {
-        $anime->reviewUsers()->attach(Auth::user()->id, $submit_score->validated());
+        $anime->reviewUsers()->attach(Auth::user()->id, $submit_review->validated());
     }
 
     /**
      * ログインユーザーのアニメに紐づくユーザーレビューを更新
      *
      * @param Anime $anime
-     * @param ReviewRequest $submit_score
+     * @param ReviewRequest $submit_review
      * @return void
      */
-    public function updateMyReview(Anime $anime, ReviewRequest $submit_score)
+    public function updateMyReview(Anime $anime, ReviewRequest $submit_review)
     {
-        $anime->reviewUsers()->updateExistingPivot(Auth::user()->id, $submit_score->validated());
+        $anime->reviewUsers()->updateExistingPivot(Auth::user()->id, $submit_review->validated());
+    }
+
+    /**
+     * ログインユーザーのアニメに紐づくユーザーレビューをReviewsRequestによって作成
+     *
+     * @param Anime $anime
+     * @param ReviewsRequest $submit_reviews
+     * @param int $key
+     * @return void
+     */
+    public function createMyReviewByReviewsRequest(Anime $anime, ReviewsRequest $submit_reviews, $key)
+    {
+        $anime->reviewUsers()->attach(Auth::user()->id, [
+            'score' => $submit_reviews->score[$key],
+            'will_watch' => $submit_reviews->will_watch[$key],
+            'watch' => $submit_reviews->watch[$key],
+            'one_word_comment' => $submit_reviews->one_word_comment[$key],
+            'spoiler' => $submit_reviews->spoiler[$key],
+        ]);
+    }
+
+    /**
+     * ログインユーザーのアニメに紐づくユーザーレビューをReviewsRequestによって更新
+     *
+     * @param Anime $anime
+     * @param ReviewsRequest $submit_reviews
+     * @param int $key
+     * @return void
+     */
+    public function updateMyReviewByReviewsRequest(Anime $anime, ReviewsRequest $submit_reviews, $key)
+    {
+        $anime->reviewUsers()->updateExistingPivot(Auth::user()->id, [
+            'score' => $submit_reviews->score[$key],
+            'will_watch' => $submit_reviews->will_watch[$key],
+            'watch' => $submit_reviews->watch[$key],
+            'one_word_comment' => $submit_reviews->one_word_comment[$key],
+            'spoiler' => $submit_reviews->spoiler[$key],
+        ]);
     }
 
     /**
@@ -219,5 +258,39 @@ class AnimeRepository extends AbstractRepository
     public function getAnimeListWithModifyOccupationList()
     {
         return Anime::whereHas('modifyOccupations')->with(['occupations', 'modifyOccupations'])->get();
+    }
+
+    /**
+     * アニメリストをログインユーザーのレビューと共に取得
+     *
+     * @param ReviewsRequest | Request  $request
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getAnimeListWithMyReviewsFor(ReviewsRequest | Request $request)
+    {
+        return Anime::whereYear($request->year)->whereCoor($request->coor)->with('userReview', function ($query) {
+            $query->where('user_id', Auth::id());
+        })->get();
+    }
+
+    /**
+     * おすすめアニメリストを取得
+     *
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getRecommendAnimeList()
+    {
+        return Auth::user()->recommendAnimes()->latest('recommendation_score')->get();
+    }
+
+    /**
+     * ログインユーザーがまだ得点入力していない中央値順のTOP5アニメリストを取得
+     *
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getTopAnimeList()
+    {
+        return Anime::whereNotIn('id', Auth::user()->userReviews()->whereNotNull('score')->pluck('anime_id'))
+        ->latest('median')->whereAboveCount(1)->take(5)->get();
     }
 }

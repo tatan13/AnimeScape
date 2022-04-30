@@ -53,19 +53,19 @@ class RegisterTest extends TestCase
     public function testRegisterCorrectPost()
     {
         $response = $this->post('/register', [
-            'uid' => 'user',
+            'name' => 'user',
             'password' => 'secretpassword',
             'password_confirmation' => 'secretpassword',
         ]);
         $response->assertLocation('/');
         $this->assertDatabaseHas('users', [
-            'uid' => 'user',
+            'name' => 'user',
         ]);
         $this->assertAuthenticated();
 
         $this->post('/logout');
         $this->post('/login', [
-            'uid' => 'user',
+            'name' => 'user',
             'password' => 'secretpassword',
         ]);
         $this->assertAuthenticated();
@@ -80,7 +80,7 @@ class RegisterTest extends TestCase
     public function testRegisterIncorrectPost()
     {
         $response = $this->from('/register')->post('/register', [
-            'uid' => $this->user->uid,
+            'name' => $this->user->name,
             'password' => 'secre',
             'password_confirmation' => 'secret',
         ]);
@@ -102,7 +102,7 @@ class RegisterTest extends TestCase
     public function testRegisterNullPost()
     {
         $response = $this->from('/register')->post('/register', [
-            'uid' => '',
+            'name' => '',
             'password' => '',
             'password_confirmation' => '',
         ]);

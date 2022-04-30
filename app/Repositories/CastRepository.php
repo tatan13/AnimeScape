@@ -50,6 +50,7 @@ class CastRepository extends AbstractRepository
     {
         return Cast::where('name', $cast_name)->first();
     }
+
     /**
      * アニメの出演声優を作成
      *
@@ -60,5 +61,19 @@ class CastRepository extends AbstractRepository
     public function createOccupation(Cast $cast, Anime $anime)
     {
         $cast->actAnimes()->attach($anime->id);
+    }
+
+    /**
+     * 声優を検索して出演アニメと共に取得
+     *
+     * @return Collection<int|Cast> | array<null>
+     */
+    public function getBySearchWithactAnimes($search_word)
+    {
+        if (is_null($search_word)) {
+            return array();
+        }
+        $casts = Cast::where(Cast::SEARCH_COLUMN, 'like', "%$search_word%")->with('actAnimes')->get();
+        return $casts->isEmpty() ? array() : $casts;
     }
 }

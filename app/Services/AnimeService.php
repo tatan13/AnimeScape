@@ -10,6 +10,7 @@ use App\Repositories\CastRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use App\Http\Requests\ReviewRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
 
 class AnimeService
@@ -190,5 +191,30 @@ class AnimeService
     public function getAnimeListWithModifyOccupationList()
     {
         return $this->animeRepository->getAnimeListWithModifyOccupationList();
+    }
+
+    /**
+     * アニメリストをログインユーザーのレビューと共に取得
+     *
+     * @param Request $request
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getAnimeListWithMyReviewsFor(Request $request)
+    {
+        return $this->animeRepository->getAnimeListWithMyReviewsFor($request);
+    }
+
+    /**
+     * おすすめアニメリストを取得
+     *
+     * @return Collection<int,Anime> | Collection<null> | null
+     */
+    public function getRecommendAnimeList()
+    {
+        if (Auth::check()) {
+            $recommend_anime_list = $this->animeRepository->getRecommendAnimeList();
+            return $recommend_anime_list->isEmpty() ? $this->animeRepository->getTopAnimeList() : $recommend_anime_list;
+        }
+        return null;
     }
 }

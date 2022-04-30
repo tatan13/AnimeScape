@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Anime extends Model
 {
@@ -117,6 +118,17 @@ class Anime extends Model
     }
 
     /**
+     * アニメのおすすめデータのユーザーを取得
+     *
+     * @return BelongsToMany
+     */
+    public function recommendAnimeUsers()
+    {
+        return $this->belongsToMany('App\Models\User', 'anime_recommends', 'anime_id', 'user_id')
+                    ->withTimestamps();
+    }
+
+    /**
      * ユーザーのレビューを取得
      *
      * @return HasMany
@@ -124,6 +136,26 @@ class Anime extends Model
     public function userReviews()
     {
         return $this->hasMany('App\Models\UserReview');
+    }
+
+    /**
+     * アニメのおすすめデータを取得
+     *
+     * @return HasMany
+     */
+    public function animeRecommends()
+    {
+        return $this->hasMany('App\Models\AnimeRecommed');
+    }
+
+    /**
+     * ユーザーのレビューを取得
+     *
+     * @return HasOne
+     */
+    public function userReview()
+    {
+        return $this->hasOne('App\Models\UserReview');
     }
 
     /**
@@ -177,11 +209,6 @@ class Anime extends Model
         return $this->actCasts()->where('name', $cast_name)->exists();
     }
 
-    /**
-     * yearのクエリスコープ
-     *
-     * @param int $year
-     */
     public function scopeWhereYear($query, $year)
     {
         $query->where('year', $year);

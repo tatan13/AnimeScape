@@ -42,6 +42,7 @@ class ContactTest extends TestCase
     public function testContactCommentView()
     {
         $response = $this->get('/contact');
+        $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->contact1->name,
             $this->contact1->comment,

@@ -28,4 +28,5 @@
     <exclude-pattern>/server.php</exclude-pattern>
     <exclude-pattern>/app/Console/Kernel.php</exclude-pattern>
     <exclude-pattern>/tests/CreatesApplication.php</exclude-pattern>
+    <exclude-pattern>/_ide_helper_models.php</exclude-pattern>
 </ruleset>

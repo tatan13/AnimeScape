@@ -39,12 +39,12 @@ class LoginController extends Controller
     }
 
     /**
-     * ログインに使用するusernameをuidに変更
+     * ログインに使用するusernameをnameに変更
      * @return string
      */
     public function username()
     {
-        return 'uid'; //ユーザー名
+        return 'name'; //ユーザー名
     }
 
     /**
@@ -54,6 +54,6 @@ class LoginController extends Controller
      */
     protected function loggedOut(\Illuminate\Http\Request $request)
     {
-        return redirect(route('index'));
+        return redirect(RouteServiceProvider::HOME);
     }
 }
