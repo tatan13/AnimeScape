@@ -14,9 +14,15 @@
                 @endforeach
             </div>
         @endif
+        @if (session('status'))
+            <div class="alert alert-success" role="alert">
+                {{ session('status') }}
+            </div>
+        @endif
         <form action="{{ route('password.update') }}" method="POST">
             @csrf
-            <label for="email">ログインID</label><br>
+            <input type="hidden" name="token" value="{{ $token }}" required>
+            <label for="email">メールアドレス</label><br>
             <input type="text" name="email" value="{{ old('email') }}" required><br>
             <label for="password">パスワード</label><br>
             <input type="password" size="15" name="password" required><br>

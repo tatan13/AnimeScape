@@ -22,7 +22,8 @@
             <input type="password" size="15" name="password" required><br>
             <input type="submit" value="ログイン">
         </form>
-        IDを取得していない方はこちらへ → <a href="{{ route('register') }}">新規ID取得</a>
+        IDを取得していない方はこちらへ → <a href="{{ route('register') }}">新規ID取得</a><br>
+        パスワードを忘れた方はこちらへ → <a href="{{ route('password.request') }}">パスワード再設定申請</a>
     </div>
     </div>
     </div>
