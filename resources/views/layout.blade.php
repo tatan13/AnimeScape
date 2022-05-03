@@ -9,6 +9,20 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
     @yield('title')
+    @if (env('APP_ENV') == 'production')
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-227732808-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'UA-227732808-1');
+        </script>
+    @endif
 </head>
 
 <body>
@@ -25,7 +39,8 @@
                         @if (Auth::check())
                             ログイン中 : {{ Auth::user()->name }}
                             <ul>
-                                <li><a href="{{ route('user.show', ['user_name' => auth()->user()->name]) }}">マイページ</a><br>
+                                <li><a
+                                        href="{{ route('user.show', ['user_name' => auth()->user()->name]) }}">マイページ</a><br>
                                 </li>
                                 <li>
                                     <form action="{{ route('logout') }}" name="logout" method="POST">
@@ -141,6 +156,7 @@
     </main>
     <footer>
         <hr>
+        <a href="{{ route('privacy_policy.show') }}">プライバシーポリシー</a>
         tatan13
     </footer>
     @yield('vue.js')

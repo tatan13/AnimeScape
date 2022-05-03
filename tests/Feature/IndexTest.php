@@ -78,4 +78,16 @@ class IndexTest extends TestCase
         $response = $this->get('/update_log');
         $response->assertStatus(200);
     }
+
+    /**
+     * プライバシーポリシーページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testPrivacyPolicyView()
+    {
+        $response = $this->get('/privacy_policy');
+        $response->assertStatus(200);
+    }
 }

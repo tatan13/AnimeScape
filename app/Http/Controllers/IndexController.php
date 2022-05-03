@@ -38,4 +38,14 @@ class IndexController extends Controller
     {
         return view('update_log');
     }
+
+    /**
+     * プライバシーポリシーを表示
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showPrivacyPolicy()
+    {
+        return view('privacy_policy');
+    }
 }
