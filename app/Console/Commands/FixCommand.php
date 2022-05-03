@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Anime;
 use App\Models\UserReview;
+use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 
 class FixCommand extends Command
@@ -52,5 +53,27 @@ class FixCommand extends Command
             $anime->save();
         }
         */
+        $url = "https://api.moemoe.tokyo/anime/v1/master/2022/2";
+        $method = "GET";
+
+        $client = new Client();
+
+        $response = $client->request($method, $url);
+
+        $posts = $response->getBody();
+        $posts = json_decode($posts);
+        $all_anime_list = Anime::all();
+
+        foreach ($posts as $post) {
+            $anime = $all_anime_list->where('title', $post->title)->first();
+            if (empty($anime)) {
+                print_r($post);
+            }
+        }
+
+        // ミラキュラス レディバグ＆シャノワール
+        // 機動戦士ガンダム 鉄血のオルフェンズ 特別編
+        // もっと！まじめにふまじめ かいけつゾロリ 第3シリーズ
+        // 爆丸エボリューションズ
     }
 }
