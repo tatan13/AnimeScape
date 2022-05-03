@@ -15,6 +15,7 @@ use App\Http\Requests\ModifyAnimeRequest;
 use App\Http\Requests\ReviewRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Collection;
+use Mail;
 
 class ModifyService
 {
@@ -65,6 +66,7 @@ class ModifyService
     public function createModifyAnime(Anime $anime, ModifyAnimeRequest $request)
     {
         $this->modifyAnimeRepository->createModifyAnime($anime, $request);
+        // $this->sendMailWhenModifyRequest();
     }
 
     /**
@@ -142,6 +144,7 @@ class ModifyService
                 $this->modifyOccupationRepository->createModifyOccupation($anime, $req_cast);
             }
         }
+        // $this->sendMailWhenModifyRequest();
     }
 
     /**
@@ -186,5 +189,20 @@ class ModifyService
     public function isContainCastName(Collection $list, string $cast_name)
     {
         return $list->contains('cast_name', $cast_name);
+    }
+
+    /**
+     * 変更申請時管理者にメールで通知
+     *
+     * @return void
+     */
+    public function sendMailWhenModifyRequest()
+    {
+        $data = [];
+
+        Mail::send('emails.modify_email', $data, function ($message) {
+            $message->to(config('mail.from.address'), config('app.name'))
+            ->subject('変更申請');
+        });
     }
 }
