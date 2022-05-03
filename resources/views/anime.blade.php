@@ -128,17 +128,10 @@
             <div id="twitter_search_header">
                 <h3>公式twitter</h3>
             </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div id="twitter_search_main">
-                            <a class="twitter-timeline"
-                                href="https://twitter.com/{{ $anime->twitter }}?ref_src=twsrc%5Etfw">Tweets by
-                                {{ $anime->twitter }}</a>
-                            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                        </div>
-                    </div>
-                </div>
+            <div id="twitter_search_main">
+                <a class="twitter-timeline" href="https://twitter.com/{{ $anime->twitter }}?ref_src=twsrc%5Etfw">Tweets by
+                    {{ $anime->twitter }}</a>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
             </div>
         </div>
     </div>
