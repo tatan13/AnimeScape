@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Anime;
 use App\Models\Cast;
+use App\Models\Occupation;
 use Illuminate\Support\Facades\DB;
 
 class AnimesCastsTableSeeder extends Seeder
@@ -17,52 +18,74 @@ class AnimesCastsTableSeeder extends Seeder
      */
     public function run()
     {
-        $posts = file_get_contents("data/2022_2_animelist.json");
+        $posts = file_get_contents("data/anime_cast_list.json");
         $posts = mb_convert_encoding($posts, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
         $posts = json_decode($posts);
+
         $anime_all = Anime::all();
+        $cast_all = Cast::all();
+        $upsert_anime_list = [];
+        $insert_cast_list = [];
+        $insert_act_cast_list = [];
+
         foreach ($posts as $post) {
             $anime = $anime_all->where('title', $post->title)->first();
             if (empty($anime)) {
-                $anime = new Anime();
-                $anime->title = $post->title;
-                $anime->title_short = null;
-                $anime->year = 2022;
-                $anime->coor = 2;
-                $anime->public_url = null;
-                $anime->twitter = null;
-                $anime->hash_tag = null;
-                $anime->sex = null;
-                $anime->sequel = null;
-                $anime->company = $post->company;
-                $anime->city_name = null;
-                $anime->save();
+                $upsert_anime_list [] = [
+                    'id' => null,
+                    'title' => $post->title,
+                    'year' => $post->year,
+                    'coor' => $post->coor,
+                    'company' => $post->company,
+                ];
             } else {
-                $anime->year = 2022;
-                $anime->coor = 2;
-                $anime->company = $post->company;
-                $anime->save();
-            }
-
-            $cast_all = Cast::all();
-            foreach ($post->casts as $new_cast) {
-                $cast = $cast_all->where('name', $new_cast)->first();
-                if (empty($cast)) {
-                    $cast = new Cast();
-                    $cast->name = $new_cast;
-                    $cast->furigana = null;
-                    $cast->sex = null;
-                    $cast->office = null;
-                    $cast->url = null;
-                    $cast->twitter = null;
-                    $cast->twitter = null;
-                    $cast->blog = null;
-                    $cast->save();
+                if (
+                    $anime->year != $post->year ||
+                    $anime->coor != $post->coor ||
+                    $anime->company != $post->company
+                ) {
+                    $upsert_anime_list [] = [
+                            'id' => $anime->id,
+                            'title' => $post->title,
+                            'year' => $post->year,
+                            'coor' => $post->coor,
+                            'company' => $post->company,
+                        ];
                 }
-                if (!$cast->isActAnime($anime->id)) {
-                    $cast->actAnimes()->attach($anime->id);
+            }
+            if (empty($post->casts)) {
+                continue;
+            }
+            foreach ($post->casts as $cast_name) {
+                $cast = $cast_all->where('name', $cast_name)->first();
+                if (empty($cast)) {
+                    $insert_cast_list [] = [
+                            'name' => $cast_name,
+                        ];
                 }
             }
         }
+        $insert_cast_list = array_unique($insert_cast_list, SORT_REGULAR);
+        Anime::upsert($upsert_anime_list, ['id']);
+        Cast::insert($insert_cast_list);
+
+        $anime_all = Anime::with('actCasts')->get();
+        $cast_all = Cast::all();
+        foreach ($posts as $post) {
+            if (empty($post->casts)) {
+                continue;
+            }
+            $anime = $anime_all->where('title', $post->title)->first();
+            foreach ($post->casts as $cast_name) {
+                $cast = $cast_all->where('name', $cast_name)->first();
+                if (!$anime->actCasts->contains('name', $cast->name)) {
+                    $insert_act_cast_list [] = [
+                        'anime_id' => $anime->id,
+                        'cast_id' => $cast->id,
+                    ];
+                }
+            }
+        }
+        Occupation::insert($insert_act_cast_list, ['id']);
     }
 }

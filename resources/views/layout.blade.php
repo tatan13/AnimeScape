@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css">
     @yield('title')
     @if (env('APP_ENV') == 'production')
         <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -25,7 +24,7 @@
     @endif
 </head>
 
-<body>
+<body style="background-color:lightyellow">
     <header>
         <h1><a href="{{ route('index.show') }}">AnimeScape -アニメ批評空間-</a></h1><br>
     </header>
@@ -58,6 +57,13 @@
                                                 <select name="year" id="coor_year">
                                                     <option value="2022">2022</option>
                                                     <option value="2021">2021</option>
+                                                    <option value="2020">2020</option>
+                                                    <option value="2019">2019</option>
+                                                    <option value="2018">2018</option>
+                                                    <option value="2017">2017</option>
+                                                    <option value="2016">2016</option>
+                                                    <option value="2015">2015</option>
+                                                    <option value="2014">2014</option>
                                                 </select>
                                                 年
                                                 <select name="coor" id="coor">
@@ -112,6 +118,13 @@
                                             <select name="year" id="year">
                                                 <option value="2022">2022</option>
                                                 <option value="2021">2021</option>
+                                                <option value="2020">2020</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2017">2017</option>
+                                                <option value="2016">2016</option>
+                                                <option value="2015">2015</option>
+                                                <option value="2014">2014</option>
                                             </select>
                                         </li>
                                     </ul>
@@ -127,6 +140,13 @@
                                             <select name="year" id="coor_year">
                                                 <option value="2022">2022</option>
                                                 <option value="2021">2021</option>
+                                                <option value="2020">2020</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2017">2017</option>
+                                                <option value="2016">2016</option>
+                                                <option value="2015">2015</option>
+                                                <option value="2014">2014</option>
                                             </select>
                                             年
                                             <select name="coor" id="coor">

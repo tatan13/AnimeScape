@@ -40,40 +40,50 @@ class FixCommand extends Command
      */
     public function handle()
     {
-        /*
-        $animes = Anime::all();
-
-        foreach ($animes as $anime) {
-            $user_reviews = $anime->userReviews()->get();
-            $anime->median = $user_reviews->median('score');
-            $anime->average = $user_reviews->avg('score');
-            $anime->max = $user_reviews->max('score');
-            $anime->min = $user_reviews->min('score');
-            $anime->count = $user_reviews->count();
-            $anime->save();
-        }
-        */
-        $url = "https://api.moemoe.tokyo/anime/v1/master/2022/2";
-        $method = "GET";
-
-        $client = new Client();
-
-        $response = $client->request($method, $url);
-
-        $posts = $response->getBody();
+        $posts = file_get_contents("data/anime_cast_list.json");
+        $posts = mb_convert_encoding($posts, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
         $posts = json_decode($posts);
-        $all_anime_list = Anime::all();
 
+        $anime_all = Anime::all();
         foreach ($posts as $post) {
-            $anime = $all_anime_list->where('title', $post->title)->first();
+            if (
+                $post->year != 2022 &&
+                $post->year != 2021 &&
+                $post->year != 2020
+            ) {
+                continue;
+            }
+            $anime = $anime_all->where('title', $post->title)->first();
             if (empty($anime)) {
-                print_r($post);
+                echo $post->title . "\n";
             }
         }
+        // $animes = Anime::all();
+        // foreach ($animes as $anime) {
+        //     $user_reviews = $anime->userReviews()->get();
+        //     $anime->median = $user_reviews->median('score');
+        //     $anime->average = $user_reviews->avg('score');
+        //     $anime->max = $user_reviews->max('score');
+        //     $anime->min = $user_reviews->min('score');
+        //     $anime->count = $user_reviews->count();
+        //     $anime->save();
+        // }
+        // $url = "https://api.moemoe.tokyo/anime/v1/master/2022/2";
+        // $method = "GET";
 
-        // ミラキュラス レディバグ＆シャノワール
-        // 機動戦士ガンダム 鉄血のオルフェンズ 特別編
-        // もっと！まじめにふまじめ かいけつゾロリ 第3シリーズ
-        // 爆丸エボリューションズ
+        // $client = new Client();
+
+        // $response = $client->request($method, $url);
+
+        // $posts = $response->getBody();
+        // $posts = json_decode($posts);
+        // $all_anime_list = Anime::all();
+
+        // foreach ($posts as $post) {
+        //     $anime = $all_anime_list->where('title', $post->title)->first();
+        //     if (empty($anime)) {
+        //         print_r($post);
+        //     }
+        // }
     }
 }
