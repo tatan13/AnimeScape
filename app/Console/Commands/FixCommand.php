@@ -48,8 +48,7 @@ class FixCommand extends Command
         foreach ($posts as $post) {
             if (
                 $post->year != 2022 &&
-                $post->year != 2021 &&
-                $post->year != 2020
+                $post->year != 2021
             ) {
                 continue;
             }

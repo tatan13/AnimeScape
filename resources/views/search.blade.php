@@ -10,35 +10,29 @@
             @case('anime')
                 <h2>検索結果 anime:{{ $search_word }}</h2>
                 @if (count($search_results) > 0)
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <th>アニメ名</th>
-                                            <th>会社名</th>
-                                            <th>放送クール</th>
-                                            <th>中央値</th>
-                                            <th>標準偏差</th>
-                                            <th>データ数</th>
-                                        </tr>
-                                        @foreach ($search_results as $anime)
-                                            <tr>
-                                                <td><a href="{{ route('anime.show', ['id' => $anime->id]) }}">{{ $anime->title }}</a>
-                                                </td>
-                                                <td>{{ $anime->company }}</td>
-                                                <td>{{ $anime->year }}年{{ $anime->coor_label }}クール</td>
-                                                <td>{{ $anime->median }}</td>
-                                                <td>{{ $anime->stdev }}</td>
-                                                <td>{{ $anime->count }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>アニメ名</th>
+                                <th>会社名</th>
+                                <th>放送クール</th>
+                                <th>中央値</th>
+                                <th>標準偏差</th>
+                                <th>データ数</th>
+                            </tr>
+                            @foreach ($search_results as $anime)
+                                <tr>
+                                    <td><a href="{{ route('anime.show', ['id' => $anime->id]) }}">{{ $anime->title }}</a>
+                                    </td>
+                                    <td>{{ $anime->company }}</td>
+                                    <td>{{ $anime->year }}年{{ $anime->coor_label }}クール</td>
+                                    <td>{{ $anime->median }}</td>
+                                    <td>{{ $anime->stdev }}</td>
+                                    <td>{{ $anime->count }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 @else
                     @if (isset($search_word))
                         該当するアニメがありませんでした。
