@@ -7,11 +7,24 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css">
     @yield('title')
+    @if (env('APP_ENV') == 'production')
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-227732808-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'UA-227732808-1');
+        </script>
+    @endif
 </head>
 
-<body>
+<body style="background-color:lightyellow">
     <header>
         <h1><a href="{{ route('index.show') }}">AnimeScape -アニメ批評空間-</a></h1><br>
     </header>
@@ -25,7 +38,8 @@
                         @if (Auth::check())
                             ログイン中 : {{ Auth::user()->name }}
                             <ul>
-                                <li><a href="{{ route('user.show', ['user_name' => auth()->user()->name]) }}">マイページ</a><br>
+                                <li><a
+                                        href="{{ route('user.show', ['user_name' => auth()->user()->name]) }}">マイページ</a><br>
                                 </li>
                                 <li>
                                     <form action="{{ route('logout') }}" name="logout" method="POST">
@@ -43,6 +57,13 @@
                                                 <select name="year" id="coor_year">
                                                     <option value="2022">2022</option>
                                                     <option value="2021">2021</option>
+                                                    <option value="2020">2020</option>
+                                                    <option value="2019">2019</option>
+                                                    <option value="2018">2018</option>
+                                                    <option value="2017">2017</option>
+                                                    <option value="2016">2016</option>
+                                                    <option value="2015">2015</option>
+                                                    <option value="2014">2014</option>
                                                 </select>
                                                 年
                                                 <select name="coor" id="coor">
@@ -97,6 +118,13 @@
                                             <select name="year" id="year">
                                                 <option value="2022">2022</option>
                                                 <option value="2021">2021</option>
+                                                <option value="2020">2020</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2017">2017</option>
+                                                <option value="2016">2016</option>
+                                                <option value="2015">2015</option>
+                                                <option value="2014">2014</option>
                                             </select>
                                         </li>
                                     </ul>
@@ -112,6 +140,13 @@
                                             <select name="year" id="coor_year">
                                                 <option value="2022">2022</option>
                                                 <option value="2021">2021</option>
+                                                <option value="2020">2020</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2017">2017</option>
+                                                <option value="2016">2016</option>
+                                                <option value="2015">2015</option>
+                                                <option value="2014">2014</option>
                                             </select>
                                             年
                                             <select name="coor" id="coor">
@@ -141,6 +176,7 @@
     </main>
     <footer>
         <hr>
+        <a href="{{ route('privacy_policy.show') }}">プライバシーポリシー</a>
         tatan13
     </footer>
     @yield('vue.js')

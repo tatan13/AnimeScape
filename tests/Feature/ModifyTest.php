@@ -60,14 +60,12 @@ class ModifyTest extends TestCase
         $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->anime->title,
-            $this->anime->title_short,
             $this->anime->year,
             $this->anime->coor_label,
             $this->anime->public_url,
             $this->anime->twitter,
             $this->anime->hash_tag,
             $this->anime->company,
-            $this->anime->city_name,
         ]);
     }
 
@@ -81,28 +79,24 @@ class ModifyTest extends TestCase
     {
         $response = $this->post("/modify/anime/{$this->anime->id}", [
             'title' => 'modify_title',
-            'title_short' => 'modify_title_short',
             'year' => 2040,
             'coor' => 4,
             'public_url' => 'https://modify_public_url',
             'twitter' => 'modify_twitterId',
             'hash_tag' => 'modify_hashTag',
             'company' => 'modify_company',
-            'city_name' => 'modify_city_name',
         ]);
         $response->assertRedirect("/modify/anime/{$this->anime->id}");
         $this->assertDatabaseHas('modify_animes', [
             'id' => 3,
             'anime_id' => $this->anime->id,
             'title' => 'modify_title',
-            'title_short' => 'modify_title_short',
             'year' => 2040,
             'coor' => 4,
             'public_url' => 'https://modify_public_url',
             'twitter' => 'modify_twitterId',
             'hash_tag' => 'modify_hashTag',
             'company' => 'modify_company',
-            'city_name' => 'modify_city_name',
         ]);
     }
 
@@ -196,16 +190,13 @@ class ModifyTest extends TestCase
         $response->assertSeeInOrder([
             '1件目',
             'modify_title',
-            'modify_title_short',
             2040,
             'https://modify_public_url',
             'modify_twitterId',
             'modify_hashTag',
             'modify_company',
-            'modify_city_name',
             '2件目',
             $this->modifyAnime1->title,
-            $this->modifyAnime1->title_short,
             '1件目',
             $this->anime->title,
             $this->cast1->name,
@@ -242,14 +233,12 @@ class ModifyTest extends TestCase
         $this->actingAs($this->user2);
         $response = $this->post("/modify/anime/{$this->modifyAnime->id}/update", [
             'title' => 'modify_title',
-            'title_short' => 'modify_title_short',
             'year' => 2040,
             'coor' => 4,
             'public_url' => 'https://modify_public_url',
             'twitter' => 'modify_twitterId',
             'hash_tag' => 'modify_hashTag',
             'company' => 'modify_company',
-            'city_name' => 'modify_city_name',
         ]);
         $response->assertStatus(403);
     }
@@ -265,40 +254,34 @@ class ModifyTest extends TestCase
         $this->actingAs($this->user1);
         $response = $this->post("/modify/anime/{$this->modifyAnime->id}/update", [
             'title' => 'modify_title',
-            'title_short' => 'modify_title_short',
             'year' => 2040,
             'coor' => 4,
             'public_url' => 'https://modify_public_url',
             'twitter' => 'modify_twitterId',
             'hash_tag' => 'modify_hashTag',
             'company' => 'modify_company',
-            'city_name' => 'modify_city_name',
         ]);
         $response->assertRedirect('/modify_list');
         $this->assertDatabaseHas('animes', [
             'id' => $this->anime->id,
             'title' => 'modify_title',
-            'title_short' => 'modify_title_short',
             'year' => 2040,
             'coor' => 4,
             'public_url' => 'https://modify_public_url',
             'twitter' => 'modify_twitterId',
             'hash_tag' => 'modify_hashTag',
             'company' => 'modify_company',
-            'city_name' => 'modify_city_name',
         ]);
         $this->assertDatabaseMissing('modify_animes', [
             'id' => $this->modifyAnime->id,
             'anime_id' => $this->anime->id,
             'title' => 'modify_title',
-            'title_short' => 'modify_title_short',
             'year' => 2040,
             'coor' => 4,
             'public_url' => 'https://modify_public_url',
             'twitter' => 'modify_twitterId',
             'hash_tag' => 'modify_hashTag',
             'company' => 'modify_company',
-            'city_name' => 'modify_city_name',
         ]);
     }
 
@@ -342,14 +325,12 @@ class ModifyTest extends TestCase
             'id' => $this->modifyAnime->id,
             'anime_id' => $this->anime->id,
             'title' => 'modify_title',
-            'title_short' => 'modify_title_short',
             'year' => 2040,
             'coor' => 4,
             'public_url' => 'https://modify_public_url',
             'twitter' => 'modify_twitterId',
             'hash_tag' => 'modify_hashTag',
             'company' => 'modify_company',
-            'city_name' => 'modify_city_name',
         ]);
     }
 

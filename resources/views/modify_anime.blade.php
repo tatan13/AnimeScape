@@ -29,12 +29,6 @@
                         <td><input type="text" name="title" value="{{ $anime->title }}"></td>
                     </tr>
                     <tr>
-                        <th>略称</th>
-                        <td>{{ $anime->title_short }}</td>
-                        <td><input type="text" name="title_short" value="{{ $anime->title_short }}">
-                        </td>
-                    </tr>
-                    <tr>
                         <th>放送年</th>
                         <td>{{ $anime->year }}</td>
                         <td><input type="number" name="year" value="{{ $anime->year }}"></td>
@@ -75,11 +69,6 @@
                         <th>制作会社</th>
                         <td>{{ $anime->company }}</td>
                         <td><input type="text" name="company" value="{{ $anime->company }}"></td>
-                    </tr>
-                    <tr>
-                        <th>舞台</th>
-                        <td>{{ $anime->city_name }}</td>
-                        <td><input type="text" name="city_name" value="{{ $anime->city_name }}"></td>
                     </tr>
                 </tbody>
             </table>
