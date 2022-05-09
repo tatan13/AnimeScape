@@ -13,15 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('modify_occupations', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('anime_id')->unsigned();
-            $table->string('cast_name');
-            $table->timestamps();
-
+        Schema::table('modify_animes', function (Blueprint $table) {
             if (DB::getDriverName()!== 'sqlite') {
-                $table->foreign('anime_id')->references('id')->on('animes')->onUpdate('CASCADE');
+                $table->dropForeign('modify_animes_anime_id_foreign');
             }
+            $table->foreign('anime_id')->references('id')->on('animes')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 
@@ -32,6 +28,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modify_occupations');
+        Schema::table('modify_animes', function (Blueprint $table) {
+            $table->dropForeign('modify_animes_anime_id_foreign');
+        });
     }
 };

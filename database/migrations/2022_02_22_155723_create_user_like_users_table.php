@@ -19,8 +19,10 @@ return new class extends Migration
             $table->integer('liked_user_id')->unsigned();;
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('CASCADE');
-            $table->foreign('liked_user_id')->references('id')->on('users')->onUpdate('CASCADE');
+            if (DB::getDriverName()!== 'sqlite') {
+                $table->foreign('user_id')->references('id')->on('users')->onUpdate('CASCADE');
+                $table->foreign('liked_user_id')->references('id')->on('users')->onUpdate('CASCADE');
+            }
         });
     }
 
