@@ -24,8 +24,11 @@ return new class extends Migration
             $table->boolean('watch')->default(0);
             $table->boolean('will_watch')->default(0);
             $table->timestamps();
-            $table->foreign('anime_id')->references('id')->on('animes')->onUpdate('CASCADE');
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('CASCADE');
+
+            if (DB::getDriverName()!== 'sqlite') {
+                $table->foreign('anime_id')->references('id')->on('animes')->onUpdate('CASCADE');
+                $table->foreign('user_id')->references('id')->on('users')->onUpdate('CASCADE');
+            }
         });
     }
 

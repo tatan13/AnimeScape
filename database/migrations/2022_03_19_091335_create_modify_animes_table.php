@@ -29,7 +29,9 @@ return new class extends Migration
             $table->string('city_name')->nullable();
             $table->timestamps();
 
-            $table->foreign('anime_id')->references('id')->on('animes')->onUpdate('CASCADE');
+            if (DB::getDriverName()!== 'sqlite') {
+                $table->foreign('anime_id')->references('id')->on('animes')->onUpdate('CASCADE');
+            }
         });
     }
 

@@ -46,10 +46,7 @@ class FixCommand extends Command
 
         $anime_all = Anime::all();
         foreach ($posts as $post) {
-            if (
-                $post->year != 2022 &&
-                $post->year != 2021
-            ) {
+            if ($post >= 2014) {
                 continue;
             }
             $anime = $anime_all->where('title', $post->title)->first();

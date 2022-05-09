@@ -18,9 +18,12 @@ return new class extends Migration
             $table->integer('anime_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->integer('recommendation_score');
-            $table->foreign('anime_id')->references('id')->on('animes')->onUpdate('CASCADE');
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('CASCADE');
             $table->timestamps();
+
+            if (DB::getDriverName()!== 'sqlite') {
+                $table->foreign('anime_id')->references('id')->on('animes')->onUpdate('CASCADE');
+                $table->foreign('user_id')->references('id')->on('users')->onUpdate('CASCADE');
+            }
         });
     }
 

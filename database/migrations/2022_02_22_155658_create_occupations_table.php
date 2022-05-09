@@ -19,8 +19,10 @@ return new class extends Migration
             $table->integer('cast_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('anime_id')->references('id')->on('animes')->onUpdate('CASCADE');
-            $table->foreign('cast_id')->references('id')->on('casts')->onUpdate('CASCADE');
+            if (DB::getDriverName()!== 'sqlite') {
+                $table->foreign('anime_id')->references('id')->on('animes')->onUpdate('CASCADE');
+                $table->foreign('cast_id')->references('id')->on('casts')->onUpdate('CASCADE');
+            }
         });
     }
 

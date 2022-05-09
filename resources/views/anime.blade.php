@@ -48,6 +48,10 @@
                     </tbody>
                 </table>
                 <a href="{{ route('modify_anime.show', ['id' => $anime->id]) }}">アニメの基本情報の変更依頼をする</a>
+                @can('isAdmin')
+                    <br><a href="{{ route('anime.delete', ['id' => $anime->id]) }}" onclick="return confirm('本当に削除しますか？')">このアニメを削除する</a>
+                @else
+                @endcan
             </div>
             <div id="statistics_information" class="col-md-3">
                 <table id="statistics_information_table">

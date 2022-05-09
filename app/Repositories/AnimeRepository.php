@@ -293,4 +293,15 @@ class AnimeRepository extends AbstractRepository
         return Anime::whereNotIn('id', Auth::user()->userReviews()->whereNotNull('score')->pluck('anime_id'))
         ->latest('median')->whereAboveCount(1)->take(5)->get();
     }
+
+    /**
+     * アニメを削除
+     *
+     * @param int $id
+     * @return void
+     */
+    public function deleteAnime($id)
+    {
+        $this->getById($id)->delete();
+    }
 }
