@@ -217,4 +217,25 @@ class AnimeService
         }
         return null;
     }
+
+    /**
+     * アニメを削除
+     *
+     * @param int $id
+     * @return void
+     */
+    public function deleteAnime($id)
+    {
+        $this->animeRepository->deleteAnime($id);
+    }
+
+    /**
+     * 全てのアニメリストを取得
+     *
+     * @return string
+     */
+    public function getAllAnimeListByJson()
+    {
+        return $this->animeRepository->getAll()->toJson(JSON_UNESCAPED_UNICODE);
+    }
 }

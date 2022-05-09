@@ -79,6 +79,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::group(['middleware' => 'admin_auth'], function () {
     
+    Route::get('/anime/{id}/delete', [App\Http\Controllers\AnimeController::class, 'deleteAnime'])->name('anime.delete');
+
     Route::get('/modify_list', [App\Http\Controllers\ModifyController::class, 'showModifyList'])->name('modify_list.show');
     
     Route::post('/modify/anime/{id}/update', [App\Http\Controllers\ModifyController::class, 'UpdateModifyAnime'])->name('modify_anime.update');

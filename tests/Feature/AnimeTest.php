@@ -45,7 +45,7 @@ class AnimeTest extends TestCase
         $this->anime->actCasts()->attach($this->cast1->id);
         $this->anime->actCasts()->attach($this->cast2->id);
 
-        $this->user1 = User::factory()->create();
+        $this->user1 = User::factory()->create(['name' => 'root']);
         $this->user2 = User::factory()->create();
         $this->user3 = User::factory()->create();
         $this->user4 = User::factory()->create();
@@ -147,6 +147,7 @@ class AnimeTest extends TestCase
         $response = $this->get("/anime/{$this->anime->id}");
         $response->assertSee('ログインしてこのアニメに得点やコメントを登録する');
         $response->assertDontSee('つけた得点');
+        $response->assertDontSee('このアニメを削除する');
     }
 
     /**
@@ -175,6 +176,7 @@ class AnimeTest extends TestCase
         $this->actingAs($this->user2);
         $response = $this->get("/anime/{$this->anime->id}");
         $response->assertDontSee('つけた得点');
+        $response->assertDontSee('このアニメを削除する');
     }
 
     /**
@@ -377,5 +379,59 @@ class AnimeTest extends TestCase
             'max' => 100,
             'min' => 40,
         ]);
+    }
+
+    /**
+     * ルートログイン時のアニメの削除リンクの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRoot1LoginAnimeDeleteView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get("/anime/{$this->anime->id}");
+        $response->assertSee('このアニメを削除する');
+    }
+
+    /**
+     * ルートログイン時のアニメ削除のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginAnimeDelete()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get("/anime/{$this->anime->id}/delete");
+        $response->assertRedirect('/');
+        $this->assertDatabaseMissing('animes', [
+            'id' => $this->anime->id,
+        ]);
+    }
+
+    /**
+     * ゲスト時のアニメ削除のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestAnimeDelete()
+    {
+        $response = $this->get("/anime/{$this->anime->id}/delete");
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時のアニメ削除のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUserAnimeDelete()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->get("/anime/{$this->anime->id}/delete");
+        $response->assertStatus(403);
     }
 }

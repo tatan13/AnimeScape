@@ -105,4 +105,27 @@ class AnimeController extends Controller
             'coor' => $request->coor,
             ])->with('flash_message', '入力が完了しました。');
     }
+
+    /**
+     * アニメを削除
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteAnime($id)
+    {
+        $this->animeService->deleteAnime($id);
+        return redirect()->route('index.show');
+    }
+
+    /**
+     * 全てのアニメを取得し、json形式で出力
+     *
+     * @return \Illuminate\Http\Response.
+     */
+    public function showAllAnimeList()
+    {
+        $anime_list_by_json = $this->animeService->getAllAnimeListByJson();
+        return response($anime_list_by_json, 200);
+    }
 }
