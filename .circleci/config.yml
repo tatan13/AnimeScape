@@ -37,7 +37,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "39:ef:c0:47:b7:84:98:3e:f5:60:a6:9a:2d:ce:68:87"
-      - run: ssh ${USER_NAME}@${HOST_NAME} 'cd docker-laravel/backend && git pull origin main && docker-compose exec -T app composer install && docker-compose exec -T app npm install && docker-compose exec -T app npm run prod && docker-compose exec -T app php artisan migrate'
+      - run: ssh ${USER_NAME}@${HOST_NAME} 'cd docker-laravel/backend && git pull origin main && docker-compose exec -T app composer install && docker-compose exec -T app npm install && docker-compose exec -T app npm run prod && docker-compose exec -T app php artisan migrate --force'
 
 workflows:
   version: 2
