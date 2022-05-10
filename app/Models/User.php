@@ -20,8 +20,8 @@ class User extends Authenticatable
     public const SEARCH_COLUMN = 'name';
 
     private const SEX = [
-        0 => [ 'label' => '女性' ],
-        1 => [ 'label' => '男性' ],
+        1 => [ 'label' => '女性' ],
+        2 => [ 'label' => '男性' ],
     ];
 
     /**

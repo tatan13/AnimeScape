@@ -11286,30 +11286,41 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-/* body{
-    background-color:lightyellow;
-} */
-
-header{
-    margin-top: 20px;
-    margin-bottom: 10px;
+header, nav, article, aside, section, footer {
+    display: block;
 }
 
-h1{
-    font-size: 118%;
+body {
+    background-color: lightyellow;
+    min-height: 100vh;
+    position: relative;
+    padding-bottom: 100px;
 }
 
-h2{
-    margin-bottom: 5px;
+header {
+    margin: 12px;
+}
+
+footer {
+    width: 100%;
+    text-align: right;
+    position: absolute;
+    bottom: 0;
+}
+
+h1 {
+    font-size: 200%;
+}
+
+h2 {
     background-color: #E0FFFF;
     border-width: 0px 0px 1px 5px;
     border-style: double;
     border-color: #0000FF;
-    padding-left: 2px;
     font-size: 112%;
 }
 
-h3{
+h3 {
     margin: 10px 0px 10px 0px;
     border-width: 0px 0px 2px;
     border-style: groove;
@@ -11317,18 +11328,7 @@ h3{
     font-size: 107%;
 }
 
-input{
-    line-height: 1.2;
-    margin: 2px 0px;
-    box-sizing: border-box;
-}
-
-textarea{
-    margin: 2px 0px;
-    box-sizing: border-box;
-}
-
-table{
+table {
     border: 1px solid #000000;
     border-collapse: collapse;
     margin: 0 0 0.5em 0;
@@ -11343,51 +11343,11 @@ th, td {
     border: 1px solid #909090;
 }
 
-th{
-    background-color:#FFDEAD;
+th {
+    background-color: #FFDEAD;
 }
 
-td{
-    background-color:#FFF0C0;
+td {
+    background-color: #FFF0C0;
 }
 
-#statistics_information_table td, #statistics_information_table th {
-    text-align: right;
-}
-
-ul{
-    padding: 0px;
-    margin: 0px 0px 5px;
-}
-
-li{
-    margin-left: 1.5em;
-}
-
-#anime_score_list li{
-    display: inline;
-    list-style-type: none;
-    margin-left: 0px;
-}
-
-#user_statistics li{
-    display: inline;
-    list-style-type: none;
-    margin-left: 0px;
-}
-
-.score{
-    font-size: 50%;
-}
-
-#one_comment{
-    margin: 10px 0px 10px 10px;
-}
-
-.one_comment{
-    background-color: #FDFDAA;
-}
-
-footer{
-    text-align: right;
-}

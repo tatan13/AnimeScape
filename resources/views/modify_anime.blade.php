@@ -1,11 +1,11 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ $anime->title }}の基本情報変更申請 AnimeScape -アニメ批評空間-</title>
+    <title>{{ $anime->title }}の基本情報変更申請 AnimeScape</title>
 @endsection
 
 @section('main')
-    <div id="modify_anime">
+    <article class="modify_anime">
         <h2>{{ $anime->title }}の基本情報変更申請</h2>
         <h3><a href="{{ route('anime.show', ['id' => $anime->id]) }}">{{ $anime->title }}</a></h3>
         @if (session('flash_message'))
@@ -13,10 +13,10 @@
                 {{ session('flash_message') }}
             </div>
         @endif
-        <form action="{{ route('modify_anime.post', ['id' => $anime->id]) }}" method="POST">
+        <form action="{{ route('modify_anime.post', ['id' => $anime->id]) }}" class="modify_anime_form" method="POST">
             @csrf
             <input type="submit" value="登録">
-            <table id="modify_anime_table">
+            <table class="modify_anime_table">
                 <tbody>
                     <tr>
                         <th>項目</th>
@@ -73,7 +73,5 @@
                 </tbody>
             </table>
         </form>
-    </div>
-    </div>
-    </div>
+    </article>
 @endsection

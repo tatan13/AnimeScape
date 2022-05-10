@@ -1,11 +1,11 @@
 @extends('layout')
 
 @section('title')
-    <title>パスワード再発行画面 AnimeScape -アニメ批評空間-</title>
+    <title>パスワード再発行画面 AnimeScape</title>
 @endsection
 
 @section('main')
-    <div id="reset_password">
+    <article class="reset_password">
         <h2>パスワード再発行画面</h2>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -19,20 +19,18 @@
                 {{ session('status') }}
             </div>
         @endif
-        <form action="{{ route('password.update') }}" method="POST">
+        <form action="{{ route('password.update') }}" class="reset_password_form" method="POST">
             @csrf
             <input type="hidden" name="token" value="{{ $token }}" required>
             <label for="email">メールアドレス</label><br>
-            <input type="text" name="email" value="{{ old('email') }}" required><br>
+            <input type="email" name="email" class="email" value="{{ old('email') }}" required><br>
             <label for="password">パスワード</label><br>
-            <input type="password" size="15" name="password" required><br>
+            <input type="password" size="15" name="password" class="password" required><br>
             <label for="password_confirmation">パスワード再入力</label><br>
-            <input type="password" size="15" name="password_confirmation" required><br>
+            <input type="password" size="15" name="password_confirmation" class="password_confirmation" required><br>
             <input type="submit" value="送信">
         </form>
         <h3>注意事項</h3>
         パスワードは8文字以上にしてください。
-    </div>
-    </div>
-    </div>
+    </article>
 @endsection

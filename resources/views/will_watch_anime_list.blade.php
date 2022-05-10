@@ -1,15 +1,15 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ $user->name }}さんの視聴予定表 AnimeScape -アニメ批評空間-</title>
+    <title>{{ $user->name }}さんの視聴予定表 AnimeScape</title>
 @endsection
 
 @section('main')
-    <h2>{{ $user->name }}さんの視聴予定表</h2>
-    <strong>{{ $user->name }}</strong>
-    <h3>視聴予定表</h3>
-    <div id="will_watch_anime">
-        <table id="will_watch_anime_table">
+    <article class="will_watch_anime_list">
+        <h2>{{ $user->name }}さんの視聴予定表</h2>
+        <strong>{{ $user->name }}</strong>
+        <h3>視聴予定表</h3>
+        <table class="will_watch_anime_list_table">
             <tbody>
                 <tr>
                     <th>アニメ名</th>
@@ -33,7 +33,5 @@
                 @endforeach
             </tbody>
         </table>
-    </div>
-    </div>
-    </div>
+    </article>
 @endsection
