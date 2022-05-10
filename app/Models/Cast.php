@@ -15,11 +15,17 @@ class Cast extends Model
 
     protected $fillable = [
         'name',
+        'furigana',
+        'sex',
+        'office',
+        'url',
+        'twitter',
+        'blog',
     ];
 
     private const SEX = [
-        0 => [ 'label' => '女性' ],
-        1 => [ 'label' => '男性' ],
+        1 => [ 'label' => '女性' ],
+        2 => [ 'label' => '男性' ],
     ];
 
     /**
@@ -76,6 +82,16 @@ class Cast extends Model
     public function actAnimes()
     {
         return $this->belongsToMany('App\Models\Anime', 'occupations', 'cast_id', 'anime_id');
+    }
+
+    /**
+     * 声優の基本情報修正依頼を取得
+     *
+     * @return HasMany
+     */
+    public function modifyCasts()
+    {
+        return $this->hasMany('App\Models\ModifyCast');
     }
 
     /**

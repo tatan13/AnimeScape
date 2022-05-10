@@ -1,29 +1,30 @@
 @extends('layout')
 
 @section('title')
-    <title>アニメランキング（中央値順）AnimeScape -アニメ批評空間-</title>
+    <title>アニメランキング（中央値順）AnimeScape</title>
 @endsection
 
 @section('main')
-    <h2>{{ !is_null($year) ? $year.'年' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor).'クール' : ''  }}アニメランキング（{{ App\Models\Anime::getCategoryLabel($category) }}順）</h2>
-    <h3>検索条件変更</h3>
-    <form action="{{ route('anime_statistics.show') }}">
-        @csrf
-        <input type="hidden" name="year" value="{{ $year }}">
-        <input type="hidden" name="coor" value="{{ $coor }}">
-        データ数が
-        <input type="number" name="count" value="{{ $count ?? 0 }}" style="width:60px;">
-        以上のアニメで
-        <select name="category">
-            <option value="median" {{ $category == 'median' ? 'selected' : '' }} >中央値</option>
-            <option value="average" {{ $category == 'average' ? 'selected'  : '' }} >平均値</option>
-            <option value="count" {{ $category == 'count' ? 'selected'  : '' }} >データ数</option>
-        </select>
-        順に<input type="submit" value="絞り込む">
-    </form>
-    <h3>ランキング</h3>
-    <div id=ranking_table>
-        <table>
+    <article class="anime_statistics">
+        <h2>{{ !is_null($year) ? $year . '年' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }}アニメランキング（{{ App\Models\Anime::getCategoryLabel($category) }}順）
+        </h2>
+        <h3>検索条件変更</h3>
+        <form action="{{ route('anime_statistics.show') }}" class="search_parameters_form" method="GET">
+            @csrf
+            <input type="hidden" name="year" class="year" value="{{ $year }}">
+            <input type="hidden" name="coor" class="coor" value="{{ $coor }}">
+            データ数が
+            <input type="number" name="count" class="count" value="{{ $count ?? 0 }}" style="width:60px;">
+            以上のアニメで
+            <select name="category" class="category">
+                <option value="median" {{ $category == 'median' ? 'selected' : '' }}>中央値</option>
+                <option value="average" {{ $category == 'average' ? 'selected' : '' }}>平均値</option>
+                <option value="count" {{ $category == 'count' ? 'selected' : '' }}>データ数</option>
+            </select>
+            順に<input type="submit" value="絞り込む">
+        </form>
+        <h3>ランキング</h3>
+        <table class="anime_ranking_table">
             <tbody>
                 <tr>
                     <th>順位</th>
@@ -47,7 +48,5 @@
                 @endforeach
             </tbody>
         </table>
-    </div>
-    </div>
-    </div>
+    </article>
 @endsection

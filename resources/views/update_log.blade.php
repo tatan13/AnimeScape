@@ -1,12 +1,12 @@
 @extends('layout')
 
 @section('title')
-    <title>更新履歴 AnimeScape -アニメ批評空間-</title>
+    <title>更新履歴 AnimeScape</title>
 @endsection
 
 @section('main')
-    <h2>更新履歴</h2>
-    <div id="update_log">
+    <article class="update_log">
+        <h2>更新履歴</h2>
         <ul>
             <li>2022年5月3日 パスワード再設定機能を追加</li>
         </ul>
@@ -46,7 +46,5 @@
         <ul>
             <li>2022年2月25日 開設</li>
         </ul>
-    </div>
-    </div>
-    </div>
+    </article>
 @endsection

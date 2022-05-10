@@ -1,28 +1,32 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ $user->name }}さんのお気に入りユーザーの統計表 AnimeScape -アニメ批評空間-</title>
+    <title>{{ $user->name }}さんのお気に入りユーザーの統計表 AnimeScape</title>
 @endsection
 
 @section('main')
-    <h2>{{ $user->name }}さんのお気に入りユーザーの統計表</h2>
-    <strong>{{ $user->name }}</strong>
-    <h3>表示設定</h3>
-    <form action="{{ route('user_statistics.show', ['user_name' => $user->name]) }}" method="get">
-        @csrf
-        中央値
-        <input type="number" name="median" value="{{ $median ?? 70 }}" style="width:50px;">以上<br>
-        データ数
-        <input type="number" name="count" value="{{ $count ?? 0 }}" style="width:60px;">以上<br>
-        放送時期
-        <input type="number" name="bottom_year" value="{{ $bottom_year ?? 1900 }}" style="width:70px;">～
-        <input type="number" name="top_year" value="{{ $top_year ?? 2100 }}" style="width:70px;"><br>
-        <input type="submit" value="絞り込み">
-        <a href="{{ route('user_statistics.show', ['user_name' => $user->name]) }}">絞り込み解除</a>
-    </form>
-    <h3>統計表</h3>
-    <div id="user_statistics">
-        <table id="user_statistics_table">
+    <article class="user_statistics">
+        <h2>{{ $user->name }}さんのお気に入りユーザーの統計表</h2>
+        <strong>{{ $user->name }}</strong>
+        <h3>表示設定</h3>
+        <form action="{{ route('user_statistics.show', ['user_name' => $user->name]) }}" class="search_parameters_form"
+            method="get">
+            @csrf
+            中央値
+            <input type="number" name="median" class="median" value="{{ $median ?? 70 }}"
+                style="width:50px;">以上<br>
+            データ数
+            <input type="number" name="count" class="count" value="{{ $count ?? 0 }}" style="width:60px;">以上<br>
+            放送時期
+            <input type="number" name="bottom_year" class="bottom_year" value="{{ $bottom_year ?? 1900 }}"
+                style="width:70px;">～
+            <input type="number" name="top_year" class="top_year" value="{{ $top_year ?? 2100 }}"
+                style="width:70px;"><br>
+            <input type="submit" value="絞り込み">
+            <a href="{{ route('user_statistics.show', ['user_name' => $user->name]) }}">絞り込み解除</a>
+        </form>
+        <h3>統計表</h3>
+        <table class="user_statistics_table">
             <tbody>
                 <tr>
                     <th>アニメ名</th>
@@ -45,10 +49,10 @@
                             {{ $anime->isContainMe == 1 ? '済' : '' }}
                         </td>
                         <td>
-                            <ul>
+                            <ul class="list-inline d-inline">
                                 @foreach ($anime->userReviews as $user_review)
-                                    <li>
-                                        <span class="score">{{ $user_review->score }}</span>
+                                    <li class="d-inline">
+                                        <span style="font-size: 50%;">{{ $user_review->score }}</span>
                                         <a href="{{ route('user.show', ['user_name' => $user_review->user->name]) }}">{{ $user_review->user->name }}
                                         </a>
                                     </li>
@@ -59,7 +63,5 @@
                 @endforeach
             </tbody>
         </table>
-    </div>
-    </div>
-    </div>
+    </article>
 @endsection

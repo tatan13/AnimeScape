@@ -3,7 +3,9 @@
 namespace App\Repositories;
 
 use App\Models\Cast;
+use App\Models\ModifyCast;
 use App\Models\Anime;
+use App\Http\Requests\ModifyCastRequest;
 use Illuminate\Database\Eloquent\Collection;
 
 class CastRepository extends AbstractRepository
@@ -75,5 +77,17 @@ class CastRepository extends AbstractRepository
         }
         $casts = Cast::where(Cast::SEARCH_COLUMN, 'like', "%$search_word%")->with('actAnimes')->get();
         return $casts->isEmpty() ? array() : $casts;
+    }
+
+    /**
+     * 声優情報修正申請データから声優情報を更新
+     *
+     * @param Cast $cast
+     * @param ModifyCastRequest $request
+     * @return void
+     */
+    public function updateInformation(Cast $cast, ModifyCastRequest $request)
+    {
+        $cast->update($request->validated());
     }
 }

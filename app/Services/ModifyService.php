@@ -4,14 +4,17 @@ namespace App\Services;
 
 use App\Models\ModifyAnime;
 use App\Models\ModifyOccupation;
+use App\Models\ModifyCast;
 use App\Models\Anime;
 use App\Models\Cast;
 use App\Repositories\ModifyAnimeRepository;
 use App\Repositories\ModifyOccupationRepository;
+use App\Repositories\ModifyCastRepository;
 use App\Repositories\AnimeRepository;
 use App\Repositories\CastRepository;
 use Illuminate\Http\Request;
 use App\Http\Requests\ModifyAnimeRequest;
+use App\Http\Requests\ModifyCastRequest;
 use App\Http\Requests\ReviewRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Collection;
@@ -21,6 +24,7 @@ class ModifyService
 {
     private ModifyAnimeRepository $modifyAnimeRepository;
     private ModifyOccupationRepository $modifyOccupationRepository;
+    private ModifyCastRepository $modifyCastRepository;
     private AnimeRepository $animeRepository;
     private CastRepository $castRepository;
 
@@ -29,6 +33,7 @@ class ModifyService
      *
      * @param ModifyAnimeRepository $modifyAnimeRepository
      * @param ModifyOccupationRepository $modifyOccupationRepository
+     * @param ModifyCastRepository $modifyCastRepository
      * @param AnimeRepository $animeRepository
      * @param CastRepository $castRepository
      * @return void
@@ -36,11 +41,13 @@ class ModifyService
     public function __construct(
         ModifyAnimeRepository $modifyAnimeRepository,
         ModifyOccupationRepository $modifyOccupationRepository,
+        ModifyCastRepository $modifyCastRepository,
         AnimeRepository $animeRepository,
         CastRepository $castRepository,
     ) {
         $this->modifyAnimeRepository = $modifyAnimeRepository;
         $this->modifyOccupationRepository = $modifyOccupationRepository;
+        $this->modifyCastRepository = $modifyCastRepository;
         $this->animeRepository = $animeRepository;
         $this->castRepository = $castRepository;
     }
@@ -66,7 +73,7 @@ class ModifyService
     public function createModifyAnime(Anime $anime, ModifyAnimeRequest $request)
     {
         $this->modifyAnimeRepository->createModifyAnime($anime, $request);
-        // $this->sendMailWhenModifyRequest();
+        $this->sendMailWhenModifyRequest();
     }
 
     /**
@@ -144,7 +151,7 @@ class ModifyService
                 $this->modifyOccupationRepository->createModifyOccupation($anime, $req_cast);
             }
         }
-        // $this->sendMailWhenModifyRequest();
+        $this->sendMailWhenModifyRequest();
     }
 
     /**
@@ -198,11 +205,72 @@ class ModifyService
      */
     public function sendMailWhenModifyRequest()
     {
-        $data = [];
+        // $data = [];
 
-        Mail::send('emails.modify_email', $data, function ($message) {
-            $message->to(config('mail.from.address'), config('app.name'))
-            ->subject('変更申請');
+        // Mail::send('emails.modify_email', $data, function ($message) {
+        //     $message->to(config('mail.from.address'), config('app.name'))
+        //     ->subject('変更申請');
+        // });
+    }
+
+    /**
+     * 声優の情報修正申請データを作成
+     *
+     * @param Cast $cast
+     * @param ModifyCastRequest $request
+     * @return void
+     */
+    public function createModifyCast(Cast $cast, ModifyCastRequest $request)
+    {
+        $this->modifyCastRepository->createModifyCast($cast, $request);
+        $this->sendMailWhenModifyRequest();
+    }
+
+    /**
+     * 声優の情報修正申請データリストを取得
+     *
+     * @return Collection<int,ModifyCast> | Collection<null>
+     */
+    public function getModifyCastListWithCast()
+    {
+        return $this->modifyCastRepository->getModifyCastListWithCast();
+    }
+
+    /**
+     * idから声優情報修正申請データを取得
+     *
+     * @param int $id
+     * @return ModifyCast
+     */
+    public function getModifyCast($id)
+    {
+        return $this->modifyCastRepository->getById($id);
+    }
+
+    /**
+     * 声優情報修正申請データからアニメの基本情報を更新
+     *
+     * @param ModifyCast $modify_cast
+     * @param ModifyCastRequest $request
+     * @return void
+     */
+    public function updateCastInfoBy(ModifyCast $modify_cast, ModifyCastRequest $request)
+    {
+        $cast = $this->modifyCastRepository->getCast($modify_cast);
+        DB::transaction(function () use ($cast, $modify_cast, $request) {
+            $this->castRepository->updateInformation($cast, $request);
+            $this->modifyCastRepository->delete($modify_cast);
         });
+    }
+
+    /**
+     * 声優情報修正申請データを削除
+     *
+     * @param ModifyCast $modify_cast
+     * @return void
+     */
+    public function deleteModifyCast(ModifyCast $modify_cast)
+    {
+        $this->modifyCastRepository->delete($modify_cast);
     }
 }

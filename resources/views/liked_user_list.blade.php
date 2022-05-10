@@ -1,15 +1,15 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ $user->name }}さんの被お気に入りユーザー AnimeScape -アニメ批評空間-</title>
+    <title>{{ $user->name }}さんの被お気に入りユーザー AnimeScape</title>
 @endsection
 
 @section('main')
-    <h2>{{ $user->name }}さんの被お気に入りユーザー</h2>
-    <strong>{{ $user->name }}</strong>
-    <h3>被お気に入りユーザー</h3>
-    <div id="liked_users">
-        <table id="liked_users_table">
+    <article class="liked_user_list">
+        <h2>{{ $user->name }}さんの被お気に入りユーザー</h2>
+        <strong>{{ $user->name }}</strong>
+        <h3>被お気に入りユーザー</h3>
+        <table class="liked_user_list_table">
             <tbody>
                 <tr>
                     <th>ユーザーID</th>
@@ -20,7 +20,9 @@
                 </tr>
                 @foreach ($liked_user_list as $liked_user)
                     <tr>
-                        <td><a href="{{ route('user.show', ['user_name' => $liked_user->name]) }}">{{ $liked_user->name }}</a></td>
+                        <td><a
+                                href="{{ route('user.show', ['user_name' => $liked_user->name]) }}">{{ $liked_user->name }}</a>
+                        </td>
                         <td>{{ $liked_user->twitter ?? '-' }}</td>
                         <td>{{ $liked_user->birth ?? '-' }}</td>
                         <td>
@@ -33,7 +35,5 @@
                 @endforeach
             </tbody>
         </table>
-    </div>
-    </div>
-    </div>
+    </article>
 @endsection

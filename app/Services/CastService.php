@@ -36,7 +36,7 @@ class CastService
     }
 
     /**
-     * idから声優を更新
+     * idから声優を取得
      *
      * @param int $id
      * @return Cast
