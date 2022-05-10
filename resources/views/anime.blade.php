@@ -134,9 +134,12 @@
         </section>
         <section class="anime_twitter">
             <h3>公式twitter</h3>
-            <a class="twitter-timeline" href="https://twitter.com/{{ $anime->twitter }}?ref_src=twsrc%5Etfw">Tweets by
-                {{ $anime->twitter }}</a>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <div class="anime_twitter" style="width: 50%;">
+                <a class="twitter-timeline" href="https://twitter.com/{{ $anime->twitter }}?ref_src=twsrc%5Etfw">Tweets
+                    by
+                    {{ $anime->twitter }}</a>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
         </section>
     </article>
 @endsection
