@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ModifyAnimeRequest;
+use App\Http\Requests\ModifyCastRequest;
 use App\Services\ModifyService;
 use App\Services\AnimeService;
 use App\Services\CastService;
@@ -89,9 +90,11 @@ class ModifyController extends Controller
     {
         $modify_anime_list = $this->modifyService->getModifyAnimeListWithAnime();
         $anime_list = $this->animeService->getAnimeListWithModifyOccupationList();
+        $modify_cast_list = $this->modifyService->getModifyCastListWithCast();
         return view('modify_list', [
             'modify_anime_list' => $modify_anime_list,
             'anime_list' => $anime_list,
+            'modify_cast_list' => $modify_cast_list,
         ]);
     }
 
@@ -152,5 +155,62 @@ class ModifyController extends Controller
         $anime = $this->animeService->getAnime($id);
         $this->modifyService->deleteModifyOccupationsOfAnime($anime);
         return redirect()->route('modify_list.show')->with('flash_occupation_message', '削除が完了しました。');
+    }
+
+    /**
+     * 声優情報修正申請ページを表示
+     *
+     * @param int $id
+     * @return \Illuminate\View\View
+     */
+    public function showModifyCast($id)
+    {
+        $cast = $this->castService->getCast($id);
+        return view('modify_cast', [
+            'cast' => $cast,
+        ]);
+    }
+
+    /**
+     * 声優情報修正依頼をデータベースに保存し，元の画面にリダイレクト
+     *
+     * @param int $id
+     * @param ModifyCastRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postModifyCast(ModifyCastRequest $request, $id)
+    {
+        $cast = $this->castService->getCast($id);
+        $this->modifyService->createModifyCast($cast, $request);
+        return redirect()->route('modify_cast.show', [
+            'id' => $id,
+        ])->with('flash_message', '変更申請が完了しました。');
+    }
+
+    /**
+     * 演声優情報修正依頼を処理し，元の画面にリダイレクト
+     *
+     * @param int $id
+     * @param ModifyCastRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateModifyCast($id, ModifyCastRequest $request)
+    {
+        $modify_cast = $this->modifyService->getModifyCast($id);
+        $this->modifyService->updateCastInfoBy($modify_cast, $request);
+        return redirect()->route('modify_list.show')->with('flash_cast_message', '変更が完了しました。');
+    }
+
+    /**
+     * 声優情報修正依頼を却下し，元の画面にリダイレクト
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteModifyCast($id)
+    {
+        $modify_cast = $this->modifyService->getModifyCast($id);
+        $this->modifyService->deleteModifyCast($modify_cast);
+        return redirect()->route('modify_list.show')->with('flash_cast_message', '削除が完了しました。');
     }
 }

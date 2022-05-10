@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\ModifyAnime;
 use App\Models\ModifyOccupation;
+use App\Models\ModifyCast;
 use App\Models\Anime;
 use App\Models\Cast;
 use App\Models\User;
@@ -19,6 +20,8 @@ class ModifyTest extends TestCase
     private Anime $anime1;
     private ModifyAnime $modifyAnime;
     private ModifyAnime $modifyAnime1;
+    private ModifyCast $modifyCast1;
+    private ModifyCast $modifyCast2;
     private Cast $cast1;
     private Cast $cast2;
     private User $user1;
@@ -37,6 +40,11 @@ class ModifyTest extends TestCase
         ]);
         $this->cast1 = Cast::factory()->create();
         $this->cast2 = Cast::factory()->create();
+        $this->modifyCast1 = ModifyCast::factory()->create(['cast_id' => $this->cast1->id]);
+        $this->modifyCast2 = ModifyCast::factory()->create([
+            'cast_id' => $this->cast1->id,
+            'name' => 'modify_name1',
+        ]);
         $this->anime->modifyOccupations()->create(['cast_name' => $this->cast1->name]);
         $this->anime->modifyOccupations()->create(['cast_name' => 'modify_cast1']);
         $this->anime1->modifyOccupations()->create(['cast_name' => 'modify_cast1']);
@@ -152,6 +160,56 @@ class ModifyTest extends TestCase
     }
 
     /**
+     * 声優情報修正申請ページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyCastView()
+    {
+        $response = $this->get("/modify/cast/{$this->cast1->id}");
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->cast1->name,
+            $this->cast1->furigana,
+            $this->cast1->sex_label,
+            $this->cast1->office,
+            $this->cast1->url,
+            $this->cast1->twitter,
+            $this->cast1->blog,
+        ]);
+    }
+
+    /**
+     * 声優情報修正申請のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyCastPost()
+    {
+        $response = $this->post("/modify/cast/{$this->cast1->id}", [
+            'name' => 'modify_name',
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'office' => 'modify_office',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+        ]);
+        $this->assertDatabaseHas('modify_casts', [
+            'name' => 'modify_name',
+            'cast_id' => $this->cast1->id,
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'office' => 'modify_office',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+        ]);
+    }
+
+    /**
      * ゲスト時のアニメの情報修正申請のリストページリクエスト時のリダイレクトテスト
      *
      * @test
@@ -207,6 +265,20 @@ class ModifyTest extends TestCase
             $this->anime1->title,
             'modify_cast1',
             'modify_cast2',
+            '1件目',
+            $this->modifyCast1->name,
+            $this->modifyCast1->furigana,
+            $this->modifyCast1->office,
+            $this->modifyCast1->url,
+            $this->modifyCast1->twitter,
+            $this->modifyCast1->blog,
+            '2件目',
+            $this->modifyCast2->name,
+            $this->modifyCast2->furigana,
+            $this->modifyCast2->office,
+            $this->modifyCast2->url,
+            $this->modifyCast2->twitter,
+            $this->modifyCast2->blog,
         ]);
     }
 
@@ -435,6 +507,133 @@ class ModifyTest extends TestCase
         $response->assertRedirect('/modify_list');
         $this->assertDatabaseMissing('modify_occupations', [
             'anime_id' => $this->anime->id,
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * ゲスト時の声優情報更新リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestModifyCastUpdate()
+    {
+        $response = $this->post("/modify/cast/{$this->modifyCast1->id}/update");
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時の声優情報更新リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginModifyCastUpdate()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->post("/modify/cast/{$this->modifyCast1->id}/update", [
+            'name' => 'modify_name',
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'office' => 'modify_office',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+        ]);
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ルートユーザーログイン時の声優情報更新リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginModifyCastUpdate()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post("/modify/cast/{$this->modifyCast1->id}/update", [
+            'name' => 'modify_name',
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'office' => 'modify_office',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+        ]);
+        $response->assertRedirect('/modify_list');
+        $this->assertDatabaseHas('casts', [
+            'id' => $this->cast1->id,
+            'name' => 'modify_name',
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'office' => 'modify_office',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+        ]);
+        $this->assertDatabaseMissing('modify_casts', [
+            'id' => $this->modifyCast1->id,
+            'cast_id' => $this->cast1->id,
+        ]);
+    }
+
+    /**
+     * ゲスト時の声優情報修正申請却下リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestModifyCastDelete()
+    {
+        $response = $this->get("/modify/cast/{$this->modifyCast1->id}/delete");
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時の声優情報修正申請却下リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginModifyCastDelete()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->get("/modify/cast/{$this->modifyCast1->id}/delete");
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ルートユーザーログイン時の声優情報修正申請却下時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginModifyCastDelete()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get("/modify/cast/{$this->modifyCast1->id}/delete");
+        $response->assertRedirect('/modify_list');
+        $this->assertDatabaseMissing('modify_casts', [
+            'id' => $this->modifyCast1->id,
+            'cast_id' => $this->cast1->id,
         ]);
     }
 }

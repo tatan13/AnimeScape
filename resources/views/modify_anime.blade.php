@@ -8,6 +8,15 @@
     <article class="modify_anime">
         <h2>{{ $anime->title }}の基本情報変更申請</h2>
         <h3><a href="{{ route('anime.show', ['id' => $anime->id]) }}">{{ $anime->title }}</a></h3>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $message)
+                        <li>{{ $message }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         @if (session('flash_message'))
             <div class="alert alert-success">
                 {{ session('flash_message') }}
@@ -37,7 +46,7 @@
                         <th>クール</th>
                         <td>{{ $anime->coor_label }}</td>
                         <td>
-                            <select name="coor" id="coor">
+                            <select name="coor">
                                 <option value="1" {{ $anime->coor == 1 ? 'selected' : '' }}>冬
                                 </option>
                                 <option value="2" {{ $anime->coor == 2 ? 'selected' : '' }}>春

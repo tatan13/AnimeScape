@@ -24,7 +24,7 @@ jobs:
             - node_modules
       - run: touch database/test.sqlite
       - run: php artisan migrate --env=testing
-      - run: vendor/bin/phpunit
+      - run: ./vendor/bin/phpunit
       - run: npm install
       - run: npm test
       - run: ./vendor/bin/phpcs --standard=phpcs.xml ./

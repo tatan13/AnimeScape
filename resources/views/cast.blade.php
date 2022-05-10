@@ -20,7 +20,7 @@
                 <h3>プロフィール</h3>
                 <table class="cast_profile_table">
                     <tr>
-                        <th>フリガナ</th>
+                        <th>ふりがな</th>
                         <td>{{ $cast->furigana ?? '-' }}</td>
                     </tr>
                     <tr>
@@ -43,8 +43,8 @@
                         <th>公式ブログ</th>
                         <td>{{ $cast->blog ?? '-' }}</td>
                     </tr>
-
                 </table>
+                <a href="{{ route('modify_cast.show', ['id' => $cast->id]) }}">声優の情報の変更依頼をする</a>
             </section>
             <section class="cast_act_anime_list">
                 <h3>出演アニメ（計{{ $act_animes->count() }}本）</h3>

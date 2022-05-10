@@ -38,13 +38,14 @@ class ModifyAnimeRequest extends FormRequest
     }
 
     /**
-     * 要望フォームのバリデーションメッセージ
+     * アニメの基本情報修正申請のバリデーションメッセージ
      *
      * @return array<string>
      */
     public function messages()
     {
         return [
+            'title.required' => 'タイトルを入力してください。',
         ];
     }
 }

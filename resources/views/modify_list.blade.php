@@ -145,5 +145,76 @@
                 </div>
             @endforeach
         </section>
+        <section class="modify_cast_list">
+            <h2>声優情報変更申請リスト</h2>
+            @if (session('flash_cast_message'))
+                <div class="alert alert-success">
+                    {{ session('flash_cast_message') }}
+                </div>
+            @endif
+            @foreach ($modify_cast_list as $modify_cast)
+                <h3>{{ $loop->iteration }}件目</h3>
+                <form class="modify_cast_list_form">
+                    @csrf
+                    <input type="submit" value="登録"
+                        formaction="{{ route('modify_cast.update', ['id' => $modify_cast->id]) }}" formmethod="POST">
+                    <input type="submit" value="却下"
+                        formaction="{{ route('modify_cast.delete', ['id' => $modify_cast->id]) }}" formmethod="GET">
+                    <table class="modify_cast_list_table">
+                        <tbody>
+                            <tr>
+                                <th>項目</th>
+                                <th>現在の情報</th>
+                                <th>訂正情報</th>
+                            </tr>
+                            <tr>
+                                <th>名前</th>
+                                <td>{{ $modify_cast->cast->name }}</td>
+                                <td><input type="text" name="name" value="{{ $modify_cast->name }}"></td>
+                            </tr>
+                            <tr>
+                                <th>ふりがな</th>
+                                <td>{{ $modify_cast->cast->furigana }}</td>
+                                <td><input type="text" name="furigana" value="{{ $modify_cast->furigana }}"></td>
+                            </tr>
+                            <tr>
+                                <th>性別</th>
+                                <td>{{ $modify_cast->cast->sex_label }}</td>
+                                <td>
+                                    <select name="sex">
+                                        <option value="" {{ is_null($modify_cast->sex) ? 'selected' : '' }}>-
+                                        </option>
+                                        <option value="1" {{ $modify_cast->sex == 1 ? 'selected' : '' }}>男性
+                                        </option>
+                                        <option value="2" {{ $modify_cast->coor == 2 ? 'selected' : '' }}>女性
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>所属事務所</th>
+                                <td>{{ $modify_cast->cast->office }}</td>
+                                <td><input type="text" name="office" value="{{ $modify_cast->office }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>公式HP</th>
+                                <td>{{ $modify_cast->cast->url }}</td>
+                                <td><input type="text" name="url" value="{{ $modify_cast->url }}"></td>
+                            </tr>
+                            <tr>
+                                <th>ツイッター</th>
+                                <td>{{ '@' . $modify_cast->cast->twitter }}</td>
+                                <td>@<input type="text" name="twitter" value="{{ $modify_cast->twitter }}"></td>
+                            </tr>
+                            <tr>
+                                <th>公式ブログ</th>
+                                <td>{{ $modify_cast->cast->blog }}</td>
+                                <td><input type="text" name="blog" value="{{ $modify_cast->blog }}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            @endforeach
     </article>
 @endsection

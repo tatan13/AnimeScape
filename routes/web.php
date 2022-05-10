@@ -54,6 +54,10 @@ Route::get('/modify/occupation/{id}', [App\Http\Controllers\ModifyController::cl
 
 Route::post('/modify/occupation/{id}', [App\Http\Controllers\ModifyController::class, 'postModifyOccupation'])->name('modify_occupation.post');
 
+Route::get('/modify/cast/{id}', [App\Http\Controllers\ModifyController::class, 'showModifyCast'])->name('modify_cast.show');
+
+Route::post('/modify/cast/{id}', [App\Http\Controllers\ModifyController::class, 'postModifyCast'])->name('modify_cast.post');
+
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/cast/{id}/like', [App\Http\Controllers\CastController::class, 'like'])->name('cast.like');
@@ -90,4 +94,8 @@ Route::group(['middleware' => 'admin_auth'], function () {
     Route::post('/modify/occupation/{id}/update', [App\Http\Controllers\ModifyController::class, 'updateModifyOccupation'])->name('modify_occupation.update');
     
     Route::get('/modify/occupation/{id}/delete', [App\Http\Controllers\ModifyController::class, 'deleteModifyOccupation'])->name('modify_occupation.delete');
+    
+    Route::post('/modify/cast/{id}/update', [App\Http\Controllers\ModifyController::class, 'updateModifyCast'])->name('modify_cast.update');
+    
+    Route::get('/modify/cast/{id}/delete', [App\Http\Controllers\ModifyController::class, 'deleteModifyCast'])->name('modify_cast.delete');
 });

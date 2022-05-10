@@ -85,6 +85,16 @@ class Cast extends Model
     }
 
     /**
+     * 声優の基本情報修正依頼を取得
+     *
+     * @return HasMany
+     */
+    public function modifyCasts()
+    {
+        return $this->hasMany('App\Models\ModifyCast');
+    }
+
+    /**
      * 引数に指定されたアニメに出演しているか調べる
      *
      * @param int $anime_id
