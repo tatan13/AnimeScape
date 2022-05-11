@@ -24,8 +24,8 @@ class ConfigRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'email|string|nullable',
-            'one_comment' => 'max:40|string|nullable',
+            'email' => 'unique:users,email|email|string|nullable',
+            'one_comment' => 'max:400|string|nullable',
             'twitter' => 'nullable|string',
             'birth' => 'integer|nullable',
             'sex' => 'nullable|integer',
@@ -41,8 +41,10 @@ class ConfigRequest extends FormRequest
     {
         return [
           'email.email' => '有効なメールアドレスを指定してください。',
+          'email.unique' => 'このメールアドレスは既に登録されています。',
           'email.string' => 'メールアドレスには文字列を入力してください。',
           'one_comment.string' => '一言には文字列を入力してください。',
+          'one_comment.max' => '一言は400文字以内で入力してください。',
           'birth.integer' => '整数で入力してください。',
         ];
     }

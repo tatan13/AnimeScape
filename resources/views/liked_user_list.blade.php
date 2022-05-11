@@ -21,7 +21,7 @@
                 @foreach ($liked_user_list as $liked_user)
                     <tr>
                         <td><a
-                                href="{{ route('user.show', ['user_name' => $liked_user->name]) }}">{{ $liked_user->name }}</a>
+                                href="{{ route('user.show', ['user_id' => $liked_user->id]) }}">{{ $liked_user->name }}</a>
                         </td>
                         <td>{{ $liked_user->twitter ?? '-' }}</td>
                         <td>{{ $liked_user->birth ?? '-' }}</td>

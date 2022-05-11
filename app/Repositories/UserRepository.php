@@ -23,17 +23,6 @@ class UserRepository extends AbstractRepository
     }
 
     /**
-     * ユーザーをnameから取得
-     *
-     * @param string $user_name
-     * @return User
-     */
-    public function getByName(string $user_name)
-    {
-        return User::whereName($user_name)->firstOrFail();
-    }
-
-    /**
      * ログインユーザーを取得
      *
      * @return User
@@ -55,14 +44,14 @@ class UserRepository extends AbstractRepository
     }
 
     /**
-     * nameによってユーザーを全期間のユーザー統計情報と共に取得
+     * idによってユーザーを全期間のユーザー統計情報と共に取得
      *
-     * @param string $user_name
+     * @param int $user_id
      * @return User
      */
-    public function getByNameWithUserReviewsAndAnimeForAll(string $user_name)
+    public function getByIdWithUserReviewsAndAnimeForAll($user_id)
     {
-        return User::whereName($user_name)->with('userReviews', function ($query) {
+        return User::whereId($user_id)->with('userReviews', function ($query) {
             $query->with('anime');
         })->firstOrFail();
     }
@@ -70,13 +59,13 @@ class UserRepository extends AbstractRepository
     /**
      * nameによってユーザーを年別のユーザー統計情報と共に取得
      *
-     * @param string $user_name
+     * @param int $user_id
      * @param Request $request
      * @return User
      */
-    public function getByNameWithUserReviewsAndAnimeForEachYear(string $user_name, Request $request)
+    public function getByIdWithUserReviewsAndAnimeForEachYear($user_id, Request $request)
     {
-        return User::whereName($user_name)->with('userReviews', function ($query) use ($request) {
+        return User::whereId($user_id)->with('userReviews', function ($query) use ($request) {
             $query->whereHas('anime', function ($query) use ($request) {
                 $query->whereYear($request->year);
             })->with('anime');
@@ -84,15 +73,15 @@ class UserRepository extends AbstractRepository
     }
 
     /**
-     * nameによってユーザーをクール別のユーザー統計情報と共に取得
+     * idによってユーザーをクール別のユーザー統計情報と共に取得
      *
-     * @param string $user_name
+     * @param int $user_id
      * @param Request $request
      * @return User
      */
-    public function getByNameWithUserReviewsAndAnimeForEachCoor(string $user_name, Request $request)
+    public function getByIdWithUserReviewsAndAnimeForEachCoor($user_id, Request $request)
     {
-        return User::whereName($user_name)->with('userReviews', function ($query) use ($request) {
+        return User::whereId($user_id)->with('userReviews', function ($query) use ($request) {
             $query->whereHas('anime', function ($query) use ($request) {
                 $query->whereYear($request->year)->whereCoor($request->coor);
             })->with('anime');

@@ -31,7 +31,7 @@
         @foreach ($contacts as $contact)
             <strong>{{ $contact->name }}</strong><br>
             {{ $contact->created_at }}<br>
-            {{ $contact->comment }}
+            {!! nl2br(e($contact->comment)) !!}
             <hr>
         @endforeach
     </article>

@@ -39,28 +39,28 @@
                     <tr>
                         <td>メールアドレス</td>
                         <td>
-                            <input type="text" name="email" id="email" value="{{ $user->email }}">
+                            <input type="text" name="email" class="email" value="{{ $user->email }}">
                         </td>
                         <td>パスワードを忘れた場合は、こちらのメールアドレス宛に新しいパスワードをお送りいたします。</td>
                     </tr>
                     <tr>
                         <td>一言</td>
                         <td>
-                            <input type="text" name="one_comment" id="one_comment_form" value="{{ $user->one_comment }}">
+                            <textarea name="one_comment" class="one_comment_form" cols="40" rows="3">{{ $user->one_comment }}</textarea><br>
                         </td>
-                        <td>400文字以下でお願いします。改行したい場合は&lt;br&gt;と書いてください。</td>
+                        <td>400文字以下でお願いします。</td>
                     </tr>
                     <tr>
                         <td>Twitterのユーザー名</td>
                         <td>
-                            <input type="text" name="twitter" id="twitter" value="{{ $user->twitter }}">
+                            <input type="text" name="twitter" class="twitter" value="{{ $user->twitter }}">
                         </td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>生まれた年（西暦）</td>
                         <td>
-                            <input type="number" name="birth" id="birth" value="{{ $user->birth }}">
+                            <input type="number" name="birth" class="birth" value="{{ $user->birth }}">
                         </td>
                         <td></td>
                     </tr>
