@@ -68,7 +68,7 @@ class UserService
     /**
      * ユーザーをidから取得
      *
-     * @param $user_id
+     * @param int $user_id
      * @return User
      */
     public function getUserById($user_id)
