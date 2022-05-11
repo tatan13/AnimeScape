@@ -22,7 +22,7 @@
                 @endif
             @endauth
             @if (!is_null($user_information->one_comment))
-                <p style="background-color: #FDFDAA;">{{ $user_information->one_comment }}</p>
+                <p style="background-color: #FDFDAA;">{!! nl2br(e($user_information->one_comment)) !!}</p>
             @endif
             @if (!is_null($user_information->twitter))
                 <p>Twitter : <a href="https://twitter.com/{{ $user_information->twitter }}" target="_blank"
