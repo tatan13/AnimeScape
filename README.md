@@ -22,16 +22,15 @@ IDを作成し，ログインすることで各アニメの点数や感想をつ
 * CircleCI CI/CD
 * PHPUnit
 * Jest
-* ShangriLa Anime API
 * Python3
 	* Selenium
+* Google Analytics
 
 # AWS構成図
 ![animescape2 diagram drawio](https://user-images.githubusercontent.com/73135261/159098588-71cb46a8-715d-4c5f-9ad4-3936b8751fbe.png)
 
 ## CircleCI CI/CD
-* Githubへpushし，Pull requestを作成すると，PHPUnitが自動で実行されます．
-* mainブランチにpushすると，PHPUnit，Jest，PHP_CodeSniffer，Larastanが自動で実行され，成功した場合，EC2に自動でSSH接続し，デプロイを行います．
+* Githubのリモートmainブランチにpushすると，PHPUnit，Jest，PHP_CodeSniffer，Larastanが自動で実行され，成功した場合，EC2に自動でSSH接続し，デプロイを行います．この際，composer，npmのインストール，ビルド，マイグレーションが行われる．
 
 # 機能一覧
 * ユーザー登録，ログイン機能
