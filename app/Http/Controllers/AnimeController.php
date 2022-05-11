@@ -88,6 +88,8 @@ class AnimeController extends Controller
         $anime_list = $this->animeService->getAnimeListWithMyReviewsFor($request);
         return view('anime_review_list', [
             'anime_list' => $anime_list,
+            'year' => $request->year,
+            'coor' => $request->coor,
         ]);
     }
 
