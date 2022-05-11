@@ -50,7 +50,7 @@
                                 @csrf
                                 <li>
                                     <a href="javascript:anime_review_list.submit()">得点一括入力</a>
-                                    <ul>
+                                    <ul class="list-inline">
                                         <li>
                                             <select name="year" class="coor_year">
                                                 <option value="2022">2022</option>
@@ -70,6 +70,7 @@
                                                 <option value="3">夏</option>
                                                 <option value="4">秋</option>
                                             </select>
+                                            <input type="submit" value="決定" />
                                         </li>
                                     </ul>
                                 </li>
@@ -110,7 +111,8 @@
                             @csrf
                             <input type="hidden" name="category" value="median">
                             <li><a href="javascript:year_statistics.submit()">年度ごと</a>
-                                <ul>
+
+                                <ul class="list-inline">
                                     <li>
                                         <select name="year" class="year">
                                             <option value="2022">2022</option>
@@ -123,6 +125,7 @@
                                             <option value="2015">2015</option>
                                             <option value="2014">2014</option>
                                         </select>
+                                        <input type="submit" value="決定" />
                                     </li>
                                 </ul>
                             </li>
@@ -132,7 +135,7 @@
                             @csrf
                             <input type="hidden" name="category" value="median">
                             <li><a href="javascript:coor_statistics.submit()">クールごと</a>
-                                <ul>
+                                <ul class="list-inline">
                                     <li>
                                         <select name="year" class="coor_year">
                                             <option value="2022">2022</option>
@@ -152,6 +155,7 @@
                                             <option value="3">夏</option>
                                             <option value="4">秋</option>
                                         </select>
+                                        <input type="submit" value="決定" />
                                     </li>
                                 </ul>
                             </li>

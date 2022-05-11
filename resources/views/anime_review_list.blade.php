@@ -17,27 +17,39 @@
             <form action="{{ route('anime_review_list.show') }}" class="search_parameters_form" method="get">
                 @csrf
                 <select name="year" class="year">
-                    <option value="2022">2022</option>
-                    <option value="2021">2021</option>
-                    <option value="2020">2020</option>
-                    <option value="2019">2019</option>
-                    <option value="2018">2018</option>
-                    <option value="2017">2017</option>
-                    <option value="2016">2016</option>
-                    <option value="2015">2015</option>
-                    <option value="2014">2014</option>
+                    <option value="2022" {{ $year == 2022 ? 'selected' : '' }}>2022</option>
+                    <option value="2021" {{ $year == 2021 ? 'selected' : '' }}>2021</option>
+                    <option value="2020" {{ $year == 2020 ? 'selected' : '' }}>2020</option>
+                    <option value="2019" {{ $year == 2019 ? 'selected' : '' }}>2019</option>
+                    <option value="2018" {{ $year == 2018 ? 'selected' : '' }}>2018</option>
+                    <option value="2017" {{ $year == 2017 ? 'selected' : '' }}>2017</option>
+                    <option value="2016" {{ $year == 2016 ? 'selected' : '' }}>2016</option>
+                    <option value="2015" {{ $year == 2015 ? 'selected' : '' }}>2015</option>
+                    <option value="2014" {{ $year == 2014 ? 'selected' : '' }}>2014</option>
                 </select>年
                 <select name="coor" class="coor">
-                    <option value="1">冬</option>
-                    <option value="2">春</option>
-                    <option value="3">夏</option>
-                    <option value="4">秋</option>
+                    <option value="1" {{ $coor == 1 ? 'selected' : '' }}>冬</option>
+                    <option value="2" {{ $coor == 2 ? 'selected' : '' }}>春</option>
+                    <option value="3" {{ $coor == 3 ? 'selected' : '' }}>夏</option>
+                    <option value="4" {{ $coor == 4 ? 'selected' : '' }}>秋</option>
                 </select>クールで
                 <input type="submit" value="絞りこむ">
             </form>
         </section>
         <section class="anime_review_list_information">
             <h3>アニメ一覧</h3>
+            <form action="{{ route('anime_review_list.show') }}" name="previous" class="d-inline"  method="get">
+                @csrf
+                <input type="hidden" name="year" class="year" value="{{ $coor == 1 ? $year - 1 : $year }}">
+                <input type="hidden" name="coor" class="coor" value="{{ $coor == 1 ? 4 : $coor - 1}}">
+                <a href="javascript:previous.submit()">前クールへ</a>
+            </form>
+            <form action="{{ route('anime_review_list.show') }}" name="next" class="d-inline" method="get">
+                @csrf
+                <input type="hidden" name="year" class="year" value="{{ $coor == 4 ? $year + 1 : $year }}">
+                <input type="hidden" name="coor" class="coor" value="{{ $coor == 4 ? 1 : $coor + 1}}">
+                <a href="javascript:next.submit()">次クールへ</a>
+            </form>
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
