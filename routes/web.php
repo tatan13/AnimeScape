@@ -22,17 +22,17 @@ Route::get('/anime/{id}', [App\Http\Controllers\AnimeController::class, 'show'])
 
 Route::get('/cast/{id}', [App\Http\Controllers\CastController::class, 'show'])->name('cast.show');
 
-Route::get('/user_information/{user_name}', [App\Http\Controllers\UserController::class, 'show'])->name('user.show');
+Route::get('/user_information/{user_id}', [App\Http\Controllers\UserController::class, 'show'])->name('user.show');
 
-Route::get('/user_information/{user_name}/will_watch_anime_list', [App\Http\Controllers\UserController::class, 'showWillWatchAnimeList'])->name('user_will_watch_anime_list.show');
+Route::get('/user_information/{user_id}/will_watch_anime_list', [App\Http\Controllers\UserController::class, 'showWillWatchAnimeList'])->name('user_will_watch_anime_list.show');
 
-Route::get('/user_information/{user_name}/like_user_list', [App\Http\Controllers\UserController::class, 'showUserLikeUserList'])->name('user_like_user_list.show');
+Route::get('/user_information/{user_id}/like_user_list', [App\Http\Controllers\UserController::class, 'showUserLikeUserList'])->name('user_like_user_list.show');
 
-Route::get('/user_information/{user_name}/liked_user_list', [App\Http\Controllers\UserController::class, 'showUserLikedUserList'])->name('user_liked_user_list.show');
+Route::get('/user_information/{user_id}/liked_user_list', [App\Http\Controllers\UserController::class, 'showUserLikedUserList'])->name('user_liked_user_list.show');
 
-Route::get('/user_information/{user_name}/like_cast_list', [App\Http\Controllers\UserController::class, 'showUserLikeCastList'])->name('user_like_cast_list.show');
+Route::get('/user_information/{user_id}/like_cast_list', [App\Http\Controllers\UserController::class, 'showUserLikeCastList'])->name('user_like_cast_list.show');
 
-Route::get('/user_information/{user_name}/statistics', [App\Http\Controllers\UserController::class, 'showUserStatistics'])->name('user_statistics.show');
+Route::get('/user_information/{user_id}/statistics', [App\Http\Controllers\UserController::class, 'showUserStatistics'])->name('user_statistics.show');
 
 Route::get('/search', [App\Http\Controllers\SearchController::class, 'show'])->name('search.show');
 
@@ -64,9 +64,9 @@ Route::group(['middleware' => 'auth'], function () {
     
     Route::get('/cast/{id}/unlike', [App\Http\Controllers\CastController::class, 'unlike'])->name('cast.unlike');
     
-    Route::get('/user_information/{user_name}/like', [App\Http\Controllers\UserController::class, 'like'])->name('user.like');
+    Route::get('/user_information/{user_id}/like', [App\Http\Controllers\UserController::class, 'like'])->name('user.like');
 
-    Route::get('/user_information/{user_name}/unlike', [App\Http\Controllers\UserController::class, 'unlike'])->name('user.unlike');
+    Route::get('/user_information/{user_id}/unlike', [App\Http\Controllers\UserController::class, 'unlike'])->name('user.unlike');
 
     Route::get('/user_config', [App\Http\Controllers\UserController::class, 'showUserConfig'])->name('user_config.show');
 

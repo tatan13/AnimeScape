@@ -51,7 +51,7 @@
                                 <td>{{ $modify_anime->anime->coor_label }}
                                 </td>
                                 <td>
-                                    <select name="coor" id="coor">
+                                    <select name="coor" class="coor">
                                         <option value="1" {{ $modify_anime->coor == 1 ? 'selected' : '' }}>冬
                                         </option>
                                         <option value="2" {{ $modify_anime->coor == 2 ? 'selected' : '' }}>春

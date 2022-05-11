@@ -37,7 +37,7 @@
                         ログイン中 : {{ Auth::user()->name }}
                         <ul>
                             <li><a
-                                    href="{{ route('user.show', ['user_name' => auth()->user()->name]) }}">マイページ</a><br>
+                                    href="{{ route('user.show', ['user_id' => auth()->user()->id]) }}">マイページ</a><br>
                             </li>
                             <li>
                                 <form action="{{ route('logout') }}" name="logout" method="POST">

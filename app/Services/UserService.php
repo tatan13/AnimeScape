@@ -28,23 +28,23 @@ class UserService
     /**
      * ユーザーをユーザー統計情報と共に取得
      *
-     * @param String $user_name
+     * @param int $user_id
      * @param Request $request
      * @return User
      */
-    public function getUserWithInformation(string $user_name, Request $request)
+    public function getUserWithInformation($user_id, Request $request)
     {
         $user_information = null;
         if (is_null($request->year) && is_null($request->coor)) {
-            $user_information = $this->userRepository->getByNameWithUserReviewsAndAnimeForAll($user_name);
+            $user_information = $this->userRepository->getByIdWithUserReviewsAndAnimeForAll($user_id);
         }
         if (!is_null($request->year) && is_null($request->coor)) {
             $user_information = $this->userRepository
-            ->getByNameWithUserReviewsAndAnimeForEachYear($user_name, $request);
+            ->getByIdWithUserReviewsAndAnimeForEachYear($user_id, $request);
         }
         if (!is_null($request->year) && !is_null($request->coor)) {
             $user_information = $this->userRepository
-            ->getByNameWithUserReviewsAndAnimeForEachCoor($user_name, $request);
+            ->getByIdWithUserReviewsAndAnimeForEachCoor($user_id, $request);
         }
         if (is_null($request->year) && !is_null($request->coor)) {
             abort(404);
@@ -66,14 +66,14 @@ class UserService
     }
 
     /**
-     * ユーザーをnameから取得
+     * ユーザーをidから取得
      *
-     * @param string $user_name
+     * @param $user_id
      * @return User
      */
-    public function getUser(string $user_name)
+    public function getUserById($user_id)
     {
-        return $this->userRepository->getByName($user_name);
+        return $this->userRepository->getById($user_id);
     }
 
     /**

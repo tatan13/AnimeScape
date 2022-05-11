@@ -10,14 +10,14 @@
             <h2>{{ $user_information->name }}さんの情報</h2>
             <p>{{ $user_information->name }}</p>
             @auth
-                @if (strcmp(Auth::user()->name, $user_information->name) == 0)
+                @if (Auth::id() == $user_information->id )
                     <a href="{{ route('user_config.show') }}">個人情報設定</a>
                 @else
                     <div v-if="isLikedUser">
-                        <a href="#" @click="unlike(user_name)">お気に入りユーザーを解除する</a>
+                        <a href="#" @click="unlike(user_id)">お気に入りユーザーを解除する</a>
                     </div>
                     <div v-else>
-                        <a href="#" @click="like(user_name)">お気に入りユーザーとして登録する</a>
+                        <a href="#" @click="like(user_id)">お気に入りユーザーとして登録する</a>
                     </div>
                 @endif
             @endauth
@@ -56,7 +56,7 @@
                                     <tr>
                                         <th>視聴予定数</th>
                                         <td><a
-                                                href="{{ route('user_will_watch_anime_list.show', ['user_name' => $user_information->name]) }}">{{ $user_information->will_watches_count }}</a>
+                                                href="{{ route('user_will_watch_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->will_watches_count }}</a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -66,19 +66,19 @@
                                     <tr>
                                         <th>お気に入りユーザー数</th>
                                         <td><a
-                                                href="{{ route('user_like_user_list.show', ['user_name' => $user_information->name]) }}">{{ $user_information->userLikeUsers->count() }}</a>
+                                                href="{{ route('user_like_user_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->userLikeUsers->count() }}</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>被お気に入りユーザー数</th>
                                         <td><a
-                                                href="{{ route('user_liked_user_list.show', ['user_name' => $user_information->name]) }}">@{{ likedUserCount }}</a>
+                                                href="{{ route('user_liked_user_list.show', ['user_id' => $user_information->id]) }}">@{{ likedUserCount }}</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>お気に入り声優数</th>
                                         <td><a
-                                                href="{{ route('user_like_cast_list.show', ['user_name' => $user_information->name]) }}">{{ $user_information->likeCasts->count() }}</a>
+                                                href="{{ route('user_like_cast_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->likeCasts->count() }}</a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -111,7 +111,7 @@
             <section class="anime_score_list">
                 <h3>得点とアニメの対応表{{ !is_null($year) ? '(' . $year . '年' : '(すべて' }}{{ $coor != 0 ? App\Models\Anime::getCoorLabel($coor) . 'クール)' : ')' }}
                 </h3>
-                <form action="{{ route('user.show', ['user_name' => $user_information->name]) }}"
+                <form action="{{ route('user.show', ['user_id' => $user_information->id]) }}"
                     class="search_parameters_form" name="coor_score_animelist" method="get">
                     @csrf
                     <select name="year" class="coor_year">
@@ -134,7 +134,7 @@
                         <option value="4" {{ $coor == 4 ? 'selected' : '' }}>秋</option>
                     </select>
                     <input type="submit" value="絞り込み"> <a
-                        href="{{ route('user.show', ['user_name' => $user_information->name]) }}">絞り込み解除</a>
+                        href="{{ route('user.show', ['user_id' => $user_information->id]) }}">絞り込み解除</a>
                 </form>
                 <table class="anime_score_list_table">
                     <thead>
@@ -175,7 +175,7 @@
             el: '#likeUser',
             data() {
                 return {
-                    user_name: '{{ $user_information->name }}',
+                    user_id: '{{ $user_information->id }}',
                     likedUserCount: '{{ $user_information->userLikedUsers->count() }}',
                     @auth
                     isLikedUser: '{{ Auth::user()->isLikeUser($user_information->id) }}',
@@ -183,8 +183,8 @@
             };
         },
         methods: {
-            like(user_name) {
-                let url = `/user_information/${user_name}/like`
+            like(user_id) {
+                let url = `/user_information/${user_id}/like`
                 axios.get(url)
                     .then(response => {
                         this.likedUserCount = response.data.likedUserCount
@@ -194,8 +194,8 @@
                         alert(error)
                     });
             },
-            unlike(user_name) {
-                let url = `/user_information/${user_name}/unlike`
+            unlike(user_id) {
+                let url = `/user_information/${user_id}/unlike`
                 axios.get(url)
                     .then(response => {
                         this.likedUserCount = response.data.likedUserCount

@@ -9,7 +9,7 @@
         <h2>{{ $user->name }}さんのお気に入りユーザーの統計表</h2>
         <strong>{{ $user->name }}</strong>
         <h3>表示設定</h3>
-        <form action="{{ route('user_statistics.show', ['user_name' => $user->name]) }}" class="search_parameters_form"
+        <form action="{{ route('user_statistics.show', ['user_id' => $user->id]) }}" class="search_parameters_form"
             method="get">
             @csrf
             中央値
@@ -23,7 +23,7 @@
             <input type="number" name="top_year" class="top_year" value="{{ $top_year ?? 2100 }}"
                 style="width:70px;"><br>
             <input type="submit" value="絞り込み">
-            <a href="{{ route('user_statistics.show', ['user_name' => $user->name]) }}">絞り込み解除</a>
+            <a href="{{ route('user_statistics.show', ['user_id' => $user->id]) }}">絞り込み解除</a>
         </form>
         <h3>統計表</h3>
         <table class="user_statistics_table">
@@ -53,7 +53,7 @@
                                 @foreach ($anime->userReviews as $user_review)
                                     <li class="d-inline">
                                         <span style="font-size: 50%;">{{ $user_review->score }}</span>
-                                        <a href="{{ route('user.show', ['user_name' => $user_review->user->name]) }}">{{ $user_review->user->name }}
+                                        <a href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}
                                         </a>
                                     </li>
                                 @endforeach

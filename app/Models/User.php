@@ -188,8 +188,8 @@ class User extends Authenticatable
         return $this->likeCasts()->where('cast_id', $cast_id)->exists();
     }
 
-    public function scopeWhereName($query, $user_name)
+    public function scopeWhereId($query, $user_id)
     {
-        $query->where('name', $user_name);
+        $query->where('id', $user_id);
     }
 }
