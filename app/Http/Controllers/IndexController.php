@@ -48,4 +48,14 @@ class IndexController extends Controller
     {
         return view('privacy_policy');
     }
+
+    /**
+     * このサイトについての説明を表示
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showSiteInformation()
+    {
+        return view('site_information');
+    }
 }

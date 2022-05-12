@@ -177,6 +177,7 @@
     </div>
     <footer>
         <hr>
+        <a href="{{ route('site_information.show') }}">このサイトについて</a>
         <a href="{{ route('privacy_policy.show') }}">プライバシーポリシー</a>
         @ 2022 animescape.link
     </footer>
