@@ -39,7 +39,9 @@
                                 <tbody>
                                     <tr>
                                         <th>得点入力数</th>
-                                        <td>{{ $user_information->score_count }}</td>
+                                        <td><a
+                                            href="{{ route('user_score_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->score_count }}</a>
+                                            </td>
                                     </tr>
                                     <tr>
                                         <th>得点の平均</th>

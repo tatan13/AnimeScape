@@ -17,15 +17,18 @@ use App\Http\Requests\ConfigRequest;
 class UserController extends Controller
 {
     private UserService $userService;
+    private UserReviewService $userReviewService;
     private AnimeService $animeService;
     private CastService $castService;
 
     public function __construct(
         UserService $userService,
+        UserReviewService $userReviewService,
         AnimeService $animeService,
         CastService $castService,
     ) {
         $this->userService = $userService;
+        $this->userReviewService = $userReviewService;
         $this->animeService = $animeService;
         $this->castService = $castService;
     }
@@ -60,6 +63,22 @@ class UserController extends Controller
         return view('will_watch_anime_list', [
             'user' => $user,
             'will_watch_anime_list' => $will_watch_anime_list,
+        ]);
+    }
+
+    /**
+     * ユーザーの得点を付けたレビューリストを表示
+     *
+     * @param int $user_id
+     * @return \Illuminate\View\View
+     */
+    public function showScoreAnimeList($user_id)
+    {
+        $user = $this->userService->getUserById($user_id);
+        $score_review_list = $this->userReviewService->getLatestScoreReviewListWithAnimeOf($user);
+        return view('score_anime_list', [
+            'user' => $user,
+            'score_review_list' => $score_review_list,
         ]);
     }
 

@@ -409,6 +409,22 @@ class UserTest extends TestCase
     }
 
     /**
+     * ユーザーの得点を付けたアニメリストの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1ScoreAnimeListView()
+    {
+        $response = $this->get("/user_information/{$this->user1->id}/score_anime_list");
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->anime1->title,
+            $this->anime2->title,
+        ]);
+    }
+
+    /**
      * ユーザーの視聴予定表の表示のテスト
      *
      * @test

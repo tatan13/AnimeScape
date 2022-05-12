@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use App\Models\UserReview;
 use App\Models\Anime;
 use App\Models\Cast;
 use Illuminate\Http\Request;
@@ -86,6 +87,17 @@ class UserRepository extends AbstractRepository
                 $query->whereYear($request->year)->whereCoor($request->coor);
             })->with('anime');
         })->firstOrFail();
+    }
+
+    /**
+     * ユーザーに紐づく得点の付いているユーザーレビューをアニメと共に降順に取得
+     *
+     * @param User $user
+     * @return Collection<int,UserReview> | Collection<null>
+     */
+    public function getLatestScoreReviewListWithAnimeOf(User $user)
+    {
+        return $user->userReviews()->whereNotNull('score')->with('anime')->latest()->get();
     }
 
     /**
