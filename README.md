@@ -3,7 +3,7 @@ IDを作成し，ログインすることで各アニメの点数や感想をつ
 評価指標として中央値を採用しており，平均値よりも信頼のおけるデータを提供しています．
 また，他人のアカウントをお気に入りユーザーとして登録することができ，お気に入りユーザー内での点数評価の統計を取ることができます．
 加えて，レコメンド機能によって、各ユーザーごとのおすすめアニメを提案し，次に視聴するアニメを決定する情報として使用することができます．
-![AnimeScape](https://user-images.githubusercontent.com/73135261/168006374-62f57d87-5852-4caa-bc29-5f5d0dfc49ee.PNG)
+![www animescape link_](https://user-images.githubusercontent.com/73135261/168007018-7d59d4b4-b8be-40a7-a07f-fdad67a28d3f.png)
 
 # テスト用アカウント
 ログインID： testuser
