@@ -69,8 +69,8 @@
                         <td>
                             <select name="sex">
                                 <option value="" {{ is_null($user->sex) ? 'selected' : '' }}>-</option>
-                                <option value="2" {{ $user->sex == 2 ? 'selected' : '' }}>男性</option>
-                                <option value="1" {{ $user->sex == 1 ? 'selected' : '' }}>女性</option>
+                                <option value="1" {{ $user->sex == 1 ? 'selected' : '' }}>男性</option>
+                                <option value="2" {{ $user->sex == 2 ? 'selected' : '' }}>女性</option>
                             </select>
                         </td>
                         <td></td>

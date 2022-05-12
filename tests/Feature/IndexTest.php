@@ -90,4 +90,16 @@ class IndexTest extends TestCase
         $response = $this->get('/privacy_policy');
         $response->assertStatus(200);
     }
+
+    /**
+     * このサイトについての説明ページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testSiteInformationView()
+    {
+        $response = $this->get('/site_information');
+        $response->assertStatus(200);
+    }
 }

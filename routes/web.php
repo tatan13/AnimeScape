@@ -48,6 +48,8 @@ Route::post('/modify/anime/{id}', [App\Http\Controllers\ModifyController::class,
 
 Route::get('/update_log', [App\Http\Controllers\IndexController::class, 'showUpdateLog'])->name('update_log.show');
 
+Route::get('/site_information', [App\Http\Controllers\IndexController::class, 'showSiteInformation'])->name('site_information.show');
+
 Route::get('/privacy_policy', [App\Http\Controllers\IndexController::class, 'showPrivacyPolicy'])->name('privacy_policy.show');
 
 Route::get('/modify/occupation/{id}', [App\Http\Controllers\ModifyController::class, 'showModifyOccupation'])->name('modify_occupation.show');

@@ -24,8 +24,8 @@ class Cast extends Model
     ];
 
     private const SEX = [
-        1 => [ 'label' => '女性' ],
-        2 => [ 'label' => '男性' ],
+        1 => [ 'label' => '男性' ],
+        2 => [ 'label' => '女性' ],
     ];
 
     /**

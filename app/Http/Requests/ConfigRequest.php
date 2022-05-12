@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class ConfigRequest extends FormRequest
 {
@@ -19,12 +21,12 @@ class ConfigRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string>
+     * @return array<string, array<int, \Illuminate\Validation\Rules\Unique|string>|string>
      */
     public function rules()
     {
         return [
-            'email' => 'unique:users,email|email|string|nullable',
+            'email' => [Rule::unique('users')->ignore(Auth::id()),'email','string','nullable'],
             'one_comment' => 'max:400|string|nullable',
             'twitter' => 'nullable|string',
             'birth' => 'integer|nullable',
