@@ -6,6 +6,7 @@ use App\Models\UserReview;
 use App\Models\User;
 use App\Models\Anime;
 use App\Repositories\UserReviewRepository;
+use App\Repositories\UserRepository;
 use App\Repositories\AnimeRepository;
 use Illuminate\Http\Request;
 use App\Http\Requests\ReviewRequest;
@@ -17,20 +18,24 @@ use Illuminate\Database\Eloquent\Collection;
 class UserReviewService
 {
     private UserReviewRepository $userReviewRepository;
+    private UserRepository $userRepository;
     private AnimeRepository $animeRepository;
 
     /**
      * コンストラクタ
      *
      * @param UserReviewRepository $userReviewRepository
+     * @param UserRepository $userRepository
      * @param AnimeRepository $animeRepository
      * @return void
      */
     public function __construct(
         UserReviewRepository $userReviewRepository,
+        UserRepository $userRepository,
         AnimeRepository $animeRepository
     ) {
         $this->userReviewRepository = $userReviewRepository;
+        $this->userRepository = $userRepository;
         $this->animeRepository = $animeRepository;
     }
 
@@ -54,6 +59,17 @@ class UserReviewService
     public function getUserReviewsOfAnime(Anime $anime)
     {
         return $this->animeRepository->getUserReviewsOfAnime($anime);
+    }
+
+    /**
+     * ユーザーに紐づく得点の付いているユーザーレビューをアニメと共に降順に取得
+     *
+     * @param User $user
+     * @return Collection<int,UserReview> | Collection<null>
+     */
+    public function getLatestScoreReviewListWithAnimeOf(User $user)
+    {
+        return $this->userRepository->getLatestScoreReviewListWithAnimeOf($user);
     }
 
     /**
