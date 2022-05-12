@@ -17,6 +17,7 @@ class AnimeTest extends TestCase
     private Anime $anime;
     private Anime $anime1;
     private Anime $anime2;
+    private Anime $anime3;
     private Cast $cast1;
     private Cast $cast2;
     private User $user1;
@@ -38,6 +39,7 @@ class AnimeTest extends TestCase
         ]);
         $this->anime1 = Anime::factory()->create();
         $this->anime2 = Anime::factory()->create();
+        $this->anime3 = Anime::factory()->create();
 
         $this->cast1 = Cast::factory()->create();
         $this->cast2 = Cast::factory()->create();
@@ -60,6 +62,13 @@ class AnimeTest extends TestCase
             'spoiler' => true,
         ]);
         $this->anime->reviewUsers()->attach($this->user3->id, [
+            'score' => 100,
+            'one_word_comment' => 'not sad',
+            'will_watch' => true,
+            'watch' => true,
+            'spoiler' => true,
+        ]);
+        $this->anime3->reviewUsers()->attach($this->user1->id, [
             'score' => 100,
             'one_word_comment' => 'not sad',
             'will_watch' => true,
@@ -346,6 +355,12 @@ class AnimeTest extends TestCase
             'will_watch[3]' => 0,
             'spoiler[3]' => 0,
             'one_word_comment[3]' => '',
+            'anime_id[4]' => $this->anime3->id,
+            'score[4]' => '',
+            'watch[4]' => 0,
+            'will_watch[4]' => 0,
+            'spoiler[4]' => 0,
+            'one_word_comment[4]' => '',
         ]));
         $response->assertRedirect('/anime_review_list?year=2022&coor=1');
         $this->get('/anime_review_list?year=2022&coor=1')->assertSee('入力が完了しました。');
@@ -371,6 +386,10 @@ class AnimeTest extends TestCase
             'anime_id' => $this->anime2->id,
             'user_id' => $this->user1->id,
         ]);
+        $this->assertDatabaseMissing('user_reviews', [
+            'anime_id' => $this->anime3->id,
+            'user_id' => $this->user1->id,
+        ]);
         $this->assertDatabaseHas('animes', [
             'id' => $this->anime->id,
             'median' => 70,
@@ -378,6 +397,22 @@ class AnimeTest extends TestCase
             'count' => 3,
             'max' => 100,
             'min' => 40,
+        ]);
+        $this->assertDatabaseHas('animes', [
+            'id' => $this->anime1->id,
+            'median' => 35,
+            'average' => 35,
+            'count' => 1,
+            'max' => 35,
+            'min' => 35,
+        ]);
+        $this->assertDatabaseHas('animes', [
+            'id' => $this->anime3->id,
+            'median' => null,
+            'average' => null,
+            'count' => 0,
+            'max' => null,
+            'min' => null,
         ]);
     }
 

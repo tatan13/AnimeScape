@@ -116,6 +116,8 @@ class UserReviewService
     {
         $anime_list = $this->animeRepository->getAnimeListWithMyReviewsFor($submit_reviews);
         foreach ($submit_reviews->anime_id as $key => $anime_id) {
+            $anime = $anime_list->where('id', $anime_id)->first();
+            // 何かしら入力されていた場合、レビューを作成
             if (
                 !is_null($submit_reviews->score[$key]) ||
                 $submit_reviews->will_watch[$key] == true ||
@@ -124,18 +126,25 @@ class UserReviewService
                 $submit_reviews->will_watch[$key] == true ||
                 $submit_reviews->spoiler[$key] == true
             ) {
-                $anime = $anime_list->where('id', $anime_id)->first();
                 if (is_null($anime->userReview)) {
                     DB::transaction(function () use ($anime, $submit_reviews, $key) {
                         $this->animeRepository->createMyReviewByReviewsRequest($anime, $submit_reviews, $key);
                         $this->updateScoreStatistics($anime);
                     });
-                } else {
-                    DB::transaction(function () use ($anime, $submit_reviews, $key) {
-                        $this->animeRepository->updateMyReviewByReviewsRequest($anime, $submit_reviews, $key);
-                        $this->updateScoreStatistics($anime);
-                    });
+                    continue;
                 }
+                DB::transaction(function () use ($anime, $submit_reviews, $key) {
+                    $this->animeRepository->updateMyReviewByReviewsRequest($anime, $submit_reviews, $key);
+                    $this->updateScoreStatistics($anime);
+                });
+                continue;
+            }
+            // 何も入力されておらず、既にレビューが存在する場合、レビューを削除
+            if (!is_null($anime->userReview)) {
+                DB::transaction(function () use ($anime) {
+                    $anime->userReview->delete();
+                    $this->updateScoreStatistics($anime);
+                });
             }
         }
     }
