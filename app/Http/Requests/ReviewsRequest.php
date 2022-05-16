@@ -24,6 +24,7 @@ class ReviewsRequest extends FormRequest
     public function rules()
     {
         return [
+            'anime_id.*' => 'required|integer',
             'score.*' => 'integer|between:0,100|nullable',
             'one_word_comment.*' => 'max:400|string|nullable',
             'will_watch.*' => 'bool',
@@ -40,6 +41,8 @@ class ReviewsRequest extends FormRequest
     public function messages()
     {
         return [
+          'anime_id.*.integer' => '不正な入力です。',
+          'anime_id.*.required' => '不正な入力です。',
           'score.*.integer' => '得点は整数で入力してください。',
           'score.*.between' => '得点は0～100点で入力してください。',
           'one_word_comment.*.max' => '一言感想は400文字以下で入力してください。',
