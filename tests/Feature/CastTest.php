@@ -55,7 +55,7 @@ class CastTest extends TestCase
      */
     public function testCastView()
     {
-        $response = $this->get("/cast/{$this->cast->id}");
+        $response = $this->get(route('cast.show', ['cast_id' => $this->cast->id]));
         $response->assertStatus(200);
     }
 
@@ -67,7 +67,7 @@ class CastTest extends TestCase
      */
     public function testCastInformationView()
     {
-        $response = $this->get("/cast/{$this->cast->id}");
+        $response = $this->get(route('cast.show', ['cast_id' => $this->cast->id]));
         $response->assertSeeInOrder([
             $this->cast->name,
             '計2本',
@@ -92,8 +92,34 @@ class CastTest extends TestCase
      */
     public function testGuestCastView()
     {
-        $response = $this->get("/cast/{$this->cast->id}");
+        $response = $this->get(route('cast.show', ['cast_id' => $this->cast->id]));
         $response->assertDontSee('お気に入り');
+        $response->assertDontSee('つけた得点');
+    }
+
+    /**
+     * ログイン時の声優ページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('cast.show', ['cast_id' => $this->cast->id]));
+        $response->assertSee('つけた得点');
+    }
+
+    /**
+     * 存在しない声優ページにアクセスしたときのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistCastView()
+    {
+        $response = $this->get(route('cast.show', ['cast_id' => 33333333333333]));
+        $response->assertStatus(404);
     }
 
     /**
@@ -105,9 +131,7 @@ class CastTest extends TestCase
     public function testUser1LoginCastLike()
     {
         $this->actingAs($this->user1);
-        $this->get("/cast/{$this->cast->id}/like", [
-            'id' => $this->cast->id,
-        ]);
+        $this->get(route('cast.like', ['cast_id' => $this->cast->id]));
         $this->assertDatabaseHas('user_like_casts', [
             'id' => 2,
             'user_id' => $this->user1->id,
@@ -124,9 +148,7 @@ class CastTest extends TestCase
     public function testUser2LoginCastLike()
     {
         $this->actingAs($this->user2);
-        $this->get("/cast/{$this->cast->id}/like", [
-            'id' => $this->cast->id,
-        ]);
+        $this->get(route('cast.like', ['cast_id' => $this->cast->id]));
         $this->assertDatabaseMissing('user_like_casts', [
             'id' => 3,
             'user_id' => $this->user1->id,
@@ -143,9 +165,7 @@ class CastTest extends TestCase
     public function testUser2LoginCastUnlike()
     {
         $this->actingAs($this->user2);
-        $this->get("/cast/{$this->cast->id}/unlike", [
-            'id' => $this->cast->id,
-        ]);
+        $this->get(route('cast.unlike', ['cast_id' => $this->cast->id]));
         $this->assertDatabaseMissing('user_like_casts', [
             'id' => 1,
             'user_id' => $this->user2->id,
@@ -154,14 +174,28 @@ class CastTest extends TestCase
     }
 
     /**
-     * 存在しない声優ページにアクセスしたときのテスト
+     * 声優のお気に入り登録の異常値テスト
      *
      * @test
      * @return void
      */
-    public function testNotExistCastView()
+    public function testUser1LoginNotExistCastLike()
     {
-        $response = $this->get('/cast/3333333333333333333333333');
+        $this->actingAs($this->user1);
+        $response = $this->get(route('cast.like', ['cast_id' => 333333333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * 声優のお気に入り解除のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginNotExistCastUnlike()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('cast.unlike', ['cast_id' => 3333333333333333333333333333]));
         $response->assertStatus(404);
     }
 
@@ -173,10 +207,8 @@ class CastTest extends TestCase
      */
     public function testGuestCastLike()
     {
-        $response = $this->get("/cast/{$this->cast->id}/like", [
-            'id' => $this->cast->id,
-        ]);
-        $response->assertRedirect('/login');
+        $response = $this->get((route('cast.like', ['cast_id' => $this->cast->id])));
+        $response->assertRedirect(route('login'));
     }
 
     /**
@@ -187,9 +219,7 @@ class CastTest extends TestCase
      */
     public function testGuestCastUnlike()
     {
-        $response = $this->get("/cast/{$this->cast->id}/unlike", [
-            'id' => $this->cast->id,
-        ]);
-        $response->assertRedirect('/login');
+        $response = $this->get(route('cast.unlike', ['cast_id' => $this->cast->id]));
+        $response->assertRedirect(route('login'));
     }
 }

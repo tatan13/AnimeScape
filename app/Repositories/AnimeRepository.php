@@ -27,48 +27,25 @@ class AnimeRepository extends AbstractRepository
     }
 
     /**
-     * 今クールのアニメリストを取得
+     * anime_idからアニメを出演声優リストと取得
      *
-     * @return Collection<int,Anime> | Collection<null>
+     * @param int $anime_id
+     * @return Anime
      */
-    public function getNowCoorAnimeList()
+    public function getAnimeWithActCastsById($anime_id)
     {
-        return Anime::whereYear(2022)->whereCoor(Anime::WINTER)->latest(Anime::TYPE_MEDIAN)->get();
+        return Anime::with('actCasts')->findOrFail($anime_id);
     }
 
     /**
-     * リクエストに従ってすべての期間のアニメリストを取得
+     * 今クールのアニメリストをログインユーザーのレビューと共に取得
      *
-     * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getAnimeListForAllPeriods(Request $request)
+    public function getNowCoorAnimeListWithMyReviews()
     {
-        return Anime::whereAboveCount($request->count)->latest($request->category)->get();
-    }
-
-    /**
-     * リクエストに従って年別のアニメリストを取得
-     *
-     * @param Request $request
-     * @return Collection<int,Anime> | Collection<null>
-     */
-    public function getAnimeListForEachYear(Request $request)
-    {
-        return  Anime::whereYear($request->year)->whereAboveCount($request->count)
-        ->latest($request->category)->get();
-    }
-
-    /**
-     * リクエストに従ってクール別のアニメリストを取得
-     *
-     * @param Request $request
-     * @return Collection<int,Anime> | Collection<null>
-     */
-    public function getAnimeListForEachCoor(Request $request)
-    {
-        return  Anime::whereCoor($request->coor)->whereYear($request->year)->whereAboveCount($request->count)
-        ->latest($request->category)->get();
+        return Anime::whereYear(Anime::NOW_YEAR)->whereCoor(Anime::NOW_COOR)
+        ->withMyReviews()->latest(Anime::TYPE_MEDIAN)->get();
     }
 
     /**
@@ -122,6 +99,19 @@ class AnimeRepository extends AbstractRepository
     }
 
     /**
+     * 検索ワードからアニメをログインユーザーのレビューと共に取得
+     *
+     * @return Collection<int,Anime> | Collection<null> | array<null>
+     */
+    public function getWithMyReviewsBySearch($search_word)
+    {
+        if (is_null($search_word)) {
+            return array();
+        }
+        return Anime::where(Anime::SEARCH_COLUMN, 'like', "%$search_word%")->withMyReviews()->get();
+    }
+
+    /**
      * アニメからアニメの出演声優変更申請データリストを取得
      *
      * @param Anime $anime
@@ -130,17 +120,6 @@ class AnimeRepository extends AbstractRepository
     public function getModifyOccupationListOfAnime(Anime $anime)
     {
         return $anime->modifyOccupations;
-    }
-
-    /**
-     * アニメの出演声優変更申請データを削除
-     *
-     * @param Anime $anime
-     * @return void
-     */
-    public function deleteModifyOccupationsOfAnime(Anime $anime)
-    {
-        $anime->modifyOccupations()->delete();
     }
 
     /**
@@ -239,13 +218,25 @@ class AnimeRepository extends AbstractRepository
     }
 
     /**
+     * アニメの基本情報修正申請データを作成
+     *
+     * @param Anime $anime
+     * @param ModifyAnimeRequest $request
+     * @return void
+     */
+    public function createModifyAnimeRequest(Anime $anime, ModifyAnimeRequest $request)
+    {
+        $anime->modifyAnimes()->create($request->validated());
+    }
+
+    /**
      * アニメの基本情報修正申請データからアニメの基本情報を更新
      *
      * @param Anime $anime
      * @param ModifyAnimeRequest $request
      * @return void
      */
-    public function updateInformation(Anime $anime, ModifyAnimeRequest $request)
+    public function updateInformationByRequest(Anime $anime, ModifyAnimeRequest $request)
     {
         $anime->update($request->validated());
     }
@@ -255,53 +246,67 @@ class AnimeRepository extends AbstractRepository
      *
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getAnimeListWithModifyOccupationList()
+    public function getAnimeListWithModifyOccupationRequestList()
     {
         return Anime::whereHas('modifyOccupations')->with(['occupations', 'modifyOccupations'])->get();
     }
 
     /**
-     * アニメリストをログインユーザーのレビューと共に取得
+     * アニメリストをログインユーザーのレビューと共にリクエストに従って取得
      *
      * @param ReviewsRequest | Request  $request
      * @return Collection<int,Anime> | Collection<null>
      */
     public function getAnimeListWithMyReviewsFor(ReviewsRequest | Request $request)
     {
-        return Anime::whereYear($request->year)->whereCoor($request->coor)->with('userReview', function ($query) {
-            $query->where('user_id', Auth::id());
-        })->get();
+        return Anime::whereYear($request->year)->whereCoor($request->coor)->whereAboveCount($request->count)
+        ->withMyReviews()->latestCategory($request->category)->get();
     }
 
     /**
-     * おすすめアニメリストを取得
+     * おすすめアニメリストをログインユーザーのレビューと共に取得
      *
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getRecommendAnimeList()
+    public function getRecommendAnimeListWithMyReviews()
     {
-        return Auth::user()->recommendAnimes()->latest('recommendation_score')->get();
+        return Auth::user()->recommendAnimes()->withMyReviews()->latest('recommendation_score')->get();
     }
 
     /**
-     * ログインユーザーがまだ得点入力していない中央値順のTOP5アニメリストを取得
+     * ログインユーザーがまだ得点入力していない中央値順のTOP5アニメリストをログインユーザーのレビューと共に取得
      *
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getTopAnimeList()
+    public function getTopAnimeListWithMyReviews()
     {
         return Anime::whereNotIn('id', Auth::user()->userReviews()->whereNotNull('score')->pluck('anime_id'))
-        ->latest('median')->whereAboveCount(1)->take(5)->get();
+        ->latest('median')->whereAboveCount(2)->withMyReviews()->take(5)->get();
     }
 
     /**
-     * アニメを削除
+     * アニメをmodify_anime_idから取得
      *
-     * @param int $id
-     * @return void
+     * @param int $modify_anime_id
+     * @return Anime
      */
-    public function deleteAnime($id)
+    public function getAnimeByModifyAnimeId($modify_anime_id)
     {
-        $this->getById($id)->delete();
+        return Anime::whereHas('modifyAnimes', function ($query) use ($modify_anime_id) {
+            $query->where('id', $modify_anime_id);
+        })->firstOrFail();
+    }
+
+    /**
+     * アニメをdelete_anime_idから取得
+     *
+     * @param int $delete_anime_id
+     * @return Anime
+     */
+    public function getAnimeByDeleteAnimeId($delete_anime_id)
+    {
+        return Anime::whereHas('deleteAnimes', function ($query) use ($delete_anime_id) {
+            $query->where('id', $delete_anime_id);
+        })->firstOrFail();
     }
 }

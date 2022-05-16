@@ -22,7 +22,7 @@ class StatisticsController extends Controller
      */
     public function show(Request $request)
     {
-        $animes = $this->animeService->getAnimeListFor($request);
+        $animes = $this->animeService->getAnimeListWithMyReviewsFor($request);
         return view('anime_statistics', [
             'animes' => $animes,
             'category' => $request->category,

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Auth;
 
 class Anime extends Model
 {
@@ -16,6 +17,9 @@ class Anime extends Model
     public const SPRING = 2;
     public const SUMMER = 3;
     public const AUTUMN = 4;
+
+    public const NOW_YEAR = 2022;
+    public const NOW_COOR = self::WINTER;
 
     public const SEARCH_COLUMN = 'title';
 
@@ -139,6 +143,16 @@ class Anime extends Model
     }
 
     /**
+     * アニメの削除申請を取得
+     *
+     * @return HasMany
+     */
+    public function deleteAnimes()
+    {
+        return $this->hasMany('App\Models\DeleteAnime');
+    }
+
+    /**
      * アニメのおすすめデータを取得
      *
      * @return HasMany
@@ -169,7 +183,7 @@ class Anime extends Model
     }
 
     /**
-     * アニメの基本情報修正依頼を取得
+     * アニメの基本情報修正申請を取得
      *
      * @return HasMany
      */
@@ -189,7 +203,7 @@ class Anime extends Model
     }
 
     /**
-     * 出演声優情報修正依頼を取得
+     * 出演声優情報修正申請を取得
      *
      * @return HasMany
      */
@@ -211,7 +225,10 @@ class Anime extends Model
 
     public function scopeWhereYear($query, $year)
     {
-        $query->where('year', $year);
+        if (is_null($year)) {
+            return $query;
+        }
+        return $query->where('year', $year);
     }
 
     public function scopeWhereBetWeenYear($query, $bottom_year, $top_year)
@@ -221,16 +238,40 @@ class Anime extends Model
 
     public function scopeWhereCoor($query, $coor)
     {
-        $query->where('coor', $coor);
+        if (is_null($coor)) {
+            return $query;
+        }
+        return $query->where('coor', $coor);
     }
 
     public function scopeWhereAboveCount($query, $count)
     {
-        $query->where('count', '>=', $count ?? 0);
+        if (is_null($count)) {
+            return $query;
+        }
+        return $query->where('count', '>=', $count);
     }
 
     public function scopeWhereAboveMedian($query, $median)
     {
         $query->where('median', '>=', $median ?? 0);
+    }
+
+    public function scopeWithMyReviews($query)
+    {
+        if (Auth::check()) {
+            return $query->with('userReview', function ($q) {
+                $q->where('user_id', Auth::id());
+            });
+        }
+        return $query;
+    }
+
+    public function scopeLatestCategory($query, $category)
+    {
+        if (is_null($category)) {
+            return $query;
+        }
+        return $query->latest($category);
     }
 }
