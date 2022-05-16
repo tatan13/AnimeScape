@@ -7,6 +7,11 @@
 @section('main')
     <article class="index">
         <h2>トップページ</h2>
+        <section class="information">
+            <h3>お知らせ</h3>
+            2000年～2013年のアニメ作品を追加しました。<br>
+            現在、アニメ作品の追加申請機能を実装中です。
+        </section>
         <section class="recommend_anime_list">
             @auth
                 <h3>あなたへのおすすめアニメ</h3>

@@ -36,8 +36,7 @@
                     @if (Auth::check())
                         ログイン中 : {{ Auth::user()->name }}
                         <ul>
-                            <li><a
-                                    href="{{ route('user.show', ['user_id' => auth()->user()->id]) }}">マイページ</a><br>
+                            <li><a href="{{ route('user.show', ['user_id' => auth()->user()->id]) }}">マイページ</a><br>
                             </li>
                             <li>
                                 <form action="{{ route('logout') }}" name="logout" method="POST">
@@ -53,22 +52,26 @@
                                     <ul class="list-inline">
                                         <li>
                                             <select name="year" class="coor_year">
-                                                <option value="2022">2022</option>
-                                                <option value="2021">2021</option>
-                                                <option value="2020">2020</option>
-                                                <option value="2019">2019</option>
-                                                <option value="2018">2018</option>
-                                                <option value="2017">2017</option>
-                                                <option value="2016">2016</option>
-                                                <option value="2015">2015</option>
-                                                <option value="2014">2014</option>
+                                                @for ($i = 2022; $i >= 2000; $i--)
+                                                    <option value="{{ $i }}"
+                                                        {{ is_null($year ?? null) ?'' : ($year == $i ? 'selected' : '') }}>
+                                                        {{ $i }}</option>
+                                                @endfor
                                             </select>
                                             年
                                             <select name="coor" class="coor">
-                                                <option value="1">冬</option>
-                                                <option value="2">春</option>
-                                                <option value="3">夏</option>
-                                                <option value="4">秋</option>
+                                                <option value="1"
+                                                    {{ is_null($coor ?? null) ?'' : ($coor == 1 ? 'selected' : '') }}>冬
+                                                </option>
+                                                <option value="2"
+                                                    {{ is_null($coor ?? null) ?'' : ($coor == 2 ? 'selected' : '') }}>春
+                                                </option>
+                                                <option value="3"
+                                                    {{ is_null($coor ?? null) ?'' : ($coor == 3 ? 'selected' : '') }}>夏
+                                                </option>
+                                                <option value="4"
+                                                    {{ is_null($coor ?? null) ?'' : ($coor == 4 ? 'selected' : '') }}>秋
+                                                </option>
                                             </select>
                                             <input type="submit" value="決定" />
                                         </li>
@@ -115,15 +118,11 @@
                                 <ul class="list-inline">
                                     <li>
                                         <select name="year" class="year">
-                                            <option value="2022">2022</option>
-                                            <option value="2021">2021</option>
-                                            <option value="2020">2020</option>
-                                            <option value="2019">2019</option>
-                                            <option value="2018">2018</option>
-                                            <option value="2017">2017</option>
-                                            <option value="2016">2016</option>
-                                            <option value="2015">2015</option>
-                                            <option value="2014">2014</option>
+                                            @for ($i = 2022; $i >= 2000; $i--)
+                                                <option value="{{ $i }}"
+                                                    {{ is_null($year ?? null) ?'' : ($year == $i ? 'selected' : '') }}>
+                                                    {{ $i }}</option>
+                                            @endfor
                                         </select>
                                         <input type="submit" value="決定" />
                                     </li>
@@ -138,22 +137,22 @@
                                 <ul class="list-inline">
                                     <li>
                                         <select name="year" class="coor_year">
-                                            <option value="2022">2022</option>
-                                            <option value="2021">2021</option>
-                                            <option value="2020">2020</option>
-                                            <option value="2019">2019</option>
-                                            <option value="2018">2018</option>
-                                            <option value="2017">2017</option>
-                                            <option value="2016">2016</option>
-                                            <option value="2015">2015</option>
-                                            <option value="2014">2014</option>
+                                            @for ($i = 2022; $i >= 2000; $i--)
+                                                <option value="{{ $i }}"
+                                                    {{ is_null($year ?? null) ?'' : ($year == $i ? 'selected' : '') }}>
+                                                    {{ $i }}</option>
+                                            @endfor
                                         </select>
                                         年
                                         <select name="coor" class="coor">
-                                            <option value="1">冬</option>
-                                            <option value="2">春</option>
-                                            <option value="3">夏</option>
-                                            <option value="4">秋</option>
+                                            <option value="1"
+                                                {{ is_null($coor ?? null) ?'' : ($coor == 1 ? 'selected' : '') }}>冬</option>
+                                            <option value="2"
+                                                {{ is_null($coor ?? null) ?'' : ($coor == 2 ? 'selected' : '') }}>春</option>
+                                            <option value="3"
+                                                {{ is_null($coor ?? null) ?'' : ($coor == 3 ? 'selected' : '') }}>夏</option>
+                                            <option value="4"
+                                                {{ is_null($coor ?? null) ?'' : ($coor == 4 ? 'selected' : '') }}>秋</option>
                                         </select>
                                         <input type="submit" value="決定" />
                                     </li>
@@ -169,6 +168,14 @@
                         </ul>
                     </section>
                 </section>
+                @can('isAdmin')
+                    <section class="admin_menu">
+                        <h3>管理者メニュー</h3>
+                        <ul>
+                            <li><a href="{{ route('modify_request_list.show') }}">修正申請リスト</a></li>
+                        </ul>
+                    </section>
+                @endcan
             </aside>
             <main class="col-md-10">
                 @yield('main')
