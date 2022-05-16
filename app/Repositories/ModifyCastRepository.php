@@ -21,23 +21,11 @@ class ModifyCastRepository extends AbstractRepository
     }
 
     /**
-     * 声優情報変更申請データを作成
-     *
-     * @param Cast $cast
-     * @param ModifyCastRequest $request
-     * @return void
-     */
-    public function createModifyCast(Cast $cast, ModifyCastRequest $request)
-    {
-        $cast->modifyCasts()->create($request->validated());
-    }
-
-    /**
      * 声優の情報修正申請データリストを取得
      *
      * @return Collection<int,ModifyCast> | Collection<null>
      */
-    public function getModifyCastListWithCast()
+    public function getModifyCastRequestListWithCast()
     {
         return ModifyCast::with('cast')->get();
     }
@@ -45,22 +33,11 @@ class ModifyCastRepository extends AbstractRepository
     /**
      * 声優情報修正申請データから声優を取得
      *
-     * @param ModifyCast $modify_cast
+     * @param ModifyCast $modify_cast_request
      * @return Cast
      */
-    public function getCast(ModifyCast $modify_cast)
+    public function getCast(ModifyCast $modify_cast_request)
     {
-        return $modify_cast->cast;
-    }
-
-    /**
-     * 声優情報修正申請データを削除
-     *
-     * @param ModifyCast $modify_cast
-     * @return void
-     */
-    public function delete(ModifyCast $modify_cast)
-    {
-        $modify_cast->delete();
+        return $modify_cast_request->cast;
     }
 }

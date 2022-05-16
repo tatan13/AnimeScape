@@ -16,6 +16,7 @@ class ModifyOccupation extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'anime_id',
         'cast_name',
     ];
 
@@ -27,5 +28,10 @@ class ModifyOccupation extends Model
     public function anime()
     {
         return $this->belongsTo('App\Models\Anime');
+    }
+
+    public function scopeWhereAnimeId($query, $anime_id)
+    {
+        $query->where('anime_id', $anime_id);
     }
 }

@@ -23,14 +23,14 @@ class ContactService
     }
 
     /**
-     * idから要望を取得
+     * contact_idから要望を取得
      *
-     * @param int $id
+     * @param int $contact_id
      * @return Contact
      */
-    public function getContact($id)
+    public function getContact($contact_id)
     {
-        return $this->contactRepository->getById($id);
+        return $this->contactRepository->getById($contact_id);
     }
 
     /**

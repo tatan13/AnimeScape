@@ -27,7 +27,7 @@ class LoginTest extends TestCase
      */
     public function testLoginView()
     {
-        $response = $this->get('/login');
+        $response = $this->get(route('login'));
         $response->assertStatus(200);
     }
 
@@ -40,7 +40,7 @@ class LoginTest extends TestCase
     public function testUserLoginLoginRedirect()
     {
         $this->actingAs($this->user);
-        $this->get('/login')->assertRedirect('/');
+        $this->get(route('login'))->assertRedirect(route('index.show'));
     }
 
     /**
@@ -51,11 +51,11 @@ class LoginTest extends TestCase
      */
     public function testLoginCorrectPost()
     {
-        $response = $this->post('/login', [
+        $response = $this->post(route('login'), [
             'name' => $this->user->name,
             'password' => 'secret',
         ]);
-        $response->assertRedirect('/');
+        $response->assertRedirect(route('index.show'));
         $this->assertAuthenticatedAs($this->user);
     }
 
@@ -67,13 +67,13 @@ class LoginTest extends TestCase
      */
     public function testLoginIncorrectPost()
     {
-        $response = $this->from('/login')->post('/login', [
+        $response = $this->from(route('login'))->post(route('login'), [
             'name' => $this->user->name,
             'password' => 'public',
         ]);
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
         $this->assertGuest();
-        $this->get('/login')->assertSee('ログインIDとパスワードが一致していません。');
+        $this->get(route('login'))->assertSee('ログインIDとパスワードが一致していません。');
     }
 
     /**
@@ -85,8 +85,8 @@ class LoginTest extends TestCase
     public function testLogout()
     {
         $this->actingAs($this->user);
-        $response = $this->post('/logout');
-        $response->assertRedirect('/');
+        $response = $this->post(route('logout'));
+        $response->assertRedirect(route('index.show'));
         $this->assertGuest();
     }
 }

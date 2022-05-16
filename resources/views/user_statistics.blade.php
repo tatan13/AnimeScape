@@ -38,7 +38,7 @@
                 </tr>
                 @foreach ($user_anime_statistics as $anime)
                     <tr>
-                        <td><a href="{{ route('anime.show', ['id' => $anime->id]) }}">{{ $anime->title }}</a>
+                        <td><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
                         </td>
                         <td>{{ $anime->year }}年{{ $anime->coor_label }}クール</td>
                         <td>{{ $anime->median }}</td>
