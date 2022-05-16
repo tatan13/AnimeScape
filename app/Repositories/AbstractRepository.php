@@ -38,6 +38,14 @@ abstract class AbstractRepository implements RepositoryInterface
     /**
      *
      */
+    public function deleteById($id)
+    {
+        $this->model::findOrFail($id)->delete();
+    }
+
+    /**
+     *
+     */
     public function getAll()
     {
         $model = $this->model::all();

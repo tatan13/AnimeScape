@@ -18,9 +18,13 @@ Auth::routes();
 
 Route::get('/', [App\Http\Controllers\IndexController::class, 'show'])->name('index.show');
 
-Route::get('/anime/{id}', [App\Http\Controllers\AnimeController::class, 'show'])->name('anime.show');
+Route::get('/anime/{anime_id}', [App\Http\Controllers\AnimeController::class, 'show'])->name('anime.show');
 
-Route::get('/cast/{id}', [App\Http\Controllers\CastController::class, 'show'])->name('cast.show');
+Route::get('/anime/{anime_id}/delete_request', [App\Http\Controllers\ModifyController::class, 'showDeleteAnimeRequest'])->name('delete_anime_request.show');
+
+Route::post('/anime/{anime_id}/delete_request', [App\Http\Controllers\ModifyController::class, 'postDeleteAnimeRequest'])->name('delete_anime_request.post');
+
+Route::get('/cast/{cast_id}', [App\Http\Controllers\CastController::class, 'show'])->name('cast.show');
 
 Route::get('/user_information/{user_id}', [App\Http\Controllers\UserController::class, 'show'])->name('user.show');
 
@@ -44,9 +48,9 @@ Route::post('/contact', [App\Http\Controllers\ContactController::class, 'post'])
 
 Route::get('/anime_statistics', [App\Http\Controllers\StatisticsController::class, 'show'])->name('anime_statistics.show');
 
-Route::get('/modify/anime/{id}', [App\Http\Controllers\ModifyController::class, 'showModifyAnime'])->name('modify_anime.show');
+Route::get('/anime/{anime_id}/modify_request', [App\Http\Controllers\ModifyController::class, 'showModifyAnimeRequest'])->name('modify_anime_request.show');
 
-Route::post('/modify/anime/{id}', [App\Http\Controllers\ModifyController::class, 'postModifyAnime'])->name('modify_anime.post');
+Route::post('/anime/{anime_id}/modify_request', [App\Http\Controllers\ModifyController::class, 'postModifyAnimeRequest'])->name('modify_anime_request.post');
 
 Route::get('/update_log', [App\Http\Controllers\IndexController::class, 'showUpdateLog'])->name('update_log.show');
 
@@ -54,19 +58,18 @@ Route::get('/site_information', [App\Http\Controllers\IndexController::class, 's
 
 Route::get('/privacy_policy', [App\Http\Controllers\IndexController::class, 'showPrivacyPolicy'])->name('privacy_policy.show');
 
-Route::get('/modify/occupation/{id}', [App\Http\Controllers\ModifyController::class, 'showModifyOccupation'])->name('modify_occupation.show');
+Route::get('/anime/{anime_id}/act_casts/modify_request', [App\Http\Controllers\ModifyController::class, 'showModifyOccupationsRequest'])->name('modify_occupations_request.show');
 
-Route::post('/modify/occupation/{id}', [App\Http\Controllers\ModifyController::class, 'postModifyOccupation'])->name('modify_occupation.post');
+Route::post('/anime/{anime_id}/act_casts/modify_request', [App\Http\Controllers\ModifyController::class, 'postModifyOccupationsRequest'])->name('modify_occupations_request.post');
 
-Route::get('/modify/cast/{id}', [App\Http\Controllers\ModifyController::class, 'showModifyCast'])->name('modify_cast.show');
+Route::get('/cast/{cast_id}/modify_request', [App\Http\Controllers\ModifyController::class, 'showModifyCastRequest'])->name('modify_cast_request.show');
 
-Route::post('/modify/cast/{id}', [App\Http\Controllers\ModifyController::class, 'postModifyCast'])->name('modify_cast.post');
+Route::post('/cast/{cast_id}/modify_request', [App\Http\Controllers\ModifyController::class, 'postModifyCastRequest'])->name('modify_cast_request.post');
 
 Route::group(['middleware' => 'auth'], function () {
-
-    Route::get('/cast/{id}/like', [App\Http\Controllers\CastController::class, 'like'])->name('cast.like');
+    Route::get('/cast/{cast_id}/like', [App\Http\Controllers\CastController::class, 'like'])->name('cast.like');
     
-    Route::get('/cast/{id}/unlike', [App\Http\Controllers\CastController::class, 'unlike'])->name('cast.unlike');
+    Route::get('/cast/{cast_id}/unlike', [App\Http\Controllers\CastController::class, 'unlike'])->name('cast.unlike');
     
     Route::get('/user_information/{user_id}/like', [App\Http\Controllers\UserController::class, 'like'])->name('user.like');
 
@@ -76,9 +79,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/user_config', [App\Http\Controllers\UserController::class, 'postUserConfig'])->name('user_config.post');
 
-    Route::get('/anime/{id}/review', [App\Http\Controllers\AnimeController::class, 'showAnimeReview'])->name('anime_review.show');
+    Route::get('/anime/{anime_id}/review', [App\Http\Controllers\AnimeController::class, 'showAnimeReview'])->name('anime_review.show');
 
-    Route::post('/anime/{id}/review', [App\Http\Controllers\AnimeController::class, 'postAnimeReview'])->name('anime_review.post');
+    Route::post('/anime/{anime_id}/review', [App\Http\Controllers\AnimeController::class, 'postAnimeReview'])->name('anime_review.post');
 
     Route::get('/anime_review_list', [App\Http\Controllers\AnimeController::class, 'showAnimeReviewList'])->name('anime_review_list.show');
 
@@ -86,20 +89,23 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'admin_auth'], function () {
-    
-    Route::get('/anime/{id}/delete', [App\Http\Controllers\AnimeController::class, 'deleteAnime'])->name('anime.delete');
+    Route::post('/delete/anime/{delete_anime_id}/approve', [App\Http\Controllers\ModifyController::class, 'approveDeleteAnimeRequest'])->name('delete_anime_request.approve');
 
-    Route::get('/modify_list', [App\Http\Controllers\ModifyController::class, 'showModifyList'])->name('modify_list.show');
+    Route::get('/delete/anime/{delete_anime_id}/reject', [App\Http\Controllers\ModifyController::class, 'rejectDeleteAnimeRequest'])->name('delete_anime_request.reject');
     
-    Route::post('/modify/anime/{id}/update', [App\Http\Controllers\ModifyController::class, 'UpdateModifyAnime'])->name('modify_anime.update');
+    Route::get('/anime/{anime_id}/delete', [App\Http\Controllers\ModifyController::class, 'deleteAnime'])->name('anime.delete');
+
+    Route::get('/modify_request_list', [App\Http\Controllers\ModifyController::class, 'showModifyRequestList'])->name('modify_request_list.show');
     
-    Route::get('/modify/anime/{id}/delete', [App\Http\Controllers\ModifyController::class, 'deleteModifyAnime'])->name('modify_anime.delete');
+    Route::post('/modify/anime/{modify_anime_id}/approve', [App\Http\Controllers\ModifyController::class, 'approveModifyAnimeRequest'])->name('modify_anime_request.approve');
     
-    Route::post('/modify/occupation/{id}/update', [App\Http\Controllers\ModifyController::class, 'updateModifyOccupation'])->name('modify_occupation.update');
+    Route::get('/modify/anime/{modify_anime_id}/reject', [App\Http\Controllers\ModifyController::class, 'rejectModifyAnimeRequest'])->name('modify_anime_request.reject');
     
-    Route::get('/modify/occupation/{id}/delete', [App\Http\Controllers\ModifyController::class, 'deleteModifyOccupation'])->name('modify_occupation.delete');
+    Route::post('/modify/occupations/{anime_id}/approve', [App\Http\Controllers\ModifyController::class, 'approveModifyOccupationsRequest'])->name('modify_occupations_request.approve');
     
-    Route::post('/modify/cast/{id}/update', [App\Http\Controllers\ModifyController::class, 'updateModifyCast'])->name('modify_cast.update');
+    Route::get('/modify/occupations/{anime_id}/reject', [App\Http\Controllers\ModifyController::class, 'rejectModifyOccupationsRequest'])->name('modify_occupations_request.reject');
     
-    Route::get('/modify/cast/{id}/delete', [App\Http\Controllers\ModifyController::class, 'deleteModifyCast'])->name('modify_cast.delete');
+    Route::post('/modify/cast/{modify_cast_id}/approve', [App\Http\Controllers\ModifyController::class, 'approveModifyCastRequest'])->name('modify_cast_request.approve');
+    
+    Route::get('/modify/cast/{modify_cast_id}/reject', [App\Http\Controllers\ModifyController::class, 'rejectModifyCastRequest'])->name('modify_cast_request.reject');
 });
