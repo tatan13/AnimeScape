@@ -54,23 +54,28 @@
                                             <select name="year" class="coor_year">
                                                 @for ($i = 2022; $i >= 2000; $i--)
                                                     <option value="{{ $i }}"
-                                                        {{ is_null($year ?? null) ?'' : ($year == $i ? 'selected' : '') }}>
+                                                        {{ is_null($year ?? null) ? '' : ($year == $i ? 'selected' : '') }}>
                                                         {{ $i }}</option>
                                                 @endfor
                                             </select>
                                             年
                                             <select name="coor" class="coor">
+                                                <option value="" {{ is_null($coor ?? null) ? 'selected' : '' }}>-</option>
                                                 <option value="1"
-                                                    {{ is_null($coor ?? null) ?'' : ($coor == 1 ? 'selected' : '') }}>冬
+                                                    {{ is_null($coor ?? null) ? '' : ($coor == 1 ? 'selected' : '') }}>
+                                                    冬
                                                 </option>
                                                 <option value="2"
-                                                    {{ is_null($coor ?? null) ?'' : ($coor == 2 ? 'selected' : '') }}>春
+                                                    {{ is_null($coor ?? null) ? '' : ($coor == 2 ? 'selected' : '') }}>
+                                                    春
                                                 </option>
                                                 <option value="3"
-                                                    {{ is_null($coor ?? null) ?'' : ($coor == 3 ? 'selected' : '') }}>夏
+                                                    {{ is_null($coor ?? null) ? '' : ($coor == 3 ? 'selected' : '') }}>
+                                                    夏
                                                 </option>
                                                 <option value="4"
-                                                    {{ is_null($coor ?? null) ?'' : ($coor == 4 ? 'selected' : '') }}>秋
+                                                    {{ is_null($coor ?? null) ? '' : ($coor == 4 ? 'selected' : '') }}>
+                                                    秋
                                                 </option>
                                             </select>
                                             <input type="submit" value="決定" />
@@ -120,7 +125,7 @@
                                         <select name="year" class="year">
                                             @for ($i = 2022; $i >= 2000; $i--)
                                                 <option value="{{ $i }}"
-                                                    {{ is_null($year ?? null) ?'' : ($year == $i ? 'selected' : '') }}>
+                                                    {{ is_null($year ?? null) ? '' : ($year == $i ? 'selected' : '') }}>
                                                     {{ $i }}</option>
                                             @endfor
                                         </select>
@@ -139,20 +144,24 @@
                                         <select name="year" class="coor_year">
                                             @for ($i = 2022; $i >= 2000; $i--)
                                                 <option value="{{ $i }}"
-                                                    {{ is_null($year ?? null) ?'' : ($year == $i ? 'selected' : '') }}>
+                                                    {{ is_null($year ?? null) ? '' : ($year == $i ? 'selected' : '') }}>
                                                     {{ $i }}</option>
                                             @endfor
                                         </select>
                                         年
                                         <select name="coor" class="coor">
                                             <option value="1"
-                                                {{ is_null($coor ?? null) ?'' : ($coor == 1 ? 'selected' : '') }}>冬</option>
+                                                {{ is_null($coor ?? null) ? '' : ($coor == 1 ? 'selected' : '') }}>冬
+                                            </option>
                                             <option value="2"
-                                                {{ is_null($coor ?? null) ?'' : ($coor == 2 ? 'selected' : '') }}>春</option>
+                                                {{ is_null($coor ?? null) ? '' : ($coor == 2 ? 'selected' : '') }}>春
+                                            </option>
                                             <option value="3"
-                                                {{ is_null($coor ?? null) ?'' : ($coor == 3 ? 'selected' : '') }}>夏</option>
+                                                {{ is_null($coor ?? null) ? '' : ($coor == 3 ? 'selected' : '') }}>夏
+                                            </option>
                                             <option value="4"
-                                                {{ is_null($coor ?? null) ?'' : ($coor == 4 ? 'selected' : '') }}>秋</option>
+                                                {{ is_null($coor ?? null) ? '' : ($coor == 4 ? 'selected' : '') }}>秋
+                                            </option>
                                         </select>
                                         <input type="submit" value="決定" />
                                     </li>

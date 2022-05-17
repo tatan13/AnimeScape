@@ -260,7 +260,7 @@ class AnimeRepository extends AbstractRepository
     public function getAnimeListWithMyReviewsFor(ReviewsRequest | Request $request)
     {
         return Anime::whereYear($request->year)->whereCoor($request->coor)->whereAboveCount($request->count)
-        ->withMyReviews()->latestCategory($request->category)->get();
+        ->withMyReviews()->latestCategory($request->category)->paginate(500);
     }
 
     /**

@@ -28,17 +28,23 @@
             @csrf
             <input type="hidden" name="category" class="category" value="{{ $category ?? 'median' }}">
             <input type="hidden" name="count" class="count" value="{{ $count ?? 0 }}">
-            <input type="hidden" name="year" class="year" value="{{ $coor == 1 ? $year - 1 : $year }}">
-            <input type="hidden" name="coor" class="coor" value="{{ $coor == 1 ? 4 : $coor - 1 }}">
-            <a href="javascript:previous.submit()">前クールへ</a>
+            <input type="hidden" name="year" class="year"
+                value="{{ $coor == 1 || is_null($coor) ? $year - 1 : $year }}">
+            @if (!is_null($coor))
+                <input type="hidden" name="coor" class="coor" value="{{ $coor == 1 ? 4 : $coor - 1 }}">
+            @endif
+            <a href="javascript:previous.submit()">{{ is_null($year) ? '' : (is_null($coor) ? '前の年へ' : '前クールへ') }}</a>
         </form>
         <form action="{{ route('anime_statistics.show') }}" name="next" class="d-inline" method="get">
             @csrf
             <input type="hidden" name="category" class="category" value="{{ $category ?? 'median' }}">
             <input type="hidden" name="count" class="count" value="{{ $count ?? 0 }}">
-            <input type="hidden" name="year" class="year" value="{{ $coor == 4 ? $year + 1 : $year }}">
-            <input type="hidden" name="coor" class="coor" value="{{ $coor == 4 ? 1 : $coor + 1 }}">
-            <a href="javascript:next.submit()">次クールへ</a>
+            <input type="hidden" name="year" class="year"
+                value="{{ $coor == 4 || is_null($coor) ? $year + 1 : $year }}">
+            @if (!is_null($coor))
+                <input type="hidden" name="coor" class="coor" value="{{ $coor == 4 ? 1 : $coor + 1 }}">
+            @endif
+            <a href="javascript:next.submit()">{{ is_null($year) ? '' : (is_null($coor) ? '次の年へ' : '次クールへ')  }}</a>
         </form>
         <table class="anime_ranking_table">
             <tbody>
@@ -56,7 +62,7 @@
                 </tr>
                 @foreach ($animes as $anime)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $animes->firstItem() + $loop->iteration - 1 }}</td>
                         <td><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
                         </td>
                         <td>{{ $anime->company }}</td>
@@ -71,5 +77,9 @@
                 @endforeach
             </tbody>
         </table>
+        <a
+            href="{{ $animes->appends(['year' => $year, 'coor' => $coor, 'category' => $category, 'count' => $count])->previousPageUrl() }}">前ページへ</a>
+        <a
+            href="{{ $animes->appends(['year' => $year, 'coor' => $coor, 'category' => $category, 'count' => $count])->nextPageUrl() }}">次ページへ</a>
     </article>
 @endsection
