@@ -73,7 +73,7 @@ class AnimeService
      * リクエストに従ってアニメリストをログインユーザーのレビューと共に取得
      *
      * @param Request $request
-     * @return Collection<int,Anime> | void | Collection<null>
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function getAnimeListWithMyReviewsFor(Request $request)
     {

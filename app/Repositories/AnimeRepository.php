@@ -255,7 +255,7 @@ class AnimeRepository extends AbstractRepository
      * アニメリストをログインユーザーのレビューと共にリクエストに従って取得
      *
      * @param ReviewsRequest | Request  $request
-     * @return Collection<int,Anime> | Collection<null>
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function getAnimeListWithMyReviewsFor(ReviewsRequest | Request $request)
     {
