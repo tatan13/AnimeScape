@@ -159,12 +159,12 @@ class AnimeService
      *
      * @return Collection<int,Anime> | Collection<null> | null
      */
-    public function getRecommendAnimeListWithMyReviews()
+    public function getRecommendAnimeList()
     {
         if (Auth::check()) {
-            $recommend_anime_list = $this->animeRepository->getRecommendAnimeListWithMyReviews();
+            $recommend_anime_list = $this->animeRepository->getRecommendAnimeList();
             return $recommend_anime_list->isEmpty() ?
-            $this->animeRepository->getTopAnimeListWithMyReviews() : $recommend_anime_list;
+            $this->animeRepository->getTopAnimeList() : $recommend_anime_list;
         }
         return null;
     }

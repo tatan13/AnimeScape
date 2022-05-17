@@ -44,7 +44,7 @@
             @if (!is_null($coor))
                 <input type="hidden" name="coor" class="coor" value="{{ $coor == 4 ? 1 : $coor + 1 }}">
             @endif
-            <a href="javascript:next.submit()">{{ is_null($year) ? '' : (is_null($coor) ? '次の年へ' : '次クールへ')  }}</a>
+            <a href="javascript:next.submit()">{{ is_null($year) ? '' : (is_null($coor) ? '次の年へ' : '次クールへ') }}</a>
         </form>
         <table class="anime_ranking_table">
             <tbody>
@@ -77,9 +77,22 @@
                 @endforeach
             </tbody>
         </table>
+        @if (!$animes->onFirstPage())
         <a
-            href="{{ $animes->appends(['year' => $year, 'coor' => $coor, 'category' => $category, 'count' => $count])->previousPageUrl() }}">前ページへ</a>
-        <a
-            href="{{ $animes->appends(['year' => $year, 'coor' => $coor, 'category' => $category, 'count' => $count])->nextPageUrl() }}">次ページへ</a>
+            href="{{ $animes->appends(['year' => $year, 'coor' => $coor, 'category' => $category, 'count' => $count])->previousPageUrl() }}">前へ</a>
+        @endif
+        @for ($i = 1; $i <= $animes->lastPage(); $i++)
+            @if ($animes->currentPage() == $i)
+                {{ $i }}
+            @else
+                <a
+                    href="{{ $animes->appends(['year' => $year, 'coor' => $coor, 'category' => $category, 'count' => $count])->url($i) }}">{{ $i }}</a>
+            @endif
+        @endfor
+        @if ($animes->hasMorePages())
+            <a
+                href="{{ $animes->appends(['year' => $year, 'coor' => $coor, 'category' => $category, 'count' => $count])->nextPageUrl() }}">次へ</a>
+        @endif
+        {{ $animes->currentPage() }}/{{ $animes->lastPage() }}ページ
     </article>
 @endsection
