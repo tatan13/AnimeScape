@@ -21,6 +21,19 @@ class CastRepository extends AbstractRepository
     }
 
     /**
+     * cast_idから声優を出演しているアニメとログインユーザーのレビューと共に取得
+     *
+     * @param int $cast_id
+     * @return Cast
+     */
+    public function getCastWithActAnimesWithMyReviewsById($cast_id)
+    {
+        return Cast::where('id', $cast_id)->with('actAnimes', function ($query) {
+            $query->withMyReviews();
+        })->firstOrFail();
+    }
+
+    /**
      * 声優が出演するアニメリストを取得
      *
      * @param Cast $cast
@@ -37,7 +50,7 @@ class CastRepository extends AbstractRepository
      * @param string $cast_name
      * @return Cast
      */
-    public function create(string $cast_name)
+    public function createByName(string $cast_name)
     {
         return Cast::create(['name' => $cast_name]);
     }
@@ -57,26 +70,40 @@ class CastRepository extends AbstractRepository
      * アニメの出演声優を作成
      *
      * @param Cast $cast
-     * @param Anime $anime
+     * @param int $anime_id
      * @return void
      */
-    public function createOccupation(Cast $cast, Anime $anime)
+    public function createOccupationByCastAndAnimeId(Cast $cast, $anime_id)
     {
-        $cast->actAnimes()->attach($anime->id);
+        $cast->actAnimes()->attach($anime_id);
     }
 
     /**
-     * 声優を検索して出演アニメと共に取得
+     * 声優を検索して出演アニメとログインユーザーのレビューと共に取得
      *
      * @return Collection<int|Cast> | array<null>
      */
-    public function getBySearchWithactAnimes($search_word)
+    public function getWithactAnimesWithMyReviewsBySearch($search_word)
     {
         if (is_null($search_word)) {
             return array();
         }
-        $casts = Cast::where(Cast::SEARCH_COLUMN, 'like', "%$search_word%")->with('actAnimes')->get();
+        $casts = Cast::where(Cast::SEARCH_COLUMN, 'like', "%$search_word%")->with('actAnimes', function ($query) {
+            $query->take(10)->withMyReviews();
+        })->get();
         return $casts->isEmpty() ? array() : $casts;
+    }
+
+    /**
+     * 声優情報変更申請データを作成
+     *
+     * @param Cast $cast
+     * @param ModifyCastRequest $request
+     * @return void
+     */
+    public function createModifyCastRequest(Cast $cast, ModifyCastRequest $request)
+    {
+        $cast->modifyCasts()->create($request->validated());
     }
 
     /**
@@ -86,8 +113,21 @@ class CastRepository extends AbstractRepository
      * @param ModifyCastRequest $request
      * @return void
      */
-    public function updateInformation(Cast $cast, ModifyCastRequest $request)
+    public function updateInformationByRequest(Cast $cast, ModifyCastRequest $request)
     {
         $cast->update($request->validated());
+    }
+
+    /**
+     * 声優をmodify_cast_idから取得
+     *
+     * @param int $modify_cast_id
+     * @return Cast
+     */
+    public function getCastByModifyCastId($modify_cast_id)
+    {
+        return Cast::whereHas('modifyCasts', function ($query) use ($modify_cast_id) {
+            $query->where('id', $modify_cast_id);
+        })->firstOrFail();
     }
 }

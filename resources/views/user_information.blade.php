@@ -10,7 +10,7 @@
             <h2>{{ $user_information->name }}さんの情報</h2>
             <p>{{ $user_information->name }}</p>
             @auth
-                @if (Auth::id() == $user_information->id )
+                @if (Auth::id() == $user_information->id)
                     <a href="{{ route('user_config.show') }}">個人情報設定</a>
                 @else
                     <div v-if="isLikedUser">
@@ -40,8 +40,8 @@
                                     <tr>
                                         <th>得点入力数</th>
                                         <td><a
-                                            href="{{ route('user_score_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->score_count }}</a>
-                                            </td>
+                                                href="{{ route('user_score_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->score_count }}</a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th>得点の平均</th>
@@ -117,23 +117,23 @@
                     class="search_parameters_form" name="coor_score_animelist" method="get">
                     @csrf
                     <select name="year" class="coor_year">
-                        <option value="2022" {{ $year == 2022 ? 'selected' : '' }}>2022</option>
-                        <option value="2021" {{ $year == 2021 ? 'selected' : '' }}>2021</option>
-                        <option value="2020" {{ $year == 2020 ? 'selected' : '' }}>2020</option>
-                        <option value="2019" {{ $year == 2019 ? 'selected' : '' }}>2019</option>
-                        <option value="2018" {{ $year == 2018 ? 'selected' : '' }}>2018</option>
-                        <option value="2017" {{ $year == 2017 ? 'selected' : '' }}>2017</option>
-                        <option value="2016" {{ $year == 2016 ? 'selected' : '' }}>2016</option>
-                        <option value="2015" {{ $year == 2015 ? 'selected' : '' }}>2015</option>
-                        <option value="2014" {{ $year == 2014 ? 'selected' : '' }}>2014</option>
+                        @for ($i = 2022; $i >= 2000; $i--)
+                            <option value="{{ $i }}"
+                                {{ is_null($year ?? null) ?'' : ($year == $i ? 'selected' : '') }}>
+                                {{ $i }}</option>
+                        @endfor
                     </select>
                     年
                     <select name="coor" class="coor">
                         <option value="">-</option>
-                        <option value="1" {{ $coor == 1 ? 'selected' : '' }}>冬</option>
-                        <option value="2" {{ $coor == 2 ? 'selected' : '' }}>春</option>
-                        <option value="3" {{ $coor == 3 ? 'selected' : '' }}>夏</option>
-                        <option value="4" {{ $coor == 4 ? 'selected' : '' }}>秋</option>
+                        <option value="1" {{ is_null($coor ?? null) ?'' : ($coor == 1 ? 'selected' : '') }}>冬
+                        </option>
+                        <option value="2" {{ is_null($coor ?? null) ?'' : ($coor == 2 ? 'selected' : '') }}>春
+                        </option>
+                        <option value="3" {{ is_null($coor ?? null) ?'' : ($coor == 3 ? 'selected' : '') }}>夏
+                        </option>
+                        <option value="4" {{ is_null($coor ?? null) ?'' : ($coor == 4 ? 'selected' : '') }}>秋
+                        </option>
                     </select>
                     <input type="submit" value="絞り込み"> <a
                         href="{{ route('user.show', ['user_id' => $user_information->id]) }}">絞り込み解除</a>
@@ -156,7 +156,7 @@
                                                 <span
                                                     style="font-size: 50%;">{{ ${'score_' . $i . '_anime_review'}->score }}</span>
                                                 <a
-                                                    href="{{ route('anime.show', ['id' => ${'score_' . $i . '_anime_review'}->anime->id]) }}">{{ ${'score_' . $i . '_anime_review'}->anime->title }}
+                                                    href="{{ route('anime.show', ['anime_id' => ${'score_' . $i . '_anime_review'}->anime->id]) }}">{{ ${'score_' . $i . '_anime_review'}->anime->title }}
                                                 </a>
                                             </li>
                                         @endforeach

@@ -29,7 +29,7 @@ class ContactTest extends TestCase
      */
     public function testContactView()
     {
-        $response = $this->get('/contact');
+        $response = $this->get(route('contact.show'));
         $response->assertStatus(200);
     }
 
@@ -41,7 +41,7 @@ class ContactTest extends TestCase
      */
     public function testContactCommentView()
     {
-        $response = $this->get('/contact');
+        $response = $this->get(route('contact.show'));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->contact1->name,
@@ -59,7 +59,7 @@ class ContactTest extends TestCase
      */
     public function testContactNamePost()
     {
-        $response = $this->post('/contact', [
+        $response = $this->post(route('contact.post'), [
             'name' => 'user',
             'comment' => 'exellent',
             'auth' => 'にんしょう',
@@ -79,11 +79,10 @@ class ContactTest extends TestCase
      */
     public function testContactNanashiPost()
     {
-        $response = $this->post('/contact', [
+        $response = $this->post(route('contact.post'), [
             'comment' => 'exellent',
             'auth' => 'にんしょう',
         ]);
-
         $this->assertDatabaseHas('contacts', [
             'name' => '名無しさん',
             'comment' => 'exellent',
@@ -98,7 +97,7 @@ class ContactTest extends TestCase
      */
     public function testContactPostValidation()
     {
-        $this->post('/contact', [
+        $this->post(route('contact.post'), [
             'name' => 'user',
             'auth' => 'にんしょ',
         ]);

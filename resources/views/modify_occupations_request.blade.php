@@ -6,24 +6,24 @@
 
 @section('main')
     <div id="addForm">
-        <article class="modify_occupation">
+        <article class="modify_occupations_request">
             <h2>{{ $anime->title }}の出演声優情報変更申請</h2>
-            <h3><a href="{{ route('anime.show', ['id' => $anime->id]) }}">{{ $anime->title }}</a></h3>
+            <h3><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a></h3>
             @if (session('flash_message'))
                 <div class="alert alert-success">
                     {{ session('flash_message') }}
                 </div>
             @endif
-            <form action="{{ route('modify_occupation.post', ['id' => $anime->id]) }}" class="modify_occupation_form"
+            <form action="{{ route('modify_occupations_request.post', ['anime_id' => $anime->id]) }}" class="modify_occupations_request_form"
                 method="POST">
                 @csrf
                 <input type="submit" value="登録">
-                <table class="modify_occupation_table">
+                <table class="modify_occupations_request_table">
                     <tbody>
                         <tr>
                             <th>声優名</th>
                         </tr>
-                        @foreach ($act_casts as $act_cast)
+                        @foreach ($anime->actCasts as $act_cast)
                             <tr>
                                 <td><input type="text" name="cast_name_{{ $loop->iteration }}"
                                         value="{{ $act_cast->name }}"></td>

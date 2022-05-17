@@ -5,9 +5,9 @@
 @endsection
 
 @section('main')
-    <article class="modify_anime">
+    <article class="modify_anime_request">
         <h2>{{ $anime->title }}の基本情報変更申請</h2>
-        <h3><a href="{{ route('anime.show', ['id' => $anime->id]) }}">{{ $anime->title }}</a></h3>
+        <h3><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a></h3>
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -22,10 +22,10 @@
                 {{ session('flash_message') }}
             </div>
         @endif
-        <form action="{{ route('modify_anime.post', ['id' => $anime->id]) }}" class="modify_anime_form" method="POST">
+        <form action="{{ route('modify_anime_request.post', ['anime_id' => $anime->id]) }}" class="modify_anime_request_form" method="POST">
             @csrf
             <input type="submit" value="登録">
-            <table class="modify_anime_table">
+            <table class="modify_anime_request_table">
                 <tbody>
                     <tr>
                         <th>項目</th>

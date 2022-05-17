@@ -85,7 +85,7 @@ class AnimeTest extends TestCase
      */
     public function testAnimeView()
     {
-        $response = $this->get("/anime/{$this->anime->id}");
+        $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
         $response->assertStatus(200);
     }
 
@@ -97,7 +97,7 @@ class AnimeTest extends TestCase
      */
     public function testAnimeInformationView()
     {
-        $response = $this->get("/anime/{$this->anime->id}");
+        $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
         $response->assertSeeInOrder([
             'https://public_url',
             '霊剣山 叡智への資格',
@@ -121,7 +121,7 @@ class AnimeTest extends TestCase
      */
     public function testAnimeCastsView()
     {
-        $response = $this->get("/anime/{$this->anime->id}");
+        $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
         $response->assertSeeInOrder([$this->cast1->name, $this->cast2->name]);
     }
 
@@ -133,7 +133,7 @@ class AnimeTest extends TestCase
      */
     public function testAnimeReviewsView()
     {
-        $response = $this->get("/anime/{$this->anime->id}");
+        $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
         $response->assertSeeInOrder([
             'excellent',
             $this->user2->name,
@@ -153,7 +153,7 @@ class AnimeTest extends TestCase
      */
     public function testGuestAnimeView()
     {
-        $response = $this->get("/anime/{$this->anime->id}");
+        $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
         $response->assertSee('ログインしてこのアニメに得点やコメントを登録する');
         $response->assertDontSee('つけた得点');
         $response->assertDontSee('このアニメを削除する');
@@ -168,7 +168,7 @@ class AnimeTest extends TestCase
     public function testUser1LoginAnimeView()
     {
         $this->actingAs($this->user1);
-        $response = $this->get("/anime/{$this->anime->id}");
+        $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
         $response->assertStatus(200);
         $response->assertDontSee('ログインしてこのアニメに得点やコメントを登録する');
         $response->assertSee('つけた得点');
@@ -183,7 +183,7 @@ class AnimeTest extends TestCase
     public function testUser2LoginAnimeView()
     {
         $this->actingAs($this->user2);
-        $response = $this->get("/anime/{$this->anime->id}");
+        $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
         $response->assertDontSee('つけた得点');
         $response->assertDontSee('このアニメを削除する');
     }
@@ -196,7 +196,7 @@ class AnimeTest extends TestCase
      */
     public function testNotExistAnimeView()
     {
-        $response = $this->get('/anime/3333333333333333333333333');
+        $response = $this->get(route('anime.show', ['anime_id' => 3333333333333333333]));
         $response->assertStatus(404);
     }
 
@@ -208,7 +208,7 @@ class AnimeTest extends TestCase
      */
     public function testGuestAnimeReviewView()
     {
-        $response = $this->get("/anime/{$this->anime->id}/review");
+        $response = $this->get(route('anime_review.show', ['anime_id' => $this->anime->id]));
         $response->assertRedirect('/login');
     }
 
@@ -221,8 +221,21 @@ class AnimeTest extends TestCase
     public function testUser1LoginAnimeReviewView()
     {
         $this->actingAs($this->user1);
-        $response = $this->get("/anime/{$this->anime->id}/review");
+        $response = $this->get(route('anime_review.show', ['anime_id' => $this->anime->id]));
         $response->assertStatus(200);
+    }
+
+    /**
+     * ログイン時のアニメ得点ページの表示の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginNotExistAnimeReviewView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('anime_review.show', ['anime_id' => 333333333333333333333]));
+        $response->assertStatus(404);
     }
 
     /**
@@ -234,7 +247,7 @@ class AnimeTest extends TestCase
     public function testUser4AnimeReviewPost()
     {
         $this->actingAs($this->user4);
-        $response = $this->post("/anime/{$this->anime->id}/review", [
+        $response = $this->post(route('anime_review.post', ['anime_id' => $this->anime->id]), [
             'score' => '35',
             'one_word_comment' => 'exellent',
             'watch' => true,
@@ -258,8 +271,8 @@ class AnimeTest extends TestCase
             'max' => 100,
             'min' => 0,
         ]);
-        $response->assertRedirect("/anime/{$this->anime->id}");
-        $this->get('/anime/1')->assertSee('入力が完了しました。');
+        $response->assertRedirect(route('anime.show', ['anime_id' => $this->anime->id]));
+        $this->get(route('anime.show', ['anime_id' => $this->anime->id]))->assertSee('入力が完了しました。');
     }
 
     /**
@@ -271,7 +284,7 @@ class AnimeTest extends TestCase
     public function testUser3AnimeReviewPost()
     {
         $this->actingAs($this->user3);
-        $response = $this->post("/anime/{$this->anime->id}/review", [
+        $response = $this->post(route('anime_review.post', ['anime_id' => $this->anime->id]), [
             'score' => '',
             'one_word_comment' => '',
             'watch' => false,
@@ -290,6 +303,25 @@ class AnimeTest extends TestCase
     }
 
     /**
+     * 存在しないアニメ得点入力のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1NotExistAnimeReviewPost()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('anime_review.post', ['anime_id' => 3333333333333333333333]), [
+            'score' => '',
+            'one_word_comment' => '',
+            'watch' => false,
+            'will_watch' => false,
+            'spoiler' => false,
+        ]);
+        $response->assertStatus(404);
+    }
+
+    /**
      * ゲストのアニメ得点一括入力ページリクエスト時のテスト
      *
      * @test
@@ -297,7 +329,7 @@ class AnimeTest extends TestCase
      */
     public function testGuestAnimeReviewListView()
     {
-        $response = $this->get(route("anime_review_list.show", [
+        $response = $this->get(route('anime_review_list.show', [
             'year' => 2022,
             'coor' => 1,
         ]));
@@ -313,7 +345,7 @@ class AnimeTest extends TestCase
     public function testUser1LoginAnimeReviewListView()
     {
         $this->actingAs($this->user1);
-        $response = $this->get(route("anime_review_list.show", [
+        $response = $this->get(route('anime_review_list.show', [
             'year' => 2022,
             'coor' => 1,
         ]));
@@ -334,20 +366,20 @@ class AnimeTest extends TestCase
     public function testUser1LoginAnimeReviewListPost()
     {
         $this->actingAs($this->user1);
-        $response = $this->post(route("anime_review_list.post", [
-            "year" => "2022",
-            "coor" => "1",
+        $response = $this->post(route('anime_review_list.post', [
+            'year' => 2022,
+            'coor' => 1,
             'anime_id[1]' => $this->anime->id,
             'score[1]' => 40,
-            'watch[1]' => true,
-            'will_watch[1]' => true,
-            'spoiler[1]' => true,
+            'watch[1]' => 1,
+            'will_watch[1]' => 1,
+            'spoiler[1]' => 1,
             'one_word_comment[1]' => 'not sad',
             'anime_id[2]' => $this->anime1->id,
             'score[2]' => 35,
-            'watch[2]' => true,
-            'will_watch[2]' => true,
-            'spoiler[2]' => true,
+            'watch[2]' => 1,
+            'will_watch[2]' => 1,
+            'spoiler[2]' => 1,
             'one_word_comment[2]' => 'not sad',
             'anime_id[3]' => $this->anime2->id,
             'score[3]' => '',
@@ -362,8 +394,14 @@ class AnimeTest extends TestCase
             'spoiler[4]' => 0,
             'one_word_comment[4]' => '',
         ]));
-        $response->assertRedirect('/anime_review_list?year=2022&coor=1');
-        $this->get('/anime_review_list?year=2022&coor=1')->assertSee('入力が完了しました。');
+        $response->assertRedirect(route('anime_review_list.show', [
+            'year' => 2022,
+            'coor' => 1,
+        ]));
+        $this->get(route('anime_review_list.show', [
+            'year' => 2022,
+            'coor' => 1,
+        ]))->assertSee('入力が完了しました。');
         $this->assertDatabaseHas('user_reviews', [
             'anime_id' => $this->anime->id,
             'user_id' => $this->user1->id,
@@ -417,6 +455,46 @@ class AnimeTest extends TestCase
     }
 
     /**
+     * ログイン時のアニメ得点一括入力の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginNotExistAnimeReviewListPost()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('anime_review_list.post', [
+            'year' => 2022,
+            'coor' => 1,
+            'anime_id[1]' => 33333333,
+            'score[1]' => 40,
+            'watch[1]' => 1,
+            'will_watch[1]' => 1,
+            'spoiler[1]' => 1,
+            'one_word_comment[1]' => 'not sad',
+            'anime_id[2]' => $this->anime1->id,
+            'score[2]' => 35,
+            'watch[2]' => 1,
+            'will_watch[2]' => 1,
+            'spoiler[2]' => 1,
+            'one_word_comment[2]' => 'not sad',
+            'anime_id[3]' => $this->anime2->id,
+            'score[3]' => '',
+            'watch[3]' => 0,
+            'will_watch[3]' => 0,
+            'spoiler[3]' => 0,
+            'one_word_comment[3]' => '',
+            'anime_id[4]' => $this->anime3->id,
+            'score[4]' => '',
+            'watch[4]' => 0,
+            'will_watch[4]' => 0,
+            'spoiler[4]' => 0,
+            'one_word_comment[4]' => '',
+        ]));
+        $response->assertStatus(404);
+    }
+
+    /**
      * ルートログイン時のアニメの削除リンクの表示のテスト
      *
      * @test
@@ -425,48 +503,7 @@ class AnimeTest extends TestCase
     public function testRoot1LoginAnimeDeleteView()
     {
         $this->actingAs($this->user1);
-        $response = $this->get("/anime/{$this->anime->id}");
+        $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
         $response->assertSee('このアニメを削除する');
-    }
-
-    /**
-     * ルートログイン時のアニメ削除のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testRootLoginAnimeDelete()
-    {
-        $this->actingAs($this->user1);
-        $response = $this->get("/anime/{$this->anime->id}/delete");
-        $response->assertRedirect('/');
-        $this->assertDatabaseMissing('animes', [
-            'id' => $this->anime->id,
-        ]);
-    }
-
-    /**
-     * ゲスト時のアニメ削除のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testGuestAnimeDelete()
-    {
-        $response = $this->get("/anime/{$this->anime->id}/delete");
-        $response->assertStatus(403);
-    }
-
-    /**
-     * ユーザーログイン時のアニメ削除のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testUserAnimeDelete()
-    {
-        $this->actingAs($this->user2);
-        $response = $this->get("/anime/{$this->anime->id}/delete");
-        $response->assertStatus(403);
     }
 }

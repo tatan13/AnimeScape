@@ -49,11 +49,11 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <a href="{{ route('modify_anime.show', ['id' => $anime->id]) }}">アニメの基本情報の変更依頼をする</a>
+                        <a href="{{ route('modify_anime_request.show', ['anime_id' => $anime->id]) }}">アニメの基本情報の変更申請をする</a><br>
+                        <a href="{{ route('delete_anime_request.show', ['anime_id' => $anime->id]) }}">アニメの削除申請をする</a>
                         @can('isAdmin')
-                            <br><a href="{{ route('anime.delete', ['id' => $anime->id]) }}"
+                            <br><a href="{{ route('anime.delete', ['anime_id' => $anime->id]) }}"
                                 onclick="return confirm('本当に削除しますか？')">このアニメを削除する</a>
-                        @else
                         @endcan
                     </div>
 
@@ -94,10 +94,10 @@
             <div class="toContents d-grid gap-2">
                 @if (Auth::check())
                     <button type="button" class="btn btn-primary"
-                        onclick="location.href='{{ route('anime_review.show', ['id' => $anime->id]) }}'">このアニメに得点やコメントを登録する</button>
+                        onclick="location.href='{{ route('anime_review.show', ['anime_id' => $anime->id]) }}'">このアニメに得点やコメントを登録する</button>
                 @else
                     <button type="button" class="btn btn-primary"
-                        onclick="location.href='{{ route('anime_review.show', ['id' => $anime->id]) }}'">ログインしてこのアニメに得点やコメントを登録する</button>
+                        onclick="location.href='{{ route('anime_review.show', ['anime_id' => $anime->id]) }}'">ログインしてこのアニメに得点やコメントを登録する</button>
                 @endif
             </div>
         </section>
@@ -110,13 +110,13 @@
                         <td>
                             @foreach ($anime_casts as $anime_cast)
                                 <a
-                                    href="{{ route('cast.show', ['id' => $anime_cast->id]) }}">{{ $anime_cast->name }}</a>
+                                    href="{{ route('cast.show', ['cast_id' => $anime_cast->id]) }}">{{ $anime_cast->name }}</a>
                             @endforeach
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <a href="{{ route('modify_occupation.show', ['id' => $anime->id]) }}">アニメの出演声優情報の変更依頼をする</a>
+            <a href="{{ route('modify_occupations_request.show', ['anime_id' => $anime->id]) }}">アニメの出演声優情報の変更申請をする</a>
         </section>
         <section class="anime_comment">
             <h3>コメント（新着順）</h3>

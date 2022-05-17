@@ -8,7 +8,7 @@
     <div id="app">
         <article class=cast_information>
             <h2>
-                <a href="{{ route('cast.show', ['id' => $cast->id]) }}">{{ $cast->name }}</a>
+                <a href="{{ route('cast.show', ['cast_id' => $cast->id]) }}">{{ $cast->name }}</a>
             </h2>
             <span><strong>{{ $cast->name }}</strong></span><br>
             @auth
@@ -44,10 +44,10 @@
                         <td>{{ $cast->blog ?? '-' }}</td>
                     </tr>
                 </table>
-                <a href="{{ route('modify_cast.show', ['id' => $cast->id]) }}">声優の情報の変更依頼をする</a>
+                <a href="{{ route('modify_cast_request.show', ['cast_id' => $cast->id]) }}">声優の情報の変更申請をする</a>
             </section>
             <section class="cast_act_anime_list">
-                <h3>出演アニメ（計{{ $act_animes->count() }}本）</h3>
+                <h3>出演アニメ（計{{ $cast->actAnimes->count() }}本）</h3>
                 <table class="cast_act_anime_list_table">
                     <tbody>
                         <tr>
@@ -56,11 +56,14 @@
                             <th>放送クール</th>
                             <th>中央値</th>
                             <th>データ数</th>
+                            @auth
+                                <th>つけた得点</th>
+                            @endauth
                         </tr>
-                        @foreach ($act_animes as $act_anime)
+                        @foreach ($cast->actAnimes as $act_anime)
                             <tr>
                                 <td><a
-                                        href="{{ route('anime.show', ['id' => $act_anime->id]) }}">{{ $act_anime->title }}</a>
+                                        href="{{ route('anime.show', ['anime_id' => $act_anime->id]) }}">{{ $act_anime->title }}</a>
                                 </td>
                                 <td>{{ $act_anime->company }}</td>
                                 <td>
@@ -68,6 +71,9 @@
                                 </td>
                                 <td>{{ $act_anime->median }}</td>
                                 <td>{{ $act_anime->count }}</td>
+                                @auth
+                                    <td>{{ $act_anime->userReview->score ?? '' }}</td>
+                                @endauth
                             </tr>
                         @endforeach
                     </tbody>

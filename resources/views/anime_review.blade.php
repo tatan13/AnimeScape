@@ -7,7 +7,7 @@
 @section('main')
     <article class="anime_review">
         <h2>{{ $anime->title }}のデータ入力画面</h2>
-        <h3><a href="{{ route('anime.show', ['id' => $anime->id]) }}">{{ $anime->title }}</a></h3>
+        <h3><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a></h3>
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -17,7 +17,7 @@
                 </ul>
             </div>
         @endif
-        <form action="{{ route('anime_review.post', ['id' => $anime->id]) }}" class="anime_review_form" method="POST">
+        <form action="{{ route('anime_review.post', ['anime_id' => $anime->id]) }}" class="anime_review_form" method="POST">
             @csrf
             <label for="will_watch_check">視聴予定:</label>
             <input type="hidden" name="will_watch" class="will_watch" value="0">

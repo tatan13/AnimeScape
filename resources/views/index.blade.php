@@ -7,6 +7,11 @@
 @section('main')
     <article class="index">
         <h2>トップページ</h2>
+        <section class="information">
+            <h3>お知らせ</h3>
+            2000年～2013年のアニメ作品を追加しました。<br>
+            現在、アニメ作品の追加申請機能を実装中です。
+        </section>
         <section class="recommend_anime_list">
             @auth
                 <h3>あなたへのおすすめアニメ</h3>
@@ -19,16 +24,22 @@
                             <th>放送クール</th>
                             <th>中央値</th>
                             <th>データ数</th>
+                            @auth
+                                <th>つけた得点</th>
+                            @endauth
                         </tr>
                         @foreach ($recommend_anime_list as $anime)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td><a href="{{ route('anime.show', ['id' => $anime->id]) }}">{{ $anime->title }}</a>
+                                <td><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
                                 </td>
                                 <td>{{ $anime->company }}</td>
                                 <td>{{ $anime->year }}年{{ $anime->coor_label }}クール</td>
                                 <td>{{ $anime->median }}</td>
                                 <td>{{ $anime->count }}</td>
+                                @auth
+                                    <td>{{ $anime->userReview->score ?? '' }}</td>
+                                @endauth
                             </tr>
                         @endforeach
                     </tbody>
@@ -45,15 +56,22 @@
                         <th>会社名</th>
                         <th>中央値</th>
                         <th>データ数</th>
+                        @auth
+                            <th>つけた得点</th>
+                        @endauth
                     </tr>
                     @foreach ($animes as $anime)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td><a href="{{ route('anime.show', ['id' => $anime->id]) }}">{{ $anime->title }}</a>
+                            <td><a
+                                    href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
                             </td>
                             <td>{{ $anime->company }}</td>
                             <td>{{ $anime->median }}</td>
                             <td>{{ $anime->count }}</td>
+                            @auth
+                                <td>{{ $anime->userReview->score ?? '' }}</td>
+                            @endauth
                         </tr>
                     @endforeach
                 </tbody>

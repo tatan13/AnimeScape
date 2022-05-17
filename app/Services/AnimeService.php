@@ -38,87 +38,47 @@ class AnimeService
     }
 
     /**
-     * idからアニメを取得
+     * anime_idからアニメを取得
      *
-     * @param int $id
+     * @param int $anime_id
      * @return Anime
      */
-    public function getAnime($id)
+    public function getAnime($anime_id)
     {
-        return $this->animeRepository->getById($id);
+        return $this->animeRepository->getById($anime_id);
     }
 
+    /**
+     * anime_idからアニメを出演声優リストと取得
+     *
+     * @param int $anime_id
+     * @return Anime
+     */
+    public function getAnimeWithActCastsById($anime_id)
+    {
+        return $this->animeRepository->getAnimeWithActCastsById($anime_id);
+    }
 
     /**
-     * 今クールのアニメリストを取得
+     * 今クールのアニメリストをログインユーザーのレビューと共に取得
      *
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getNowCoorAnimeList()
+    public function getNowCoorAnimeListWithMyReviews()
     {
-        return $this->animeRepository->getNowCoorAnimeList();
+        return $this->animeRepository->getNowCoorAnimeListWithMyReviews();
     }
 
     /**
-     * リクエストに従ってアニメリストを取得
+     * リクエストに従ってアニメリストをログインユーザーのレビューと共に取得
      *
      * @param Request $request
-     * @return Collection<int,Anime> | void | Collection<null>
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getAnimeListFor(Request $request)
-    {
-        if (is_null($request->year) && is_null($request->coor)) {
-            return $this->getAnimeListForAllPeriods($request);
-        }
-        if (!is_null($request->year) && is_null($request->coor)) {
-            return $this->getAnimeListForEachYear($request);
-        }
-        if (!is_null($request->year) && !is_null($request->coor)) {
-            return $this->getAnimeListForEachCoor($request);
-        }
-        if (is_null($request->year) && !is_null($request->coor)) {
-            abort(404);
-        }
-    }
-
-    /**
-     * リクエストに従ってすべての期間のアニメリストを取得
-     *
-     * @param Request $request
-     * @return Collection<int,Anime> | Collection<null>
-     */
-    public function getAnimeListForAllPeriods(Request $request)
+    public function getAnimeListWithMyReviewsFor(Request $request)
     {
         if ($this->isVelifiedCategory($request->category)) {
-            return $this->animeRepository->getAnimeListForAllPeriods($request);
-        }
-        abort(404);
-    }
-
-    /**
-     * リクエストに従って年別のアニメリストを取得
-     *
-     * @param Request $request
-     * @return Collection<int,Anime> | Collection<null>
-     */
-    public function getAnimeListForEachYear(Request $request)
-    {
-        if ($this->isVelifiedCategory($request->category)) {
-            return $this->animeRepository->getAnimeListForEachYear($request);
-        }
-        abort(404);
-    }
-
-    /**
-     * リクエストに従ってクール別のアニメリストを取得
-     *
-     * @param Request $request
-     * @return Collection<int,Anime> | Collection<null>
-     */
-    public function getAnimeListForEachCoor(Request $request)
-    {
-        if ($this->isVelifiedCategory($request->category)) {
-            return $this->animeRepository->getAnimeListForEachCoor($request);
+            return $this->animeRepository->getAnimeListWithMyReviewsFor($request);
         }
         abort(404);
     }
@@ -126,14 +86,15 @@ class AnimeService
     /**
      * カテゴリーが正しい値か判定
      *
-     * @param string $category
+     * @param string | null $category
      * @return bool
      */
-    public function isVelifiedCategory(string $category)
+    public function isVelifiedCategory(string | null $category)
     {
         return  $category === Anime::TYPE_MEDIAN ||
                 $category === Anime::TYPE_AVERAGE ||
-                $category === Anime::TYPE_COUNT;
+                $category === Anime::TYPE_COUNT ||
+                is_null($category);
     }
 
     /**
@@ -173,7 +134,7 @@ class AnimeService
     }
 
     /**
-     * ユーザーの視聴予定アニメリストを放送順にを取得
+     * ユーザーの視聴予定アニメリストを放送順に取得
      *
      * @param User $user
      * @return Collection<int,Anime> | Collection<null>
@@ -188,45 +149,24 @@ class AnimeService
      *
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getAnimeListWithModifyOccupationList()
+    public function getAnimeListWithModifyOccupationRequestList()
     {
-        return $this->animeRepository->getAnimeListWithModifyOccupationList();
+        return $this->animeRepository->getAnimeListWithModifyOccupationRequestList();
     }
 
     /**
-     * アニメリストをログインユーザーのレビューと共に取得
-     *
-     * @param Request $request
-     * @return Collection<int,Anime> | Collection<null>
-     */
-    public function getAnimeListWithMyReviewsFor(Request $request)
-    {
-        return $this->animeRepository->getAnimeListWithMyReviewsFor($request);
-    }
-
-    /**
-     * おすすめアニメリストを取得
+     * おすすめアニメリストをログインユーザーのレビューと共に取得
      *
      * @return Collection<int,Anime> | Collection<null> | null
      */
-    public function getRecommendAnimeList()
+    public function getRecommendAnimeListWithMyReviews()
     {
         if (Auth::check()) {
-            $recommend_anime_list = $this->animeRepository->getRecommendAnimeList();
-            return $recommend_anime_list->isEmpty() ? $this->animeRepository->getTopAnimeList() : $recommend_anime_list;
+            $recommend_anime_list = $this->animeRepository->getRecommendAnimeListWithMyReviews();
+            return $recommend_anime_list->isEmpty() ?
+            $this->animeRepository->getTopAnimeListWithMyReviews() : $recommend_anime_list;
         }
         return null;
-    }
-
-    /**
-     * アニメを削除
-     *
-     * @param int $id
-     * @return void
-     */
-    public function deleteAnime($id)
-    {
-        $this->animeRepository->deleteAnime($id);
     }
 
     /**

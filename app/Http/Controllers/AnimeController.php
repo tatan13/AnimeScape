@@ -28,12 +28,12 @@ class AnimeController extends Controller
     /**
      * アニメの情報を表示
      *
-     * @param int $id
+     * @param int $anime_id
      * @return \Illuminate\View\View
      */
-    public function show($id)
+    public function show($anime_id)
     {
-        $anime = $this->animeService->getAnime($id);
+        $anime = $this->animeService->getAnime($anime_id);
         $user_reviews = $this->userReviewService->getLatestUserReviewsOfAnimeWithUser($anime);
         $anime_casts = $this->castService->getActCasts($anime);
         $my_review = $this->userReviewService->getMyReview($anime);
@@ -48,12 +48,12 @@ class AnimeController extends Controller
     /**
      * アニメの得点画面を表示
      *
-     * @param int $id
+     * @param int $anime_id
      * @return \Illuminate\View\View
      */
-    public function showAnimeReview($id)
+    public function showAnimeReview($anime_id)
     {
-        $anime = $this->animeService->getAnime($id);
+        $anime = $this->animeService->getAnime($anime_id);
         $my_review = $this->userReviewService->getMyReview($anime);
         return view('anime_review', [
             'anime' => $anime,
@@ -64,16 +64,16 @@ class AnimeController extends Controller
     /**
      * アニメの入力された得点を処理し，得点画面にリダイレクト
      *
-     * @param int $id
+     * @param int $anime_id
      * @param ReviewRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postAnimeReview($id, ReviewRequest $request)
+    public function postAnimeReview($anime_id, ReviewRequest $request)
     {
-        $anime = $this->animeService->getAnime($id);
+        $anime = $this->animeService->getAnime($anime_id);
         $this->userReviewService->createOrUpdateMyReview($anime, $request);
         return redirect()->route('anime.show', [
-            'id' => $id,
+            'anime_id' => $anime_id,
         ])->with('flash_message', '入力が完了しました。');
     }
 
@@ -106,18 +106,6 @@ class AnimeController extends Controller
             'year' => $request->year,
             'coor' => $request->coor,
             ])->with('flash_message', '入力が完了しました。');
-    }
-
-    /**
-     * アニメを削除
-     *
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function deleteAnime($id)
-    {
-        $this->animeService->deleteAnime($id);
-        return redirect()->route('index.show');
     }
 
     /**

@@ -117,7 +117,7 @@ class UserTest extends TestCase
      */
     public function testGuestUser1ProfileView()
     {
-        $response = $this->get("/user_information/{$this->user1->id}");
+        $response = $this->get(route('user.show', ['user_id' => $this->user1->id]));
         $response->assertStatus(200);
         $response->assertDontSee('個人情報設定');
         $response->assertSeeInOrder([
@@ -136,11 +136,25 @@ class UserTest extends TestCase
     public function testUser1LoginUser2ProfileView()
     {
         $this->actingAs($this->user1);
-        $response = $this->get("/user_information/{$this->user2->id}");
+        $response = $this->get(route('user.show', ['user_id' => $this->user2->id]));
         $response->assertStatus(200);
         $response->assertDontSee('個人情報設定');
         $response->assertDontSee('class="one_comment"');
         $response->assertDontSee('Twitter : ');
+    }
+
+    /**
+     * 存在しないユーザーページをリクエストした場合のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistUser1View()
+    {
+        $response = $this->get(route('user.show', [
+            'user_id' => 333333333333333333333,
+        ]));
+        $response->assertStatus(404);
     }
 
     /**
@@ -152,7 +166,7 @@ class UserTest extends TestCase
     public function testUser2LoginUser1Like()
     {
         $this->actingAs($this->user2);
-        $response = $this->get("/user_information/{$this->user1->id}/like");
+        $response = $this->get((route('user.like', ['user_id' => $this->user1->id])));
         $this->assertDatabaseHas('user_like_users', [
             'id' => 6,
             'user_id' => $this->user2->id,
@@ -169,7 +183,7 @@ class UserTest extends TestCase
     public function testUser1LoginUser2Unlike()
     {
         $this->actingAs($this->user1);
-        $response = $this->get("/user_information/{$this->user2->id}/unlike");
+        $response = $this->get(route('user.unlike', ['user_id' => $this->user2->id]));
         $this->assertDatabaseMissing('user_like_users', [
             'id' => 1,
             'user_id' => $this->user1->id,
@@ -186,12 +200,38 @@ class UserTest extends TestCase
     public function testUser1LoginUser2Like()
     {
         $this->actingAs($this->user1);
-        $response = $this->get("/user_information/{$this->user2->id}/like");
+        $response = $this->get(route('user.like', ['user_id' => $this->user2->id]));
         $this->assertDatabaseMissing('user_like_users', [
             'id' => 6,
             'user_id' => $this->user1->id,
             'liked_user_id' => $this->user2->id,
         ]);
+    }
+
+    /**
+     * ユーザーのお気に入り解除の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1NotExistUserUnlike()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('user.unlike', ['user_id' => 333333333333333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ユーザーのお気に入り登録の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginNotExistUserLike()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('user.like', ['user_id' => 333333333333333333333]));
+        $response->assertStatus(404);
     }
 
     /**
@@ -202,7 +242,7 @@ class UserTest extends TestCase
      */
     public function testGuestUser1Like()
     {
-        $response = $this->get("/user_information/{$this->user1->id}/like");
+        $response = $this->get(route('user.like', ['user_id' => $this->user1->id]));
         $response->assertRedirect('/login');
     }
 
@@ -214,7 +254,7 @@ class UserTest extends TestCase
      */
     public function testGuestUser1Unlike()
     {
-        $response = $this->get("/user_information/{$this->user1->id}/unlike");
+        $response = $this->get(route('user.unlike', ['user_id' => $this->user1->id]));
         $response->assertRedirect('/login');
     }
 
@@ -226,7 +266,7 @@ class UserTest extends TestCase
      */
     public function testUser1AllStatisticView()
     {
-        $response = $this->get("/user_information/{$this->user1->id}");
+        $response = $this->get(route('user.show', ['user_id' => $this->user1->id]));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
             '統計情報(すべて)',
@@ -395,20 +435,6 @@ class UserTest extends TestCase
     }
 
     /**
-     * 存在しないユーザーページをリクエストした場合のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testNotExistUser1View()
-    {
-        $response = $this->get(route('user.show', [
-            'user_id' => 3000,
-        ]));
-        $response->assertStatus(404);
-    }
-
-    /**
      * ユーザーの得点を付けたアニメリストの表示のテスト
      *
      * @test
@@ -416,12 +442,24 @@ class UserTest extends TestCase
      */
     public function testUser1ScoreAnimeListView()
     {
-        $response = $this->get("/user_information/{$this->user1->id}/score_anime_list");
+        $response = $this->get(route('user_score_anime_list.show', ['user_id' => $this->user1->id]));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->anime1->title,
             $this->anime2->title,
         ]);
+    }
+
+    /**
+     * ユーザーの得点を付けたアニメリストの表示の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistUserScoreAnimeListView()
+    {
+        $response = $this->get(route('user_score_anime_list.show', ['user_id' => 33333333333333333]));
+        $response->assertStatus(404);
     }
 
     /**
@@ -432,12 +470,24 @@ class UserTest extends TestCase
      */
     public function testUser1WillWatchAnimeListView()
     {
-        $response = $this->get("/user_information/{$this->user1->id}/will_watch_anime_list");
+        $response = $this->get(route('user_will_watch_anime_list.show', ['user_id' => $this->user1->id]));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->anime6->title,
             $this->anime5->title,
         ]);
+    }
+
+    /**
+     * ユーザーの視聴予定表の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistUserWillWatchAnimeListView()
+    {
+        $response = $this->get(route('user_will_watch_anime_list.show', ['user_id' => 3333333333333333333333333]));
+        $response->assertStatus(404);
     }
 
     /**
@@ -448,13 +498,25 @@ class UserTest extends TestCase
      */
     public function testUser1LikeUserListView()
     {
-        $response = $this->get("/user_information/{$this->user1->id}/like_user_list");
+        $response = $this->get(route('user_like_user_list.show', ['user_id' => $this->user1->id]));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->user2->name,
             $this->user3->name,
             $this->user4->name,
         ]);
+    }
+
+    /**
+     * ユーザーのお気に入りユーザーリストの表示の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistUserLikeUserListView()
+    {
+        $response = $this->get(route('user_like_user_list.show', ['user_id' => 3333333333333333]));
+        $response->assertStatus(404);
     }
 
     /**
@@ -465,12 +527,24 @@ class UserTest extends TestCase
      */
     public function testUser1LikedUserListView()
     {
-        $response = $this->get("/user_information/{$this->user1->id}/liked_user_list");
+        $response = $this->get(route('user_liked_user_list.show', ['user_id' => $this->user1->id]));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->user3->name,
             $this->user4->name,
         ]);
+    }
+
+    /**
+     * ユーザーの被お気に入りユーザーリストの表示の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistUserLikedUserListView()
+    {
+        $response = $this->get(route('user_liked_user_list.show', ['user_id' => 3333333333333333333333]));
+        $response->assertStatus(404);
     }
 
     /**
@@ -481,12 +555,24 @@ class UserTest extends TestCase
      */
     public function testUser1LikeCastListView()
     {
-        $response = $this->get("/user_information/{$this->user1->id}/like_cast_list");
+        $response = $this->get(route('user_like_cast_list.show', ['user_id' => $this->user1->id]));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->cast1->name,
             $this->cast2->name,
         ]);
+    }
+
+    /**
+     * ユーザーのお気に入り声優リストの表示の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistUserLikeCastListView()
+    {
+        $response = $this->get(route('user_like_cast_list.show', ['user_id' => 33333333333333333333]));
+        $response->assertStatus(404);
     }
 
     /**
@@ -497,8 +583,8 @@ class UserTest extends TestCase
      */
     public function testGuestUserConfigView()
     {
-        $response = $this->get("/user_config");
-        $response->assertRedirect("/login");
+        $response = $this->get(route('user_config.show'));
+        $response->assertRedirect(route('login'));
     }
 
     /**
@@ -510,7 +596,7 @@ class UserTest extends TestCase
     public function testLoginUserConfigView()
     {
         $this->actingAs($this->user1);
-        $response = $this->get("/user_config");
+        $response = $this->get(route('user_config.show'));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->user1->name,
@@ -530,14 +616,14 @@ class UserTest extends TestCase
     public function testLoginUserConfigNullPost()
     {
         $this->actingAs($this->user1);
-        $response = $this->post("/user_config", [
+        $response = $this->post(route('user_config.post'), [
             'email' => null,
             'one_comment' => null,
             'twitter' => null,
             'birth' => null,
             'sex' => null,
         ]);
-        $response->assertRedirect("/user_config");
+        $response->assertRedirect(route('user_config.show'));
         $this->assertDatabaseHas('users', [
             'name' => $this->user1->name,
             'email' => null,
@@ -557,14 +643,14 @@ class UserTest extends TestCase
     public function testLoginUserConfigPost()
     {
         $this->actingAs($this->user2);
-        $response = $this->post("/user_config", [
+        $response = $this->post(route('user_config.post'), [
             'email' => 'example@gmail.com',
             'one_comment' => 'excellent',
             'twitter' => 't_id',
             'birth' => 1998,
             'sex' => 0,
         ]);
-        $response->assertRedirect("/user_config");
+        $response->assertRedirect(route('user_config.show'));
         $this->assertDatabaseHas('users', [
             'name' => $this->user2->name,
             'email' => 'example@gmail.com',

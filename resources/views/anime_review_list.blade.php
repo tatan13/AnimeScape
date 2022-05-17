@@ -17,17 +17,13 @@
             <form action="{{ route('anime_review_list.show') }}" class="search_parameters_form" method="get">
                 @csrf
                 <select name="year" class="year">
-                    <option value="2022" {{ $year == 2022 ? 'selected' : '' }}>2022</option>
-                    <option value="2021" {{ $year == 2021 ? 'selected' : '' }}>2021</option>
-                    <option value="2020" {{ $year == 2020 ? 'selected' : '' }}>2020</option>
-                    <option value="2019" {{ $year == 2019 ? 'selected' : '' }}>2019</option>
-                    <option value="2018" {{ $year == 2018 ? 'selected' : '' }}>2018</option>
-                    <option value="2017" {{ $year == 2017 ? 'selected' : '' }}>2017</option>
-                    <option value="2016" {{ $year == 2016 ? 'selected' : '' }}>2016</option>
-                    <option value="2015" {{ $year == 2015 ? 'selected' : '' }}>2015</option>
-                    <option value="2014" {{ $year == 2014 ? 'selected' : '' }}>2014</option>
+                    @for ($i = 2022; $i >= 2000; $i--)
+                        <option value="{{ $i }}" {{ $year == $i ? 'selected' : '' }}>{{ $i }}
+                        </option>
+                    @endfor
                 </select>年
                 <select name="coor" class="coor">
+                    <option value="" {{ is_null($coor) ? 'selected' : '' }}>-</option>
                     <option value="1" {{ $coor == 1 ? 'selected' : '' }}>冬</option>
                     <option value="2" {{ $coor == 2 ? 'selected' : '' }}>春</option>
                     <option value="3" {{ $coor == 3 ? 'selected' : '' }}>夏</option>
@@ -37,18 +33,25 @@
             </form>
         </section>
         <section class="anime_review_list_information">
-            <h3>アニメ一覧</h3>
-            <form action="{{ route('anime_review_list.show') }}" name="previous" class="d-inline"  method="get">
+            <h3>{{ !is_null($year) ? $year . '年' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }}アニメ一覧
+            </h3>
+            <form action="{{ route('anime_review_list.show') }}" name="previous" class="d-inline" method="get">
                 @csrf
-                <input type="hidden" name="year" class="year" value="{{ $coor == 1 ? $year - 1 : $year }}">
-                <input type="hidden" name="coor" class="coor" value="{{ $coor == 1 ? 4 : $coor - 1}}">
-                <a href="javascript:previous.submit()">前クールへ</a>
+                <input type="hidden" name="year" class="year"
+                    value="{{ $coor == 1 || is_null($coor) ? $year - 1 : $year }}">
+                @if (!is_null($coor))
+                    <input type="hidden" name="coor" class="coor" value="{{ $coor == 1 ? 4 : $coor - 1 }}">
+                @endif
+                <a href="javascript:previous.submit()">{{ is_null($year) ? '' : (is_null($coor) ? '前の年へ' : '前クールへ') }}</a>
             </form>
             <form action="{{ route('anime_review_list.show') }}" name="next" class="d-inline" method="get">
                 @csrf
-                <input type="hidden" name="year" class="year" value="{{ $coor == 4 ? $year + 1 : $year }}">
-                <input type="hidden" name="coor" class="coor" value="{{ $coor == 4 ? 1 : $coor + 1}}">
-                <a href="javascript:next.submit()">次クールへ</a>
+                <input type="hidden" name="year" class="year"
+                    value="{{ $coor == 4 || is_null($coor) ? $year + 1 : $year }}">
+                @if (!is_null($coor))
+                    <input type="hidden" name="coor" class="coor" value="{{ $coor == 4 ? 1 : $coor + 1 }}">
+                @endif
+                <a href="javascript:next.submit()">{{ is_null($year) ? '' : (is_null($coor) ? '次の年へ' : '次クールへ')  }}</a>
             </form>
             @if ($errors->any())
                 <div class="alert alert-danger">
@@ -62,6 +65,8 @@
             <form action="{{ route('anime_review_list.post') }}" class="anime_review_list_form" method="POST">
                 @csrf
                 <input type="submit" value="送信">
+                <input type="hidden" name="year" class="year" value="{{ $year }}">
+                <input type="hidden" name="coor" class="coor" value="{{ $coor }}">
                 <table class="anime_review_list_table">
                     <tbody>
                         <tr>
@@ -76,12 +81,11 @@
                         </tr>
                         @foreach ($anime_list as $anime)
                             <tr>
-                                <td><a href="{{ route('anime.show', ['id' => $anime->id]) }}">{{ $anime->title }}</a>
+                                <td><a
+                                        href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
                                 </td>
                                 <td>{{ $anime->company }}</td>
                                 <td>{{ $anime->year }}年{{ $anime->coor_label }}クール</td>
-                                <input type="hidden" name="year" class="year" value="{{ $anime->year }}">
-                                <input type="hidden" name="coor" class="coor" value="{{ $anime->coor }}">
                                 <input type="hidden" name="anime_id[{{ $loop->iteration }}]" class="anime_id"
                                     value="{{ $anime->id }}">
                                 <td><input type="text" name="score[{{ $loop->iteration }}]" class="score"

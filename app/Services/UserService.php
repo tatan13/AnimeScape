@@ -66,7 +66,7 @@ class UserService
     }
 
     /**
-     * ユーザーをidから取得
+     * ユーザーをuser_idから取得
      *
      * @param int $user_id
      * @return User

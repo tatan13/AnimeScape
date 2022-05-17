@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\Anime;
-use App\Models\UserReview;
 use App\Models\User;
 use Tests\TestCase;
 
@@ -17,6 +16,7 @@ class StatisticsTest extends TestCase
     private Anime $anime2;
     private Anime $anime3;
     private Anime $anime4;
+    private User $user;
 
     protected function setUp(): void
     {
@@ -49,6 +49,34 @@ class StatisticsTest extends TestCase
             'average' => 77,
             'count' => 3,
         ]);
+        $this->user = User::factory()->create();
+    }
+
+    /**
+     * ゲスト時のランキングページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestStatisticsView()
+    {
+        $response = $this->get(route('anime_statistics.show', ['category' => Anime::TYPE_MEDIAN]));
+        $response->assertStatus(200);
+        $response->assertDontSee('つけた得点');
+    }
+
+    /**
+     * ログイン時のランキングページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testLoginStatisticsView()
+    {
+        $this->actingAs($this->user);
+        $response = $this->get(route('anime_statistics.show', ['category' => Anime::TYPE_MEDIAN]));
+        $response->assertStatus(200);
+        $response->assertSee('つけた得点');
     }
 
     /**

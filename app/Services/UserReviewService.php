@@ -40,14 +40,14 @@ class UserReviewService
     }
 
     /**
-     * idからユーザーレビューを取得
+     * user_review_idからユーザーレビューを取得
      *
-     * @param int $id
+     * @param int $user_review_id
      * @return UserReview
      */
-    public function getUserReview($id)
+    public function getUserReview($user_review_id)
     {
-        return $this->userReviewRepository->getById($id);
+        return $this->userReviewRepository->getById($user_review_id);
     }
 
     /**
@@ -132,7 +132,7 @@ class UserReviewService
     {
         $anime_list = $this->animeRepository->getAnimeListWithMyReviewsFor($submit_reviews);
         foreach ($submit_reviews->anime_id as $key => $anime_id) {
-            $anime = $anime_list->where('id', $anime_id)->first();
+            $anime = $anime_list->where('id', $anime_id)->first() ?? abort(404);
             // 何かしら入力されていた場合、レビューを作成
             if (
                 !is_null($submit_reviews->score[$key]) ||

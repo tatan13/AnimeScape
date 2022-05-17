@@ -38,6 +38,38 @@ class SearchTest extends TestCase
     }
 
     /**
+     * ゲスト時のアニメ検索のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestSearchAnimeView()
+    {
+        $response = $this->get(route('search.show', [
+            'category' => 'anime',
+            'search_word' => '霊剣山',
+        ]));
+        $response->assertStatus(200);
+        $response->assertDontSee('つけた得点');
+    }
+
+    /**
+     * ログイン時のアニメ検索のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testLoginSearchAnimeView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('search.show', [
+            'category' => 'anime',
+            'search_word' => '霊剣山',
+        ]));
+        $response->assertSee('つけた得点');
+    }
+
+    /**
      * 複数のアニメ検索のテスト
      *
      * @test
@@ -49,7 +81,6 @@ class SearchTest extends TestCase
             'category' => 'anime',
             'search_word' => '霊剣山',
         ]));
-        $response->assertStatus(200);
         $response->assertSeeInOrder([$this->anime1->title, $this->anime2->title,]);
         $response->assertDontSee($this->anime3->title);
     }
@@ -84,6 +115,38 @@ class SearchTest extends TestCase
         ]));
         $response->assertStatus(200);
         $response->assertSee('該当するアニメがありませんでした。');
+    }
+
+    /**
+     * ゲスト時の声優検索の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestSearchCastView()
+    {
+        $response = $this->get(route('search.show', [
+            'category' => 'cast',
+            'search_word' => 'castName',
+        ]));
+        $response->assertStatus(200);
+        $response->assertDontSee('つけた得点');
+    }
+
+    /**
+     * ログイン時の声優検索の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testLoginSearchCastView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('search.show', [
+            'category' => 'cast',
+            'search_word' => 'castName',
+        ]));
+        $response->assertSee('つけた得点');
     }
 
     /**

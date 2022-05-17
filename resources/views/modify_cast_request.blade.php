@@ -5,9 +5,9 @@
 @endsection
 
 @section('main')
-    <article class="modify_cast">
+    <article class="modify_cast_request">
         <h2>{{ $cast->name }}の情報変更申請</h2>
-        <h3><a href="{{ route('cast.show', ['id' => $cast->id]) }}">{{ $cast->name }}</a></h3>
+        <h3><a href="{{ route('cast.show', ['cast_id' => $cast->id]) }}">{{ $cast->name }}</a></h3>
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -22,10 +22,10 @@
                 {{ session('flash_message') }}
             </div>
         @endif
-        <form action="{{ route('modify_cast.post', ['id' => $cast->id]) }}" class="modify_cast_form" method="POST">
+        <form action="{{ route('modify_cast_request.post', ['cast_id' => $cast->id]) }}" class="modify_cast_request_form" method="POST">
             @csrf
             <input type="submit" value="登録">
-            <table class="modify_cast_table">
+            <table class="modify_cast_request_table">
                 <tbody>
                     <tr>
                         <th>項目</th>

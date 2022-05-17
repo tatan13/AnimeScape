@@ -27,7 +27,7 @@ class RegisterTest extends TestCase
      */
     public function testRegisterView()
     {
-        $response = $this->get('/register');
+        $response = $this->get(route('register'));
         $response->assertStatus(200);
     }
 
@@ -40,8 +40,8 @@ class RegisterTest extends TestCase
     public function testUserLoginRegisterView()
     {
         $this->actingAs($this->user);
-        $response = $this->get('/register');
-        $response->assertRedirect('/');
+        $response = $this->get(route('register'));
+        $response->assertRedirect(route('index.show'));
     }
 
     /**
@@ -52,19 +52,19 @@ class RegisterTest extends TestCase
      */
     public function testRegisterCorrectPost()
     {
-        $response = $this->post('/register', [
+        $response = $this->post(route('register'), [
             'name' => 'user',
             'password' => 'secretpassword',
             'password_confirmation' => 'secretpassword',
         ]);
-        $response->assertLocation('/');
+        $response->assertLocation(route('index.show'));
         $this->assertDatabaseHas('users', [
             'name' => 'user',
         ]);
         $this->assertAuthenticated();
 
-        $this->post('/logout');
-        $this->post('/login', [
+        $this->post(route('logout'));
+        $this->post(route('login'), [
             'name' => 'user',
             'password' => 'secretpassword',
         ]);
@@ -79,14 +79,14 @@ class RegisterTest extends TestCase
      */
     public function testRegisterIncorrectPost()
     {
-        $response = $this->from('/register')->post('/register', [
+        $response = $this->from(route('register'))->post(route('register'), [
             'name' => $this->user->name,
             'password' => 'secre',
             'password_confirmation' => 'secret',
         ]);
-        $response->assertRedirect('/register');
+        $response->assertRedirect(route('register'));
         $this->assertGuest();
-        $this->get('/login')->assertSee([
+        $this->get(route('login'))->assertSee([
             'その ユーザー名 は既に使用されています。',
             'パスワード は 8 文字以上で入力してください。',
             'パスワード と再入力が一致しません。',
@@ -101,14 +101,14 @@ class RegisterTest extends TestCase
      */
     public function testRegisterNullPost()
     {
-        $response = $this->from('/register')->post('/register', [
+        $response = $this->from(route('register'))->post(route('register'), [
             'name' => '',
             'password' => '',
             'password_confirmation' => '',
         ]);
-        $response->assertRedirect('/register');
+        $response->assertRedirect(route('register'));
         $this->assertGuest();
-        $this->get('/login')->assertSee([
+        $this->get(route('login'))->assertSee([
             'ユーザー名 を入力してください。',
             'パスワード を入力してください。',
         ]);

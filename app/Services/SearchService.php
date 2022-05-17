@@ -47,15 +47,14 @@ class SearchService
      */
     public function getSearchResult(Request $request)
     {
-        $search_word = $request->search_word;
         if ($request->category === self::TYPE_ANIME) {
-            return $this->animeRepository->getBySearch($search_word);
+            return $this->animeRepository->getWithMyReviewsBySearch($request->search_word);
         }
         if ($request->category === self::TYPE_CAST) {
-            return $this->castRepository->getBySearchWithactAnimes($search_word);
+            return $this->castRepository->getWithactAnimesWithMyReviewsBySearch($request->search_word);
         }
         if ($request->category === self::TYPE_USER) {
-            return $this->userRepository->getBySearch($search_word);
+            return $this->userRepository->getBySearch($request->search_word);
         }
         abort(404);
     }

@@ -36,14 +36,25 @@ class CastService
     }
 
     /**
-     * idから声優を取得
+     * cast_idから声優を取得
      *
-     * @param int $id
+     * @param int $cast_id
      * @return Cast
      */
-    public function getCast($id)
+    public function getCast($cast_id)
     {
-        return $this->castRepository->getById($id);
+        return $this->castRepository->getById($cast_id);
+    }
+
+    /**
+     * cast_idから声優を出演しているアニメとログインユーザーのレビューと共に取得
+     *
+     * @param int $cast_id
+     * @return Cast
+     */
+    public function getCastWithActAnimesWithMyReviews($cast_id)
+    {
+        return $this->castRepository->getCastWithActAnimesWithMyReviewsById($cast_id);
     }
 
     /**

@@ -20,7 +20,7 @@ class IndexTest extends TestCase
      */
     public function testIndexView()
     {
-        $response = $this->get('/');
+        $response = $this->get(route('index.show'));
         $response->assertStatus(200);
     }
 
@@ -32,9 +32,11 @@ class IndexTest extends TestCase
      */
     public function testGuestIndexView()
     {
-        $response = $this->get('/');
+        $response = $this->get(route('index.show'));
         $response->assertStatus(200);
         $response->assertSee('新規ID作成');
+        $response->assertDontSee('管理者メニュー');
+        $response->assertDontSee('つけた得点');
     }
 
     /**
@@ -47,9 +49,26 @@ class IndexTest extends TestCase
     {
         $user = User::factory()->create();
         $this->actingAs($user);
-        $response = $this->get('/');
-        $response->assertStatus(200);
-        $response->assertSee('ログイン中');
+        $response = $this->get(route('index.show'));
+        $response->assertDontSee('管理者メニュー');
+        $response->assertSeeInOrder([
+            'ログイン中',
+            'つけた得点',
+        ]);
+    }
+
+    /**
+     * ルートログイン時のインデックスページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginIndexView()
+    {
+        $user = User::factory()->create(['name' => 'root']);
+        $this->actingAs($user);
+        $response = $this->get(route('index.show'));
+        $response->assertSee('管理者メニュー');
     }
 
     /**
@@ -62,7 +81,7 @@ class IndexTest extends TestCase
     {
         Anime::factory()->create(['title' => '霊剣山1', 'median' => 100, 'count' => 200]);
         Anime::factory()->create(['title' => '霊剣山2', 'median' => 0, 'count' => 300]);
-        $response = $this->get('/');
+        $response = $this->get(route('index.show'));
         $response->assertStatus(200);
         $response->assertSeeInOrder(['霊剣山1', 100, 200, '霊剣山2', 0, 300]);
     }
@@ -75,7 +94,7 @@ class IndexTest extends TestCase
      */
     public function testUpdateLogView()
     {
-        $response = $this->get('/update_log');
+        $response = $this->get(route('update_log.show'));
         $response->assertStatus(200);
     }
 
@@ -87,7 +106,7 @@ class IndexTest extends TestCase
      */
     public function testPrivacyPolicyView()
     {
-        $response = $this->get('/privacy_policy');
+        $response = $this->get(route('privacy_policy.show'));
         $response->assertStatus(200);
     }
 
@@ -99,7 +118,7 @@ class IndexTest extends TestCase
      */
     public function testSiteInformationView()
     {
-        $response = $this->get('/site_information');
+        $response = $this->get(route('site_information.show'));
         $response->assertStatus(200);
     }
 }

@@ -21,37 +21,25 @@ class ModifyAnimeRepository extends AbstractRepository
     }
 
     /**
-     * アニメの基本情報修正申請データを作成
-     *
-     * @param Anime $anime
-     * @param ModifyAnimeRequest $request
-     * @return void
-     */
-    public function createModifyAnime($anime, ModifyAnimeRequest $request)
-    {
-        $anime->modifyAnimes()->create($request->validated());
-    }
-
-    /**
      * アニメの基本情報修正申請データからアニメを取得
      *
-     * @param ModifyAnime $modify_anime
+     * @param ModifyAnime $modify_anime_request
      * @return Anime
      */
-    public function getAnime(ModifyAnime $modify_anime)
+    public function getAnime(ModifyAnime $modify_anime_request)
     {
-        return $modify_anime->anime;
+        return $modify_anime_request->anime;
     }
 
     /**
      * アニメの基本情報修正申請データを削除
      *
-     * @param ModifyAnime $modify_anime
+     * @param ModifyAnime $modify_anime_request
      * @return void
      */
-    public function delete(ModifyAnime $modify_anime)
+    public function delete(ModifyAnime $modify_anime_request)
     {
-        $modify_anime->delete();
+        $modify_anime_request->delete();
     }
 
     /**
@@ -59,7 +47,7 @@ class ModifyAnimeRepository extends AbstractRepository
      *
      * @return Collection<int,ModifyAnime>  | Collection<null>
      */
-    public function getModifyAnimeListWithAnime()
+    public function getModifyAnimeRequestListWithAnime()
     {
         return ModifyAnime::with('anime')->get();
     }

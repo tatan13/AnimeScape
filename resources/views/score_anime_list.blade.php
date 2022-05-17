@@ -23,7 +23,7 @@
                 @foreach ($score_review_list as $score_review)
                     <tr>
                         <td><a
-                                href="{{ route('anime.show', ['id' => $score_review->anime->id]) }}">{{ $score_review->anime->title }}</a>
+                                href="{{ route('anime.show', ['anime_id' => $score_review->anime->id]) }}">{{ $score_review->anime->title }}</a>
                         </td>
                         <td>{{ $score_review->anime->company }}</td>
                         <td>
