@@ -18,9 +18,11 @@
                 <form class="modify_anime_request_list_form">
                     @csrf
                     <input type="submit" value="登録"
-                        formaction="{{ route('modify_anime_request.approve', ['modify_anime_id' => $modify_anime_request->id]) }}" formmethod="POST">
+                        formaction="{{ route('modify_anime_request.approve', ['modify_anime_id' => $modify_anime_request->id]) }}"
+                        formmethod="POST">
                     <input type="submit" value="却下"
-                        formaction="{{ route('modify_anime_request.reject', ['modify_anime_id' => $modify_anime_request->id]) }}" formmethod="GET">
+                        formaction="{{ route('modify_anime_request.reject', ['modify_anime_id' => $modify_anime_request->id]) }}"
+                        formmethod="GET">
                     <table class="modify_anime_request_list_table">
                         <tbody>
                             <tr>
@@ -37,7 +39,8 @@
                             <tr>
                                 <th>略称</th>
                                 <td>{{ $modify_anime_request->anime->title_short }}</td>
-                                <td><input type="text" name="title_short" value="{{ $modify_anime_request->title_short }}">
+                                <td><input type="text" name="title_short"
+                                        value="{{ $modify_anime_request->title_short }}">
                                 </td>
                             </tr>
                             <tr>
@@ -78,7 +81,8 @@
                             <tr>
                                 <th>公式ハッシュタグ</th>
                                 <td>{{ $modify_anime_request->anime->hash_tag }}</td>
-                                <td><input type="text" name="hash_tag" value="{{ $modify_anime_request->hash_tag }}"></td>
+                                <td><input type="text" name="hash_tag" value="{{ $modify_anime_request->hash_tag }}">
+                                </td>
                             </tr>
                             <tr>
                                 <th>制作会社</th>
@@ -88,7 +92,8 @@
                             <tr>
                                 <th>舞台</th>
                                 <td>{{ $modify_anime_request->anime->city_name }}</td>
-                                <td><input type="text" name="city_name" value="{{ $modify_anime_request->city_name }}"></td>
+                                <td><input type="text" name="city_name" value="{{ $modify_anime_request->city_name }}">
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -157,9 +162,11 @@
                 <form class="modify_cast_request_list_form">
                     @csrf
                     <input type="submit" value="登録"
-                        formaction="{{ route('modify_cast_request.approve', ['modify_cast_id' => $modify_cast_request->id]) }}" formmethod="POST">
+                        formaction="{{ route('modify_cast_request.approve', ['modify_cast_id' => $modify_cast_request->id]) }}"
+                        formmethod="POST">
                     <input type="submit" value="却下"
-                        formaction="{{ route('modify_cast_request.reject', ['modify_cast_id' => $modify_cast_request->id]) }}" formmethod="GET">
+                        formaction="{{ route('modify_cast_request.reject', ['modify_cast_id' => $modify_cast_request->id]) }}"
+                        formmethod="GET">
                     <table class="modify_cast_request_list_table">
                         <tbody>
                             <tr>
@@ -229,9 +236,11 @@
                 <form class="delete_anime_request_list_form">
                     @csrf
                     <input type="submit" value="許可"
-                        formaction="{{ route('delete_anime_request.approve', ['delete_anime_id' => $delete_anime_request->id]) }}" formmethod="POST">
+                        formaction="{{ route('delete_anime_request.approve', ['delete_anime_id' => $delete_anime_request->id]) }}"
+                        formmethod="POST">
                     <input type="submit" value="却下"
-                        formaction="{{ route('delete_anime_request.reject', ['delete_anime_id' => $delete_anime_request->id]) }}" formmethod="GET">
+                        formaction="{{ route('delete_anime_request.reject', ['delete_anime_id' => $delete_anime_request->id]) }}"
+                        formmethod="GET">
                     <table class="delete_anime_request_list_table">
                         <tbody>
                             <tr>
@@ -239,7 +248,9 @@
                                 <th>削除事由</th>
                             </tr>
                             <tr>
-                                <td><a href="{{ route('anime.show', ['anime_id' => $delete_anime_request->anime->id ]) }}">{{ $delete_anime_request->anime->title }}</a></td>
+                                <td><a
+                                        href="{{ route('anime.show', ['anime_id' => $delete_anime_request->anime->id]) }}">{{ $delete_anime_request->anime->title }}</a>
+                                </td>
                                 <td>{{ $delete_anime_request->remark }}</td>
                             </tr>
                         </tbody>
@@ -247,5 +258,99 @@
                 </form>
             @endforeach
         </section>
+
+
+
+
+
+
+        <section class="add_anime_request_list">
+            <h2>アニメの追加申請リスト</h2>
+            @if (session('flash_add_anime_request_message'))
+                <div class="alert alert-success">
+                    {{ session('flash_add_anime_request_message') }}
+                </div>
+            @endif
+            @foreach ($add_anime_request_list as $add_anime_request)
+                <h3>{{ $loop->iteration }}件目</h3>
+                <form class="add_anime_request_list_form">
+                    @csrf
+                    <input type="submit" value="登録"
+                        formaction="{{ route('add_anime_request.approve', ['add_anime_id' => $add_anime_request->id]) }}"
+                        formmethod="POST">
+                    <input type="submit" value="却下"
+                        formaction="{{ route('add_anime_request.reject', ['add_anime_id' => $add_anime_request->id]) }}"
+                        formmethod="GET">
+                    <table class="add_anime_request_list_table">
+                        <tbody>
+                            <tr>
+                                <th>項目</th>
+                                <th>情報</th>
+                            </tr>
+                            <tr>
+                                <th>アニメ名</th>
+                                <td><input type="text" name="title" value="{{ $add_anime_request->title }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>略称</th>
+                                <td><input type="text" name="title_short" value="{{ $add_anime_request->title_short }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>放送年</th>
+                                <td><input type="number" name="year" value="{{ $add_anime_request->year }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>クール</th>
+                                <td>
+                                    <select name="coor" class="coor">
+                                        <option value="1" {{ $add_anime_request->coor == 1 ? 'selected' : '' }}>冬
+                                        </option>
+                                        <option value="2" {{ $add_anime_request->coor == 2 ? 'selected' : '' }}>春
+                                        </option>
+                                        <option value="3" {{ $add_anime_request->coor == 3 ? 'selected' : '' }}>夏
+                                        </option>
+                                        <option value="4" {{ $add_anime_request->coor == 4 ? 'selected' : '' }}>秋
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>公式HPのURL</th>
+                                <td><input type="text" name="public_url" value="{{ $add_anime_request->public_url }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>公式twitterID</th>
+                                <td>@<input type="text" name="twitter" value="{{ $add_anime_request->twitter }}"></td>
+                            </tr>
+                            <tr>
+                                <th>公式ハッシュタグ</th>
+                                <td><input type="text" name="hash_tag" value="{{ $add_anime_request->hash_tag }}"></td>
+                            </tr>
+                            <tr>
+                                <th>制作会社</th>
+                                <td><input type="text" name="company" value="{{ $add_anime_request->company }}"></td>
+                            </tr>
+                            <tr>
+                                <th>舞台</th>
+                                <td><input type="text" name="city_name" value="{{ $add_anime_request->city_name }}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            @endforeach
+        </section>
+
+
+
+
+
+
+
+
+
     </article>
 @endsection

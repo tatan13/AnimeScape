@@ -23,7 +23,7 @@ class DeleteAnimeRepository extends AbstractRepository
      *
      * @return Collection<int,DeleteAnime> | Collection<null>
      */
-    public function getDeleteAnimeRequestWithAnime()
+    public function getDeleteAnimeRequestListWithAnime()
     {
         return DeleteAnime::with('anime')->get();
     }
@@ -31,12 +31,12 @@ class DeleteAnimeRepository extends AbstractRepository
     /**
      * アニメの削除申請を作成
      *
-     * @param int $id
+     * @param int $anime_id
      * @param DeleteAnimeRequest $request
      * @return void
      */
-    public function createDeleteAnimeRequest($id, DeleteAnimeRequest $request)
+    public function createDeleteAnimeRequest($anime_id, DeleteAnimeRequest $request)
     {
-        DeleteAnime::create(['anime_id' => $id, 'remark' => $request->remark]);
+        DeleteAnime::create(['anime_id' => $anime_id, 'remark' => $request->remark]);
     }
 }

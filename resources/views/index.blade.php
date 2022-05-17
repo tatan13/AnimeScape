@@ -10,7 +10,7 @@
         <section class="information">
             <h3>お知らせ</h3>
             2000年～2013年のアニメ作品を追加しました。<br>
-            現在、アニメ作品の追加申請機能を実装中です。
+            また、アニメ作品の追加、削除申請機能を実装しましたので、データの抜け、重複などがありましたら申請していだだけると助かります。
         </section>
         <section class="recommend_anime_list">
             @auth

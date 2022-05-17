@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ModifyAnimeRequest;
+use App\Http\Requests\AnimeRequest;
 use App\Http\Requests\ModifyCastRequest;
 use App\Http\Requests\DeleteAnimeRequest;
 use App\Services\ModifyService;
@@ -44,10 +44,10 @@ class ModifyController extends Controller
      * アニメの基本情報修正申請をデータベースに保存し，元の画面にリダイレクト
      *
      * @param int $anime_id
-     * @param ModifyAnimeRequest $request
+     * @param AnimeRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postModifyAnimeRequest($anime_id, ModifyAnimeRequest $request)
+    public function postModifyAnimeRequest($anime_id, AnimeRequest $request)
     {
         $this->modifyService->createModifyAnimeRequest($anime_id, $request);
         return redirect()->route('modify_anime_request.show', [
@@ -59,10 +59,10 @@ class ModifyController extends Controller
      * アニメの基本情報修正を処理し，元の画面にリダイレクト
      *
      * @param int $modify_anime_id
-     * @param ModifyAnimeRequest $request
+     * @param AnimeRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function approveModifyAnimeRequest($modify_anime_id, ModifyAnimeRequest $request)
+    public function approveModifyAnimeRequest($modify_anime_id, AnimeRequest $request)
     {
         $this->modifyService->updateAnimeInformationByRequest($modify_anime_id, $request);
         return redirect()->route('modify_request_list.show')->with('flash_modify_anime_request_message', '変更が完了しました。');
@@ -89,12 +89,14 @@ class ModifyController extends Controller
         $modify_anime_request_list = $this->modifyService->getModifyAnimeRequestListWithAnime();
         $anime_list = $this->animeService->getAnimeListWithModifyOccupationRequestList();
         $modify_cast_request_list = $this->modifyService->getModifyCastRequestListWithCast();
-        $delete_anime_request_list = $this->modifyService->getDeleteAnimeRequestWithAnime();
+        $delete_anime_request_list = $this->modifyService->getDeleteAnimeRequestListWithAnime();
+        $add_anime_request_list = $this->modifyService->getAddAnimeRequestList();
         return view('modify_request_list', [
             'modify_anime_request_list' => $modify_anime_request_list,
             'anime_list' => $anime_list,
             'modify_cast_request_list' => $modify_cast_request_list,
             'delete_anime_request_list' => $delete_anime_request_list,
+            'add_anime_request_list' => $add_anime_request_list,
         ]);
     }
 
@@ -258,7 +260,7 @@ class ModifyController extends Controller
         $this->modifyService->deleteAnimeByRequest($delete_anime_id);
         return redirect()->route('modify_request_list.show')->with(
             'flash_delete_anime_request_message',
-            '削除申請の削除が完了しました。'
+            'アニメの削除が完了しました。'
         );
     }
 
@@ -287,5 +289,58 @@ class ModifyController extends Controller
     {
         $this->modifyService->deleteAnime($anime_id);
         return redirect()->route('index.show');
+    }
+
+    /**
+     * アニメの追加申請ページを表示
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showAddAnimeRequest()
+    {
+        return view('add_anime_request');
+    }
+
+    /**
+     * アニメの追加申請を作成
+     *
+     * @param AnimeRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postAddAnimeRequest(AnimeRequest $request)
+    {
+        $this->modifyService->createAddAnimeRequest($request);
+        return redirect()->route('add_anime_request.show')->with('flash_message', '追加申請が完了しました。');
+    }
+
+    /**
+     * アニメの追加申請を処理し，元の画面にリダイレクト
+     *
+     * @param int $add_anime_id
+     * @param AnimeRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function approveAddAnimeRequest($add_anime_id, AnimeRequest $request)
+    {
+        $this->modifyService->addAnimeByRequest($add_anime_id, $request);
+        return redirect()->route('modify_request_list.show')->with(
+            'flash_add_anime_request_message',
+            'アニメの追加が完了しました。'
+        );
+    }
+
+    /**
+     * アニメの追加申請を却下
+     *
+     * @param int $add_anime_id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function rejectAddAnimeRequest($add_anime_id)
+    {
+        $this->modifyService->rejectAddAnimeRequest($add_anime_id);
+        return redirect()->route('modify_request_list.show')->with(
+            'flash_add_anime_request_message',
+            '追加申請の削除が完了しました。'
+        );
     }
 }

@@ -193,6 +193,16 @@ class Anime extends Model
     }
 
     /**
+     * アニメの追加申請を取得
+     *
+     * @return HasMany
+     */
+    public function addAnimes()
+    {
+        return $this->hasMany('App\Models\AddAnime');
+    }
+
+    /**
      * 出演している声優を取得
      *
      * @return BelongsToMany
