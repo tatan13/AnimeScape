@@ -268,9 +268,9 @@ class AnimeRepository extends AbstractRepository
      *
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getRecommendAnimeListWithMyReviews()
+    public function getRecommendAnimeList()
     {
-        return Auth::user()->recommendAnimes()->withMyReviews()->latest('recommendation_score')->get();
+        return Auth::user()->recommendAnimes()->latest('recommendation_score')->get();
     }
 
     /**
@@ -278,10 +278,10 @@ class AnimeRepository extends AbstractRepository
      *
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getTopAnimeListWithMyReviews()
+    public function getTopAnimeList()
     {
         return Anime::whereNotIn('id', Auth::user()->userReviews()->whereNotNull('score')->pluck('anime_id'))
-        ->latest('median')->whereAboveCount(2)->withMyReviews()->take(5)->get();
+        ->latest('median')->whereAboveCount(2)->take(5)->get();
     }
 
     /**
