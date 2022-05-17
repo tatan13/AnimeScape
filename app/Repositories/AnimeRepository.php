@@ -8,7 +8,7 @@ use App\Models\UserReview;
 use App\Models\ModifyAnime;
 use App\Models\ModifyOccupation;
 use Illuminate\Http\Request;
-use App\Http\Requests\ModifyAnimeRequest;
+use App\Http\Requests\AnimeRequest;
 use App\Http\Requests\ReviewRequest;
 use App\Http\Requests\ReviewsRequest;
 use Illuminate\Support\Facades\Auth;
@@ -221,10 +221,10 @@ class AnimeRepository extends AbstractRepository
      * アニメの基本情報修正申請データを作成
      *
      * @param Anime $anime
-     * @param ModifyAnimeRequest $request
+     * @param AnimeRequest $request
      * @return void
      */
-    public function createModifyAnimeRequest(Anime $anime, ModifyAnimeRequest $request)
+    public function createModifyAnimeRequest(Anime $anime, AnimeRequest $request)
     {
         $anime->modifyAnimes()->create($request->validated());
     }
@@ -233,10 +233,10 @@ class AnimeRepository extends AbstractRepository
      * アニメの基本情報修正申請データからアニメの基本情報を更新
      *
      * @param Anime $anime
-     * @param ModifyAnimeRequest $request
+     * @param AnimeRequest $request
      * @return void
      */
-    public function updateInformationByRequest(Anime $anime, ModifyAnimeRequest $request)
+    public function updateInformationByRequest(Anime $anime, AnimeRequest $request)
     {
         $anime->update($request->validated());
     }
@@ -308,5 +308,16 @@ class AnimeRepository extends AbstractRepository
         return Anime::whereHas('deleteAnimes', function ($query) use ($delete_anime_id) {
             $query->where('id', $delete_anime_id);
         })->firstOrFail();
+    }
+
+    /**
+     * アニメをリクエストに従って追加
+     *
+     * @param AnimeRequest $request
+     * @return void
+     */
+    public function addByRequest(AnimeRequest $request)
+    {
+        Anime::create($request->validated());
     }
 }

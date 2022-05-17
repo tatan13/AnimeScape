@@ -8,6 +8,7 @@ use App\Models\ModifyAnime;
 use App\Models\ModifyOccupation;
 use App\Models\ModifyCast;
 use App\Models\DeleteAnime;
+use App\Models\AddAnime;
 use App\Models\Anime;
 use App\Models\Cast;
 use App\Models\User;
@@ -24,6 +25,7 @@ class ModifyTest extends TestCase
     private ModifyCast $modifyCast1;
     private ModifyCast $modifyCast2;
     private DeleteAnime $deleteAnime1;
+    private AddAnime $addAnime;
     private Cast $cast1;
     private Cast $cast2;
     private User $user1;
@@ -55,6 +57,16 @@ class ModifyTest extends TestCase
         $this->anime->actCasts()->attach($this->cast2->id);
 
         $this->deleteAnime1 = DeleteAnime::create(['anime_id' => $this->anime1->id, 'remark' => 'remark1']);
+
+        $this->addAnime = AddAnime::create([
+            'title' => 'add_title',
+            'year' => 2040,
+            'coor' => 4,
+            'public_url' => 'https://add_public_url',
+            'twitter' => 'add_twitterId',
+            'hash_tag' => 'add_hashTag',
+            'company' => 'add_company',
+        ]);
 
         $this->user1 = User::factory()->create(['name' => 'root']);
         $this->user2 = User::factory()->create();
@@ -934,6 +946,9 @@ class ModifyTest extends TestCase
         $this->actingAs($this->user1);
         $response = $this->post(route('delete_anime_request.approve', ['delete_anime_id' => $this->deleteAnime1->id]));
         $response->assertRedirect(route('modify_request_list.show'));
+        $this->assertDatabaseMissing('animes', [
+            'id' => $this->anime1->id,
+        ]);
         $this->assertDatabaseMissing('delete_animes', [
             'id' => $this->deleteAnime1->id,
         ]);
@@ -1059,5 +1074,195 @@ class ModifyTest extends TestCase
         $this->actingAs($this->user2);
         $response = $this->get((route('anime.delete', ['anime_id' => $this->anime->id])));
         $response->assertStatus(403);
+    }
+
+    /**
+     * アニメ追加申請ページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAddAnimeRequestView()
+    {
+        $response = $this->get(route('add_anime_request.show'));
+        $response->assertStatus(200);
+        $response->assertSee('アニメの追加申請');
+    }
+
+    /**
+     * アニメ追加申請のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAddAnimeRequestPost()
+    {
+        $response = $this->post(route('add_anime_request.post'), [
+            'title' => 'add_title_post',
+            'year' => 2040,
+            'coor' => 4,
+            'public_url' => 'https://add_public_url',
+            'twitter' => 'add_twitterId',
+            'hash_tag' => 'add_hashTag',
+            'company' => 'add_company',
+        ]);
+        $this->assertDatabaseHas('add_animes', [
+            'title' => 'add_title_post',
+            'year' => 2040,
+            'coor' => 4,
+            'public_url' => 'https://add_public_url',
+            'twitter' => 'add_twitterId',
+            'hash_tag' => 'add_hashTag',
+            'company' => 'add_company',
+        ]);
+    }
+
+    /**
+     * ゲスト時のアニメ追加リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestAddAnimeRequestApprove()
+    {
+        $response = $this->post(route('add_anime_request.approve', ['add_anime_id' => $this->addAnime->id]), [
+            'title' => 'add_title',
+            'year' => 2040,
+            'coor' => 4,
+            'public_url' => 'https://add_public_url',
+            'twitter' => 'add_twitterId',
+            'hash_tag' => 'add_hashTag',
+            'company' => 'add_company',
+        ]);
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時のアニメ追加リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginAddAnimeRequestApprove()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->post(route('add_anime_request.approve', ['add_anime_id' => $this->addAnime->id]), [
+            'title' => 'add_title',
+            'year' => 2040,
+            'coor' => 4,
+            'public_url' => 'https://add_public_url',
+            'twitter' => 'add_twitterId',
+            'hash_tag' => 'add_hashTag',
+            'company' => 'add_company',
+        ]);
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ルートユーザーログイン時のアニメ追加リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginAddAnimeRequestApprove()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('add_anime_request.approve', ['add_anime_id' => $this->addAnime->id]), [
+            'title' => 'add_title',
+            'year' => 2040,
+            'coor' => 4,
+            'public_url' => 'https://add_public_url',
+            'twitter' => 'add_twitterId',
+            'hash_tag' => 'add_hashTag',
+            'company' => 'add_company',
+        ]);
+        $response->assertRedirect(route('modify_request_list.show'));
+        $this->assertDatabaseHas('animes', [
+            'title' => 'add_title',
+            'year' => 2040,
+            'coor' => 4,
+            'public_url' => 'https://add_public_url',
+            'twitter' => 'add_twitterId',
+            'hash_tag' => 'add_hashTag',
+            'company' => 'add_company',
+        ]);
+        $this->assertDatabaseMissing('add_animes', [
+            'id' => $this->addAnime->id,
+        ]);
+    }
+
+    /**
+     * ルートユーザーログイン時のアニメ追加リクエスト時の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginNotExistAddAnimeRequestApprove()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('add_anime_request.approve', ['add_anime_id' => 33333333333333333333]), [
+            'title' => 'add_title',
+            'year' => 2040,
+            'coor' => 4,
+            'public_url' => 'https://add_public_url',
+            'twitter' => 'add_twitterId',
+            'hash_tag' => 'add_hashTag',
+            'company' => 'add_company',
+        ]);
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲスト時のアニメ追加申請却下リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestAddAnimeRequestReject()
+    {
+        $response = $this->get(route('add_anime_request.reject', ['add_anime_id' => $this->addAnime->id]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時のアニメ追加申請却下リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginAddAnimeRequestReject()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->get(route('add_anime_request.reject', ['add_anime_id' => $this->addAnime->id]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ルートユーザーログイン時のアニメ追加申請却下時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginAddAnimeRequestReject()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('add_anime_request.reject', ['add_anime_id' => $this->addAnime->id]));
+        $response->assertRedirect(route('modify_request_list.show'));
+        $this->assertDatabaseMissing('add_animes', [
+            'id' => $this->addAnime->id,
+        ]);
+    }
+
+    /**
+     * ルートユーザーログイン時のアニメ追加申請却下時の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginNotExistAddAnimeRequestReject()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('add_anime_request.reject', ['add_anime_id' => 33333333333333333333333]));
+        $response->assertStatus(404);
     }
 }

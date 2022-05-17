@@ -13,10 +13,11 @@ use App\Repositories\ModifyOccupationRepository;
 use App\Repositories\ModifyCastRepository;
 use App\Repositories\AnimeRepository;
 use App\Repositories\DeleteAnimeRepository;
+use App\Repositories\AddAnimeRepository;
 use App\Repositories\CastRepository;
 use App\Repositories\OccupationRepository;
 use Illuminate\Http\Request;
-use App\Http\Requests\ModifyAnimeRequest;
+use App\Http\Requests\AnimeRequest;
 use App\Http\Requests\ModifyCastRequest;
 use App\Http\Requests\ReviewRequest;
 use App\Http\Requests\DeleteAnimeRequest;
@@ -31,6 +32,7 @@ class ModifyService
     private ModifyCastRepository $modifyCastRepository;
     private AnimeRepository $animeRepository;
     private DeleteAnimeRepository $deleteAnimeRepository;
+    private AddAnimeRepository $addAnimeRepository;
     private CastRepository $castRepository;
     private OccupationRepository $occupationRepository;
 
@@ -42,6 +44,7 @@ class ModifyService
      * @param ModifyCastRepository $modifyCastRepository
      * @param AnimeRepository $animeRepository
      * @param DeleteAnimeRepository $deleteAnimeRepository
+     * @param AddAnimeRepository $addAnimeRepository
      * @param CastRepository $castRepository
      * @param OccupationRepository $occupationRepository
      * @return void
@@ -52,6 +55,7 @@ class ModifyService
         ModifyCastRepository $modifyCastRepository,
         AnimeRepository $animeRepository,
         DeleteAnimeRepository $deleteAnimeRepository,
+        AddAnimeRepository $addAnimeRepository,
         CastRepository $castRepository,
         OccupationRepository $occupationRepository,
     ) {
@@ -60,6 +64,7 @@ class ModifyService
         $this->modifyCastRepository = $modifyCastRepository;
         $this->animeRepository = $animeRepository;
         $this->deleteAnimeRepository = $deleteAnimeRepository;
+        $this->addAnimeRepository = $addAnimeRepository;
         $this->castRepository = $castRepository;
         $this->occupationRepository = $occupationRepository;
     }
@@ -79,10 +84,10 @@ class ModifyService
      * アニメの基本情報修正申請データを作成
      *
      * @param int $anime_id
-     * @param ModifyAnimeRequest $request
+     * @param AnimeRequest $request
      * @return void
      */
-    public function createModifyAnimeRequest($anime_id, ModifyAnimeRequest $request)
+    public function createModifyAnimeRequest($anime_id, AnimeRequest $request)
     {
         $anime = $this->animeRepository->getById($anime_id);
         $this->animeRepository->createModifyAnimeRequest($anime, $request);
@@ -93,10 +98,10 @@ class ModifyService
      * アニメの基本情報修正申請データからアニメの基本情報を更新
      *
      * @param int $modify_anime_id
-     * @param ModifyAnimeRequest $request
+     * @param AnimeRequest $request
      * @return void
      */
-    public function updateAnimeInformationByRequest($modify_anime_id, ModifyAnimeRequest $request)
+    public function updateAnimeInformationByRequest($modify_anime_id, AnimeRequest $request)
     {
         $anime = $this->animeRepository->getAnimeByModifyAnimeId($modify_anime_id);
         DB::transaction(function () use ($anime, $modify_anime_id, $request) {
@@ -212,12 +217,12 @@ class ModifyService
      */
     public function sendMailWhenModifyRequest()
     {
-        // $data = [];
+        $data = [];
 
-        // Mail::send('emails.modify_email', $data, function ($message) {
-        //     $message->to(config('mail.from.address'), config('app.name'))
-        //     ->subject('変更申請');
-        // });
+        Mail::send('emails.modify_email', $data, function ($message) {
+            $message->to(config('mail.from.address'), config('app.name'))
+            ->subject('変更申請');
+        });
     }
 
     /**
@@ -249,9 +254,9 @@ class ModifyService
      *
      * @return Collection<int,DeleteAnime> | Collection<null>
      */
-    public function getDeleteAnimeRequestWithAnime()
+    public function getDeleteAnimeRequestListWithAnime()
     {
-        return $this->deleteAnimeRepository->getDeleteAnimeRequestWithAnime();
+        return $this->deleteAnimeRepository->getDeleteAnimeRequestListWithAnime();
     }
 
     /**
@@ -340,5 +345,53 @@ class ModifyService
     public function rejectDeleteAnimeRequest($delete_anime_id)
     {
         $this->deleteAnimeRepository->deleteById($delete_anime_id);
+    }
+
+    /**
+     * アニメの追加申請データを作成
+     *
+     * @param AnimeRequest $request
+     * @return void
+     */
+    public function createAddAnimeRequest(AnimeRequest $request)
+    {
+        $this->addAnimeRepository->createAddAnimeRequest($request);
+        $this->sendMailWhenModifyRequest();
+    }
+
+    /**
+     * アニメの追加申請リストを取得
+     *
+     * @return Collection<int,DeleteAnime> | Collection<null>
+     */
+    public function getAddAnimeRequestList()
+    {
+        return $this->addAnimeRepository->getAll();
+    }
+
+    /**
+     * アニメの追加申請からアニメを追加
+     *
+     * @param int $add_anime_id
+     * @param AnimeRequest $request
+     * @return void
+     */
+    public function addAnimeByRequest($add_anime_id, AnimeRequest $request)
+    {
+        DB::transaction(function () use ($add_anime_id, $request) {
+            $this->animeRepository->addByRequest($request);
+            $this->addAnimeRepository->deleteById($add_anime_id);
+        });
+    }
+
+    /**
+     * アニメの追加申請を却下
+     *
+     * @param int $add_anime_id
+     * @return void
+     */
+    public function rejectAddAnimeRequest($add_anime_id)
+    {
+        $this->addAnimeRepository->deleteById($add_anime_id);
     }
 }

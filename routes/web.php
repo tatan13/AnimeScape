@@ -24,6 +24,10 @@ Route::get('/anime/{anime_id}/delete_request', [App\Http\Controllers\ModifyContr
 
 Route::post('/anime/{anime_id}/delete_request', [App\Http\Controllers\ModifyController::class, 'postDeleteAnimeRequest'])->name('delete_anime_request.post');
 
+Route::get('/add/anime/request', [App\Http\Controllers\ModifyController::class, 'showAddAnimeRequest'])->name('add_anime_request.show');
+
+Route::post('/add_anime_request', [App\Http\Controllers\ModifyController::class, 'postAddAnimeRequest'])->name('add_anime_request.post');
+
 Route::get('/cast/{cast_id}', [App\Http\Controllers\CastController::class, 'show'])->name('cast.show');
 
 Route::get('/user_information/{user_id}', [App\Http\Controllers\UserController::class, 'show'])->name('user.show');
@@ -92,6 +96,10 @@ Route::group(['middleware' => 'admin_auth'], function () {
     Route::post('/delete/anime/{delete_anime_id}/approve', [App\Http\Controllers\ModifyController::class, 'approveDeleteAnimeRequest'])->name('delete_anime_request.approve');
 
     Route::get('/delete/anime/{delete_anime_id}/reject', [App\Http\Controllers\ModifyController::class, 'rejectDeleteAnimeRequest'])->name('delete_anime_request.reject');
+
+    Route::post('/add/anime/{add_anime_id}/approve', [App\Http\Controllers\ModifyController::class, 'approveAddAnimeRequest'])->name('add_anime_request.approve');
+
+    Route::get('/add/anime/{add_anime_id}/reject', [App\Http\Controllers\ModifyController::class, 'rejectAddAnimeRequest'])->name('add_anime_request.reject');
     
     Route::get('/anime/{anime_id}/delete', [App\Http\Controllers\ModifyController::class, 'deleteAnime'])->name('anime.delete');
 
