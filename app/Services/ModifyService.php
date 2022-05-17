@@ -217,12 +217,12 @@ class ModifyService
      */
     public function sendMailWhenModifyRequest()
     {
-        // $data = [];
+        $data = [];
 
-        // Mail::send('emails.modify_email', $data, function ($message) {
-        //     $message->to(config('mail.from.address'), config('app.name'))
-        //     ->subject('変更申請');
-        // });
+        Mail::send('emails.modify_email', $data, function ($message) {
+            $message->to(config('mail.from.address'), config('app.name'))
+            ->subject('変更申請');
+        });
     }
 
     /**
