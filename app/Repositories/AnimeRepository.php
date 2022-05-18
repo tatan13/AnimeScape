@@ -103,13 +103,13 @@ class AnimeRepository extends AbstractRepository
      *
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getWithMyReviewsLatestMedianBySearch($search_word)
+    public function getWithMyReviewsLatestBySearch($search_word)
     {
         if (is_null($search_word)) {
-            return Anime::withMyReviews()->paginate(500);
+            return Anime::withMyReviews()->LatestYearCoorMedian()->paginate(500);
         }
         return Anime::where(Anime::SEARCH_COLUMN, 'like', "%$search_word%")
-        ->withMyReviews()->latest(Anime::TYPE_MEDIAN)->paginate(500);
+        ->withMyReviews()->LatestYearCoorMedian()->paginate(500);
     }
 
     /**

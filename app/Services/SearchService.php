@@ -48,7 +48,7 @@ class SearchService
     public function getSearchResult(Request $request)
     {
         if ($request->category === self::TYPE_ANIME) {
-            return $this->animeRepository->getWithMyReviewsLatestMedianBySearch($request->search_word);
+            return $this->animeRepository->getWithMyReviewsLatestBySearch($request->search_word);
         }
         if ($request->category === self::TYPE_CAST) {
             return $this->castRepository->getWithactAnimesWithMyReviewsBySearch($request->search_word);

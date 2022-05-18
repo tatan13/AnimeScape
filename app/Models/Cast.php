@@ -117,10 +117,10 @@ class Cast extends Model
         return $this->actAnimes()->where('anime_id', $anime_id)->exists();
     }
 
-    public function scopeWithActAnimesWithMyReviewsLatestMedianLimit($query)
+    public function scopeWithActAnimesWithMyReviewsLatestLimit($query)
     {
         return $query->with('actAnimes', function ($q) {
-            $q->latest(Anime::TYPE_MEDIAN)->withMyReviews()->take(10);
+            $q->withMyReviews()->LatestYearCoorMedian()->take(10);
         });
     }
 }
