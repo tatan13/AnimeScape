@@ -10,7 +10,7 @@
             @case('anime')
                 <section class="anime_search_result">
                     <h2>検索結果 anime:{{ $search_word }}</h2>
-                    @if (count($search_results) > 0)
+                    @if (!$search_results->isEmpty())
                         <table class="anime_search_result_table">
                             <tbody>
                                 <tr>
@@ -42,11 +42,7 @@
                             </tbody>
                         </table>
                     @else
-                        @if (isset($search_word))
-                            該当するアニメがありませんでした。
-                        @else
-                            検索キーワードを入力してください。
-                        @endif
+                        該当するアニメがありませんでした。
                     @endif
                 </section>
             @break
@@ -54,7 +50,7 @@
             @case('cast')
                 <section class="cast_search_result">
                     <h2>検索結果 cast:{{ $search_word }}</h2>
-                    @if (count($search_results) > 0)
+                    @if (!$search_results->isEmpty())
                         @foreach ($search_results as $cast)
                             <h3><a href="{{ route('cast.show', ['cast_id' => $cast->id]) }}">{{ $cast->name }}</a></h3>
                             <strong>声優</strong>
@@ -90,11 +86,7 @@
                             </table>
                         @endforeach
                     @else
-                        @if (isset($search_word))
-                            該当する声優がいませんでした。
-                        @else
-                            検索キーワードを入力してください。
-                        @endif
+                        該当する声優がいませんでした。
                     @endif
                 </section>
             @break
@@ -102,23 +94,33 @@
             @case('user')
                 <section class="user_search_result">
                     <h2>検索結果 user:{{ $search_word }}</h2>
-                    @if (count($search_results) > 0)
+                    @if (!$search_results->isEmpty())
                         <ul>
                             @foreach ($search_results as $user)
                                 <li>
                                     <a href="{{ route('user.show', ['user_id' => $user->id]) }}">{{ $user->name }}</a>
                                 </li>
                             @endforeach
-                            <ul>
-                            @else
-                                @if (isset($search_word))
-                                    該当するユーザーがいませんでした。
-                                @else
-                                    検索キーワードを入力してください。
-                                @endif
+                        </ul>
+                    @else
+                        該当するユーザーがいませんでした。
                     @endif
                 </section>
             @break
         @endswitch
+        @if (!$search_results->onFirstPage())
+            <a href="{{ $search_results->appends(['category' => $category])->previousPageUrl() }}">前へ</a>
+        @endif
+        @for ($i = 1; $i <= $search_results->lastPage(); $i++)
+            @if ($search_results->currentPage() == $i)
+                {{ $i }}
+            @else
+                <a href="{{ $search_results->appends(['category' => $category])->url($i) }}">{{ $i }}</a>
+            @endif
+        @endfor
+        @if ($search_results->hasMorePages())
+            <a href="{{ $search_results->appends(['category' => $category])->nextPageUrl() }}">次へ</a>
+        @endif
+        {{ $search_results->currentPage() }}/{{ $search_results->lastPage() }}ページ
     </article>
 @endsection

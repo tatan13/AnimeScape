@@ -81,17 +81,15 @@ class CastRepository extends AbstractRepository
     /**
      * 声優を検索して出演アニメとログインユーザーのレビューと共に取得
      *
-     * @return Collection<int|Cast> | array<null>
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function getWithactAnimesWithMyReviewsBySearch($search_word)
     {
         if (is_null($search_word)) {
-            return array();
+            return Cast::withActAnimesWithMyReviewsLatestMedianLimit()->paginate(100);
         }
-        $casts = Cast::where(Cast::SEARCH_COLUMN, 'like', "%$search_word%")->with('actAnimes', function ($query) {
-            $query->take(10)->withMyReviews();
-        })->get();
-        return $casts->isEmpty() ? array() : $casts;
+        return Cast::where(Cast::SEARCH_COLUMN, 'like', "%$search_word%")
+        ->withActAnimesWithMyReviewsLatestMedianLimit()->paginate(50);
     }
 
     /**

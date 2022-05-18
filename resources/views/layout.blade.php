@@ -60,7 +60,8 @@
                                             </select>
                                             年
                                             <select name="coor" class="coor">
-                                                <option value="" {{ is_null($coor ?? null) ? 'selected' : '' }}>-</option>
+                                                <option value="" {{ is_null($coor ?? null) ? 'selected' : '' }}>-
+                                                </option>
                                                 <option value="1"
                                                     {{ is_null($coor ?? null) ? '' : ($coor == 1 ? 'selected' : '') }}>
                                                     冬
@@ -96,9 +97,15 @@
                     <form action="{{ route('search.show') }}" method="get">
                         @csrf
                         <select name="category">
-                            <option value="anime" class="search_category_anime">アニメ</option>
-                            <option value="cast" class="search_category_cast">声優</option>
-                            <option value="user" class="search_category_user">ユーザー</option>
+                            <option value="anime"
+                                {{ is_null($category ?? null) ? '' : ($category == 'anime' ? 'selected' : '') }}>アニメ
+                            </option>
+                            <option value="cast"
+                                {{ is_null($category ?? null) ? '' : ($category == 'cast' ? 'selected' : '') }}>声優
+                            </option>
+                            <option value="user"
+                                {{ is_null($category ?? null) ? '' : ($category == 'user' ? 'selected' : '') }}>ユーザー
+                            </option>
                         </select>
                         <input type="text" name="search_word" style="width: 90%;" class="search_word" value=""
                             size="15" /><br>

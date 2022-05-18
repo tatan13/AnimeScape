@@ -98,7 +98,6 @@ class SearchTest extends TestCase
             'search_word' => '',
         ]));
         $response->assertStatus(200);
-        $response->assertSee('検索キーワードを入力してください。');
     }
 
     /**
@@ -179,7 +178,6 @@ class SearchTest extends TestCase
             'search_word' => '',
         ]));
         $response->assertStatus(200);
-        $response->assertSee('検索キーワードを入力してください。');
     }
 
     /**
@@ -228,7 +226,6 @@ class SearchTest extends TestCase
             'search_word' => '',
         ]));
         $response->assertStatus(200);
-        $response->assertSee('検索キーワードを入力してください。');
     }
 
     /**

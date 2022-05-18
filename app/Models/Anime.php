@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class Anime extends Model
 {
     use HasFactory;
+    use \Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
     public const WINTER = 1;
     public const SPRING = 2;
