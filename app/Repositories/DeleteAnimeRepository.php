@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\DeleteAnime;
-use App\Http\Requests\DeleteAnimeRequest;
+use App\Http\Requests\DeleteRequest;
 use Illuminate\Database\Eloquent\Collection;
 
 class DeleteAnimeRepository extends AbstractRepository
@@ -32,10 +32,10 @@ class DeleteAnimeRepository extends AbstractRepository
      * アニメの削除申請を作成
      *
      * @param int $anime_id
-     * @param DeleteAnimeRequest $request
+     * @param DeleteRequest $request
      * @return void
      */
-    public function createDeleteAnimeRequest($anime_id, DeleteAnimeRequest $request)
+    public function createDeleteAnimeRequest($anime_id, DeleteRequest $request)
     {
         DeleteAnime::create(['anime_id' => $anime_id, 'remark' => $request->remark]);
     }

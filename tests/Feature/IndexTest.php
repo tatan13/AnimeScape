@@ -35,7 +35,6 @@ class IndexTest extends TestCase
         $response = $this->get(route('index.show'));
         $response->assertStatus(200);
         $response->assertSee('新規ID作成');
-        $response->assertDontSee('管理者メニュー');
         $response->assertDontSee('つけた得点');
     }
 
@@ -50,25 +49,10 @@ class IndexTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
         $response = $this->get(route('index.show'));
-        $response->assertDontSee('管理者メニュー');
         $response->assertSeeInOrder([
             'ログイン中',
             'つけた得点',
         ]);
-    }
-
-    /**
-     * ルートログイン時のインデックスページの表示のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testRootLoginIndexView()
-    {
-        $user = User::factory()->create(['name' => 'root']);
-        $this->actingAs($user);
-        $response = $this->get(route('index.show'));
-        $response->assertSee('管理者メニュー');
     }
 
     /**

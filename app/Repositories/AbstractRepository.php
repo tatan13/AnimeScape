@@ -62,13 +62,13 @@ abstract class AbstractRepository implements RepositoryInterface
     public function getBySearch($search_word)
     {
         if (is_null($search_word)) {
-            return array();
+            return $this->model::paginate(500);
         }
-        $model = $this->model::where($this->model::SEARCH_COLUMN, 'like', "%$search_word%")->get();
+        $model = $this->model::where($this->model::SEARCH_COLUMN, 'like', "%$search_word%")->paginate(500);
         if ($model) {
             return $model;
         } else {
-            return array();
+            return collect();
         }
     }
 }

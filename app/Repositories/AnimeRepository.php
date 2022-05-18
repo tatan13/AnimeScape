@@ -101,14 +101,15 @@ class AnimeRepository extends AbstractRepository
     /**
      * 検索ワードからアニメをログインユーザーのレビューと共に取得
      *
-     * @return Collection<int,Anime> | Collection<null> | array<null>
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getWithMyReviewsBySearch($search_word)
+    public function getWithMyReviewsLatestMedianBySearch($search_word)
     {
         if (is_null($search_word)) {
-            return array();
+            return Anime::withMyReviews()->paginate(500);
         }
-        return Anime::where(Anime::SEARCH_COLUMN, 'like', "%$search_word%")->withMyReviews()->get();
+        return Anime::where(Anime::SEARCH_COLUMN, 'like', "%$search_word%")
+        ->withMyReviews()->latest(Anime::TYPE_MEDIAN)->paginate(500);
     }
 
     /**

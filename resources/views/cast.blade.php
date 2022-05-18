@@ -10,6 +10,11 @@
             <h2>
                 <a href="{{ route('cast.show', ['cast_id' => $cast->id]) }}">{{ $cast->name }}</a>
             </h2>
+            @if (session('flash_message'))
+                <div class="alert alert-success">
+                    {{ session('flash_message') }}
+                </div>
+            @endif
             <span><strong>{{ $cast->name }}</strong></span><br>
             @auth
                 <like-cast-component :props-cast-id="{{ json_encode($cast->id) }}"
@@ -44,7 +49,8 @@
                         <td>{{ $cast->blog ?? '-' }}</td>
                     </tr>
                 </table>
-                <a href="{{ route('modify_cast_request.show', ['cast_id' => $cast->id]) }}">声優の情報の変更申請をする</a>
+                <a href="{{ route('modify_cast_request.show', ['cast_id' => $cast->id]) }}">声優の情報の変更申請をする</a><br>
+                <a href="{{ route('delete_cast_request.show', ['cast_id' => $cast->id]) }}">声優の削除申請をする</a>
             </section>
             <section class="cast_act_anime_list">
                 <h3>出演アニメ（計{{ $cast->actAnimes->count() }}本）</h3>

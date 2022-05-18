@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AnimeRequest;
 use App\Http\Requests\ModifyCastRequest;
-use App\Http\Requests\DeleteAnimeRequest;
+use App\Http\Requests\DeleteRequest;
 use App\Services\ModifyService;
 use App\Services\AnimeService;
 use App\Services\CastService;
@@ -91,12 +91,14 @@ class ModifyController extends Controller
         $modify_cast_request_list = $this->modifyService->getModifyCastRequestListWithCast();
         $delete_anime_request_list = $this->modifyService->getDeleteAnimeRequestListWithAnime();
         $add_anime_request_list = $this->modifyService->getAddAnimeRequestList();
+        $delete_cast_request_list = $this->modifyService->getDeleteCastRequestListWithCast();
         return view('modify_request_list', [
             'modify_anime_request_list' => $modify_anime_request_list,
             'anime_list' => $anime_list,
             'modify_cast_request_list' => $modify_cast_request_list,
             'delete_anime_request_list' => $delete_anime_request_list,
             'add_anime_request_list' => $add_anime_request_list,
+            'delete_cast_request_list' => $delete_cast_request_list,
         ]);
     }
 
@@ -238,10 +240,10 @@ class ModifyController extends Controller
      * アニメの削除申請を作成
      *
      * @param int $anime_id
-     * @param DeleteAnimeRequest $request
+     * @param DeleteRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postDeleteAnimeRequest($anime_id, DeleteAnimeRequest $request)
+    public function postDeleteAnimeRequest($anime_id, DeleteRequest $request)
     {
         $this->modifyService->createDeleteAnimeRequest($anime_id, $request);
         return redirect()->route('anime.show', [
@@ -341,6 +343,65 @@ class ModifyController extends Controller
         return redirect()->route('modify_request_list.show')->with(
             'flash_add_anime_request_message',
             '追加申請の削除が完了しました。'
+        );
+    }
+
+    /**
+     * 声優の削除申請ページを表示
+     *
+     * @param int $cast_id
+     * @return \Illuminate\View\View
+     */
+    public function showDeleteCastRequest($cast_id)
+    {
+        $cast = $this->castService->getCast($cast_id);
+        return view('delete_cast_request', [
+            'cast' => $cast,
+        ]);
+    }
+
+    /**
+     * 声優の削除申請を作成
+     *
+     * @param int $cast_id
+     * @param DeleteRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postDeleteCastRequest($cast_id, DeleteRequest $request)
+    {
+        $this->modifyService->createDeleteCastRequest($cast_id, $request);
+        return redirect()->route('cast.show', [
+            'cast_id' => $cast_id,
+        ])->with('flash_message', '削除申請が完了しました。');
+    }
+
+    /**
+     * 声優の削除申請を処理し，元の画面にリダイレクト
+     *
+     * @param int $delete_cast_id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function approveDeleteCastRequest($delete_cast_id)
+    {
+        $this->modifyService->deleteCastByRequest($delete_cast_id);
+        return redirect()->route('modify_request_list.show')->with(
+            'flash_delete_cast_request_message',
+            '声優の削除が完了しました。'
+        );
+    }
+
+    /**
+     * 声優の削除申請を却下
+     *
+     * @param int $delete_cast_id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function rejectDeleteCastRequest($delete_cast_id)
+    {
+        $this->modifyService->rejectDeleteCastRequest($delete_cast_id);
+        return redirect()->route('modify_request_list.show')->with(
+            'flash_delete_cast_request_message',
+            '削除申請の削除が完了しました。'
         );
     }
 }

@@ -6,6 +6,8 @@ use App\Models\ModifyAnime;
 use App\Models\ModifyOccupation;
 use App\Models\ModifyCast;
 use App\Models\DeleteAnime;
+use App\Models\AddAnime;
+use App\Models\DeleteCast;
 use App\Models\Anime;
 use App\Models\Cast;
 use App\Repositories\ModifyAnimeRepository;
@@ -14,13 +16,14 @@ use App\Repositories\ModifyCastRepository;
 use App\Repositories\AnimeRepository;
 use App\Repositories\DeleteAnimeRepository;
 use App\Repositories\AddAnimeRepository;
+use App\Repositories\DeleteCastRepository;
 use App\Repositories\CastRepository;
 use App\Repositories\OccupationRepository;
 use Illuminate\Http\Request;
 use App\Http\Requests\AnimeRequest;
 use App\Http\Requests\ModifyCastRequest;
 use App\Http\Requests\ReviewRequest;
-use App\Http\Requests\DeleteAnimeRequest;
+use App\Http\Requests\DeleteRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Collection;
 use Mail;
@@ -33,6 +36,7 @@ class ModifyService
     private AnimeRepository $animeRepository;
     private DeleteAnimeRepository $deleteAnimeRepository;
     private AddAnimeRepository $addAnimeRepository;
+    private DeleteCastRepository $deleteCastRepository;
     private CastRepository $castRepository;
     private OccupationRepository $occupationRepository;
 
@@ -45,6 +49,7 @@ class ModifyService
      * @param AnimeRepository $animeRepository
      * @param DeleteAnimeRepository $deleteAnimeRepository
      * @param AddAnimeRepository $addAnimeRepository
+     * @param DeleteCastRepository $deleteCastRepository
      * @param CastRepository $castRepository
      * @param OccupationRepository $occupationRepository
      * @return void
@@ -56,6 +61,7 @@ class ModifyService
         AnimeRepository $animeRepository,
         DeleteAnimeRepository $deleteAnimeRepository,
         AddAnimeRepository $addAnimeRepository,
+        DeleteCastRepository $deleteCastRepository,
         CastRepository $castRepository,
         OccupationRepository $occupationRepository,
     ) {
@@ -65,6 +71,7 @@ class ModifyService
         $this->animeRepository = $animeRepository;
         $this->deleteAnimeRepository = $deleteAnimeRepository;
         $this->addAnimeRepository = $addAnimeRepository;
+        $this->deleteCastRepository = $deleteCastRepository;
         $this->castRepository = $castRepository;
         $this->occupationRepository = $occupationRepository;
     }
@@ -217,12 +224,14 @@ class ModifyService
      */
     public function sendMailWhenModifyRequest()
     {
-        $data = [];
+        if (env('APP_ENV') == 'production') {
+            $data = [];
 
-        Mail::send('emails.modify_email', $data, function ($message) {
-            $message->to(config('mail.from.address'), config('app.name'))
-            ->subject('変更申請');
-        });
+            Mail::send('emails.modify_email', $data, function ($message) {
+                $message->to(config('mail.from.address'), config('app.name'))
+                ->subject('変更申請');
+            });
+        }
     }
 
     /**
@@ -301,13 +310,14 @@ class ModifyService
      * アニメの削除申請を作成
      *
      * @param int $anime_id
-     * @param DeleteAnimeRequest $request
+     * @param DeleteRequest $request
      * @return void
      */
-    public function createDeleteAnimeRequest($anime_id, DeleteAnimeRequest $request)
+    public function createDeleteAnimeRequest($anime_id, DeleteRequest $request)
     {
         $this->animeRepository->getById($anime_id);
         $this->deleteAnimeRepository->createDeleteAnimeRequest($anime_id, $request);
+        $this->sendMailWhenModifyRequest();
     }
 
     /**
@@ -331,8 +341,8 @@ class ModifyService
     {
         $anime = $this->animeRepository->getAnimeByDeleteAnimeId($delete_anime_id);
         DB::transaction(function () use ($anime, $delete_anime_id) {
-            $this->animeRepository->deleteById($anime->id);
             $this->deleteAnimeRepository->deleteById($delete_anime_id);
+            $this->animeRepository->deleteById($anime->id);
         });
     }
 
@@ -393,5 +403,55 @@ class ModifyService
     public function rejectAddAnimeRequest($add_anime_id)
     {
         $this->addAnimeRepository->deleteById($add_anime_id);
+    }
+
+    /**
+     * 声優の削除申請を作成
+     *
+     * @param int $cast_id
+     * @param DeleteRequest $request
+     * @return void
+     */
+    public function createDeleteCastRequest($cast_id, DeleteRequest $request)
+    {
+        $this->castRepository->getById($cast_id);
+        $this->deleteCastRepository->createDeleteCastRequest($cast_id, $request);
+        $this->sendMailWhenModifyRequest();
+    }
+
+    /**
+     * 声優の削除申請リストを取得
+     *
+     * @return Collection<int,DeleteCast> | Collection<null>
+     */
+    public function getDeleteCastRequestListWithCast()
+    {
+        return $this->deleteCastRepository->getDeleteCastRequestListWithCast();
+    }
+
+    /**
+     * 声優の削除申請からアニメを削除
+     *
+     * @param int $delete_cast_id
+     * @return void
+     */
+    public function deleteCastByRequest($delete_cast_id)
+    {
+        $cast = $this->castRepository->getCastByDeleteCastId($delete_cast_id);
+        DB::transaction(function () use ($cast, $delete_cast_id) {
+            $this->deleteCastRepository->deleteById($delete_cast_id);
+            $this->castRepository->deleteById($cast->id);
+        });
+    }
+
+    /**
+     * 声優の削除申請を却下
+     *
+     * @param int $delete_cast_id
+     * @return void
+     */
+    public function rejectDeleteCastRequest($delete_cast_id)
+    {
+        $this->deleteCastRepository->deleteById($delete_cast_id);
     }
 }

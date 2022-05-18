@@ -56,6 +56,8 @@ Route::get('/anime/{anime_id}/modify_request', [App\Http\Controllers\ModifyContr
 
 Route::post('/anime/{anime_id}/modify_request', [App\Http\Controllers\ModifyController::class, 'postModifyAnimeRequest'])->name('modify_anime_request.post');
 
+Route::get('/modify_request_list', [App\Http\Controllers\ModifyController::class, 'showModifyRequestList'])->name('modify_request_list.show');
+
 Route::get('/update_log', [App\Http\Controllers\IndexController::class, 'showUpdateLog'])->name('update_log.show');
 
 Route::get('/site_information', [App\Http\Controllers\IndexController::class, 'showSiteInformation'])->name('site_information.show');
@@ -70,25 +72,29 @@ Route::get('/cast/{cast_id}/modify_request', [App\Http\Controllers\ModifyControl
 
 Route::post('/cast/{cast_id}/modify_request', [App\Http\Controllers\ModifyController::class, 'postModifyCastRequest'])->name('modify_cast_request.post');
 
+Route::get('/cast/{cast_id}/delete_request', [App\Http\Controllers\ModifyController::class, 'showDeleteCastRequest'])->name('delete_cast_request.show');
+
+Route::post('/cast/{cast_id}/delete_request', [App\Http\Controllers\ModifyController::class, 'postDeleteCastRequest'])->name('delete_cast_request.post');
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/cast/{cast_id}/like', [App\Http\Controllers\CastController::class, 'like'])->name('cast.like');
     
     Route::get('/cast/{cast_id}/unlike', [App\Http\Controllers\CastController::class, 'unlike'])->name('cast.unlike');
     
     Route::get('/user_information/{user_id}/like', [App\Http\Controllers\UserController::class, 'like'])->name('user.like');
-
+    
     Route::get('/user_information/{user_id}/unlike', [App\Http\Controllers\UserController::class, 'unlike'])->name('user.unlike');
-
+    
     Route::get('/user_config', [App\Http\Controllers\UserController::class, 'showUserConfig'])->name('user_config.show');
-
+    
     Route::post('/user_config', [App\Http\Controllers\UserController::class, 'postUserConfig'])->name('user_config.post');
-
+    
     Route::get('/anime/{anime_id}/review', [App\Http\Controllers\AnimeController::class, 'showAnimeReview'])->name('anime_review.show');
-
+    
     Route::post('/anime/{anime_id}/review', [App\Http\Controllers\AnimeController::class, 'postAnimeReview'])->name('anime_review.post');
-
+    
     Route::get('/anime_review_list', [App\Http\Controllers\AnimeController::class, 'showAnimeReviewList'])->name('anime_review_list.show');
-
+    
     Route::post('/anime_review_list', [App\Http\Controllers\AnimeController::class, 'postAnimeReviewList'])->name('anime_review_list.post');
 });
 
@@ -103,8 +109,6 @@ Route::group(['middleware' => 'admin_auth'], function () {
     
     Route::get('/anime/{anime_id}/delete', [App\Http\Controllers\ModifyController::class, 'deleteAnime'])->name('anime.delete');
 
-    Route::get('/modify_request_list', [App\Http\Controllers\ModifyController::class, 'showModifyRequestList'])->name('modify_request_list.show');
-    
     Route::post('/modify/anime/{modify_anime_id}/approve', [App\Http\Controllers\ModifyController::class, 'approveModifyAnimeRequest'])->name('modify_anime_request.approve');
     
     Route::get('/modify/anime/{modify_anime_id}/reject', [App\Http\Controllers\ModifyController::class, 'rejectModifyAnimeRequest'])->name('modify_anime_request.reject');
@@ -116,4 +120,8 @@ Route::group(['middleware' => 'admin_auth'], function () {
     Route::post('/modify/cast/{modify_cast_id}/approve', [App\Http\Controllers\ModifyController::class, 'approveModifyCastRequest'])->name('modify_cast_request.approve');
     
     Route::get('/modify/cast/{modify_cast_id}/reject', [App\Http\Controllers\ModifyController::class, 'rejectModifyCastRequest'])->name('modify_cast_request.reject');
+
+    Route::post('/delete/cast/{delete_cast_id}/approve', [App\Http\Controllers\ModifyController::class, 'approveDeleteCastRequest'])->name('delete_cast_request.approve');
+
+    Route::get('/delete/cast/{delete_cast_id}/reject', [App\Http\Controllers\ModifyController::class, 'rejectDeleteCastRequest'])->name('delete_cast_request.reject');
 });

@@ -43,12 +43,12 @@ class SearchService
      * リクエストに従って検索した結果を取得
      *
      * @param Request $request
-     * @return Collection<int,Anime> | Collection<int,Cast> | Collection<int,User> | Collection<null> | array<null>
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function getSearchResult(Request $request)
     {
         if ($request->category === self::TYPE_ANIME) {
-            return $this->animeRepository->getWithMyReviewsBySearch($request->search_word);
+            return $this->animeRepository->getWithMyReviewsLatestMedianBySearch($request->search_word);
         }
         if ($request->category === self::TYPE_CAST) {
             return $this->castRepository->getWithactAnimesWithMyReviewsBySearch($request->search_word);

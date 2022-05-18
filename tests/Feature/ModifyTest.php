@@ -9,6 +9,7 @@ use App\Models\ModifyOccupation;
 use App\Models\ModifyCast;
 use App\Models\DeleteAnime;
 use App\Models\AddAnime;
+use App\Models\DeleteCast;
 use App\Models\Anime;
 use App\Models\Cast;
 use App\Models\User;
@@ -26,6 +27,7 @@ class ModifyTest extends TestCase
     private ModifyCast $modifyCast2;
     private DeleteAnime $deleteAnime1;
     private AddAnime $addAnime;
+    private DeleteCast $deleteCast;
     private Cast $cast1;
     private Cast $cast2;
     private User $user1;
@@ -67,6 +69,8 @@ class ModifyTest extends TestCase
             'hash_tag' => 'add_hashTag',
             'company' => 'add_company',
         ]);
+
+        $this->deleteCast = Deletecast::create(['cast_id' => $this->cast1->id, 'remark' => 'remark2']);
 
         $this->user1 = User::factory()->create(['name' => 'root']);
         $this->user2 = User::factory()->create();
@@ -324,41 +328,42 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * ゲスト時のアニメの情報修正申請のリストページリクエスト時のリダイレクトテスト
+     * ルートログイン時の修正申請のリストページリクエスト時のテスト
      *
      * @test
      * @return void
      */
-    public function testGuestModifyListView()
-    {
-        $response = $this->get(route('modify_request_list.show'));
-        $response->assertStatus(403);
-    }
-
-    /**
-     * ユーザーログイン時のアニメの情報修正申請のリストページリクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testUser2LoginModifyListView()
-    {
-        $this->actingAs($this->user2);
-        $response = $this->get(route('modify_request_list.show'));
-        $response->assertStatus(403);
-    }
-
-    /**
-     * ルートユーザーログイン時のアニメの情報修正申請のリストページリクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testRootLoginModifyAnimeListView()
+    public function testRootLoginModifyRequestListView()
     {
         $this->actingAs($this->user1);
         $response = $this->get(route('modify_request_list.show'));
         $response->assertStatus(200);
+        $response->assertSeeInOrder(['許可', '却下']);
+    }
+
+    /**
+     * 修正申請のリストページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyRequestListView()
+    {
+        $response = $this->get(route('modify_request_list.show'));
+        $response->assertStatus(200);
+        $response->assertDontSee('許可');
+        $response->assertDontSee('却下');
+    }
+
+    /**
+     * 修正申請のリストページのアニメの基本情報修正申請の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyAnimeOfModifyRequestListView()
+    {
+        $response = $this->get(route('modify_request_list.show'));
         $response->assertSeeInOrder([
             '1件目',
             'modify_title',
@@ -369,6 +374,19 @@ class ModifyTest extends TestCase
             'modify_company',
             '2件目',
             $this->modifyAnime1->title,
+        ]);
+    }
+
+    /**
+     * 修正申請のリストページのアニメの出演声優修正申請の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyOccupationOfModifyRequestListView()
+    {
+        $response = $this->get(route('modify_request_list.show'));
+        $response->assertSeeInOrder([
             '1件目',
             $this->anime->title,
             $this->cast1->name,
@@ -379,6 +397,19 @@ class ModifyTest extends TestCase
             $this->anime1->title,
             'modify_cast1',
             'modify_cast2',
+        ]);
+    }
+
+    /**
+     * 修正申請のリストページの声優情報修正申請の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyCastOfModifyRequestListView()
+    {
+        $response = $this->get(route('modify_request_list.show'));
+        $response->assertSeeInOrder([
             '1件目',
             $this->modifyCast1->name,
             $this->modifyCast1->furigana,
@@ -393,6 +424,58 @@ class ModifyTest extends TestCase
             $this->modifyCast2->url,
             $this->modifyCast2->twitter,
             $this->modifyCast2->blog,
+        ]);
+    }
+
+    /**
+     * 修正申請のリストページのアニメの削除申請の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testDeleteAnimeOfModifyRequestListView()
+    {
+        $response = $this->get(route('modify_request_list.show'));
+        $response->assertSeeInOrder([
+            '1件目',
+            $this->deleteAnime1->anime->title,
+            $this->deleteAnime1->remark,
+        ]);
+    }
+
+    /**
+     * 修正申請のリストページのアニメの追加申請の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAddAnimeOfModifyRequestListView()
+    {
+        $response = $this->get(route('modify_request_list.show'));
+        $response->assertSeeInOrder([
+            '1件目',
+            $this->addAnime->title,
+            $this->addAnime->year,
+            $this->addAnime->public_url,
+            $this->addAnime->twitter,
+            $this->addAnime->hash_tag,
+            $this->addAnime->company,
+        ]);
+    }
+
+    /**
+     * 修正申請のリストページの声優の削除申請の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testDeleteCastOfModifyRequestListView()
+    {
+        $response = $this->get(route('modify_request_list.show'));
+        $response->assertSeeInOrder([
+            '1件目',
+            $this->deleteCast->cast->name,
+            $this->deleteCast->remark,
         ]);
     }
 
@@ -1263,6 +1346,177 @@ class ModifyTest extends TestCase
     {
         $this->actingAs($this->user1);
         $response = $this->get(route('add_anime_request.reject', ['add_anime_id' => 33333333333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * 声優削除申請ページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testDeleteCastRequestView()
+    {
+        $response = $this->get(route('delete_cast_request.show', ['cast_id' => $this->cast1->id]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->cast1->name,
+            '削除事由',
+        ]);
+    }
+
+    /**
+     * 声優削除申請ページの表示の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistDeleteCastRequestView()
+    {
+        $response = $this->get(route('delete_cast_request.show', ['cast_id' => 3333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * 声優削除申請のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testDeleteCastRequestPost()
+    {
+        $response = $this->post(route('delete_cast_request.post', ['cast_id' => $this->cast1->id,]), [
+            'remark' => 'remark_comment',
+        ]);
+        $this->assertDatabaseHas('delete_casts', [
+            'cast_id' => $this->cast1->id,
+            'remark' => 'remark_comment',
+        ]);
+    }
+
+    /**
+     * 声優削除申請の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistDeleteCastRequestPost()
+    {
+        $response = $this->post(route('delete_cast_request.post', ['cast_id' => 3333333333333333333333333]), [
+            'remark' => 'remark_comment',
+        ]);
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲスト時の声優削除リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestDeleteCastRequestApprove()
+    {
+        $response = $this->post(route('delete_cast_request.approve', ['delete_cast_id' => $this->deleteCast->id]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時の声優削除リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginDeleteCastRequestApprove()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->post(route('delete_cast_request.approve', ['delete_cast_id' => $this->deleteCast->id]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ルートユーザーログイン時の声優削除リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginDeleteCastRequestApprove()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('delete_cast_request.approve', ['delete_cast_id' => $this->deleteCast->id]));
+        $response->assertRedirect(route('modify_request_list.show'));
+        $this->assertDatabaseMissing('casts', [
+            'id' => $this->cast1->id,
+        ]);
+        $this->assertDatabaseMissing('delete_casts', [
+            'id' => $this->deleteCast->id,
+        ]);
+    }
+
+    /**
+     * ルートユーザーログイン時の声優削除リクエスト時の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginNotExistDeleteCastRequestApprove()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('delete_cast_request.approve', ['delete_cast_id' => 33333333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲスト時の声優削除申請却下リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestDeleteCastRequestReject()
+    {
+        $response = $this->get(route('delete_cast_request.reject', ['delete_cast_id' => $this->deleteCast->id]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時の声優削除申請却下リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginDeleteCastRequestReject()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->get(route('delete_cast_request.reject', ['delete_cast_id' => $this->deleteCast->id]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ルートユーザーログイン時の声優削除申請却下時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginDeleteCastRequestReject()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('delete_cast_request.reject', ['delete_cast_id' => $this->deleteCast->id]));
+        $response->assertRedirect(route('modify_request_list.show'));
+        $this->assertDatabaseMissing('delete_casts', [
+            'id' => $this->deleteCast->id,
+            'cast_id' => $this->cast1->id,
+        ]);
+    }
+
+    /**
+     * ルートユーザーログイン時の声優削除申請却下時の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginNotExistDeleteCastRequestReject()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('delete_cast_request.reject', ['delete_cast_id' => 33333333333333333333333]));
         $response->assertStatus(404);
     }
 }

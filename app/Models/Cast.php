@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Anime;
 
 class Cast extends Model
 {
     use HasFactory;
+    use \Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
     public const SEARCH_COLUMN = 'name';
 
@@ -95,6 +97,16 @@ class Cast extends Model
     }
 
     /**
+     * 声優の削除申請を取得
+     *
+     * @return HasMany
+     */
+    public function deleteCasts()
+    {
+        return $this->hasMany('App\Models\DeleteCast');
+    }
+
+    /**
      * 引数に指定されたアニメに出演しているか調べる
      *
      * @param int $anime_id
@@ -103,5 +115,12 @@ class Cast extends Model
     public function isActAnime($anime_id)
     {
         return $this->actAnimes()->where('anime_id', $anime_id)->exists();
+    }
+
+    public function scopeWithActAnimesWithMyReviewsLatestMedianLimit($query)
+    {
+        return $query->with('actAnimes', function ($q) {
+            $q->latest(Anime::TYPE_MEDIAN)->withMyReviews()->take(10);
+        });
     }
 }
