@@ -72,6 +72,10 @@ Route::get('/cast/{cast_id}/modify_request', [App\Http\Controllers\ModifyControl
 
 Route::post('/cast/{cast_id}/modify_request', [App\Http\Controllers\ModifyController::class, 'postModifyCastRequest'])->name('modify_cast_request.post');
 
+Route::get('/cast/{cast_id}/delete_request', [App\Http\Controllers\ModifyController::class, 'showDeleteCastRequest'])->name('delete_cast_request.show');
+
+Route::post('/cast/{cast_id}/delete_request', [App\Http\Controllers\ModifyController::class, 'postDeleteCastRequest'])->name('delete_cast_request.post');
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/cast/{cast_id}/like', [App\Http\Controllers\CastController::class, 'like'])->name('cast.like');
     
@@ -116,4 +120,8 @@ Route::group(['middleware' => 'admin_auth'], function () {
     Route::post('/modify/cast/{modify_cast_id}/approve', [App\Http\Controllers\ModifyController::class, 'approveModifyCastRequest'])->name('modify_cast_request.approve');
     
     Route::get('/modify/cast/{modify_cast_id}/reject', [App\Http\Controllers\ModifyController::class, 'rejectModifyCastRequest'])->name('modify_cast_request.reject');
+
+    Route::post('/delete/cast/{delete_cast_id}/approve', [App\Http\Controllers\ModifyController::class, 'approveDeleteCastRequest'])->name('delete_cast_request.approve');
+
+    Route::get('/delete/cast/{delete_cast_id}/reject', [App\Http\Controllers\ModifyController::class, 'rejectDeleteCastRequest'])->name('delete_cast_request.reject');
 });

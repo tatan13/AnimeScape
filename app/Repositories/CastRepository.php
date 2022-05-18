@@ -128,4 +128,17 @@ class CastRepository extends AbstractRepository
             $query->where('id', $modify_cast_id);
         })->firstOrFail();
     }
+
+    /**
+     * 声優をdelete_cast_idから取得
+     *
+     * @param int $delete_cast_id
+     * @return Cast
+     */
+    public function getCastByDeleteCastId($delete_cast_id)
+    {
+        return Cast::whereHas('deleteCasts', function ($query) use ($delete_cast_id) {
+            $query->where('id', $delete_cast_id);
+        })->firstOrFail();
+    }
 }

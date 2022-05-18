@@ -97,6 +97,16 @@ class Cast extends Model
     }
 
     /**
+     * 声優の削除申請を取得
+     *
+     * @return HasMany
+     */
+    public function deleteCasts()
+    {
+        return $this->hasMany('App\Models\DeleteCast');
+    }
+
+    /**
      * 引数に指定されたアニメに出演しているか調べる
      *
      * @param int $anime_id

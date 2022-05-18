@@ -347,5 +347,41 @@
                 </form>
             @endforeach
         </section>
+        <section class="delete_cast_request_list">
+            <h2>アニメの削除申請リスト</h2>
+            @if (session('flash_delete_cast_request_message'))
+                <div class="alert alert-success">
+                    {{ session('flash_delete_cast_request_message') }}
+                </div>
+            @endif
+            @foreach ($delete_cast_request_list as $delete_cast_request)
+                <h3>{{ $loop->iteration }}件目</h3>
+                <form class="delete_cast_request_list_form">
+                    @csrf
+                    @can('isAdmin')
+                        <input type="submit" value="許可"
+                            formaction="{{ route('delete_cast_request.approve', ['delete_cast_id' => $delete_cast_request->id]) }}"
+                            formmethod="POST">
+                        <input type="submit" value="却下"
+                            formaction="{{ route('delete_cast_request.reject', ['delete_cast_id' => $delete_cast_request->id]) }}"
+                            formmethod="GET">
+                    @endcan
+                    <table class="delete_cast_request_list_table">
+                        <tbody>
+                            <tr>
+                                <th>声優名</th>
+                                <th>削除事由</th>
+                            </tr>
+                            <tr>
+                                <td><a
+                                        href="{{ route('cast.show', ['cast_id' => $delete_cast_request->cast->id]) }}">{{ $delete_cast_request->cast->name }}</a>
+                                </td>
+                                <td>{{ $delete_cast_request->remark }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            @endforeach
+        </section>
     </article>
 @endsection
