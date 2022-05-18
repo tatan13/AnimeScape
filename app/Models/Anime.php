@@ -285,4 +285,9 @@ class Anime extends Model
         }
         return $query->latest($category);
     }
+
+    public function scopeLatestYearCoorMedian($query)
+    {
+        return $query->orderByRaw('year desc, coor desc, median desc');
+    }
 }
