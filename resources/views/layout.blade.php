@@ -180,19 +180,12 @@
                         <h3>その他</h3>
                         <ul>
                             <li><a href="{{ route('add_anime_request.show') }}">作品の追加申請</a></li>
+                            <li><a href="{{ route('modify_request_list.show') }}">修正申請リスト</a></li>
                             <li><a href="{{ route('contact.show') }}">要望フォーム</a></li>
                             <li><a href="{{ route('update_log.show') }}">更新履歴</a></li>
                         </ul>
                     </section>
                 </section>
-                @can('isAdmin')
-                    <section class="admin_menu">
-                        <h3>管理者メニュー</h3>
-                        <ul>
-                            <li><a href="{{ route('modify_request_list.show') }}">修正申請リスト</a></li>
-                        </ul>
-                    </section>
-                @endcan
             </aside>
             <main class="col-md-10">
                 @yield('main')

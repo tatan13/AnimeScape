@@ -17,12 +17,14 @@
                 <h3>{{ $loop->iteration }}件目</h3>
                 <form class="modify_anime_request_list_form">
                     @csrf
-                    <input type="submit" value="登録"
-                        formaction="{{ route('modify_anime_request.approve', ['modify_anime_id' => $modify_anime_request->id]) }}"
-                        formmethod="POST">
-                    <input type="submit" value="却下"
-                        formaction="{{ route('modify_anime_request.reject', ['modify_anime_id' => $modify_anime_request->id]) }}"
-                        formmethod="GET">
+                    @can('isAdmin')
+                        <input type="submit" value="登録"
+                            formaction="{{ route('modify_anime_request.approve', ['modify_anime_id' => $modify_anime_request->id]) }}"
+                            formmethod="POST">
+                        <input type="submit" value="却下"
+                            formaction="{{ route('modify_anime_request.reject', ['modify_anime_id' => $modify_anime_request->id]) }}"
+                            formmethod="GET">
+                    @endcan
                     <table class="modify_anime_request_list_table">
                         <tbody>
                             <tr>
@@ -138,12 +140,14 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                <input type="submit" value="登録"
-                                    formaction="{{ route('modify_occupations_request.approve', ['anime_id' => $anime->id]) }}"
-                                    formmethod="POST">
-                                <input type="submit" value="却下"
-                                    formaction="{{ route('modify_occupations_request.reject', ['anime_id' => $anime->id]) }}"
-                                    formmethod="GET">
+                                @can('isAdmin')
+                                    <input type="submit" value="登録"
+                                        formaction="{{ route('modify_occupations_request.approve', ['anime_id' => $anime->id]) }}"
+                                        formmethod="POST">
+                                    <input type="submit" value="却下"
+                                        formaction="{{ route('modify_occupations_request.reject', ['anime_id' => $anime->id]) }}"
+                                        formmethod="GET">
+                                @endcan
                             </form>
                         </div>
                     </div>
@@ -161,12 +165,14 @@
                 <h3>{{ $loop->iteration }}件目</h3>
                 <form class="modify_cast_request_list_form">
                     @csrf
-                    <input type="submit" value="登録"
-                        formaction="{{ route('modify_cast_request.approve', ['modify_cast_id' => $modify_cast_request->id]) }}"
-                        formmethod="POST">
-                    <input type="submit" value="却下"
-                        formaction="{{ route('modify_cast_request.reject', ['modify_cast_id' => $modify_cast_request->id]) }}"
-                        formmethod="GET">
+                    @can('isAdmin')
+                        <input type="submit" value="登録"
+                            formaction="{{ route('modify_cast_request.approve', ['modify_cast_id' => $modify_cast_request->id]) }}"
+                            formmethod="POST">
+                        <input type="submit" value="却下"
+                            formaction="{{ route('modify_cast_request.reject', ['modify_cast_id' => $modify_cast_request->id]) }}"
+                            formmethod="GET">
+                    @endcan
                     <table class="modify_cast_request_list_table">
                         <tbody>
                             <tr>
@@ -235,12 +241,14 @@
                 <h3>{{ $loop->iteration }}件目</h3>
                 <form class="delete_anime_request_list_form">
                     @csrf
-                    <input type="submit" value="許可"
-                        formaction="{{ route('delete_anime_request.approve', ['delete_anime_id' => $delete_anime_request->id]) }}"
-                        formmethod="POST">
-                    <input type="submit" value="却下"
-                        formaction="{{ route('delete_anime_request.reject', ['delete_anime_id' => $delete_anime_request->id]) }}"
-                        formmethod="GET">
+                    @can('isAdmin')
+                        <input type="submit" value="許可"
+                            formaction="{{ route('delete_anime_request.approve', ['delete_anime_id' => $delete_anime_request->id]) }}"
+                            formmethod="POST">
+                        <input type="submit" value="却下"
+                            formaction="{{ route('delete_anime_request.reject', ['delete_anime_id' => $delete_anime_request->id]) }}"
+                            formmethod="GET">
+                    @endcan
                     <table class="delete_anime_request_list_table">
                         <tbody>
                             <tr>
@@ -258,12 +266,6 @@
                 </form>
             @endforeach
         </section>
-
-
-
-
-
-
         <section class="add_anime_request_list">
             <h2>アニメの追加申請リスト</h2>
             @if (session('flash_add_anime_request_message'))
@@ -275,12 +277,14 @@
                 <h3>{{ $loop->iteration }}件目</h3>
                 <form class="add_anime_request_list_form">
                     @csrf
-                    <input type="submit" value="登録"
-                        formaction="{{ route('add_anime_request.approve', ['add_anime_id' => $add_anime_request->id]) }}"
-                        formmethod="POST">
-                    <input type="submit" value="却下"
-                        formaction="{{ route('add_anime_request.reject', ['add_anime_id' => $add_anime_request->id]) }}"
-                        formmethod="GET">
+                    @can('isAdmin')
+                        <input type="submit" value="登録"
+                            formaction="{{ route('add_anime_request.approve', ['add_anime_id' => $add_anime_request->id]) }}"
+                            formmethod="POST">
+                        <input type="submit" value="却下"
+                            formaction="{{ route('add_anime_request.reject', ['add_anime_id' => $add_anime_request->id]) }}"
+                            formmethod="GET">
+                    @endcan
                     <table class="add_anime_request_list_table">
                         <tbody>
                             <tr>
@@ -343,14 +347,5 @@
                 </form>
             @endforeach
         </section>
-
-
-
-
-
-
-
-
-
     </article>
 @endsection

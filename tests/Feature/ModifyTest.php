@@ -324,39 +324,13 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * ゲスト時のアニメの情報修正申請のリストページリクエスト時のリダイレクトテスト
+     * ルートユーザーログイン時の修正申請のリストページリクエスト時のテスト
      *
      * @test
      * @return void
      */
-    public function testGuestModifyListView()
+    public function testModifyRequestListView()
     {
-        $response = $this->get(route('modify_request_list.show'));
-        $response->assertStatus(403);
-    }
-
-    /**
-     * ユーザーログイン時のアニメの情報修正申請のリストページリクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testUser2LoginModifyListView()
-    {
-        $this->actingAs($this->user2);
-        $response = $this->get(route('modify_request_list.show'));
-        $response->assertStatus(403);
-    }
-
-    /**
-     * ルートユーザーログイン時のアニメの情報修正申請のリストページリクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testRootLoginModifyAnimeListView()
-    {
-        $this->actingAs($this->user1);
         $response = $this->get(route('modify_request_list.show'));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
