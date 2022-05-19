@@ -27,6 +27,7 @@ use App\Http\Requests\DeleteRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Collection;
 use Mail;
+use Gate;
 
 class ModifyService
 {
@@ -224,7 +225,7 @@ class ModifyService
      */
     public function sendMailWhenModifyRequest()
     {
-        if (env('APP_ENV') == 'production') {
+        if (env('APP_ENV') == 'production' && Gate::denies('isAdmin')) {
             $data = [];
 
             Mail::send('emails.modify_email', $data, function ($message) {
