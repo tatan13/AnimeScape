@@ -14,7 +14,9 @@
                 </div>
             @endif
             @foreach ($modify_anime_request_list as $modify_anime_request)
-                <h3>{{ $loop->iteration }}件目</h3>
+                <h3>{{ $loop->iteration }}件目(<a
+                        href="{{ route('anime.show', ['anime_id' => $modify_anime_request->anime->id]) }}">{{ $modify_anime_request->anime->title }}</a>)
+                </h3>
                 <form class="modify_anime_request_list_form">
                     @csrf
                     @can('isAdmin')
@@ -110,7 +112,8 @@
                 </div>
             @endif
             @foreach ($anime_list as $anime)
-                <h3>{{ $loop->iteration }}件目({{ $anime->title }})</h3>
+                <h3>{{ $loop->iteration }}件目(<a
+                        href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>)</h3>
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-2">
@@ -162,7 +165,9 @@
                 </div>
             @endif
             @foreach ($modify_cast_request_list as $modify_cast_request)
-                <h3>{{ $loop->iteration }}件目</h3>
+                <h3>{{ $loop->iteration }}件目(<a
+                        href="{{ route('cast.show', ['cast_id' => $modify_cast_request->cast->id]) }}">{{ $modify_cast_request->cast->name }}</a>)
+                </h3>
                 <form class="modify_cast_request_list_form">
                     @csrf
                     @can('isAdmin')
@@ -238,7 +243,9 @@
                 </div>
             @endif
             @foreach ($delete_anime_request_list as $delete_anime_request)
-                <h3>{{ $loop->iteration }}件目</h3>
+                <h3>{{ $loop->iteration }}件目(<a
+                        href="{{ route('anime.show', ['anime_id' => $delete_anime_request->anime->id]) }}">{{ $delete_anime_request->anime->title }}</a>)
+                </h3>
                 <form class="delete_anime_request_list_form">
                     @csrf
                     @can('isAdmin')
@@ -256,8 +263,7 @@
                                 <th>削除事由</th>
                             </tr>
                             <tr>
-                                <td><a
-                                        href="{{ route('anime.show', ['anime_id' => $delete_anime_request->anime->id]) }}">{{ $delete_anime_request->anime->title }}</a>
+                                <td>{{ $delete_anime_request->anime->title }}
                                 </td>
                                 <td>{{ $delete_anime_request->remark }}</td>
                             </tr>
@@ -348,14 +354,16 @@
             @endforeach
         </section>
         <section class="delete_cast_request_list">
-            <h2>アニメの削除申請リスト</h2>
+            <h2>声優の削除申請リスト</h2>
             @if (session('flash_delete_cast_request_message'))
                 <div class="alert alert-success">
                     {{ session('flash_delete_cast_request_message') }}
                 </div>
             @endif
             @foreach ($delete_cast_request_list as $delete_cast_request)
-                <h3>{{ $loop->iteration }}件目</h3>
+                <h3>{{ $loop->iteration }}件目(<a
+                        href="{{ route('cast.show', ['cast_id' => $delete_cast_request->cast->id]) }}">{{ $delete_cast_request->cast->name }}</a>)
+                </h3>
                 <form class="delete_cast_request_list_form">
                     @csrf
                     @can('isAdmin')
@@ -373,9 +381,7 @@
                                 <th>削除事由</th>
                             </tr>
                             <tr>
-                                <td><a
-                                        href="{{ route('cast.show', ['cast_id' => $delete_cast_request->cast->id]) }}">{{ $delete_cast_request->cast->name }}</a>
-                                </td>
+                                <td>{{ $delete_cast_request->cast->name }}</td>
                                 <td>{{ $delete_cast_request->remark }}</td>
                             </tr>
                         </tbody>
