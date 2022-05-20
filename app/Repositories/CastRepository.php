@@ -105,7 +105,7 @@ class CastRepository extends AbstractRepository
     }
 
     /**
-     * 声優情報修正申請データから声優情報を更新
+     * 声優情報変更申請データから声優情報を更新
      *
      * @param Cast $cast
      * @param ModifyCastRequest $request

@@ -38,7 +38,7 @@ class AnimeRequest extends FormRequest
     }
 
     /**
-     * アニメの基本情報修正申請のバリデーションメッセージ
+     * アニメの基本情報変更申請のバリデーションメッセージ
      *
      * @return array<string>
      */

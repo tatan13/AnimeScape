@@ -219,7 +219,7 @@ class AnimeRepository extends AbstractRepository
     }
 
     /**
-     * アニメの基本情報修正申請データを作成
+     * アニメの基本情報変更申請データを作成
      *
      * @param Anime $anime
      * @param AnimeRequest $request
@@ -231,7 +231,7 @@ class AnimeRepository extends AbstractRepository
     }
 
     /**
-     * アニメの基本情報修正申請データからアニメの基本情報を更新
+     * アニメの基本情報変更申請データからアニメの基本情報を更新
      *
      * @param Anime $anime
      * @param AnimeRequest $request

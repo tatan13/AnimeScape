@@ -78,7 +78,7 @@ class ModifyService
     }
 
     /**
-     * modify_anime_idからアニメの基本情報修正申請データを取得
+     * modify_anime_idからアニメの基本情報変更申請データを取得
      *
      * @param int $modify_anime_id
      * @return ModifyAnime
@@ -89,7 +89,7 @@ class ModifyService
     }
 
     /**
-     * アニメの基本情報修正申請データを作成
+     * アニメの基本情報変更申請データを作成
      *
      * @param int $anime_id
      * @param AnimeRequest $request
@@ -103,7 +103,7 @@ class ModifyService
     }
 
     /**
-     * アニメの基本情報修正申請データからアニメの基本情報を更新
+     * アニメの基本情報変更申請データからアニメの基本情報を更新
      *
      * @param int $modify_anime_id
      * @param AnimeRequest $request
@@ -119,7 +119,7 @@ class ModifyService
     }
 
     /**
-     * アニメの基本情報修正申請データを削除
+     * アニメの基本情報変更申請データを削除
      *
      * @param int $modify_anime_id
      * @return void
@@ -130,7 +130,7 @@ class ModifyService
     }
 
     /**
-     * アニメの基本情報修正申請データリストをアニメと共に取得
+     * アニメの基本情報変更申請データリストをアニメと共に取得
      *
      * @return Collection<int,ModifyAnime> | Collection<null>
      */
@@ -236,7 +236,7 @@ class ModifyService
     }
 
     /**
-     * 声優の情報修正申請データを作成
+     * 声優の情報変更申請データを作成
      *
      * @param int $cast_id
      * @param ModifyCastRequest $request
@@ -250,7 +250,7 @@ class ModifyService
     }
 
     /**
-     * 声優の情報修正申請データリストを取得
+     * 声優の情報変更申請データリストを取得
      *
      * @return Collection<int,ModifyCast> | Collection<null>
      */
@@ -270,7 +270,7 @@ class ModifyService
     }
 
     /**
-     * modify_cast_idから声優情報修正申請データを取得
+     * modify_cast_idから声優情報変更申請データを取得
      *
      * @param int $modify_cast_id
      * @return ModifyCast
@@ -281,7 +281,7 @@ class ModifyService
     }
 
     /**
-     * 声優情報修正申請データからアニメの基本情報を更新
+     * 声優情報変更申請データからアニメの基本情報を更新
      *
      * @param int $modify_cast_id
      * @param ModifyCastRequest $request
@@ -297,7 +297,7 @@ class ModifyService
     }
 
     /**
-     * 声優情報修正申請データを削除
+     * 声優情報変更申請データを削除
      *
      * @param int $modify_cast_id
      * @return void

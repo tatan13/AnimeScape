@@ -87,7 +87,7 @@ class Cast extends Model
     }
 
     /**
-     * 声優の基本情報修正申請を取得
+     * 声優の基本情報変更申請を取得
      *
      * @return HasMany
      */

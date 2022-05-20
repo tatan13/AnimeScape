@@ -167,7 +167,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * アニメの出演声優情報修正申請ページの表示のテスト
+     * アニメの出演声優情報変更申請ページの表示のテスト
      *
      * @test
      * @return void
@@ -183,7 +183,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * アニメの出演声優情報修正申請ページの表示の異常値テスト
+     * アニメの出演声優情報変更申請ページの表示の異常値テスト
      *
      * @test
      * @return void
@@ -195,7 +195,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * アニメの出演声優情報修正申請のテスト
+     * アニメの出演声優情報変更申請のテスト
      *
      * @test
      * @return void
@@ -230,7 +230,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * アニメの出演声優情報修正申請の異常値テスト
+     * アニメの出演声優情報変更申請の異常値テスト
      *
      * @test
      * @return void
@@ -246,7 +246,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * 声優情報修正申請ページの表示のテスト
+     * 声優情報変更申請ページの表示のテスト
      *
      * @test
      * @return void
@@ -267,7 +267,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * 声優情報修正申請ページの表示の異常値テスト
+     * 声優情報変更申請ページの表示の異常値テスト
      *
      * @test
      * @return void
@@ -279,7 +279,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * 声優情報修正申請のテスト
+     * 声優情報変更申請のテスト
      *
      * @test
      * @return void
@@ -308,7 +308,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * 声優情報修正申請の異常値テスト
+     * 声優情報変更申請の異常値テスト
      *
      * @test
      * @return void
@@ -328,7 +328,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * ルートログイン時の修正申請のリストページリクエスト時のテスト
+     * ルートログイン時の変更申請のリストページリクエスト時のテスト
      *
      * @test
      * @return void
@@ -342,7 +342,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * 修正申請のリストページリクエスト時のテスト
+     * 変更申請のリストページリクエスト時のテスト
      *
      * @test
      * @return void
@@ -356,7 +356,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * 修正申請のリストページのアニメの基本情報修正申請の表示のテスト
+     * 変更申請のリストページのアニメの基本情報変更申請の表示のテスト
      *
      * @test
      * @return void
@@ -378,7 +378,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * 修正申請のリストページのアニメの出演声優修正申請の表示のテスト
+     * 変更申請のリストページのアニメの出演声優変更申請の表示のテスト
      *
      * @test
      * @return void
@@ -401,7 +401,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * 修正申請のリストページの声優情報修正申請の表示のテスト
+     * 変更申請のリストページの声優情報変更申請の表示のテスト
      *
      * @test
      * @return void
@@ -428,7 +428,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * 修正申請のリストページのアニメの削除申請の表示のテスト
+     * 変更申請のリストページのアニメの削除申請の表示のテスト
      *
      * @test
      * @return void
@@ -444,7 +444,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * 修正申請のリストページのアニメの追加申請の表示のテスト
+     * 変更申請のリストページのアニメの追加申請の表示のテスト
      *
      * @test
      * @return void
@@ -464,7 +464,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * 修正申請のリストページの声優の削除申請の表示のテスト
+     * 変更申請のリストページの声優の削除申請の表示のテスト
      *
      * @test
      * @return void
@@ -584,7 +584,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * ゲスト時のアニメの情報修正申請却下リクエスト時のテスト
+     * ゲスト時のアニメの情報変更申請却下リクエスト時のテスト
      *
      * @test
      * @return void
@@ -596,7 +596,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * ユーザーログイン時のアニメの情報修正申請却下リクエスト時のテスト
+     * ユーザーログイン時のアニメの情報変更申請却下リクエスト時のテスト
      *
      * @test
      * @return void
@@ -609,7 +609,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * ルートユーザーログイン時のアニメの情報修正申請却下時のテスト
+     * ルートユーザーログイン時のアニメの情報変更申請却下時のテスト
      *
      * @test
      * @return void
@@ -633,7 +633,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * ルートユーザーログイン時のアニメの情報修正申請却下時の異常値テスト
+     * ルートユーザーログイン時のアニメの情報変更申請却下時の異常値テスト
      *
      * @test
      * @return void
@@ -880,7 +880,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * ゲスト時の声優情報修正申請却下リクエスト時のテスト
+     * ゲスト時の声優情報変更申請却下リクエスト時のテスト
      *
      * @test
      * @return void
@@ -892,7 +892,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * ユーザーログイン時の声優情報修正申請却下リクエスト時のテスト
+     * ユーザーログイン時の声優情報変更申請却下リクエスト時のテスト
      *
      * @test
      * @return void
@@ -905,7 +905,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * ルートユーザーログイン時の声優情報修正申請却下時のテスト
+     * ルートユーザーログイン時の声優情報変更申請却下時のテスト
      *
      * @test
      * @return void
@@ -922,7 +922,7 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * ルートユーザーログイン時の声優情報修正申請却下時の異常値テスト
+     * ルートユーザーログイン時の声優情報変更申請却下時の異常値テスト
      *
      * @test
      * @return void
