@@ -29,7 +29,7 @@ class CastRepository extends AbstractRepository
     public function getCastWithActAnimesWithMyReviewsById($cast_id)
     {
         return Cast::where('id', $cast_id)->with('actAnimes', function ($query) {
-            $query->withMyReviews();
+            $query->withMyReviews()->LatestYearCoorMedian();
         })->firstOrFail();
     }
 
