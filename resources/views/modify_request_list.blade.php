@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    <title>変更真申請リスト AnimeScape</title>
+    <title>変更申請リスト AnimeScape</title>
 @endsection
 
 @section('main')
