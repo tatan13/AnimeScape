@@ -21,7 +21,7 @@ class ModifyCastRepository extends AbstractRepository
     }
 
     /**
-     * 声優の情報修正申請データリストを取得
+     * 声優の情報変更申請データリストを取得
      *
      * @return Collection<int,ModifyCast> | Collection<null>
      */
@@ -31,7 +31,7 @@ class ModifyCastRepository extends AbstractRepository
     }
 
     /**
-     * 声優情報修正申請データから声優を取得
+     * 声優情報変更申請データから声優を取得
      *
      * @param ModifyCast $modify_cast_request
      * @return Cast

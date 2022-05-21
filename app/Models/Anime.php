@@ -184,7 +184,7 @@ class Anime extends Model
     }
 
     /**
-     * アニメの基本情報修正申請を取得
+     * アニメの基本情報変更申請を取得
      *
      * @return HasMany
      */
@@ -214,7 +214,7 @@ class Anime extends Model
     }
 
     /**
-     * 出演声優情報修正申請を取得
+     * 出演声優情報変更申請を取得
      *
      * @return HasMany
      */

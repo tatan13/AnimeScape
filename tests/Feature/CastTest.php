@@ -71,16 +71,16 @@ class CastTest extends TestCase
         $response->assertSeeInOrder([
             $this->cast->name,
             '計2本',
-            '霊剣山 星屑たちの宴',
-            'company1',
-            '2022年冬クール',
-            78,
-            332,
             '霊剣山 叡智への資格',
             'company2',
             '2022年冬クール',
             80,
             232,
+            '霊剣山 星屑たちの宴',
+            'company1',
+            '2022年冬クール',
+            78,
+            332,
         ]);
     }
 

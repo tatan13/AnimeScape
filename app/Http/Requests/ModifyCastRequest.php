@@ -35,7 +35,7 @@ class ModifyCastRequest extends FormRequest
     }
 
     /**
-     * 声優の情報修正申請のバリデーションメッセージ
+     * 声優の情報変更申請のバリデーションメッセージ
      *
      * @return array<string>
      */

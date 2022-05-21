@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html lang="ja">
 
-<head>
+<head prefix="og: https://ogp.me/ns#">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <meta property="og:url" content="https://www.animescape.link/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="AnimeScape" />
+    <meta property="og:description" content="アニメ批評サービス" />
+    <meta property="og:site_name" content="AnimeScape" />
+    <meta property="og:image" content="https://www.animescape.link/animescape_ogp.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@tatan_tech" />
     @yield('title')
     @if (env('APP_ENV') == 'production')
         <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -93,7 +101,7 @@
                     @endif
                 </section>
                 <section class="search_menu">
-                    <h3>検索</h3>
+                    <h3>検索メニュー</h3>
                     <form action="{{ route('search.show') }}" method="get">
                         @csrf
                         <select name="category">
@@ -113,7 +121,7 @@
                     </form>
                 </section>
                 <section class="ranking_menu">
-                    <h3>ランキング</h3>
+                    <h3>ランキングメニュー</h3>
                     <ul>
                         <li>
                             <form action="{{ route('anime_statistics.show') }}" name="all_statistics" method="get">
@@ -176,15 +184,20 @@
                             </li>
                         </form>
                     </ul>
-                    <section>
-                        <h3>その他</h3>
-                        <ul>
-                            <li><a href="{{ route('add_anime_request.show') }}">作品の追加申請</a></li>
-                            <li><a href="{{ route('modify_request_list.show') }}">修正申請リスト</a></li>
-                            <li><a href="{{ route('contact.show') }}">要望フォーム</a></li>
-                            <li><a href="{{ route('update_log.show') }}">更新履歴</a></li>
-                        </ul>
-                    </section>
+                </section>
+                <section class="modify_menu">
+                    <h3>変更メニュー</h3>
+                    <ul>
+                        <li><a href="{{ route('add_anime_request.show') }}">作品の追加申請</a></li>
+                        <li><a href="{{ route('modify_request_list.show') }}">変更申請リスト</a></li>
+                    </ul>
+                </section>
+                <section class="other_menu">
+                    <h3>その他</h3>
+                    <ul>
+                        <li><a href="{{ route('contact.show') }}">要望フォーム</a></li>
+                        <li><a href="{{ route('update_log.show') }}">更新履歴</a></li>
+                    </ul>
                 </section>
             </aside>
             <main class="col-md-10">

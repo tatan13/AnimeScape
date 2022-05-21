@@ -27,7 +27,7 @@ class ModifyController extends Controller
     }
 
     /**
-     * アニメの基本情報修正申請ページを表示
+     * アニメの基本情報変更申請ページを表示
      *
      * @param int $anime_id
      * @return \Illuminate\View\View
@@ -41,7 +41,7 @@ class ModifyController extends Controller
     }
 
     /**
-     * アニメの基本情報修正申請をデータベースに保存し，元の画面にリダイレクト
+     * アニメの基本情報変更申請をデータベースに保存し，元の画面にリダイレクト
      *
      * @param int $anime_id
      * @param AnimeRequest $request
@@ -56,7 +56,7 @@ class ModifyController extends Controller
     }
 
     /**
-     * アニメの基本情報修正を処理し，元の画面にリダイレクト
+     * アニメの基本情報変更を処理し，元の画面にリダイレクト
      *
      * @param int $modify_anime_id
      * @param AnimeRequest $request
@@ -69,7 +69,7 @@ class ModifyController extends Controller
     }
 
     /**
-     * アニメの基本情報修正申請を却下し，元の画面にリダイレクト
+     * アニメの基本情報変更申請を却下し，元の画面にリダイレクト
      *
      * @param int $modify_anime_id
      * @return \Illuminate\Http\RedirectResponse
@@ -81,7 +81,7 @@ class ModifyController extends Controller
     }
 
     /**
-     * アニメ，声優の情報修正申請リストを表示
+     * アニメ，声優の情報変更申請リストを表示
      * @return \Illuminate\View\View
      */
     public function showModifyRequestList()
@@ -103,7 +103,7 @@ class ModifyController extends Controller
     }
 
     /**
-     * アニメの出演声優情報修正申請ページを表示
+     * アニメの出演声優情報変更申請ページを表示
      *
      * @param int $anime_id
      * @return \Illuminate\View\View
@@ -117,7 +117,7 @@ class ModifyController extends Controller
     }
 
     /**
-     * アニメの出演声優情報修正申請をデータベースに保存し，元の画面にリダイレクト
+     * アニメの出演声優情報変更申請をデータベースに保存し，元の画面にリダイレクト
      *
      * @param int $anime_id
      * @param Request $request
@@ -132,7 +132,7 @@ class ModifyController extends Controller
     }
 
     /**
-     * アニメの出演声優情報修正申請を処理し，元の画面にリダイレクト
+     * アニメの出演声優情報変更申請を処理し，元の画面にリダイレクト
      *
      * @param int $anime_id
      * @param Request $request
@@ -148,7 +148,7 @@ class ModifyController extends Controller
     }
 
     /**
-     * アニメの出演声優情報修正申請を却下し，元の画面にリダイレクト
+     * アニメの出演声優情報変更申請を却下し，元の画面にリダイレクト
      *
      * @param int $anime_id
      * @return \Illuminate\Http\RedirectResponse
@@ -163,7 +163,7 @@ class ModifyController extends Controller
     }
 
     /**
-     * 声優情報修正申請ページを表示
+     * 声優情報変更申請ページを表示
      *
      * @param int $cast_id
      * @return \Illuminate\View\View
@@ -177,7 +177,7 @@ class ModifyController extends Controller
     }
 
     /**
-     * 声優情報修正申請をデータベースに保存し，元の画面にリダイレクト
+     * 声優情報変更申請をデータベースに保存し，元の画面にリダイレクト
      *
      * @param int $cast_id
      * @param ModifyCastRequest $request
@@ -192,7 +192,7 @@ class ModifyController extends Controller
     }
 
     /**
-     * 演声優情報修正申請を処理し，元の画面にリダイレクト
+     * 演声優情報変更申請を処理し，元の画面にリダイレクト
      *
      * @param int $modify_cast_id
      * @param ModifyCastRequest $request
@@ -208,7 +208,7 @@ class ModifyController extends Controller
     }
 
     /**
-     * 声優情報修正申請を却下し，元の画面にリダイレクト
+     * 声優情報変更申請を却下し，元の画面にリダイレクト
      *
      * @param int $modify_cast_id
      * @return \Illuminate\Http\RedirectResponse

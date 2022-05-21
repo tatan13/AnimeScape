@@ -8,7 +8,7 @@
     <div id="app">
         <article class=cast_information>
             <h2>
-                <a href="{{ route('cast.show', ['cast_id' => $cast->id]) }}">{{ $cast->name }}</a>
+                <a href="{{ $cast->url }}" target="_blank" rel="noopener noreferrer">{{ $cast->name }}</a>
             </h2>
             @if (session('flash_message'))
                 <div class="alert alert-success">
@@ -26,27 +26,24 @@
                 <table class="cast_profile_table">
                     <tr>
                         <th>ふりがな</th>
-                        <td>{{ $cast->furigana ?? '-' }}</td>
+                        <td>{{ $cast->furigana }}</td>
                     </tr>
                     <tr>
                         <th>性別</th>
-                        <td>{{ $cast->sex_label ?? '-' }}</td>
+                        <td>{{ $cast->sex_label }}</td>
                     </tr>
                     <tr>
                         <th>所属事務所</th>
-                        <td>{{ $cast->office ?? '-' }}</td>
-                    </tr>
-                    <tr>
-                        <th>公式HP</th>
-                        <td>{{ $cast->url ?? '-' }}</td>
+                        <td>{{ $cast->office }}</td>
                     </tr>
                     <tr>
                         <th>ツイッター</th>
-                        <td>{{ $cast->twitter ?? '-' }}</td>
+                        <td><a href="https://twitter.com/{{ $cast->twitter }}" target="_blank"
+                            rel="noopener noreferrer">{{ $cast->twitter }}</a></td>
                     </tr>
                     <tr>
                         <th>公式ブログ</th>
-                        <td>{{ $cast->blog ?? '-' }}</td>
+                        <td>{{ $cast->blog }}</td>
                     </tr>
                 </table>
                 <a href="{{ route('modify_cast_request.show', ['cast_id' => $cast->id]) }}">声優の情報の変更申請をする</a><br>

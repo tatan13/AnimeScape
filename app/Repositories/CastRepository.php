@@ -29,7 +29,7 @@ class CastRepository extends AbstractRepository
     public function getCastWithActAnimesWithMyReviewsById($cast_id)
     {
         return Cast::where('id', $cast_id)->with('actAnimes', function ($query) {
-            $query->withMyReviews();
+            $query->withMyReviews()->LatestYearCoorMedian();
         })->firstOrFail();
     }
 
@@ -86,7 +86,7 @@ class CastRepository extends AbstractRepository
     public function getWithactAnimesWithMyReviewsBySearch($search_word)
     {
         if (is_null($search_word)) {
-            return Cast::withActAnimesWithMyReviewsLatestLimit()->paginate(100);
+            return Cast::withActAnimesWithMyReviewsLatestLimit()->paginate(50);
         }
         return Cast::where(Cast::SEARCH_COLUMN, 'like', "%$search_word%")
         ->withActAnimesWithMyReviewsLatestLimit()->paginate(50);
@@ -105,7 +105,7 @@ class CastRepository extends AbstractRepository
     }
 
     /**
-     * 声優情報修正申請データから声優情報を更新
+     * 声優情報変更申請データから声優情報を更新
      *
      * @param Cast $cast
      * @param ModifyCastRequest $request
