@@ -36,6 +36,6 @@ class ContactController extends Controller
     public function post(ContactRequest $request)
     {
         $this->contactService->createContact($request);
-        return redirect(route('contact.show'));
+        return redirect(route('contact.show'))->with('flash_message', '要望の投稿が完了しました。');
     }
 }

@@ -16,6 +16,11 @@
                 </ul>
             </div>
         @endif
+        @if (session('flash_message'))
+            <div class="alert alert-success">
+                {{ session('flash_message') }}
+            </div>
+        @endif
         名前を書かないと名無しさんになります。
         <form action="{{ route('contact.post') }}" class="contact_form" method="POST">
             @csrf
