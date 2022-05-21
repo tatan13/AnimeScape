@@ -86,7 +86,7 @@ class CastRepository extends AbstractRepository
     public function getWithactAnimesWithMyReviewsBySearch($search_word)
     {
         if (is_null($search_word)) {
-            return Cast::withActAnimesWithMyReviewsLatestLimit()->paginate(100);
+            return Cast::withActAnimesWithMyReviewsLatestLimit()->paginate(50);
         }
         return Cast::where(Cast::SEARCH_COLUMN, 'like', "%$search_word%")
         ->withActAnimesWithMyReviewsLatestLimit()->paginate(50);
