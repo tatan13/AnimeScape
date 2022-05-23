@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\Anime;
 use App\Models\User;
+use App\Models\Company;
 use Tests\TestCase;
 
 class IndexTest extends TestCase
@@ -63,11 +64,21 @@ class IndexTest extends TestCase
      */
     public function testIndexAnimeView()
     {
-        Anime::factory()->create(['title' => '霊剣山1', 'median' => 100, 'count' => 200]);
-        Anime::factory()->create(['title' => '霊剣山2', 'median' => 0, 'count' => 300]);
+        $anime1 = Anime::factory()->create(['median' => 100, 'count' => 200]);
+        $anime2 = Anime::factory()->create(['median' => 0, 'count' => 300]);
+        $company = Company::factory()->create();
+        $anime1->companies()->attach($company->id);
         $response = $this->get(route('index.show'));
         $response->assertStatus(200);
-        $response->assertSeeInOrder(['霊剣山1', 100, 200, '霊剣山2', 0, 300]);
+        $response->assertSeeInOrder([
+            $anime1->title,
+            $anime1->companies[0]->name,
+            $anime1->median,
+            $anime1->count,
+            $anime2->title,
+            $anime2->median,
+            $anime2->count,
+        ]);
     }
 
     /**

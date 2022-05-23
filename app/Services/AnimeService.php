@@ -38,7 +38,7 @@ class AnimeService
     }
 
     /**
-     * anime_idからアニメを取得
+     * anime_idからアニメをに取得
      *
      * @param int $anime_id
      * @return Anime
@@ -46,6 +46,40 @@ class AnimeService
     public function getAnime($anime_id)
     {
         return $this->animeRepository->getById($anime_id);
+    }
+
+    /**
+     * anime_idからアニメを制作会社とともに取得
+     *
+     * @param int $anime_id
+     * @return Anime
+     */
+    public function getAnimeWithCompaniesAndMyReviewAndActCastsAndLatestUserReviewsOfAnimeWithUser($anime_id)
+    {
+        return $this->animeRepository
+        ->getWithCompaniesAndMyReviewAndActCastsAndLatestUserReviewsOfAnimeWithUserById($anime_id);
+    }
+
+    /**
+     * anime_idからアニメを制作会社とともに取得
+     *
+     * @param int $anime_id
+     * @return Anime
+     */
+    public function getAnimeWithCompanies($anime_id)
+    {
+        return $this->animeRepository->getWithCompaniesById($anime_id);
+    }
+
+    /**
+     * anime_idからアニメをログインユーザーのレビューとともに取得
+     *
+     * @param int $anime_id
+     * @return Anime
+     */
+    public function getAnimeWithMyReview($anime_id)
+    {
+        return $this->animeRepository->getWithMyReviewById($anime_id);
     }
 
     /**
@@ -60,25 +94,25 @@ class AnimeService
     }
 
     /**
-     * 今クールのアニメリストをログインユーザーのレビューと共に取得
+     * 今クールのアニメリストを制作会社とログインユーザーのレビューと共に取得
      *
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getNowCoorAnimeListWithMyReviews()
+    public function getNowCoorAnimeListWithCompaniesAndWithMyReviews()
     {
-        return $this->animeRepository->getNowCoorAnimeListWithMyReviews();
+        return $this->animeRepository->getNowCoorAnimeListWithCompaniesAndWithMyReviews();
     }
 
     /**
-     * リクエストに従ってアニメリストをログインユーザーのレビューと共に取得
+     * リクエストに従ってアニメリストを制作会社とログインユーザーのレビューと共に取得
      *
      * @param Request $request
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getAnimeListWithMyReviewsFor(Request $request)
+    public function getAnimeListWithCompaniesAndWithMyReviewsFor(Request $request)
     {
         if ($this->isVelifiedCategory($request->category)) {
-            return $this->animeRepository->getAnimeListWithMyReviewsFor($request);
+            return $this->animeRepository->getAnimeListWithCompaniesAndWithMyReviewsFor($request);
         }
         abort(404);
     }
@@ -139,9 +173,9 @@ class AnimeService
      * @param User $user
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getWillWatchAnimeList(User $user)
+    public function getWillWatchAnimeListWithCompanies(User $user)
     {
-        return $this->userRepository->getWillWatchAnimeList($user)->sortByDesc('year_coor');
+        return $this->userRepository->getWillWatchAnimeListWithCompanies($user)->sortByDesc('year_coor');
     }
 
     /**
@@ -155,16 +189,16 @@ class AnimeService
     }
 
     /**
-     * おすすめアニメリストをログインユーザーのレビューと共に取得
+     * おすすめアニメリストを制作会社とログインユーザーのレビューと共に取得
      *
      * @return Collection<int,Anime> | Collection<null> | null
      */
-    public function getRecommendAnimeList()
+    public function getRecommendAnimeListWithCompanies()
     {
         if (Auth::check()) {
-            $recommend_anime_list = $this->animeRepository->getRecommendAnimeList();
+            $recommend_anime_list = $this->animeRepository->getRecommendAnimeListWithCompanies();
             return $recommend_anime_list->isEmpty() ?
-            $this->animeRepository->getTopAnimeList() : $recommend_anime_list;
+            $this->animeRepository->getTopAnimeListWithCompanies() : $recommend_anime_list;
         }
         return null;
     }

@@ -54,7 +54,6 @@ class SyncCommand extends Command
                 'title' => $post->title,
                 'year' => $post->year,
                 'coor' => $post->coor,
-                'company' => $post->company,
             ];
         }
         Anime::insert($insert_anime_list);

@@ -14,14 +14,24 @@ class ModifyAnime extends Model
     protected $fillable = [
         'title',
         'title_short',
+        'furigana',
         'year',
         'coor',
+        'number_of_episode',
         'public_url',
         'twitter',
         'hash_tag',
-        'sequel',
-        'company',
         'city_name',
+        'company1',
+        'company2',
+        'company3',
+        'summary',
+        'd_anime_store_id',
+        'amazon_prime_video_id',
+        'fod_id',
+        'unext_id',
+        'abema_id',
+        'disney_plus_id',
     ];
 
     /**

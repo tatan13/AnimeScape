@@ -26,6 +26,7 @@ class ReviewRequest extends FormRequest
         return [
             'score' => 'integer|between:0,100|nullable',
             'one_word_comment' => 'max:400|string|nullable',
+            'long_word_comment' => 'string|nullable',
             'will_watch' => 'bool',
             'watch' => 'bool',
             'spoiler' => 'bool',
@@ -44,6 +45,7 @@ class ReviewRequest extends FormRequest
           'score.between' => '得点は0～100点で入力してください。',
           'one_word_comment.max' => '一言感想は400文字以下で入力してください。',
           'one_word_comment.string' => '一言感想には文字列を入力してください。',
+          'long_word_comment.string' => '長文感想には文字列を入力してください。',
         ];
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\Cast;
 use App\Models\User;
 use App\Models\Anime;
+use App\Models\Company;
 use App\Models\UserLikeCast;
 use Tests\TestCase;
 
@@ -19,20 +20,17 @@ class CastTest extends TestCase
     private User $user2;
     private Anime $anime1;
     private Anime $anime2;
+    private company $company;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->anime1 = Anime::factory()->create([
-            'title' => '霊剣山 星屑たちの宴',
-            'company' => 'company1',
-            'median' => 78,
+            'median' => 80,
             'count' => 332,
         ]);
         $this->anime2 = Anime::factory()->create([
-            'title' => '霊剣山 叡智への資格',
-            'company' => 'company2',
-            'median' => 80,
+            'median' => 78,
             'count' => 232,
         ]);
 
@@ -45,6 +43,9 @@ class CastTest extends TestCase
 
         $this->anime1->actCasts()->attach($this->cast->id);
         $this->anime2->actCasts()->attach($this->cast->id);
+
+        $this->company = Company::factory()->create();
+        $this->anime1->companies()->attach($this->company->id);
     }
 
     /**
@@ -71,16 +72,17 @@ class CastTest extends TestCase
         $response->assertSeeInOrder([
             $this->cast->name,
             '計2本',
-            '霊剣山 叡智への資格',
-            'company2',
-            '2022年冬クール',
-            80,
-            232,
-            '霊剣山 星屑たちの宴',
-            'company1',
-            '2022年冬クール',
-            78,
-            332,
+            $this->anime1->title,
+            $this->anime1->companies[0]->name,
+            $this->anime1->year,
+            $this->anime1->coor_label,
+            $this->anime1->median,
+            $this->anime1->count,
+            $this->anime2->title,
+            $this->anime2->year,
+            $this->anime2->coor_label,
+            $this->anime2->median,
+            $this->anime2->count,
         ]);
     }
 

@@ -52,9 +52,7 @@ class UserRepository extends AbstractRepository
      */
     public function getByIdWithUserReviewsAndAnimeForAll($user_id)
     {
-        return User::whereId($user_id)->with('userReviews', function ($query) {
-            $query->with('anime');
-        })->firstOrFail();
+        return User::whereId($user_id)->with('userReviews.anime')->firstOrFail();
     }
 
     /**
@@ -95,9 +93,9 @@ class UserRepository extends AbstractRepository
      * @param User $user
      * @return Collection<int,UserReview> | Collection<null>
      */
-    public function getLatestScoreReviewListWithAnimeOf(User $user)
+    public function getLatestScoreReviewListWithAnimeWithCompaniesOf(User $user)
     {
-        return $user->userReviews()->whereNotNull('score')->with('anime')->latest()->get();
+        return $user->userReviews()->whereNotNull('score')->with('anime.companies')->latest()->get();
     }
 
     /**
@@ -106,9 +104,9 @@ class UserRepository extends AbstractRepository
      * @param User $user
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getWillWatchAnimeList(User $user)
+    public function getWillWatchAnimeListWithCompanies(User $user)
     {
-        return $user->reviewAnimes()->where('user_reviews.will_watch', true)->get();
+        return $user->reviewAnimes()->where('user_reviews.will_watch', true)->withCompanies()->get();
     }
 
     /**

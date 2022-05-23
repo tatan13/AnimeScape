@@ -37,28 +37,28 @@
                             <tr>
                                 <th>アニメ名</th>
                                 <td>{{ $modify_anime_request->anime->title }}</td>
-                                <td><input type="text" name="title" value="{{ $modify_anime_request->title }}">
-                                </td>
+                                <td><input type="text" name="title" value="{{ $modify_anime_request->title }}"></td>
+                            </tr>
+                            <tr>
+                                <th>ふりがな</th>
+                                <td>{{ $modify_anime_request->anime->furigana }}</td>
+                                <td><input type="text" name="furigana" value="{{ $modify_anime_request->furigana }}"></td>
                             </tr>
                             <tr>
                                 <th>略称</th>
                                 <td>{{ $modify_anime_request->anime->title_short }}</td>
-                                <td><input type="text" name="title_short"
-                                        value="{{ $modify_anime_request->title_short }}">
-                                </td>
+                                <td><input type="text" name="title_short" value="{{ $modify_anime_request->title_short }}"></td>
                             </tr>
                             <tr>
                                 <th>放送年</th>
                                 <td>{{ $modify_anime_request->anime->year }}</td>
-                                <td><input type="number" name="year" value="{{ $modify_anime_request->year }}">
-                                </td>
+                                <td><input type="number" name="year" value="{{ $modify_anime_request->year }}"></td>
                             </tr>
                             <tr>
                                 <th>クール</th>
-                                <td>{{ $modify_anime_request->anime->coor_label }}
-                                </td>
+                                <td>{{ $modify_anime_request->anime->coor_label }}</td>
                                 <td>
-                                    <select name="coor" class="coor">
+                                    <select name="coor">
                                         <option value="1" {{ $modify_anime_request->coor == 1 ? 'selected' : '' }}>冬
                                         </option>
                                         <option value="2" {{ $modify_anime_request->coor == 2 ? 'selected' : '' }}>春
@@ -71,32 +71,83 @@
                                 </td>
                             </tr>
                             <tr>
+                                <th>話数</th>
+                                <td>{{ $modify_anime_request->anime->number_of_episode }}</td>
+                                <td><input type="number" name="number_of_episode" value="{{ $modify_anime_request->number_of_episode }}"></td>
+                            </tr>
+                            <tr>
                                 <th>公式HPのURL</th>
-                                <td>{{ $modify_anime_request->anime->public_url }}
-                                </td>
+                                <td>{{ $modify_anime_request->anime->public_url }}</td>
                                 <td><input type="text" name="public_url" value="{{ $modify_anime_request->public_url }}">
                                 </td>
                             </tr>
                             <tr>
                                 <th>公式twitterID</th>
-                                <td>@ {{ $modify_anime_request->anime->twitter }}</td>
+                                <td>{{ '@' . $modify_anime_request->anime->twitter }}</td>
                                 <td>@<input type="text" name="twitter" value="{{ $modify_anime_request->twitter }}"></td>
                             </tr>
                             <tr>
                                 <th>公式ハッシュタグ</th>
                                 <td>{{ $modify_anime_request->anime->hash_tag }}</td>
-                                <td><input type="text" name="hash_tag" value="{{ $modify_anime_request->hash_tag }}">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>制作会社</th>
-                                <td>{{ $modify_anime_request->anime->company }}</td>
-                                <td><input type="text" name="company" value="{{ $modify_anime_request->company }}"></td>
+                                <td><input type="text" name="hash_tag" value="{{ $modify_anime_request->hash_tag }}"></td>
                             </tr>
                             <tr>
                                 <th>舞台</th>
                                 <td>{{ $modify_anime_request->anime->city_name }}</td>
-                                <td><input type="text" name="city_name" value="{{ $modify_anime_request->city_name }}">
+                                <td><input type="text" name="city_name" value="{{ $modify_anime_request->city_name }}"></td>
+                            </tr>
+                            <tr>
+                                <th>制作会社1</th>
+                                <td>{{ $modify_anime_request->anime->companies[0]->name ?? '' }}</td>
+                                <td><input type="text" name="company1" value="{{ $modify_anime_request->company1 }}"></td>
+                            </tr>
+                            <tr>
+                                <th>制作会社2</th>
+                                <td>{{ $modify_anime_request->anime->companies[1]->name ?? '' }}</td>
+                                <td><input type="text" name="company2" value="{{ $modify_anime_request->company2 }}"></td>
+                            </tr>
+                            <tr>
+                                <th>制作会社3</th>
+                                <td>{{ $modify_anime_request->anime->companies[2]->name ?? '' }}</td>
+                                <td><input type="text" name="company3" value="{{ $modify_anime_request->company3 }}"></td>
+                            </tr>
+                            <tr>
+                                <th>dアニメストアのID</th>
+                                <td>{{ $modify_anime_request->anime->d_anime_store_id }}</td>
+                                <td><input type="text" name="d_anime_store_id" value="{{ $modify_anime_request->d_anime_store_id }}"></td>
+                            </tr>
+                            <tr>
+                                <th>AmazonプライムビデオのID</th>
+                                <td>{{ $modify_anime_request->anime->amazon_prime_video_id }}</td>
+                                <td><input type="text" name="amazon_prime_video_id" value="{{ $modify_anime_request->amazon_prime_video_id }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>FODのID</th>
+                                <td>{{ $modify_anime_request->anime->fod_id }}</td>
+                                <td><input type="text" name="fod_id" value="{{ $modify_anime_request->fod_id }}"></td>
+                            </tr>
+                            <tr>
+                                <th>U-NEXTのID</th>
+                                <td>{{ $modify_anime_request->anime->unext_id }}</td>
+                                <td><input type="text" name="unext_id" value="{{ $modify_anime_request->unext_id }}"></td>
+                            </tr>
+                            <tr>
+                                <th>ABEMAプレミアムのID</th>
+                                <td>{{ $modify_anime_request->anime->abema_id }}</td>
+                                <td><input type="text" name="abema_id" value="{{ $modify_anime_request->abema_id }}"></td>
+                            </tr>
+                            <tr>
+                                <th>DISNEY+のID</th>
+                                <td>{{ $modify_anime_request->anime->disney_plus_id }}</td>
+                                <td><input type="text" name="disney_plus_id" value="{{ $modify_anime_request->disney_plus_id }}"></td>
+                            </tr>
+                            <tr>
+                                <th>あらすじ</th>
+                                <td>{{ $modify_anime_request->anime->summary }}</td>
+                                <td>
+                                    <label for="summary">内容</label><br>
+                                    <textarea name="summary" class="summary" cols="80" rows="5">{{ $modify_anime_request->summary }}</textarea><br>
                                 </td>
                             </tr>
                         </tbody>
@@ -299,23 +350,24 @@
                             </tr>
                             <tr>
                                 <th>アニメ名</th>
-                                <td><input type="text" name="title" value="{{ $add_anime_request->title }}">
-                                </td>
+                                <td><input type="text" name="title" value="{{ $add_anime_request->title }}"></td>
+                            </tr>
+                            <tr>
+                                <th>ふりがな</th>
+                                <td><input type="text" name="furigana" value="{{ $add_anime_request->furigana }}"></td>
                             </tr>
                             <tr>
                                 <th>略称</th>
-                                <td><input type="text" name="title_short" value="{{ $add_anime_request->title_short }}">
-                                </td>
+                                <td><input type="text" name="title_short" value="{{ $add_anime_request->title_short }}"></td>
                             </tr>
                             <tr>
                                 <th>放送年</th>
-                                <td><input type="number" name="year" value="{{ $add_anime_request->year }}">
-                                </td>
+                                <td><input type="number" name="year" value="{{ $add_anime_request->year }}"></td>
                             </tr>
                             <tr>
                                 <th>クール</th>
                                 <td>
-                                    <select name="coor" class="coor">
+                                    <select name="coor">
                                         <option value="1" {{ $add_anime_request->coor == 1 ? 'selected' : '' }}>冬
                                         </option>
                                         <option value="2" {{ $add_anime_request->coor == 2 ? 'selected' : '' }}>春
@@ -326,6 +378,10 @@
                                         </option>
                                     </select>
                                 </td>
+                            </tr>
+                            <tr>
+                                <th>話数</th>
+                                <td><input type="number" name="number_of_episode" value="{{ $add_anime_request->number_of_episode }}"></td>
                             </tr>
                             <tr>
                                 <th>公式HPのURL</th>
@@ -341,12 +397,52 @@
                                 <td><input type="text" name="hash_tag" value="{{ $add_anime_request->hash_tag }}"></td>
                             </tr>
                             <tr>
-                                <th>制作会社</th>
-                                <td><input type="text" name="company" value="{{ $add_anime_request->company }}"></td>
-                            </tr>
-                            <tr>
                                 <th>舞台</th>
                                 <td><input type="text" name="city_name" value="{{ $add_anime_request->city_name }}"></td>
+                            </tr>
+                            <tr>
+                                <th>制作会社1</th>
+                                <td><input type="text" name="company1" value="{{ $add_anime_request->company1 }}"></td>
+                            </tr>
+                            <tr>
+                                <th>制作会社2</th>
+                                <td><input type="text" name="company2" value="{{ $add_anime_request->company2 }}"></td>
+                            </tr>
+                            <tr>
+                                <th>制作会社3</th>
+                                <td><input type="text" name="company3" value="{{ $add_anime_request->company3 }}"></td>
+                            </tr>
+                            <tr>
+                                <th>dアニメストアのID</th>
+                                <td><input type="text" name="d_anime_store_id" value="{{ $add_anime_request->d_anime_store_id }}"></td>
+                            </tr>
+                            <tr>
+                                <th>AmazonプライムビデオのID</th>
+                                <td><input type="text" name="amazon_prime_video_id" value="{{ $add_anime_request->amazon_prime_video_id }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>FODのID</th>
+                                <td><input type="text" name="fod_id" value="{{ $add_anime_request->fod_id }}"></td>
+                            </tr>
+                            <tr>
+                                <th>U-NEXTのID</th>
+                                <td><input type="text" name="unext_id" value="{{ $add_anime_request->unext_id }}"></td>
+                            </tr>
+                            <tr>
+                                <th>ABEMAプレミアムのID</th>
+                                <td><input type="text" name="abema_id" value="{{ $add_anime_request->abema_id }}"></td>
+                            </tr>
+                            <tr>
+                                <th>DISNEY+のID</th>
+                                <td><input type="text" name="disney_plus_id" value="{{ $add_anime_request->disney_plus_id }}"></td>
+                            </tr>
+                            <tr>
+                                <th>あらすじ</th>
+                                <td>
+                                    <label for="summary">内容</label><br>
+                                    <textarea name="summary" class="summary" cols="80" rows="5">{{ $add_anime_request->summary }}</textarea><br>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

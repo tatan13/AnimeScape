@@ -44,13 +44,21 @@ class Anime extends Model
     protected $fillable = [
         'title',
         'title_short',
+        'furigana',
         'year',
         'coor',
+        'number_of_episode',
         'public_url',
         'twitter',
         'hash_tag',
-        'company',
         'city_name',
+        'summary',
+        'd_anime_store_id',
+        'amazon_prime_video_id',
+        'fod_id',
+        'unext_id',
+        'abema_id',
+        'disney_plus_id',
     ];
 
     protected $appends = ['year_coor'];
@@ -120,6 +128,16 @@ class Anime extends Model
     {
         return $this->belongsToMany('App\Models\User', 'user_reviews', 'anime_id', 'user_id')
                     ->withTimestamps();
+    }
+
+    /**
+     * 制作会社を取得
+     *
+     * @return BelongsToMany
+     */
+    public function companies()
+    {
+        return $this->belongsToMany('App\Models\Company');
     }
 
     /**
@@ -289,5 +307,10 @@ class Anime extends Model
     public function scopeLatestYearCoorMedian($query)
     {
         return $query->orderByRaw('year desc, coor desc, median desc');
+    }
+
+    public function scopeWithCompanies($query)
+    {
+        return $query->with('companies');
     }
 }

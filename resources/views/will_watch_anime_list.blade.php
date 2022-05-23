@@ -13,7 +13,7 @@
             <tbody>
                 <tr>
                     <th>アニメ名</th>
-                    <th>会社名</th>
+                    <th>制作会社</th>
                     <th>放送クール</th>
                     <th>中央値</th>
                     <th>データ数</th>
@@ -23,7 +23,12 @@
                         <td><a
                                 href="{{ route('anime.show', ['anime_id' => $will_watch_anime->id]) }}">{{ $will_watch_anime->title }}</a>
                         </td>
-                        <td>{{ $will_watch_anime->company }}</td>
+                        <td>
+                            @foreach ($will_watch_anime->companies as $company)
+                                <a
+                                    href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
+                            @endforeach
+                        </td>
                         <td>
                             {{ $will_watch_anime->year }}年{{ $will_watch_anime->coor_label }}クール
                         </td>

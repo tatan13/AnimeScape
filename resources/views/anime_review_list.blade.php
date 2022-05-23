@@ -42,7 +42,8 @@
                 @if (!is_null($coor))
                     <input type="hidden" name="coor" class="coor" value="{{ $coor == 1 ? 4 : $coor - 1 }}">
                 @endif
-                <a href="javascript:previous.submit()">{{ is_null($year) ? '' : (is_null($coor) ? '前の年へ' : '前クールへ') }}</a>
+                <a
+                    href="javascript:previous.submit()">{{ is_null($year) ? '' : (is_null($coor) ? '前の年へ' : '前クールへ') }}</a>
             </form>
             <form action="{{ route('anime_review_list.show') }}" name="next" class="d-inline" method="get">
                 @csrf
@@ -51,7 +52,7 @@
                 @if (!is_null($coor))
                     <input type="hidden" name="coor" class="coor" value="{{ $coor == 4 ? 1 : $coor + 1 }}">
                 @endif
-                <a href="javascript:next.submit()">{{ is_null($year) ? '' : (is_null($coor) ? '次の年へ' : '次クールへ')  }}</a>
+                <a href="javascript:next.submit()">{{ is_null($year) ? '' : (is_null($coor) ? '次の年へ' : '次クールへ') }}</a>
             </form>
             @if ($errors->any())
                 <div class="alert alert-danger">
@@ -71,7 +72,7 @@
                     <tbody>
                         <tr>
                             <th>アニメ名</th>
-                            <th>会社名</th>
+                            <th>制作会社</th>
                             <th>放送時期</th>
                             <th>得点</th>
                             <th>視聴済み</th>
@@ -84,7 +85,12 @@
                                 <td><a
                                         href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
                                 </td>
-                                <td>{{ $anime->company }}</td>
+                                <td>
+                                    @foreach ($anime->companies as $company)
+                                        <a
+                                            href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
+                                    @endforeach
+                                </td>
                                 <td>{{ $anime->year }}年{{ $anime->coor_label }}クール</td>
                                 <input type="hidden" name="anime_id[{{ $loop->iteration }}]" class="anime_id"
                                     value="{{ $anime->id }}">

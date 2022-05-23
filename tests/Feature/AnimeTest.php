@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\Anime;
 use App\Models\Cast;
+use App\Models\Company;
 use App\Models\UserReview;
 use App\Models\User;
 use Tests\TestCase;
@@ -20,6 +21,7 @@ class AnimeTest extends TestCase
     private Anime $anime3;
     private Cast $cast1;
     private Cast $cast2;
+    private Company $company;
     private User $user1;
     private User $user2;
     private User $user3;
@@ -46,6 +48,9 @@ class AnimeTest extends TestCase
 
         $this->anime->actCasts()->attach($this->cast1->id);
         $this->anime->actCasts()->attach($this->cast2->id);
+
+        $this->company = Company::factory()->create();
+        $this->anime->companies()->attach($this->company->id);
 
         $this->user1 = User::factory()->create(['name' => 'root']);
         $this->user2 = User::factory()->create();
@@ -99,17 +104,20 @@ class AnimeTest extends TestCase
     {
         $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
         $response->assertSeeInOrder([
-            'https://public_url',
-            '霊剣山 叡智への資格',
-            'company',
-            '2022年冬クール',
-            'twitterId',
-            'hashTag',
-            70,
-            76,
-            256,
-            100,
-            0,
+            $this->anime->public_url,
+            $this->anime->title,
+            $this->anime->companies[0]->name,
+            $this->anime->year,
+            $this->anime->coor_label,
+            $this->anime->number_of_episode,
+            $this->anime->twitter,
+            $this->anime->hash_tag,
+            $this->anime->city_name,
+            $this->anime->median,
+            $this->anime->average,
+            $this->anime->count,
+            $this->anime->max,
+            $this->anime->min,
         ]);
     }
 
@@ -184,7 +192,6 @@ class AnimeTest extends TestCase
     {
         $this->actingAs($this->user2);
         $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
-        $response->assertDontSee('つけた得点');
         $response->assertDontSee('このアニメを削除する');
     }
 
@@ -209,7 +216,7 @@ class AnimeTest extends TestCase
     public function testGuestAnimeReviewView()
     {
         $response = $this->get(route('anime_review.show', ['anime_id' => $this->anime->id]));
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     /**
@@ -333,7 +340,7 @@ class AnimeTest extends TestCase
             'year' => 2022,
             'coor' => 1,
         ]));
-        $response->assertRedirect('/login');
+        $response->assertRedirect(route('login'));
     }
 
     /**
@@ -352,8 +359,12 @@ class AnimeTest extends TestCase
         $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->anime->title,
-            $this->anime1->title,
-            $this->anime2->title,
+            $this->anime->companies[0]->name,
+            $this->anime->year,
+            $this->anime->coor_label,
+            0,
+            $this->anime3->title,
+            'not sad',
         ]);
     }
 

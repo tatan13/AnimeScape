@@ -39,7 +39,7 @@
                     <tr>
                         <th>ツイッター</th>
                         <td><a href="https://twitter.com/{{ $cast->twitter }}" target="_blank"
-                            rel="noopener noreferrer">{{ $cast->twitter }}</a></td>
+                                rel="noopener noreferrer">{{ $cast->twitter }}</a></td>
                     </tr>
                     <tr>
                         <th>公式ブログ</th>
@@ -55,7 +55,7 @@
                     <tbody>
                         <tr>
                             <th>アニメ名</th>
-                            <th>会社名</th>
+                            <th>制作会社</th>
                             <th>放送クール</th>
                             <th>中央値</th>
                             <th>データ数</th>
@@ -68,7 +68,12 @@
                                 <td><a
                                         href="{{ route('anime.show', ['anime_id' => $act_anime->id]) }}">{{ $act_anime->title }}</a>
                                 </td>
-                                <td>{{ $act_anime->company }}</td>
+                                <td>
+                                    @foreach ($act_anime->companies as $company)
+                                        <a
+                                            href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
+                                    @endforeach
+                                </td>
                                 <td>
                                     {{ $act_anime->year }}年{{ $act_anime->coor_label }}クール
                                 </td>

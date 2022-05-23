@@ -50,7 +50,6 @@ class CastsTableSeeder extends Seeder
                         $anime->hash_tag = null;
                         $anime->sex = null;
                         $anime->sequel = null;
-                        $anime->company = null;
                         $anime->city_name = null;
                         $anime->created_at = Carbon::now();
                         $anime->updated_at = Carbon::now();

@@ -12,6 +12,7 @@ use App\Models\AddAnime;
 use App\Models\DeleteCast;
 use App\Models\Anime;
 use App\Models\Cast;
+use App\Models\Company;
 use App\Models\User;
 use Tests\TestCase;
 
@@ -30,6 +31,9 @@ class ModifyTest extends TestCase
     private DeleteCast $deleteCast;
     private Cast $cast1;
     private Cast $cast2;
+    private Company $company1;
+    private Company $company2;
+    private Company $company3;
     private User $user1;
     private User $user2;
 
@@ -62,18 +66,38 @@ class ModifyTest extends TestCase
 
         $this->addAnime = AddAnime::create([
             'title' => 'add_title',
+            'title_short' => 'add_title_short',
+            'furigana' => 'add_furigana',
             'year' => 2040,
             'coor' => 4,
+            'number_of_episode' => 13,
             'public_url' => 'https://add_public_url',
             'twitter' => 'add_twitterId',
             'hash_tag' => 'add_hashTag',
-            'company' => 'add_company',
+            'company1' => 'add_company1',
+            'company2' => 'add_company2',
+            'company3' => 'add_company3',
+            'city_name' => 'add_city_name',
+            'summary' => 'add_summary',
+            'd_anime_store_id' => 'add_d_anime_store_id',
+            'amazon_prime_video_id' => 'add_amazon_prime_video_id',
+            'unext_id' => 'add_unext_id',
+            'fod_id' => 'add_fod_id',
+            'abema_id' => 'add_abema_id',
+            'disney_plus_id' => 'add_disney_plus_id',
         ]);
 
         $this->deleteCast = Deletecast::create(['cast_id' => $this->cast1->id, 'remark' => 'remark2']);
 
         $this->user1 = User::factory()->create(['name' => 'root']);
         $this->user2 = User::factory()->create();
+
+        $this->company1 = Company::factory()->create();
+        $this->company2 = Company::factory()->create();
+        $this->company3 = Company::factory()->create();
+        $this->anime->companies()->attach($this->company1->id);
+        $this->anime->companies()->attach($this->company2->id);
+        $this->anime->companies()->attach($this->company3->id);
     }
 
     /**
@@ -82,7 +106,7 @@ class ModifyTest extends TestCase
      * @test
      * @return void
      */
-    public function testModifyAnimeView()
+    public function testModifyAnimeRequestView()
     {
         $response = $this->get(route('modify_anime_request.show', [
             'anime_id' => $this->anime->id,
@@ -90,12 +114,44 @@ class ModifyTest extends TestCase
         $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->anime->title,
+            $this->anime->title,
+            $this->anime->furigana,
+            $this->anime->furigana,
+            $this->anime->title_short,
+            $this->anime->title_short,
+            $this->anime->year,
             $this->anime->year,
             $this->anime->coor_label,
+            $this->anime->number_of_episode,
+            $this->anime->number_of_episode,
+            $this->anime->public_url,
             $this->anime->public_url,
             $this->anime->twitter,
+            $this->anime->twitter,
             $this->anime->hash_tag,
-            $this->anime->company,
+            $this->anime->hash_tag,
+            $this->anime->city_name,
+            $this->anime->city_name,
+            $this->anime->companies[0]->name,
+            $this->anime->companies[0]->name,
+            $this->anime->companies[1]->name,
+            $this->anime->companies[1]->name,
+            $this->anime->companies[2]->name,
+            $this->anime->companies[2]->name,
+            $this->anime->d_anime_store_id,
+            $this->anime->d_anime_store_id,
+            $this->anime->amazon_prime_video_id,
+            $this->anime->amazon_prime_video_id,
+            $this->anime->fod_id,
+            $this->anime->fod_id,
+            $this->anime->unext_id,
+            $this->anime->unext_id,
+            $this->anime->abema_id,
+            $this->anime->abema_id,
+            $this->anime->disney_plus_id,
+            $this->anime->disney_plus_id,
+            $this->anime->summary,
+            $this->anime->summary,
         ]);
     }
 
@@ -105,7 +161,7 @@ class ModifyTest extends TestCase
      * @test
      * @return void
      */
-    public function testNotExistModifyAnimeView()
+    public function testNotExistModifyAnimeRequestView()
     {
         $response = $this->get(route('modify_anime_request.show', [
             'anime_id' => 333333333333333333333333333,
@@ -119,30 +175,55 @@ class ModifyTest extends TestCase
      * @test
      * @return void
      */
-    public function testModifyAnimePost()
+    public function testModifyAnimeRequestPost()
     {
         $response = $this->post(route('modify_anime_request.post', ['anime_id' => $this->anime->id]), [
             'title' => 'modify_title',
+            'title_short' => 'modify_title_short',
+            'furigana' => 'modify_furigana',
             'year' => 2040,
             'coor' => 4,
+            'number_of_episode' => 13,
             'public_url' => 'https://modify_public_url',
             'twitter' => 'modify_twitterId',
             'hash_tag' => 'modify_hashTag',
-            'company' => 'modify_company',
+            'company1' => 'modify_company1',
+            'company2' => 'modify_company2',
+            'company3' => 'modify_company3',
+            'city_name' => 'modify_city_name',
+            'summary' => 'modify_summary',
+            'd_anime_store_id' => 'modify_d_anime_store_id',
+            'amazon_prime_video_id' => 'modify_amazon_prime_video_id',
+            'unext_id' => 'modify_unext_id',
+            'fod_id' => 'modify_fod_id',
+            'abema_id' => 'modify_abema_id',
+            'disney_plus_id' => 'modify_disney_plus_id',
         ]);
         $response->assertRedirect(route('modify_anime_request.show', [
             'anime_id' => $this->anime->id,
         ]));
         $this->assertDatabaseHas('modify_animes', [
-            'id' => 3,
-            'anime_id' => $this->anime->id,
+            'anime_id' => 1,
             'title' => 'modify_title',
+            'title_short' => 'modify_title_short',
+            'furigana' => 'modify_furigana',
             'year' => 2040,
             'coor' => 4,
+            'number_of_episode' => 13,
             'public_url' => 'https://modify_public_url',
             'twitter' => 'modify_twitterId',
             'hash_tag' => 'modify_hashTag',
-            'company' => 'modify_company',
+            'company1' => 'modify_company1',
+            'company2' => 'modify_company2',
+            'company3' => 'modify_company3',
+            'city_name' => 'modify_city_name',
+            'summary' => 'modify_summary',
+            'd_anime_store_id' => 'modify_d_anime_store_id',
+            'amazon_prime_video_id' => 'modify_amazon_prime_video_id',
+            'unext_id' => 'modify_unext_id',
+            'fod_id' => 'modify_fod_id',
+            'abema_id' => 'modify_abema_id',
+            'disney_plus_id' => 'modify_disney_plus_id',
         ]);
     }
 
@@ -152,16 +233,29 @@ class ModifyTest extends TestCase
      * @test
      * @return void
      */
-    public function testNotExistModifyAnimePost()
+    public function testNotExistModifyAnimeRequestPost()
     {
         $response = $this->post(route('modify_anime_request.post', ['anime_id' => 333333333333333333333333333]), [
             'title' => 'modify_title',
+            'title_short' => 'modify_title_short',
+            'furigana' => 'modify_furigana',
             'year' => 2040,
             'coor' => 4,
+            'number_of_episode' => 13,
             'public_url' => 'https://modify_public_url',
             'twitter' => 'modify_twitterId',
             'hash_tag' => 'modify_hashTag',
-            'company' => 'modify_company',
+            'company1' => 'modify_company1',
+            'company2' => 'modify_company2',
+            'company3' => 'modify_company3',
+            'city_name' => 'modify_city_name',
+            'summary' => 'modify_summary',
+            'd_anime_store_id' => 'modify_d_anime_store_id',
+            'amazon_prime_video_id' => 'modify_amazon_prime_video_id',
+            'unext_id' => 'modify_unext_id',
+            'fod_id' => 'modify_fod_id',
+            'abema_id' => 'modify_abema_id',
+            'disney_plus_id' => 'modify_disney_plus_id',
         ]);
         $response->assertStatus(404);
     }
@@ -172,7 +266,7 @@ class ModifyTest extends TestCase
      * @test
      * @return void
      */
-    public function testModifyOccupationsView()
+    public function testModifyOccupationsRequestView()
     {
         $response = $this->get((route('modify_occupations_request.show', ['anime_id' => $this->anime->id])));
         $response->assertStatus(200);
@@ -188,7 +282,7 @@ class ModifyTest extends TestCase
      * @test
      * @return void
      */
-    public function testNotExistModifyOccupationsView()
+    public function testNotExistModifyOccupationsRequestView()
     {
         $response = $this->get((route('modify_occupations_request.show', ['anime_id' => 3333333333333333333333333])));
         $response->assertStatus(404);
@@ -200,7 +294,7 @@ class ModifyTest extends TestCase
      * @test
      * @return void
      */
-    public function testModifyOccupationsPost()
+    public function testModifyOccupationsRequestPost()
     {
         $response = $this->post(route('modify_occupations_request.post', ['anime_id' => $this->anime->id,]), [
             'cast_name_0' => $this->cast1->name,
@@ -235,7 +329,7 @@ class ModifyTest extends TestCase
      * @test
      * @return void
      */
-    public function testNotExistModifyOccupationsPost()
+    public function testNotExistModifyOccupationsRequestPost()
     {
         $response = $this->post(route('modify_occupations_request.post', ['anime_id' => 33333333333333333333]), [
             'cast_name_0' => $this->cast1->name,
@@ -366,12 +460,43 @@ class ModifyTest extends TestCase
         $response = $this->get(route('modify_request_list.show'));
         $response->assertSeeInOrder([
             '1件目',
-            'modify_title',
-            2040,
-            'https://modify_public_url',
-            'modify_twitterId',
-            'modify_hashTag',
-            'modify_company',
+            $this->anime->title,
+            $this->anime->title,
+            $this->modifyAnime->title,
+            $this->anime->furigana,
+            $this->modifyAnime->furigana,
+            $this->anime->title_short,
+            $this->modifyAnime->title_short,
+            $this->anime->year,
+            $this->modifyAnime->year,
+            $this->anime->number_of_episode,
+            $this->modifyAnime->number_of_episode,
+            $this->anime->public_url,
+            $this->modifyAnime->public_url,
+            $this->anime->twitter,
+            $this->modifyAnime->twitter,
+            $this->anime->hash_tag,
+            $this->modifyAnime->hash_tag,
+            $this->anime->companies[0]->name,
+            $this->modifyAnime->company1,
+            $this->anime->companies[1]->name,
+            $this->modifyAnime->company2,
+            $this->anime->companies[2]->name,
+            $this->modifyAnime->company3,
+            $this->anime->d_anime_store_id,
+            $this->modifyAnime->d_anime_store_id,
+            $this->anime->amazon_prime_video_id,
+            $this->modifyAnime->amazon_prime_video_id,
+            $this->anime->fod_id,
+            $this->modifyAnime->fod_id,
+            $this->anime->unext_id,
+            $this->modifyAnime->unext_id,
+            $this->anime->abema_id,
+            $this->modifyAnime->abema_id,
+            $this->anime->disney_plus_id,
+            $this->modifyAnime->disney_plus_id,
+            $this->anime->summary,
+            $this->modifyAnime->summary,
             '2件目',
             $this->modifyAnime1->title,
         ]);
@@ -455,11 +580,23 @@ class ModifyTest extends TestCase
         $response->assertSeeInOrder([
             '1件目',
             $this->addAnime->title,
+            $this->addAnime->furigana,
+            $this->addAnime->title_short,
             $this->addAnime->year,
+            $this->addAnime->number_of_episode,
             $this->addAnime->public_url,
             $this->addAnime->twitter,
             $this->addAnime->hash_tag,
-            $this->addAnime->company,
+            $this->addAnime->company1,
+            $this->addAnime->company2,
+            $this->addAnime->company3,
+            $this->addAnime->d_anime_store_id,
+            $this->addAnime->amazon_prime_video_id,
+            $this->addAnime->fod_id,
+            $this->addAnime->unext_id,
+            $this->addAnime->abema_id,
+            $this->addAnime->disney_plus_id,
+            $this->addAnime->summary,
         ]);
     }
 
@@ -489,12 +626,25 @@ class ModifyTest extends TestCase
     {
         $response = $this->post(route('modify_anime_request.approve', ['modify_anime_id' => $this->modifyAnime->id]), [
             'title' => 'modify_title',
+            'title_short' => 'modify_title_short',
+            'furigana' => 'modify_furigana',
             'year' => 2040,
             'coor' => 4,
+            'number_of_episode' => 13,
             'public_url' => 'https://modify_public_url',
             'twitter' => 'modify_twitterId',
             'hash_tag' => 'modify_hashTag',
-            'company' => 'modify_company',
+            'company1' => 'modify_company1',
+            'company2' => 'modify_company2',
+            'company3' => 'modify_company3',
+            'city_name' => 'modify_city_name',
+            'summary' => 'modify_summary',
+            'd_anime_store_id' => 'modify_d_anime_store_id',
+            'amazon_prime_video_id' => 'modify_amazon_prime_video_id',
+            'unext_id' => 'modify_unext_id',
+            'fod_id' => 'modify_fod_id',
+            'abema_id' => 'modify_abema_id',
+            'disney_plus_id' => 'modify_disney_plus_id',
         ]);
         $response->assertStatus(403);
     }
@@ -510,12 +660,25 @@ class ModifyTest extends TestCase
         $this->actingAs($this->user2);
         $response = $this->post(route('modify_anime_request.approve', ['modify_anime_id' => $this->modifyAnime->id]), [
             'title' => 'modify_title',
+            'title_short' => 'modify_title_short',
+            'furigana' => 'modify_furigana',
             'year' => 2040,
             'coor' => 4,
+            'number_of_episode' => 13,
             'public_url' => 'https://modify_public_url',
             'twitter' => 'modify_twitterId',
             'hash_tag' => 'modify_hashTag',
-            'company' => 'modify_company',
+            'company1' => 'modify_company1',
+            'company2' => 'modify_company2',
+            'company3' => 'modify_company3',
+            'city_name' => 'modify_city_name',
+            'summary' => 'modify_summary',
+            'd_anime_store_id' => 'modify_d_anime_store_id',
+            'amazon_prime_video_id' => 'modify_amazon_prime_video_id',
+            'unext_id' => 'modify_unext_id',
+            'fod_id' => 'modify_fod_id',
+            'abema_id' => 'modify_abema_id',
+            'disney_plus_id' => 'modify_disney_plus_id',
         ]);
         $response->assertStatus(403);
     }
@@ -531,34 +694,73 @@ class ModifyTest extends TestCase
         $this->actingAs($this->user1);
         $response = $this->post(route('modify_anime_request.approve', ['modify_anime_id' => $this->modifyAnime->id]), [
             'title' => 'modify_title',
+            'title_short' => 'modify_title_short',
+            'furigana' => 'modify_furigana',
             'year' => 2040,
             'coor' => 4,
+            'number_of_episode' => 13,
             'public_url' => 'https://modify_public_url',
             'twitter' => 'modify_twitterId',
             'hash_tag' => 'modify_hashTag',
-            'company' => 'modify_company',
+            'company1' => 'modify_company1',
+            'company2' => 'modify_company2',
+            'company3' => 'modify_company3',
+            'city_name' => 'modify_city_name',
+            'summary' => 'modify_summary',
+            'd_anime_store_id' => 'modify_d_anime_store_id',
+            'amazon_prime_video_id' => 'modify_amazon_prime_video_id',
+            'unext_id' => 'modify_unext_id',
+            'fod_id' => 'modify_fod_id',
+            'abema_id' => 'modify_abema_id',
+            'disney_plus_id' => 'modify_disney_plus_id',
         ]);
         $response->assertRedirect(route('modify_request_list.show'));
         $this->assertDatabaseHas('animes', [
             'id' => $this->anime->id,
             'title' => 'modify_title',
+            'title_short' => 'modify_title_short',
+            'furigana' => 'modify_furigana',
             'year' => 2040,
             'coor' => 4,
+            'number_of_episode' => 13,
             'public_url' => 'https://modify_public_url',
             'twitter' => 'modify_twitterId',
             'hash_tag' => 'modify_hashTag',
-            'company' => 'modify_company',
+            'city_name' => 'modify_city_name',
+            'summary' => 'modify_summary',
+            'd_anime_store_id' => 'modify_d_anime_store_id',
+            'amazon_prime_video_id' => 'modify_amazon_prime_video_id',
+            'unext_id' => 'modify_unext_id',
+            'fod_id' => 'modify_fod_id',
+            'abema_id' => 'modify_abema_id',
+            'disney_plus_id' => 'modify_disney_plus_id',
         ]);
         $this->assertDatabaseMissing('modify_animes', [
             'id' => $this->modifyAnime->id,
+        ]);
+        $this->assertDatabaseHas('companies', [
+            'name' => 'modify_company1'
+        ]);
+        $this->assertDatabaseHas('companies', [
+            'name' => 'modify_company2'
+        ]);
+        $this->assertDatabaseHas('companies', [
+            'name' => 'modify_company3'
+        ]);
+        $company1 = Company::where('name', 'modify_company1')->first();
+        $company2 = Company::where('name', 'modify_company2')->first();
+        $company3 = Company::where('name', 'modify_company3')->first();
+        $this->assertDatabaseHas('anime_company', [
             'anime_id' => $this->anime->id,
-            'title' => 'modify_title',
-            'year' => 2040,
-            'coor' => 4,
-            'public_url' => 'https://modify_public_url',
-            'twitter' => 'modify_twitterId',
-            'hash_tag' => 'modify_hashTag',
-            'company' => 'modify_company',
+            'company_id' => $company1->id,
+        ]);
+        $this->assertDatabaseHas('anime_company', [
+            'anime_id' => $this->anime->id,
+            'company_id' => $company2->id,
+        ]);
+        $this->assertDatabaseHas('anime_company', [
+            'anime_id' => $this->anime->id,
+            'company_id' => $company3->id,
         ]);
     }
 
@@ -1181,22 +1383,48 @@ class ModifyTest extends TestCase
     public function testAddAnimeRequestPost()
     {
         $response = $this->post(route('add_anime_request.post'), [
-            'title' => 'add_title_post',
+            'title' => 'add_post_title',
+            'title_short' => 'add_post_title_short',
+            'furigana' => 'add_post_furigana',
             'year' => 2040,
             'coor' => 4,
-            'public_url' => 'https://add_public_url',
-            'twitter' => 'add_twitterId',
-            'hash_tag' => 'add_hashTag',
-            'company' => 'add_company',
+            'number_of_episode' => 13,
+            'public_url' => 'https://add_post_public_url',
+            'twitter' => 'add_post_twitterId',
+            'hash_tag' => 'add_post_hashTag',
+            'company1' => 'add_post_company1',
+            'company2' => 'add_post_company2',
+            'company3' => 'add_post_company3',
+            'city_name' => 'add_post_city_name',
+            'summary' => 'add_post_summary',
+            'd_anime_store_id' => 'add_post_d_anime_store_id',
+            'amazon_prime_video_id' => 'add_post_amazon_prime_video_id',
+            'unext_id' => 'add_post_unext_id',
+            'fod_id' => 'add_post_fod_id',
+            'abema_id' => 'add_post_abema_id',
+            'disney_plus_id' => 'add_post_disney_plus_id',
         ]);
         $this->assertDatabaseHas('add_animes', [
-            'title' => 'add_title_post',
+            'title' => 'add_post_title',
+            'title_short' => 'add_post_title_short',
+            'furigana' => 'add_post_furigana',
             'year' => 2040,
             'coor' => 4,
-            'public_url' => 'https://add_public_url',
-            'twitter' => 'add_twitterId',
-            'hash_tag' => 'add_hashTag',
-            'company' => 'add_company',
+            'number_of_episode' => 13,
+            'public_url' => 'https://add_post_public_url',
+            'twitter' => 'add_post_twitterId',
+            'hash_tag' => 'add_post_hashTag',
+            'company1' => 'add_post_company1',
+            'company2' => 'add_post_company2',
+            'company3' => 'add_post_company3',
+            'city_name' => 'add_post_city_name',
+            'summary' => 'add_post_summary',
+            'd_anime_store_id' => 'add_post_d_anime_store_id',
+            'amazon_prime_video_id' => 'add_post_amazon_prime_video_id',
+            'unext_id' => 'add_post_unext_id',
+            'fod_id' => 'add_post_fod_id',
+            'abema_id' => 'add_post_abema_id',
+            'disney_plus_id' => 'add_post_disney_plus_id',
         ]);
     }
 
@@ -1209,13 +1437,26 @@ class ModifyTest extends TestCase
     public function testGuestAddAnimeRequestApprove()
     {
         $response = $this->post(route('add_anime_request.approve', ['add_anime_id' => $this->addAnime->id]), [
-            'title' => 'add_title',
+            'title' => 'add_post_title',
+            'title_short' => 'add_post_title_short',
+            'furigana' => 'add_post_furigana',
             'year' => 2040,
             'coor' => 4,
-            'public_url' => 'https://add_public_url',
-            'twitter' => 'add_twitterId',
-            'hash_tag' => 'add_hashTag',
-            'company' => 'add_company',
+            'number_of_episode' => 13,
+            'public_url' => 'https://add_post_public_url',
+            'twitter' => 'add_post_twitterId',
+            'hash_tag' => 'add_post_hashTag',
+            'company1' => 'add_post_company1',
+            'company2' => 'add_post_company2',
+            'company3' => 'add_post_company3',
+            'city_name' => 'add_post_city_name',
+            'summary' => 'add_post_summary',
+            'd_anime_store_id' => 'add_post_d_anime_store_id',
+            'amazon_prime_video_id' => 'add_post_amazon_prime_video_id',
+            'unext_id' => 'add_post_unext_id',
+            'fod_id' => 'add_post_fod_id',
+            'abema_id' => 'add_post_abema_id',
+            'disney_plus_id' => 'add_post_disney_plus_id',
         ]);
         $response->assertStatus(403);
     }
@@ -1230,13 +1471,26 @@ class ModifyTest extends TestCase
     {
         $this->actingAs($this->user2);
         $response = $this->post(route('add_anime_request.approve', ['add_anime_id' => $this->addAnime->id]), [
-            'title' => 'add_title',
+            'title' => 'add_post_title',
+            'title_short' => 'add_post_title_short',
+            'furigana' => 'add_post_furigana',
             'year' => 2040,
             'coor' => 4,
-            'public_url' => 'https://add_public_url',
-            'twitter' => 'add_twitterId',
-            'hash_tag' => 'add_hashTag',
-            'company' => 'add_company',
+            'number_of_episode' => 13,
+            'public_url' => 'https://add_post_public_url',
+            'twitter' => 'add_post_twitterId',
+            'hash_tag' => 'add_post_hashTag',
+            'company1' => 'add_post_company1',
+            'company2' => 'add_post_company2',
+            'company3' => 'add_post_company3',
+            'city_name' => 'add_post_city_name',
+            'summary' => 'add_post_summary',
+            'd_anime_store_id' => 'add_post_d_anime_store_id',
+            'amazon_prime_video_id' => 'add_post_amazon_prime_video_id',
+            'unext_id' => 'add_post_unext_id',
+            'fod_id' => 'add_post_fod_id',
+            'abema_id' => 'add_post_abema_id',
+            'disney_plus_id' => 'add_post_disney_plus_id',
         ]);
         $response->assertStatus(403);
     }
@@ -1251,26 +1505,74 @@ class ModifyTest extends TestCase
     {
         $this->actingAs($this->user1);
         $response = $this->post(route('add_anime_request.approve', ['add_anime_id' => $this->addAnime->id]), [
-            'title' => 'add_title',
+            'title' => 'add_post_title',
+            'title_short' => 'add_post_title_short',
+            'furigana' => 'add_post_furigana',
             'year' => 2040,
             'coor' => 4,
-            'public_url' => 'https://add_public_url',
-            'twitter' => 'add_twitterId',
-            'hash_tag' => 'add_hashTag',
-            'company' => 'add_company',
+            'number_of_episode' => 13,
+            'public_url' => 'https://add_post_public_url',
+            'twitter' => 'add_post_twitterId',
+            'hash_tag' => 'add_post_hashTag',
+            'company1' => 'add_post_company1',
+            'company2' => 'add_post_company2',
+            'company3' => 'add_post_company3',
+            'city_name' => 'add_post_city_name',
+            'summary' => 'add_post_summary',
+            'd_anime_store_id' => 'add_post_d_anime_store_id',
+            'amazon_prime_video_id' => 'add_post_amazon_prime_video_id',
+            'unext_id' => 'add_post_unext_id',
+            'fod_id' => 'add_post_fod_id',
+            'abema_id' => 'add_post_abema_id',
+            'disney_plus_id' => 'add_post_disney_plus_id',
         ]);
         $response->assertRedirect(route('modify_request_list.show'));
         $this->assertDatabaseHas('animes', [
-            'title' => 'add_title',
+            'title' => 'add_post_title',
+            'title_short' => 'add_post_title_short',
+            'furigana' => 'add_post_furigana',
             'year' => 2040,
             'coor' => 4,
-            'public_url' => 'https://add_public_url',
-            'twitter' => 'add_twitterId',
-            'hash_tag' => 'add_hashTag',
-            'company' => 'add_company',
+            'number_of_episode' => 13,
+            'public_url' => 'https://add_post_public_url',
+            'twitter' => 'add_post_twitterId',
+            'hash_tag' => 'add_post_hashTag',
+            'city_name' => 'add_post_city_name',
+            'summary' => 'add_post_summary',
+            'd_anime_store_id' => 'add_post_d_anime_store_id',
+            'amazon_prime_video_id' => 'add_post_amazon_prime_video_id',
+            'unext_id' => 'add_post_unext_id',
+            'fod_id' => 'add_post_fod_id',
+            'abema_id' => 'add_post_abema_id',
+            'disney_plus_id' => 'add_post_disney_plus_id',
         ]);
         $this->assertDatabaseMissing('add_animes', [
             'id' => $this->addAnime->id,
+        ]);
+        $this->assertDatabaseHas('companies', [
+            'name' => 'add_post_company1'
+        ]);
+        $this->assertDatabaseHas('companies', [
+            'name' => 'add_post_company2'
+        ]);
+        $this->assertDatabaseHas('companies', [
+            'name' => 'add_post_company3'
+        ]);
+        $anime = Anime::where('title', 'add_post_title')->first();
+        $company1 = Company::where('name', 'add_post_company1')->first();
+        $company2 = Company::where('name', 'add_post_company2')->first();
+        $company3 = Company::where('name', 'add_post_company3')->first();
+        $this->assertDatabaseHas('anime_company', [
+            'anime_id' => $anime->id,
+            'company_id' => $company1->id,
+        ]);
+        $this->assertDatabaseHas('anime_company', [
+            'anime_id' => $anime->id,
+            'company_id' => $company2->id,
+        ]);
+        $this->assertDatabaseHas('anime_company', [
+            'anime_id' => $anime->id,
+            'company_id' => $company3->id,
         ]);
     }
 
@@ -1284,13 +1586,26 @@ class ModifyTest extends TestCase
     {
         $this->actingAs($this->user1);
         $response = $this->post(route('add_anime_request.approve', ['add_anime_id' => 33333333333333333333]), [
-            'title' => 'add_title',
+            'title' => 'add_post_title',
+            'title_short' => 'add_post_title_short',
+            'furigana' => 'add_post_furigana',
             'year' => 2040,
             'coor' => 4,
-            'public_url' => 'https://add_public_url',
-            'twitter' => 'add_twitterId',
-            'hash_tag' => 'add_hashTag',
-            'company' => 'add_company',
+            'number_of_episode' => 13,
+            'public_url' => 'https://add_post_public_url',
+            'twitter' => 'add_post_twitterId',
+            'hash_tag' => 'add_post_hashTag',
+            'company1' => 'add_post_company1',
+            'company2' => 'add_post_company2',
+            'company3' => 'add_post_company3',
+            'city_name' => 'add_post_city_name',
+            'summary' => 'add_post_summary',
+            'd_anime_store_id' => 'add_post_d_anime_store_id',
+            'amazon_prime_video_id' => 'add_post_amazon_prime_video_id',
+            'unext_id' => 'add_post_unext_id',
+            'fod_id' => 'add_post_fod_id',
+            'abema_id' => 'add_post_abema_id',
+            'disney_plus_id' => 'add_post_disney_plus_id',
         ]);
         $response->assertStatus(404);
     }

@@ -67,9 +67,9 @@ class UserReviewService
      * @param User $user
      * @return Collection<int,UserReview> | Collection<null>
      */
-    public function getLatestScoreReviewListWithAnimeOf(User $user)
+    public function getLatestScoreReviewListWithAnimeWithCompaniesOf(User $user)
     {
-        return $this->userRepository->getLatestScoreReviewListWithAnimeOf($user);
+        return $this->userRepository->getLatestScoreReviewListWithAnimeWithCompaniesOf($user);
     }
 
     /**
@@ -130,7 +130,7 @@ class UserReviewService
      */
     public function createOrUpdateMyMultipleReview(ReviewsRequest $submit_reviews)
     {
-        $anime_list = $this->animeRepository->getAnimeListWithMyReviewsFor($submit_reviews);
+        $anime_list = $this->animeRepository->getAnimeListWithCompaniesAndWithMyReviewsFor($submit_reviews);
         foreach ($submit_reviews->anime_id as $key => $anime_id) {
             $anime = $anime_list->where('id', $anime_id)->first() ?? abort(404);
             // 何かしら入力されていた場合、レビューを作成

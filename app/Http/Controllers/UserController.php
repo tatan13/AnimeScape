@@ -59,7 +59,7 @@ class UserController extends Controller
     public function showWillWatchAnimeList($user_id)
     {
         $user = $this->userService->getUserById($user_id);
-        $will_watch_anime_list = $this->animeService->getWillWatchAnimeList($user);
+        $will_watch_anime_list = $this->animeService->getWillWatchAnimeListWithCompanies($user);
         return view('will_watch_anime_list', [
             'user' => $user,
             'will_watch_anime_list' => $will_watch_anime_list,
@@ -75,7 +75,7 @@ class UserController extends Controller
     public function showScoreAnimeList($user_id)
     {
         $user = $this->userService->getUserById($user_id);
-        $score_review_list = $this->userReviewService->getLatestScoreReviewListWithAnimeOf($user);
+        $score_review_list = $this->userReviewService->getLatestScoreReviewListWithAnimeWithCompaniesOf($user);
         return view('score_anime_list', [
             'user' => $user,
             'score_review_list' => $score_review_list,

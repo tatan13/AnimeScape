@@ -26,10 +26,10 @@ class CastRepository extends AbstractRepository
      * @param int $cast_id
      * @return Cast
      */
-    public function getCastWithActAnimesWithMyReviewsById($cast_id)
+    public function getCastWithActAnimesWithCompaniesAndWithMyReviewsById($cast_id)
     {
         return Cast::where('id', $cast_id)->with('actAnimes', function ($query) {
-            $query->withMyReviews()->LatestYearCoorMedian();
+            $query->withCompanies()->withMyReviews()->LatestYearCoorMedian();
         })->firstOrFail();
     }
 
@@ -45,7 +45,7 @@ class CastRepository extends AbstractRepository
     }
 
     /**
-     * 声優を作成
+     * 名前から声優を作成
      *
      * @param string $cast_name
      * @return Cast
@@ -83,13 +83,13 @@ class CastRepository extends AbstractRepository
      *
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getWithactAnimesWithMyReviewsBySearch($search_word)
+    public function getWithactAnimesWithCompaniesAndWithMyReviewsBySearch($search_word)
     {
         if (is_null($search_word)) {
-            return Cast::withActAnimesWithMyReviewsLatestLimit()->paginate(50);
+            return Cast::withActAnimesWithCompaniesAndWithMyReviewsLatestLimit()->paginate(50);
         }
         return Cast::where(Cast::SEARCH_COLUMN, 'like', "%$search_word%")
-        ->withActAnimesWithMyReviewsLatestLimit()->paginate(50);
+        ->withActAnimesWithCompaniesAndWithMyReviewsLatestLimit()->paginate(50);
     }
 
     /**

@@ -34,7 +34,7 @@ class ModifyController extends Controller
      */
     public function showModifyAnimeRequest($anime_id)
     {
-        $anime = $this->animeService->getAnime($anime_id);
+        $anime = $this->animeService->getAnimeWithCompanies($anime_id);
         return view('modify_anime_request', [
             'anime' => $anime,
         ]);
@@ -86,7 +86,7 @@ class ModifyController extends Controller
      */
     public function showModifyRequestList()
     {
-        $modify_anime_request_list = $this->modifyService->getModifyAnimeRequestListWithAnime();
+        $modify_anime_request_list = $this->modifyService->getModifyAnimeRequestListWithAnimeWithCompanies();
         $anime_list = $this->animeService->getAnimeListWithModifyOccupationRequestList();
         $modify_cast_request_list = $this->modifyService->getModifyCastRequestListWithCast();
         $delete_anime_request_list = $this->modifyService->getDeleteAnimeRequestListWithAnime();

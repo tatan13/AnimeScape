@@ -21,8 +21,8 @@ class IndexController extends Controller
      */
     public function show()
     {
-        $animes = $this->animeService->getNowCoorAnimeListWithMyReviews();
-        $recommend_anime_list = $this->animeService->getRecommendAnimeList();
+        $animes = $this->animeService->getNowCoorAnimeListWithCompaniesAndWithMyReviews();
+        $recommend_anime_list = $this->animeService->getRecommendAnimeListWithCompanies();
         return view('index', [
             'animes' => $animes,
             'recommend_anime_list' => $recommend_anime_list,

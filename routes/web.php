@@ -30,6 +30,8 @@ Route::post('/add_anime_request', [App\Http\Controllers\ModifyController::class,
 
 Route::get('/cast/{cast_id}', [App\Http\Controllers\CastController::class, 'show'])->name('cast.show');
 
+Route::get('/company/{company_id}', [App\Http\Controllers\CompanyController::class, 'show'])->name('company.show');
+
 Route::get('/user_information/{user_id}', [App\Http\Controllers\UserController::class, 'show'])->name('user.show');
 
 Route::get('/user_information/{user_id}/score_anime_list', [App\Http\Controllers\UserController::class, 'showScoreAnimeList'])->name('user_score_anime_list.show');

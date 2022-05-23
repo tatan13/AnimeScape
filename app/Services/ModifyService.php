@@ -18,6 +18,7 @@ use App\Repositories\DeleteAnimeRepository;
 use App\Repositories\AddAnimeRepository;
 use App\Repositories\DeleteCastRepository;
 use App\Repositories\CastRepository;
+use App\Repositories\CompanyRepository;
 use App\Repositories\OccupationRepository;
 use Illuminate\Http\Request;
 use App\Http\Requests\AnimeRequest;
@@ -39,6 +40,7 @@ class ModifyService
     private AddAnimeRepository $addAnimeRepository;
     private DeleteCastRepository $deleteCastRepository;
     private CastRepository $castRepository;
+    private CompanyRepository $companyRepository;
     private OccupationRepository $occupationRepository;
 
     /**
@@ -52,6 +54,7 @@ class ModifyService
      * @param AddAnimeRepository $addAnimeRepository
      * @param DeleteCastRepository $deleteCastRepository
      * @param CastRepository $castRepository
+     * @param CompanyRepository $companyRepository
      * @param OccupationRepository $occupationRepository
      * @return void
      */
@@ -64,6 +67,7 @@ class ModifyService
         AddAnimeRepository $addAnimeRepository,
         DeleteCastRepository $deleteCastRepository,
         CastRepository $castRepository,
+        CompanyRepository $companyRepository,
         OccupationRepository $occupationRepository,
     ) {
         $this->modifyAnimeRepository = $modifyAnimeRepository;
@@ -74,6 +78,7 @@ class ModifyService
         $this->addAnimeRepository = $addAnimeRepository;
         $this->deleteCastRepository = $deleteCastRepository;
         $this->castRepository = $castRepository;
+        $this->companyRepository = $companyRepository;
         $this->occupationRepository = $occupationRepository;
     }
 
@@ -113,9 +118,29 @@ class ModifyService
     {
         $anime = $this->animeRepository->getAnimeByModifyAnimeId($modify_anime_id);
         DB::transaction(function () use ($anime, $modify_anime_id, $request) {
+            $this->animeRepository->deleteAnimeCompanyOfAnime($anime);
+            $this->createAnimeCompanyByRequest($anime, $request);
             $this->animeRepository->updateInformationByRequest($anime, $request);
             $this->modifyAnimeRepository->deleteById($modify_anime_id);
         });
+    }
+
+    /**
+     * リクエストによって会社に制作アニメを追加
+     *
+     * @param Anime $anime
+     * @param AnimeRequest $request
+     * @return void
+     */
+    public function createAnimeCompanyByRequest(Anime $anime, AnimeRequest $request)
+    {
+        $req_companies = $request->only(['company1', 'company2', 'company3']);
+        $req_companies = array_filter($req_companies);
+        foreach ($req_companies as $req_company) {
+            $company = $this->companyRepository->getByName($req_company) ??
+            $this->companyRepository->createByName($req_company);
+            $this->companyRepository->createAnimeCompanyByAnimeAndCompany($anime, $company);
+        }
     }
 
     /**
@@ -134,9 +159,9 @@ class ModifyService
      *
      * @return Collection<int,ModifyAnime> | Collection<null>
      */
-    public function getModifyAnimeRequestListWithAnime()
+    public function getModifyAnimeRequestListWithAnimeWithCompanies()
     {
-        return $this->modifyAnimeRepository->getModifyAnimeRequestListWithAnime();
+        return $this->modifyAnimeRepository->getModifyAnimeRequestListWithAnimeWithCompanies();
     }
 
     /**
@@ -182,16 +207,28 @@ class ModifyService
     public function updateAnimeCastsByRequest($anime_id, Request $request)
     {
         $this->animeRepository->getById($anime_id);
-        $req_casts = $this->filterRequest($request);
-        DB::transaction(function () use ($anime_id, $req_casts) {
+        DB::transaction(function () use ($anime_id, $request) {
             $this->occupationRepository->deleteOccupationsOfAnimeId($anime_id);
-            foreach ($req_casts as $req_cast) {
-                $cast = $this->castRepository->getCastByName($req_cast) ??
-                $this->castRepository->createByName($req_cast);
-                $this->castRepository->createOccupationByCastAndAnimeId($cast, $anime_id);
-            }
+            $this->createOccupationsByRequest($anime_id, $request);
             $this->modifyOccupationRepository->deleteModifyOccupationsRequestOfAnimeId($anime_id);
         });
+    }
+
+    /**
+     * アニメの出演声優をリクエストから作成
+     *
+     * @param int $anime_id
+     * @param Request $request
+     * @return void
+     */
+    public function createOccupationsByRequest($anime_id, $request)
+    {
+        $req_casts = $this->filterRequest($request);
+        foreach ($req_casts as $req_cast) {
+            $cast = $this->castRepository->getCastByName($req_cast) ??
+            $this->castRepository->createByName($req_cast);
+            $this->castRepository->createOccupationByCastAndAnimeId($cast, $anime_id);
+        }
     }
 
     /**
@@ -390,7 +427,8 @@ class ModifyService
     public function addAnimeByRequest($add_anime_id, AnimeRequest $request)
     {
         DB::transaction(function () use ($add_anime_id, $request) {
-            $this->animeRepository->addByRequest($request);
+            $anime = $this->animeRepository->addByRequest($request);
+            $this->createAnimeCompanyByRequest($anime, $request);
             $this->addAnimeRepository->deleteById($add_anime_id);
         });
     }

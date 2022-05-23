@@ -51,7 +51,7 @@
                 <tr>
                     <th>順位</th>
                     <th>アニメ名</th>
-                    <th>会社名</th>
+                    <th>制作会社</th>
                     <th>放送クール</th>
                     <th>中央値</th>
                     <th>平均値</th>
@@ -65,7 +65,12 @@
                         <td>{{ $animes->firstItem() + $loop->iteration - 1 }}</td>
                         <td><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
                         </td>
-                        <td>{{ $anime->company }}</td>
+                        <td>
+                            @foreach ($anime->companies as $company)
+                                <a
+                                    href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
+                            @endforeach
+                        </td>
                         <td>{{ $anime->year }}年{{ $anime->coor_label }}クール</td>
                         <td>{{ $anime->median }}</td>
                         <td>{{ $anime->average }}</td>
@@ -78,8 +83,8 @@
             </tbody>
         </table>
         @if (!$animes->onFirstPage())
-        <a
-            href="{{ $animes->appends(['year' => $year, 'coor' => $coor, 'category' => $category, 'count' => $count])->previousPageUrl() }}">前へ</a>
+            <a
+                href="{{ $animes->appends(['year' => $year, 'coor' => $coor, 'category' => $category, 'count' => $count])->previousPageUrl() }}">前へ</a>
         @endif
         @for ($i = 1; $i <= $animes->lastPage(); $i++)
             @if ($animes->currentPage() == $i)
