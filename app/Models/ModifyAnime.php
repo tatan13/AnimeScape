@@ -32,6 +32,7 @@ class ModifyAnime extends Model
         'unext_id',
         'abema_id',
         'disney_plus_id',
+        'remark',
     ];
 
     /**

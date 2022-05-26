@@ -6,28 +6,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ModifyCast extends Model
+class DeleteCompany extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'furigana',
-        'sex',
-        'office',
-        'url',
-        'twitter',
-        'blog',
+        'company_id',
         'remark',
     ];
 
     /**
-     * 声優を取得
+     * 会社の取得
      *
      * @return BelongsTo
      */
-    public function cast()
+    public function company()
     {
-        return $this->belongsTo('App\Models\Cast');
+        return $this->belongsTo('App\Models\Company');
     }
 }

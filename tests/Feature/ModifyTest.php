@@ -10,6 +10,7 @@ use App\Models\ModifyCast;
 use App\Models\DeleteAnime;
 use App\Models\AddAnime;
 use App\Models\DeleteCast;
+use App\Models\DeleteCompany;
 use App\Models\Anime;
 use App\Models\Cast;
 use App\Models\Company;
@@ -30,6 +31,7 @@ class ModifyTest extends TestCase
     private AddAnime $addAnime;
     private AddAnime $addAnimeDeleted;
     private DeleteCast $deleteCast;
+    private DeleteCompany $deleteCompany;
     private Cast $cast1;
     private Cast $cast2;
     private Company $company1;
@@ -94,7 +96,7 @@ class ModifyTest extends TestCase
             'delete_flag' => true,
         ]);
 
-        $this->deleteCast = Deletecast::create(['cast_id' => $this->cast1->id, 'remark' => 'remark2']);
+        $this->deleteCast = DeleteCast::create(['cast_id' => $this->cast1->id, 'remark' => 'remark2']);
 
         $this->user1 = User::factory()->create(['name' => 'root']);
         $this->user2 = User::factory()->create();
@@ -105,6 +107,8 @@ class ModifyTest extends TestCase
         $this->anime->companies()->attach($this->company1->id);
         $this->anime->companies()->attach($this->company2->id);
         $this->anime->companies()->attach($this->company3->id);
+
+        $this->deleteCompany = DeleteCompany::create(['company_id' => $this->company1->id, 'remark' => 'remark2']);
     }
 
     /**
@@ -621,6 +625,22 @@ class ModifyTest extends TestCase
             '1件目',
             $this->deleteCast->cast->name,
             $this->deleteCast->remark,
+        ]);
+    }
+
+    /**
+     * 変更申請のリストページの会社の削除申請の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testDeleteCompanyOfModifyRequestListView()
+    {
+        $response = $this->get(route('modify_request_list.show'));
+        $response->assertSeeInOrder([
+            '1件目',
+            $this->deleteCompany->company->name,
+            $this->deleteCompany->remark,
         ]);
     }
 
@@ -1861,6 +1881,193 @@ class ModifyTest extends TestCase
     {
         $this->actingAs($this->user1);
         $response = $this->get(route('delete_cast_request.reject', ['delete_cast_id' => 33333333333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * 会社削除申請ページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testDeleteCompanyRequestView()
+    {
+        $response = $this->get(route('delete_company_request.show', ['company_id' => $this->company1->id]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->company1->name,
+            '削除事由',
+        ]);
+    }
+
+    /**
+     * 会社削除申請ページの表示の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistDeleteCompanyRequestView()
+    {
+        $response = $this->get(route('delete_company_request.show', ['company_id' => 3333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * 会社削除申請のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testDeleteCompanyRequestPost()
+    {
+        $response = $this->post(route('delete_company_request.post', ['company_id' => $this->company1->id,]), [
+            'remark' => 'remark_comment',
+        ]);
+        $this->assertDatabaseHas('delete_companies', [
+            'company_id' => $this->company1->id,
+            'remark' => 'remark_comment',
+        ]);
+    }
+
+    /**
+     * 会社削除申請の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistDeleteCompanyRequestPost()
+    {
+        $response = $this->post(route('delete_company_request.post', ['company_id' => 3333333333333333333333333]), [
+            'remark' => 'remark_comment',
+        ]);
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲスト時の会社削除リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestDeleteCompanyRequestApprove()
+    {
+        $response = $this->post(route('delete_company_request.approve', [
+            'delete_company_id' => $this->deleteCompany->id
+        ]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時の会社削除リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginDeleteCompanyRequestApprove()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->post(route('delete_company_request.approve', [
+            'delete_company_id' => $this->deleteCompany->id
+        ]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ルートユーザーログイン時の会社削除リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginDeleteCompanyRequestApprove()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('delete_company_request.approve', [
+            'delete_company_id' => $this->deleteCompany->id
+        ]));
+        $response->assertRedirect(route('modify_request_list.show'));
+        $this->assertDatabaseMissing('companies', [
+            'id' => $this->company1->id,
+        ]);
+        $this->assertDatabaseMissing('delete_companies', [
+            'id' => $this->deleteCompany->id,
+        ]);
+    }
+
+    /**
+     * ルートユーザーログイン時の会社削除リクエスト時の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginNotExistDeleteCompanyRequestApprove()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('delete_company_request.approve', [
+            'delete_company_id' => 33333333333333333333
+        ]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲスト時の会社削除申請却下リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestDeleteCompanyRequestReject()
+    {
+        $response = $this->get(route('delete_company_request.reject', [
+            'delete_company_id' => $this->deleteCompany->id
+        ]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時の会社削除申請却下リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginDeleteCompanyRequestReject()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->get(route('delete_company_request.reject', [
+            'delete_company_id' => $this->deleteCompany->id
+        ]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ルートユーザーログイン時の会社削除申請却下時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginDeleteCompanyRequestReject()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('delete_company_request.reject', [
+            'delete_company_id' => $this->deleteCompany->id
+        ]));
+        $response->assertRedirect(route('modify_request_list.show'));
+        $this->assertDatabaseMissing('delete_companies', [
+            'id' => $this->deleteCompany->id,
+            'company_id' => $this->company1->id,
+        ]);
+    }
+
+    /**
+     * ルートユーザーログイン時の会社削除申請却下時の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginNotExistDeleteCompanyRequestReject()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('delete_company_request.reject', [
+            'delete_company_id' => 33333333333333333333333
+        ]));
         $response->assertStatus(404);
     }
 

@@ -55,6 +55,19 @@ class CompanyRepository extends AbstractRepository
     }
 
     /**
+     * 会社をdelete_company_idから取得
+     *
+     * @param int $delete_company_id
+     * @return Company
+     */
+    public function getCompanyByDeleteCompanyId($delete_company_id)
+    {
+        return Company::whereHas('deleteCompanies', function ($query) use ($delete_company_id) {
+            $query->where('id', $delete_company_id);
+        })->firstOrFail();
+    }
+
+    /**
      * 会社が制作しているメリストを取得
      *
      * @param Company $company

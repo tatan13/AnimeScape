@@ -148,10 +148,15 @@
                             <textarea name="summary" class="summary" cols="80" rows="5">{{ $anime->summary }}</textarea><br>
                         </td>
                     </tr>
+                    <tr>
+                        <th>事由</th>
+                        <td><input type="text" size="100" name="remark" class="remark" value="{{ old('remark') }}"></td>
+                    </tr>
                 </tbody>
             </table>
         </form>
         <h3>注意事項</h3>
         各種配信サイトにおいて配信されていない場合、'なし'と書いてください。<br>
+        事由は400文字以内で入力してください。
     </article>
 @endsection

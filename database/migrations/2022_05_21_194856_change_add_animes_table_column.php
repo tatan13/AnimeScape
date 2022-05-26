@@ -14,6 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::table('add_animes', function (Blueprint $table) {
+            $table->string('remark', 400)->nullable();
+        });
+        Schema::table('add_animes', function (Blueprint $table) {
             $table->dropColumn('sex');
         });
         Schema::table('add_animes', function (Blueprint $table) {
@@ -70,6 +73,9 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::table('add_animes', function (Blueprint $table) {
+            $table->dropColumn('remark');
+        });
         Schema::table('add_animes', function (Blueprint $table) {
             $table->boolean('sex')->nullable();
         });

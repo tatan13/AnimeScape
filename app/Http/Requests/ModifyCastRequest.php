@@ -31,6 +31,7 @@ class ModifyCastRequest extends FormRequest
             'url' => 'nullable|string',
             'twitter' => 'nullable|string',
             'blog' => 'nullable|string',
+            'remark' => 'max:400|string|nullable',
         ];
     }
 
@@ -43,6 +44,8 @@ class ModifyCastRequest extends FormRequest
     {
         return [
             'name.required' => '名前を入力してください。',
+            'remark.max' => '変更事由は400文字以下で入力してください。',
+            'remark.string' => '変更事由には文字列を入力してください。',
         ];
     }
 }

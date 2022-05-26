@@ -127,8 +127,14 @@
                             <textarea name="summary" class="summary" cols="80" rows="5">{{ old('summary') }}</textarea><br>
                         </td>
                     </tr>
+                    <tr>
+                        <th>事由</th>
+                        <td><input type="text" size="100" name="remark" class="remark" value="{{ old('remark') }}"></td>
+                    </tr>
                 </tbody>
             </table>
         </form>
+        <h3>注意事項</h3>
+        事由は400文字以内で入力してください。
     </article>
 @endsection

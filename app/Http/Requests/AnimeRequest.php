@@ -44,6 +44,7 @@ class AnimeRequest extends FormRequest
             'unext_id'  => 'nullable|string',
             'abema_id'  => 'nullable|string',
             'disney_plus_id'  => 'nullable|string',
+            'remark' => 'max:400|string|nullable',
         ];
     }
 
@@ -56,6 +57,8 @@ class AnimeRequest extends FormRequest
     {
         return [
             'title.required' => 'タイトルを入力してください。',
+            'remark.max' => '事由は400文字以下で入力してください。',
+            'remark.string' => '事由には文字列を入力してください。',
         ];
     }
 }

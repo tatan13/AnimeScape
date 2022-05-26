@@ -32,6 +32,7 @@ class AddAnime extends Model
         'abema_id',
         'disney_plus_id',
         'delete_flag',
+        'remark',
     ];
     public const WINTER = 1;
     public const SPRING = 2;

@@ -8,6 +8,7 @@ use App\Models\ModifyCast;
 use App\Models\DeleteAnime;
 use App\Models\AddAnime;
 use App\Models\DeleteCast;
+use App\Models\DeleteCompany;
 use App\Models\Anime;
 use App\Models\Cast;
 use App\Repositories\ModifyAnimeRepository;
@@ -17,6 +18,7 @@ use App\Repositories\AnimeRepository;
 use App\Repositories\DeleteAnimeRepository;
 use App\Repositories\AddAnimeRepository;
 use App\Repositories\DeleteCastRepository;
+use App\Repositories\DeleteCompanyRepository;
 use App\Repositories\CastRepository;
 use App\Repositories\CompanyRepository;
 use App\Repositories\OccupationRepository;
@@ -39,6 +41,7 @@ class ModifyService
     private DeleteAnimeRepository $deleteAnimeRepository;
     private AddAnimeRepository $addAnimeRepository;
     private DeleteCastRepository $deleteCastRepository;
+    private DeleteCompanyRepository $deleteCompanyRepository;
     private CastRepository $castRepository;
     private CompanyRepository $companyRepository;
     private OccupationRepository $occupationRepository;
@@ -53,6 +56,7 @@ class ModifyService
      * @param DeleteAnimeRepository $deleteAnimeRepository
      * @param AddAnimeRepository $addAnimeRepository
      * @param DeleteCastRepository $deleteCastRepository
+     * @param DeleteCompanyRepository $deleteCompanyRepository
      * @param CastRepository $castRepository
      * @param CompanyRepository $companyRepository
      * @param OccupationRepository $occupationRepository
@@ -66,6 +70,7 @@ class ModifyService
         DeleteAnimeRepository $deleteAnimeRepository,
         AddAnimeRepository $addAnimeRepository,
         DeleteCastRepository $deleteCastRepository,
+        DeleteCompanyRepository $deleteCompanyRepository,
         CastRepository $castRepository,
         CompanyRepository $companyRepository,
         OccupationRepository $occupationRepository,
@@ -77,6 +82,7 @@ class ModifyService
         $this->deleteAnimeRepository = $deleteAnimeRepository;
         $this->addAnimeRepository = $addAnimeRepository;
         $this->deleteCastRepository = $deleteCastRepository;
+        $this->deleteCompanyRepository = $deleteCompanyRepository;
         $this->castRepository = $castRepository;
         $this->companyRepository = $companyRepository;
         $this->occupationRepository = $occupationRepository;
@@ -494,6 +500,56 @@ class ModifyService
     public function rejectDeleteCastRequest($delete_cast_id)
     {
         $this->deleteCastRepository->deleteById($delete_cast_id);
+    }
+
+    /**
+     * 会社の削除申請を作成
+     *
+     * @param int $company_id
+     * @param DeleteRequest $request
+     * @return void
+     */
+    public function createDeleteCompanyRequest($company_id, DeleteRequest $request)
+    {
+        $this->companyRepository->getById($company_id);
+        $this->deleteCompanyRepository->createDeleteCompanyRequest($company_id, $request);
+        $this->sendMailWhenModifyRequest();
+    }
+
+    /**
+     * 会社の削除申請リストを取得
+     *
+     * @return Collection<int,DeleteCompany> | Collection<null>
+     */
+    public function getDeleteCompanyRequestListWithCompany()
+    {
+        return $this->deleteCompanyRepository->getDeleteCompanyRequestListWithCompany();
+    }
+
+    /**
+     * 会社の削除申請からアニメを削除
+     *
+     * @param int $delete_company_id
+     * @return void
+     */
+    public function deleteCompanyByRequest($delete_company_id)
+    {
+        $company = $this->companyRepository->getCompanyByDeleteCompanyId($delete_company_id);
+        DB::transaction(function () use ($company, $delete_company_id) {
+            $this->deleteCompanyRepository->deleteById($delete_company_id);
+            $this->companyRepository->deleteById($company->id);
+        });
+    }
+
+    /**
+     * 会社の削除申請を却下
+     *
+     * @param int $delete_company_id
+     * @return void
+     */
+    public function rejectDeleteCompanyRequest($delete_company_id)
+    {
+        $this->deleteCompanyRepository->deleteById($delete_company_id);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Company extends Model
@@ -27,6 +28,16 @@ class Company extends Model
     public function animes()
     {
         return $this->belongsToMany('App\Models\Anime')->withTimestamps();
+    }
+
+    /**
+     * 会社の削除申請を取得
+     *
+     * @return HasMany
+     */
+    public function deleteCompanies()
+    {
+        return $this->hasMany('App\Models\DeleteCompany');
     }
 
     public function scopeWithAnimesWithMyReviewsLatestLimit($query)

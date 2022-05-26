@@ -34,6 +34,10 @@ Route::get('/cast/{cast_id}', [App\Http\Controllers\CastController::class, 'show
 
 Route::get('/company/{company_id}', [App\Http\Controllers\CompanyController::class, 'show'])->name('company.show');
 
+Route::get('/company/{company_id}/delete_request', [App\Http\Controllers\ModifyController::class, 'showDeleteCompanyRequest'])->name('delete_company_request.show');
+
+Route::post('/company/{company_id}/delete_request', [App\Http\Controllers\ModifyController::class, 'postDeleteCompanyRequest'])->name('delete_company_request.post');
+
 Route::get('/user_information/{user_id}', [App\Http\Controllers\UserController::class, 'show'])->name('user.show');
 
 Route::get('/user_information/{user_id}/score_anime_list', [App\Http\Controllers\UserController::class, 'showScoreAnimeList'])->name('user_score_anime_list.show');
@@ -134,4 +138,8 @@ Route::group(['middleware' => 'admin_auth'], function () {
     Route::post('/delete/cast/{delete_cast_id}/approve', [App\Http\Controllers\ModifyController::class, 'approveDeleteCastRequest'])->name('delete_cast_request.approve');
 
     Route::get('/delete/cast/{delete_cast_id}/reject', [App\Http\Controllers\ModifyController::class, 'rejectDeleteCastRequest'])->name('delete_cast_request.reject');
+
+    Route::post('/delete/company/{delete_company_id}/approve', [App\Http\Controllers\ModifyController::class, 'approveDeleteCompanyRequest'])->name('delete_company_request.approve');
+
+    Route::get('/delete/company/{delete_company_id}/reject', [App\Http\Controllers\ModifyController::class, 'rejectDeleteCompanyRequest'])->name('delete_company_request.reject');
 });
