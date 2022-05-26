@@ -52,9 +52,9 @@ class CastService
      * @param int $cast_id
      * @return Cast
      */
-    public function getCastWithActAnimesWithMyReviews($cast_id)
+    public function getCastWithActAnimesWithCompaniesAndWithMyReviews($cast_id)
     {
-        return $this->castRepository->getCastWithActAnimesWithMyReviewsById($cast_id);
+        return $this->castRepository->getCastWithActAnimesWithCompaniesAndWithMyReviewsById($cast_id);
     }
 
     /**

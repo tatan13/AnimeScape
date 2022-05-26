@@ -6,23 +6,19 @@ use App\Http\Requests\ReviewRequest;
 use App\Http\Requests\ReviewsRequest;
 use App\Services\AnimeService;
 use App\Services\UserReviewService;
-use App\Services\CastService;
 use Illuminate\Http\Request;
 
 class AnimeController extends Controller
 {
     private AnimeService $animeService;
     private UserReviewService $userReviewService;
-    private CastService $castService;
 
     public function __construct(
         AnimeService $animeService,
         UserReviewService $userReviewService,
-        CastService $castService,
     ) {
         $this->animeService = $animeService;
         $this->userReviewService = $userReviewService;
-        $this->castService = $castService;
     }
 
     /**
@@ -33,15 +29,10 @@ class AnimeController extends Controller
      */
     public function show($anime_id)
     {
-        $anime = $this->animeService->getAnime($anime_id);
-        $user_reviews = $this->userReviewService->getLatestUserReviewsOfAnimeWithUser($anime);
-        $anime_casts = $this->castService->getActCasts($anime);
-        $my_review = $this->userReviewService->getMyReview($anime);
+        $anime = $this->animeService
+        ->getAnimeWithCompaniesAndMyReviewAndActCastsAndLatestUserReviewsOfAnimeWithUser($anime_id);
         return view('anime', [
             'anime' => $anime,
-            'user_reviews' => $user_reviews,
-            'my_review' => $my_review,
-            'anime_casts' => $anime_casts,
         ]);
     }
 
@@ -53,11 +44,9 @@ class AnimeController extends Controller
      */
     public function showAnimeReview($anime_id)
     {
-        $anime = $this->animeService->getAnime($anime_id);
-        $my_review = $this->userReviewService->getMyReview($anime);
+        $anime = $this->animeService->getAnimeWithMyReview($anime_id);
         return view('anime_review', [
             'anime' => $anime,
-            'my_review' => $my_review,
         ]);
     }
 
@@ -85,7 +74,7 @@ class AnimeController extends Controller
      */
     public function showAnimeReviewList(Request $request)
     {
-        $anime_list = $this->animeService->getAnimeListWithMyReviewsFor($request);
+        $anime_list = $this->animeService->getAnimeListWithCompaniesAndWithMyReviewsFor($request);
         return view('anime_review_list', [
             'anime_list' => $anime_list,
             'year' => $request->year,

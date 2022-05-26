@@ -68,8 +68,6 @@
                                             </select>
                                             年
                                             <select name="coor" class="coor">
-                                                <option value="" {{ is_null($coor ?? null) ? 'selected' : '' }}>-
-                                                </option>
                                                 <option value="1"
                                                     {{ is_null($coor ?? null) ? '' : ($coor == 1 ? 'selected' : '') }}>
                                                     冬
@@ -110,6 +108,9 @@
                             </option>
                             <option value="cast"
                                 {{ is_null($category ?? null) ? '' : ($category == 'cast' ? 'selected' : '') }}>声優
+                            </option>
+                            <option value="company"
+                                {{ is_null($category ?? null) ? '' : ($category == 'company' ? 'selected' : '') }}>会社
                             </option>
                             <option value="user"
                                 {{ is_null($category ?? null) ? '' : ($category == 'user' ? 'selected' : '') }}>ユーザー
@@ -188,6 +189,7 @@
                 <section class="modify_menu">
                     <h3>変更メニュー</h3>
                     <ul>
+                        <li><a href="{{ route('add_anime_log.show') }}">作品の追加履歴</a></li>
                         <li><a href="{{ route('add_anime_request.show') }}">作品の追加申請</a></li>
                         <li><a href="{{ route('modify_request_list.show') }}">変更申請リスト</a></li>
                     </ul>

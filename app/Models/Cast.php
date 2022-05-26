@@ -62,7 +62,7 @@ class Cast extends Model
      */
     public function likedUsers()
     {
-        return $this->belongsToMany('App\Models\User', 'user_like_casts', 'cast_id', 'user_id');
+        return $this->belongsToMany('App\Models\User', 'user_like_casts', 'cast_id', 'user_id')->withTimestamps();
     }
 
     /**
@@ -83,7 +83,7 @@ class Cast extends Model
      */
     public function actAnimes()
     {
-        return $this->belongsToMany('App\Models\Anime', 'occupations', 'cast_id', 'anime_id');
+        return $this->belongsToMany('App\Models\Anime', 'occupations', 'cast_id', 'anime_id')->withTimestamps();
     }
 
     /**
@@ -117,10 +117,10 @@ class Cast extends Model
         return $this->actAnimes()->where('anime_id', $anime_id)->exists();
     }
 
-    public function scopeWithActAnimesWithMyReviewsLatestLimit($query)
+    public function scopeWithActAnimesWithCompaniesAndWithMyReviewsLatestLimit($query)
     {
         return $query->with('actAnimes', function ($q) {
-            $q->withMyReviews()->LatestYearCoorMedian()->take(10);
+            $q->WithCompanies()->withMyReviews()->LatestYearCoorMedian()->take(10);
         });
     }
 }

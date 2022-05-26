@@ -63,7 +63,17 @@
                                     </tr>
                                     <tr>
                                         <th>視聴数</th>
-                                        <td>{{ $user_information->watches_count }}</td>
+                                        <td>
+                                            <a
+                                                href="{{ route('user_watch_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->watches_count }}</a>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th>ギブアップ数</th>
+                                        <td>
+                                            <a
+                                                href="{{ route('user_give_up_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->give_ups_count }}</a>
+                                            </td>
                                     </tr>
                                     <tr>
                                         <th>お気に入りユーザー数</th>

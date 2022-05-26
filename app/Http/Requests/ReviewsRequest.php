@@ -27,9 +27,10 @@ class ReviewsRequest extends FormRequest
             'anime_id.*' => 'required|integer',
             'score.*' => 'integer|between:0,100|nullable',
             'one_word_comment.*' => 'max:400|string|nullable',
-            'will_watch.*' => 'bool',
+            'will_watch.*' => 'integer|between:0,3|nullable',
             'watch.*' => 'bool',
-            'spoiler.*' => 'bool',
+            'give_up.*' => 'bool',
+            'number_of_interesting_episode.*' => 'integer|min:0|nullable',
         ];
     }
 
@@ -47,6 +48,8 @@ class ReviewsRequest extends FormRequest
           'score.*.between' => '得点は0～100点で入力してください。',
           'one_word_comment.*.max' => '一言感想は400文字以下で入力してください。',
           'one_word_comment.*.string' => '一言感想には文字列を入力してください。',
+          'number_of_interesting_episode.*.integer' => '面白さがわかる話数は整数で入力してください。',
+          'number_of_interesting_episode.*.min' => '面白さがわかる話数は0以上で入力してください。',
         ];
     }
 }

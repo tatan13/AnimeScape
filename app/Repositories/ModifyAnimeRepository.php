@@ -46,8 +46,8 @@ class ModifyAnimeRepository extends AbstractRepository
      *
      * @return Collection<int,ModifyAnime>  | Collection<null>
      */
-    public function getModifyAnimeRequestListWithAnime()
+    public function getModifyAnimeRequestListWithAnimeWithCompanies()
     {
-        return ModifyAnime::with('anime')->get();
+        return ModifyAnime::with('anime.companies')->get();
     }
 }

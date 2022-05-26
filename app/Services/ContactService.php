@@ -6,6 +6,7 @@ use App\Models\Contact;
 use App\Http\Requests\ContactRequest;
 use App\Repositories\ContactRepository;
 use Illuminate\Database\Eloquent\Collection;
+use Mail;
 
 class ContactService
 {
@@ -52,5 +53,23 @@ class ContactService
     public function createContact(ContactRequest $contact)
     {
         $this->contactRepository->createContact($contact);
+        $this->sendMailWhenContactRequest();
+    }
+
+    /**
+     * 要望フォーム投稿時管理者にメールで通知
+     *
+     * @return void
+     */
+    public function sendMailWhenContactRequest()
+    {
+        if (env('APP_ENV') == 'production') {
+            $data = [];
+
+            Mail::send('emails.contact_email', $data, function ($message) {
+                $message->to(config('mail.from.address'), config('app.name'))
+                ->subject('要望投稿');
+            });
+        }
     }
 }

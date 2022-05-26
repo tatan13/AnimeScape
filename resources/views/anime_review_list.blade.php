@@ -42,7 +42,8 @@
                 @if (!is_null($coor))
                     <input type="hidden" name="coor" class="coor" value="{{ $coor == 1 ? 4 : $coor - 1 }}">
                 @endif
-                <a href="javascript:previous.submit()">{{ is_null($year) ? '' : (is_null($coor) ? '前の年へ' : '前クールへ') }}</a>
+                <a
+                    href="javascript:previous.submit()">{{ is_null($year) ? '' : (is_null($coor) ? '前の年へ' : '前クールへ') }}</a>
             </form>
             <form action="{{ route('anime_review_list.show') }}" name="next" class="d-inline" method="get">
                 @csrf
@@ -51,7 +52,7 @@
                 @if (!is_null($coor))
                     <input type="hidden" name="coor" class="coor" value="{{ $coor == 4 ? 1 : $coor + 1 }}">
                 @endif
-                <a href="javascript:next.submit()">{{ is_null($year) ? '' : (is_null($coor) ? '次の年へ' : '次クールへ')  }}</a>
+                <a href="javascript:next.submit()">{{ is_null($year) ? '' : (is_null($coor) ? '次の年へ' : '次クールへ') }}</a>
             </form>
             @if ($errors->any())
                 <div class="alert alert-danger">
@@ -71,42 +72,61 @@
                     <tbody>
                         <tr>
                             <th>アニメ名</th>
-                            <th>会社名</th>
+                            <th>制作会社</th>
                             <th>放送時期</th>
                             <th>得点</th>
                             <th>視聴済み</th>
                             <th>視聴予定</th>
+                            <th>視聴リタイア</th>
+                            <th>面白さがわかる話数</th>
                             <th>一言感想</th>
-                            <th>ネタバレ</th>
                         </tr>
                         @foreach ($anime_list as $anime)
                             <tr>
                                 <td><a
                                         href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
                                 </td>
-                                <td>{{ $anime->company }}</td>
+                                <td>
+                                    @foreach ($anime->companies as $company)
+                                        <a
+                                            href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
+                                    @endforeach
+                                </td>
                                 <td>{{ $anime->year }}年{{ $anime->coor_label }}クール</td>
                                 <input type="hidden" name="anime_id[{{ $loop->iteration }}]" class="anime_id"
                                     value="{{ $anime->id }}">
-                                <td><input type="text" name="score[{{ $loop->iteration }}]" class="score"
+                                <td><input type="number" name="score[{{ $loop->iteration }}]" class="score"
                                         value="{{ $anime->userReview->score ?? '' }}"></td>
                                 <input type="hidden" name="watch[{{ $loop->iteration }}]" class="watch"
                                     value="0">
                                 <td><input type="checkbox" name="watch[{{ $loop->iteration }}]" class="watch"
                                         value="1" {{ $anime->userReview->watch ?? false == true ? 'checked' : '' }}></td>
-                                <input type="hidden" name="will_watch[{{ $loop->iteration }}]" class="will_watch"
+                                <td><select name="will_watch[{{ $loop->iteration }}]" class="will_watch">
+                                        <option value="0"
+                                            {{ ($anime->userReview->will_watch ?? 0) == 0 ? 'selected' : '' }}>-
+                                        </option>
+                                        <option value="1"
+                                            {{ ($anime->userReview->will_watch ?? 0) == 1 ? 'selected' : '' }}>必ず視聴
+                                        </option>
+                                        <option value="2"
+                                            {{ ($anime->userReview->will_watch ?? 0) == 2 ? 'selected' : '' }}>多分視聴
+                                        </option>
+                                        <option value="3"
+                                            {{ ($anime->userReview->will_watch ?? 0) == 3 ? 'selected' : '' }}>様子見
+                                        </option>
+                                    </select>
+                                </td>
+                                <input type="hidden" name="give_up[{{ $loop->iteration }}]" class="give_up"
                                     value="0">
-                                <td><input type="checkbox" name="will_watch[{{ $loop->iteration }}]"
-                                        class="will_watch" value="1"
-                                        {{ $anime->userReview->will_watch ?? false == true ? 'checked' : '' }}></td>
+                                <td><input type="checkbox" name="give_up[{{ $loop->iteration }}]" class="give_up"
+                                        value="1" {{ $anime->userReview->give_up ?? false == true ? 'checked' : '' }}>
+                                </td>
+                                <td><input type="number" name="number_of_interesting_episode[{{ $loop->iteration }}]"
+                                        class="number_of_interesting_episode"
+                                        value="{{ $anime->userReview->number_of_interesting_episode ?? '' }}"></td>
                                 <td><input type="text" name="one_word_comment[{{ $loop->iteration }}]"
                                         class="one_word_comment"
                                         value="{{ $anime->userReview->one_word_comment ?? '' }}"></td>
-                                <input type="hidden" name="spoiler[{{ $loop->iteration }}]" class="spoiler"
-                                    value="0">
-                                <td><input type="checkbox" name="spoiler[{{ $loop->iteration }}]" class="spoiler"
-                                        value="1" {{ $anime->userReview->spoiler ?? false == true ? 'checked' : '' }}>
-                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -115,7 +135,6 @@
         </section>
         <h3>注意事項</h3>
         得点は0～100点で付けてください。<br>
-        一言感想は400文字以内でお願いします。登録は任意です。<br>
-        レビューを削除する場合、削除したいアニメのフォームを空にして送信してください。
+        一言感想は400文字以内でお願いします。登録は任意です。
     </article>
 @endsection

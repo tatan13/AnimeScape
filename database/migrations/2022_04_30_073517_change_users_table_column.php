@@ -42,7 +42,7 @@ return new class extends Migration
         });
 
         Schema::table('users', function (Blueprint $table) {
-            $table->bool('sex')->nullable()->change();
+            $table->boolean('sex')->nullable()->change();
         });
     }
 };

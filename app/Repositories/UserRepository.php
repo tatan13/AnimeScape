@@ -52,9 +52,7 @@ class UserRepository extends AbstractRepository
      */
     public function getByIdWithUserReviewsAndAnimeForAll($user_id)
     {
-        return User::whereId($user_id)->with('userReviews', function ($query) {
-            $query->with('anime');
-        })->firstOrFail();
+        return User::whereId($user_id)->with('userReviews.anime')->firstOrFail();
     }
 
     /**
@@ -87,28 +85,6 @@ class UserRepository extends AbstractRepository
                 $query->whereYear($request->year)->whereCoor($request->coor);
             })->with('anime');
         })->firstOrFail();
-    }
-
-    /**
-     * ユーザーに紐づく得点の付いているユーザーレビューをアニメと共に降順に取得
-     *
-     * @param User $user
-     * @return Collection<int,UserReview> | Collection<null>
-     */
-    public function getLatestScoreReviewListWithAnimeOf(User $user)
-    {
-        return $user->userReviews()->whereNotNull('score')->with('anime')->latest()->get();
-    }
-
-    /**
-     * ユーザーの視聴予定アニメリストを取得
-     *
-     * @param User $user
-     * @return Collection<int,Anime> | Collection<null>
-     */
-    public function getWillWatchAnimeList(User $user)
-    {
-        return $user->reviewAnimes()->where('user_reviews.will_watch', true)->get();
     }
 
     /**

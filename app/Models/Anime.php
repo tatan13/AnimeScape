@@ -13,6 +13,7 @@ class Anime extends Model
 {
     use HasFactory;
     use \Staudenmeir\EloquentEagerLimit\HasEagerLimit;
+    use \Kyslik\ColumnSortable\Sortable;
 
     public const WINTER = 1;
     public const SPRING = 2;
@@ -28,32 +29,62 @@ class Anime extends Model
     public const TYPE_AVERAGE = 'average';
     public const TYPE_COUNT = 'count';
 
-    private const COOR = [
+    public const TYPE_TV = 1;
+    public const TYPE_MOVIE = 2;
+    public const TYPE_OVA = 3;
+    public const TYPE_STREAMING = 4;
+
+    public const COOR = [
         self::WINTER => [ 'label' => '冬' ],
         self::SPRING => [ 'label' => '春' ],
         self::SUMMER => [ 'label' => '夏' ],
         self::AUTUMN => [ 'label' => '秋' ],
     ];
 
-    private const CATEGORY = [
+    public const CATEGORY = [
         self::TYPE_MEDIAN => ['label' => '中央値' ],
         self::TYPE_AVERAGE => ['label' => '平均値' ],
         self::TYPE_COUNT => ['label' => 'データ数' ],
     ];
 
+    public const MEDIA_CATEGORY = [
+        0 => ['label' => '' ],
+        self::TYPE_TV => ['label' => 'TVアニメ' ],
+        self::TYPE_MOVIE => ['label' => 'アニメ映画' ],
+        self::TYPE_STREAMING => ['label' => '配信' ],
+    ];
+
     protected $fillable = [
         'title',
         'title_short',
+        'furigana',
         'year',
         'coor',
+        'number_of_episode',
         'public_url',
         'twitter',
         'hash_tag',
-        'company',
         'city_name',
+        'media_category',
+        'summary',
+        'd_anime_store_id',
+        'amazon_prime_video_id',
+        'fod_id',
+        'unext_id',
+        'abema_id',
+        'disney_plus_id',
     ];
 
-    protected $appends = ['year_coor'];
+    protected $sortable = ['title', 'number_of_episode', 'median', 'average', 'count'];
+
+    /**
+     * 年、クールでマルチソート
+     *
+     */
+    public function unionYearCoorSortable($query, $direction)
+    {
+        return $query->orderBy('year', $direction)->orderBy('coor', $direction);
+    }
 
     /**
      * クールをラベルに変換
@@ -69,6 +100,22 @@ class Anime extends Model
         }
 
         return self::COOR[$coor]['label'];
+    }
+
+    /**
+     * 放送カテゴリーをラベルに変換
+     *
+     * @return string
+     */
+    public function getMediaCategoryLabelAttribute()
+    {
+        $media_category = $this->attributes['media_category'];
+
+        if (!isset(self::MEDIA_CATEGORY[$media_category])) {
+            return '';
+        }
+
+        return self::MEDIA_CATEGORY[$media_category]['label'];
     }
 
     /**
@@ -102,16 +149,6 @@ class Anime extends Model
     }
 
     /**
-     * 年とクールを結合した値を取得
-     *
-     * @return int
-     */
-    public function getYearCoorAttribute()
-    {
-        return (int)($this->attributes['year'] . $this->attributes['coor']);
-    }
-
-    /**
      * レビューユーザーを取得
      *
      * @return BelongsToMany
@@ -120,6 +157,16 @@ class Anime extends Model
     {
         return $this->belongsToMany('App\Models\User', 'user_reviews', 'anime_id', 'user_id')
                     ->withTimestamps();
+    }
+
+    /**
+     * 制作会社を取得
+     *
+     * @return BelongsToMany
+     */
+    public function companies()
+    {
+        return $this->belongsToMany('App\Models\Company')->withTimestamps();
     }
 
     /**
@@ -210,7 +257,7 @@ class Anime extends Model
      */
     public function actCasts()
     {
-        return $this->belongsToMany('App\Models\Cast', 'occupations', 'anime_id', 'cast_id');
+        return $this->belongsToMany('App\Models\Cast', 'occupations', 'anime_id', 'cast_id')->withTimestamps();
     }
 
     /**
@@ -289,5 +336,10 @@ class Anime extends Model
     public function scopeLatestYearCoorMedian($query)
     {
         return $query->orderByRaw('year desc, coor desc, median desc');
+    }
+
+    public function scopeWithCompanies($query)
+    {
+        return $query->with('companies');
     }
 }

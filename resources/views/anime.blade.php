@@ -24,13 +24,34 @@
                                 <tr>
                                     <th>制作会社</th>
                                     <td>
-                                        {{ $anime->company }}
+                                        @foreach ($anime->companies as $company)
+                                            <a
+                                                href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
+                                        @endforeach
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>放送時期</th>
                                     <td>
                                         {{ $anime->year }}年{{ $anime->coor_label }}クール
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>略称</th>
+                                    <td>
+                                        {{ $anime->title_short }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>話数</th>
+                                    <td>
+                                        {{ $anime->number_of_episode }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>放送カテゴリー</th>
+                                    <td>
+                                        {{ $anime->media_category_label }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -47,9 +68,16 @@
                                             rel="noopener noreferrer">{{ $anime->hash_tag }}</a>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <th>舞台</th>
+                                    <td>
+                                        {{ $anime->city_name }}
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
-                        <a href="{{ route('modify_anime_request.show', ['anime_id' => $anime->id]) }}">アニメの基本情報の変更申請をする</a><br>
+                        <a
+                            href="{{ route('modify_anime_request.show', ['anime_id' => $anime->id]) }}">アニメの基本情報の変更申請をする</a><br>
                         <a href="{{ route('delete_anime_request.show', ['anime_id' => $anime->id]) }}">アニメの削除申請をする</a>
                         @can('isAdmin')
                             <br><a href="{{ route('anime.delete', ['anime_id' => $anime->id]) }}"
@@ -80,12 +108,16 @@
                                     <th>最低点</th>
                                     <td>{{ $anime->min }}</td>
                                 </tr>
-                                @if (isset($my_review->score))
+                                <tr>
+                                    <th>面白さがわかる話数</th>
+                                    <td>{{ $anime->number_of_interesting_episode }}</td>
+                                </tr>
+                                @auth
                                     <tr>
                                         <th>つけた得点</th>
-                                        <td>{{ $my_review->score }}</td>
+                                        <td>{{ $anime->userReview->score ?? '' }}</td>
                                     </tr>
-                                @endif
+                                @endauth
                             </tbody>
                         </table>
                     </div>
@@ -108,9 +140,9 @@
                     <tr>
                         <th>声優</th>
                         <td>
-                            @foreach ($anime_casts as $anime_cast)
+                            @foreach ($anime->actCasts as $actCast)
                                 <a
-                                    href="{{ route('cast.show', ['cast_id' => $anime_cast->id]) }}">{{ $anime_cast->name }}</a>
+                                    href="{{ route('cast.show', ['cast_id' => $actCast->id]) }}">{{ $actCast->name }}</a>
                             @endforeach
                         </td>
                     </tr>
@@ -120,17 +152,57 @@
         </section>
         <section class="anime_comment">
             <h3>コメント（新着順）</h3>
-            @foreach ($user_reviews as $user_review)
-                @if (!is_null($user_review->one_word_comment))
+            @foreach ($anime->userReviews as $user_review)
+                @if (!is_null($user_review->one_word_comment) || !is_null($user_review->long_word_comment))
                     @if (!is_null($user_review->score))
                         <strong>{{ $user_review->score }}点</strong><br>
                     @endif
-                    {{ $user_review->one_word_comment }}<br>
-                    {{ $user_review->created_at }} <a
-                        href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a><br>
+                    {{ $user_review->one_word_comment }}
+                    @if (!is_null($user_review->long_word_comment))
+                        <a href="{{ route('user_anime_comment.show', ['user_review_id' => $user_review->id]) }}">→長文感想({{ mb_strlen($user_review->long_word_comment) }}文字)
+                            @if ($user_review->spoiler == true)
+                                (ネタバレ注意)
+                            @endif
+                        </a>
+                    @endif
+                    <p>
+                        {{ $user_review->created_at }} <a
+                            href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a>
+                    </p>
                     <hr>
                 @endif
             @endforeach
+        </section>
+        <section class="streaming_information">
+            <h3>配信サイトのリンク</h3>
+            <ul>
+                <li>
+                    <a href="https://animestore.docomo.ne.jp/animestore/ci_pc?workId={{ $anime->d_anime_store_id }}"
+                        target="_blank"
+                        rel="noopener noreferrer">dアニメストア</a>{{ is_null($anime->d_anime_store_id) ? '(情報なし)' : ($anime->d_anime_store_id == 'なし' ? '(配信なし)' : '') }}
+                </li>
+                <li>
+                    <a href="https://www.amazon.co.jp/gp/video/detail/{{ $anime->amazon_prime_video_id }}"
+                        target="_blank"
+                        rel="noopener noreferrer">Amazonプライムビデオ</a>{{ is_null($anime->amazon_prime_video_id) ? '(情報なし)' : ($anime->amazon_prime_video_id == 'なし' ? '(配信なし)' : '') }}
+                </li>
+                <li>
+                    <a href="https://fod.fujitv.co.jp/title/{{ $anime->fod_id }}" target="_blank"
+                        rel="noopener noreferrer">FOD</a>{{ is_null($anime->fod_id) ? '(情報なし)' : ($anime->fod_id == 'なし' ? '(配信なし)' : '') }}
+                </li>
+                <li>
+                    <a href="https://video.unext.jp/title/{{ $anime->unext_id }}" target="_blank"
+                        rel="noopener noreferrer">U-NEXT</a>{{ is_null($anime->unext_id) ? '(情報なし)' : ($anime->unext_id == 'なし' ? '(配信なし)' : '') }}
+                </li>
+                <li>
+                    <a href="https://abema.tv/video/title/{{ $anime->abema_id }}" target="_blank"
+                        rel="noopener noreferrer">ABEMAプレミアム</a>{{ is_null($anime->abema_id) ? '(情報なし)' : ($anime->abema_id == 'なし' ? '(配信なし)' : '') }}
+                </li>
+                <li>
+                    <a href="https://www.disneyplus.com/ja-jp/series/{{ $anime->disney_plus_id }}" target="_blank"
+                        rel="noopener noreferrer">DISNEY+</a>{{ is_null($anime->disney_plus_id) ? '(情報なし)' : ($anime->disney_plus_id == 'なし' ? '(配信なし)' : '') }}
+                </li>
+            </ul>
         </section>
         <section class="anime_twitter">
             <h3>公式twitter</h3>

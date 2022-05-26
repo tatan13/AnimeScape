@@ -27,12 +27,7 @@ abstract class AbstractRepository implements RepositoryInterface
      */
     public function getById($id)
     {
-        $model = $this->model::findOrFail($id);
-        if ($model) {
-            return $model;
-        } else {
-            return null;
-        }
+        return $this->model::findOrFail($id);
     }
 
     /**

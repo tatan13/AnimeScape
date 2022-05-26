@@ -77,8 +77,15 @@
                         <td>{{ $cast->blog }}</td>
                         <td><input type="text" name="blog" value="{{ $cast->blog }}"></td>
                     </tr>
+                    <tr>
+                        <th>事由</th>
+                        <td></td>
+                        <td><input type="text" size="100" name="remark" class="remark" value="{{ old('remark') }}"></td>
+                    </tr>
                 </tbody>
             </table>
         </form>
+        <h3>注意事項</h3>
+        事由は400文字以内で入力してください。
     </article>
 @endsection

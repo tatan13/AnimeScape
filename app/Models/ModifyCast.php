@@ -18,6 +18,7 @@ class ModifyCast extends Model
         'url',
         'twitter',
         'blog',
+        'remark',
     ];
 
     /**

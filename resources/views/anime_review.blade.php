@@ -17,28 +17,68 @@
                 </ul>
             </div>
         @endif
-        <form action="{{ route('anime_review.post', ['anime_id' => $anime->id]) }}" class="anime_review_form" method="POST">
+        <form action="{{ route('anime_review.post', ['anime_id' => $anime->id]) }}" class="anime_review_form"
+            method="POST">
             @csrf
-            <label for="will_watch_check">視聴予定:</label>
-            <input type="hidden" name="will_watch" class="will_watch" value="0">
-            <input type="checkbox" name="will_watch" class="will_watch" value="1" class="will_watch"
-                {{ $my_review->will_watch == true ? 'checked' : '' }}>
-            <hr>
-            <label for="score">得点</label><br>
-            <input type="number" size="3" name="score" class="score" value="{{ $my_review->score }}"><br>
-            <label for="watch_check">視聴した？:</label>
-            <input type="hidden" name="watch" class="watch" value="0">
-            <input type="checkbox" name="watch" class="watch" value="1" class="watch"
-                {{ $my_review->watch == true ? 'checked' : '' }}>
-
+            <input type="submit" value="送信">
+            <table class="anime_review_table">
+                <tbody>
+                    <tr>
+                        <th>得点</th>
+                        <th>視聴済み</th>
+                        <th>視聴放棄</th>
+                        <th>視聴予定</th>
+                        <th>面白さがわかる話数</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="number" name="score" class="score"
+                                value="{{ $anime->userReview->score ?? '' }}">
+                        </td>
+                        <td>
+                            <input type="hidden" name="watch" class="watch" value="0">
+                            <input type="checkbox" name="watch" class="watch" value="1" class="watch"
+                                {{ $anime->userReview->watch ?? false == true ? 'checked' : '' }}>
+                        </td>
+                        <td> <input type="hidden" name="give_up" class="give_up" value="0">
+                            <input type="checkbox" name="give_up" class="give_up" value="1" class="give_up"
+                            {{ $anime->userReview->give_up ?? false == true ? 'checked' : '' }}>
+                        </td>
+                        <td>
+                            <select name="will_watch" class="will_watch">
+                                <option value="0"
+                                    {{ ($anime->userReview->will_watch ?? 0) == 0 ? 'selected' : '' }}>-
+                                </option>
+                                <option value="1"
+                                    {{ ($anime->userReview->will_watch ?? 0) == 1 ? 'selected' : '' }}>必ず視聴
+                                </option>
+                                <option value="2"
+                                    {{ ($anime->userReview->will_watch ?? 0) == 2 ? 'selected' : '' }}>多分視聴
+                                </option>
+                                <option value="3"
+                                    {{ ($anime->userReview->will_watch ?? 0) == 3 ? 'selected' : '' }}>様子見
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" name="number_of_interesting_episode" class="number_of_interesting_episode"
+                            value="{{ $anime->userReview->number_of_interesting_episode ?? '' }}">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
             <hr>
             <label for="one_comment">一言感想</label><br>
             <input type="text" size="100" name="one_word_comment" class="one_comment_form"
-                value="{{ $my_review->one_word_comment }}"><br>
+                value="{{ $anime->userReview->one_word_comment ?? '' }}"><br>
+            <hr>
+            <label for="long_word_comment">長文感想</label><br>
+            <textarea name="long_word_comment" class="long_word_comment" cols="80"
+                rows="5">{{ $anime->userReview->long_word_comment ?? '' }}</textarea><br>
             <label for="netabare_check">ネタバレ？:</label>
             <input type="hidden" name="spoiler" class="spoiler" value="0">
             <input type="checkbox" name="spoiler" class="spoiler" value="1" class="spoiler"
-                {{ $my_review->spoiler == true ? 'checked' : '' }}><br>
+                {{ $anime->userReview->spoiler ?? false == true ? 'checked' : '' }}><br>
             <input type="submit" value="送信"><br>
         </form>
         <h3>注意事項</h3>

@@ -27,7 +27,7 @@ class CastController extends Controller
      */
     public function show($cast_id)
     {
-        $cast = $this->castService->getCastWithActAnimesWithMyReviews($cast_id);
+        $cast = $this->castService->getCastWithActAnimesWithCompaniesAndWithMyReviews($cast_id);
         return view('cast', [
             'cast' => $cast,
         ]);

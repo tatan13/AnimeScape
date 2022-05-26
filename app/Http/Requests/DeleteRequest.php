@@ -29,7 +29,7 @@ class DeleteRequest extends FormRequest
     }
 
     /**
-     * アニメ削除申請フォームのバリデーションメッセージ
+     * 削除申請フォームのバリデーションメッセージ
      *
      * @return array<string>
      */

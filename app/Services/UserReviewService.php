@@ -6,7 +6,6 @@ use App\Models\UserReview;
 use App\Models\User;
 use App\Models\Anime;
 use App\Repositories\UserReviewRepository;
-use App\Repositories\UserRepository;
 use App\Repositories\AnimeRepository;
 use Illuminate\Http\Request;
 use App\Http\Requests\ReviewRequest;
@@ -18,24 +17,20 @@ use Illuminate\Database\Eloquent\Collection;
 class UserReviewService
 {
     private UserReviewRepository $userReviewRepository;
-    private UserRepository $userRepository;
     private AnimeRepository $animeRepository;
 
     /**
      * コンストラクタ
      *
      * @param UserReviewRepository $userReviewRepository
-     * @param UserRepository $userRepository
      * @param AnimeRepository $animeRepository
      * @return void
      */
     public function __construct(
         UserReviewRepository $userReviewRepository,
-        UserRepository $userRepository,
         AnimeRepository $animeRepository
     ) {
         $this->userReviewRepository = $userReviewRepository;
-        $this->userRepository = $userRepository;
         $this->animeRepository = $animeRepository;
     }
 
@@ -59,17 +54,6 @@ class UserReviewService
     public function getUserReviewsOfAnime(Anime $anime)
     {
         return $this->animeRepository->getUserReviewsOfAnime($anime);
-    }
-
-    /**
-     * ユーザーに紐づく得点の付いているユーザーレビューをアニメと共に降順に取得
-     *
-     * @param User $user
-     * @return Collection<int,UserReview> | Collection<null>
-     */
-    public function getLatestScoreReviewListWithAnimeOf(User $user)
-    {
-        return $this->userRepository->getLatestScoreReviewListWithAnimeOf($user);
     }
 
     /**
@@ -130,17 +114,17 @@ class UserReviewService
      */
     public function createOrUpdateMyMultipleReview(ReviewsRequest $submit_reviews)
     {
-        $anime_list = $this->animeRepository->getAnimeListWithMyReviewsFor($submit_reviews);
+        $anime_list = $this->animeRepository->getAnimeListWithCompaniesAndWithMyReviewsFor($submit_reviews);
         foreach ($submit_reviews->anime_id as $key => $anime_id) {
             $anime = $anime_list->where('id', $anime_id)->first() ?? abort(404);
             // 何かしら入力されていた場合、レビューを作成
             if (
                 !is_null($submit_reviews->score[$key]) ||
-                $submit_reviews->will_watch[$key] == true ||
                 $submit_reviews->watch[$key] == true ||
-                !is_null($submit_reviews->one_word_comment[$key]) ||
-                $submit_reviews->will_watch[$key] == true ||
-                $submit_reviews->spoiler[$key] == true
+                $submit_reviews->will_watch[$key] != 0 ||
+                $submit_reviews->give_up[$key] == true ||
+                !is_null($submit_reviews->number_of_interesting_episode[$key]) ||
+                !is_null($submit_reviews->one_word_comment[$key])
             ) {
                 if (is_null($anime->userReview)) {
                     DB::transaction(function () use ($anime, $submit_reviews, $key) {
@@ -155,10 +139,10 @@ class UserReviewService
                 });
                 continue;
             }
-            // 何も入力されておらず、既にレビューが存在する場合、レビューを削除
+            // 何も入力されておらず、既にレビューが存在する場合、nullで更新
             if (!is_null($anime->userReview)) {
-                DB::transaction(function () use ($anime) {
-                    $anime->userReview->delete();
+                DB::transaction(function () use ($anime, $submit_reviews, $key) {
+                    $this->animeRepository->updateMyReviewByReviewsRequest($anime, $submit_reviews, $key);
                     $this->updateScoreStatistics($anime);
                 });
             }
@@ -174,11 +158,23 @@ class UserReviewService
     public function updateScoreStatistics(Anime $anime)
     {
         $user_reviews = $this->animeRepository->getUserReviewsOfAnime($anime);
+        $anime->number_of_interesting_episode = $user_reviews->median('number_of_interesting_episode');
         $anime->median = $user_reviews->median('score');
         $anime->average = $user_reviews->avg('score');
         $anime->max = $user_reviews->max('score');
         $anime->min = $user_reviews->min('score');
         $anime->count = $user_reviews->count();
         $this->animeRepository->update($anime);
+    }
+
+    /**
+     * ユーザーのアニメのユーザーレビューをアニメ、ユーザーとともに取得
+     *
+     * @param int $user_review_id
+     * @return UserReview
+     */
+    public function getUserReviewWithAnimeAndUser($user_review_id)
+    {
+        return $this->userReviewRepository->getUserReviewWithAnimeAndUser($user_review_id);
     }
 }
