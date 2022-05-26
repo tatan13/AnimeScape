@@ -41,7 +41,7 @@ class AddCompanyCommand extends Command
      */
     public function handle()
     {
-        $posts = file_get_contents("data/2022_05_21_production_anime.json");
+        $posts = file_get_contents("data/2022_05_24_production_anime.json");
         $posts = mb_convert_encoding($posts, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
         $posts = json_decode($posts);
 
