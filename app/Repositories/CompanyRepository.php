@@ -68,7 +68,7 @@ class CompanyRepository extends AbstractRepository
     }
 
     /**
-     * 会社が制作しているメリストを取得
+     * 会社が制作しているアニメメリストを取得
      *
      * @param Company $company
      * @return Collection<int,Anime> | Collection<null>
@@ -86,10 +86,10 @@ class CompanyRepository extends AbstractRepository
     public function getWithAnimesWithMyReviewsBySearch($search_word)
     {
         if (is_null($search_word)) {
-            return Company::withAnimesWithMyReviewsLatestLimit()->paginate(50);
+            return Company::withAnimesWithMyReviewsLatestLimit()->latest('name')->paginate(50);
         }
         return Company::where(Company::SEARCH_COLUMN, 'like', "%$search_word%")
-        ->withAnimesWithMyReviewsLatestLimit()->paginate(50);
+        ->withAnimesWithMyReviewsLatestLimit()->latest('name')->paginate(50);
     }
 
     /**

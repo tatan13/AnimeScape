@@ -85,20 +85,17 @@
             </tbody>
         </table>
         @if (!$animes->onFirstPage())
-            <a
-                href="{{ $animes->appends(request()->query())->previousPageUrl() }}">前へ</a>
+            <a href="{{ $animes->appends(request()->query())->previousPageUrl() }}">前へ</a>
         @endif
         @for ($i = 1; $i <= $animes->lastPage(); $i++)
             @if ($animes->currentPage() == $i)
                 {{ $i }}
             @else
-                <a
-                    href="{{ $animes->appends(request()->query())->url($i) }}">{{ $i }}</a>
+                <a href="{{ $animes->appends(request()->query())->url($i) }}">{{ $i }}</a>
             @endif
         @endfor
         @if ($animes->hasMorePages())
-            <a
-                href="{{ $animes->appends(request()->query())->nextPageUrl() }}">次へ</a>
+            <a href="{{ $animes->appends(request()->query())->nextPageUrl() }}">次へ</a>
         @endif
         {{ $animes->currentPage() }}/{{ $animes->lastPage() }}ページ
     </article>
