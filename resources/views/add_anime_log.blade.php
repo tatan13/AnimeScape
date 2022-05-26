@@ -75,6 +75,10 @@
                             <td>{{ $add_anime->company3 }}</td>
                         </tr>
                         <tr>
+                            <th>放送カテゴリー</th>
+                            <td>{{ $add_anime->media_category_label }}</td>
+                        </tr>
+                        <tr>
                             <th>dアニメストアのID</th>
                             <td>{{ $add_anime->d_anime_store_id }}</td>
                         </tr>

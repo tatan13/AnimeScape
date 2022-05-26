@@ -96,6 +96,23 @@
                         <td><input type="text" name="company3" value="{{ old('company3') }}"></td>
                     </tr>
                     <tr>
+                        <th>放送カテゴリー</th>
+                        <td>
+                            <select name="media_category">
+                                <option value="0" {{ old('media_category') == 0 ? 'selected' : '' }}>-
+                                </option>
+                                <option value="1" {{ old('media_category') == 1 ? 'selected' : '' }}>TVアニメ
+                                </option>
+                                <option value="2" {{ old('media_category') == 2 ? 'selected' : '' }}>アニメ映画
+                                </option>
+                                <option value="3" {{ old('media_category') == 3 ? 'selected' : '' }}>OVAアニメ
+                                </option>
+                                <option value="4" {{ old('media_category') == 4 ? 'selected' : '' }}>配信
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                         <th>dアニメストアのID</th>
                         <td><input type="text" name="d_anime_store_id" value="{{ old('d_anime_store_id') }}"></td>
                     </tr>
@@ -123,7 +140,6 @@
                     <tr>
                         <th>あらすじ</th>
                         <td>
-                            <label for="summary">内容</label><br>
                             <textarea name="summary" class="summary" cols="80" rows="5">{{ old('summary') }}</textarea><br>
                         </td>
                     </tr>

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Anime;
 
 class AddAnime extends Model
 {
@@ -24,6 +25,7 @@ class AddAnime extends Model
         'company1',
         'company2',
         'company3',
+        'media_category',
         'summary',
         'd_anime_store_id',
         'amazon_prime_video_id',
@@ -33,17 +35,6 @@ class AddAnime extends Model
         'disney_plus_id',
         'delete_flag',
         'remark',
-    ];
-    public const WINTER = 1;
-    public const SPRING = 2;
-    public const SUMMER = 3;
-    public const AUTUMN = 4;
-
-    private const COOR = [
-        self::WINTER => [ 'label' => '冬' ],
-        self::SPRING => [ 'label' => '春' ],
-        self::SUMMER => [ 'label' => '夏' ],
-        self::AUTUMN => [ 'label' => '秋' ],
     ];
 
     /**
@@ -55,11 +46,27 @@ class AddAnime extends Model
     {
         $coor = $this->attributes['coor'];
 
-        if (!isset(self::COOR[$coor])) {
+        if (!isset(ANIME::COOR[$coor])) {
             return '';
         }
 
-        return self::COOR[$coor]['label'];
+        return ANIME::COOR[$coor]['label'];
+    }
+
+    /**
+     * 放送カテゴリーをラベルに変換
+     *
+     * @return string
+     */
+    public function getMediaCategoryLabelAttribute()
+    {
+        $media_category = $this->attributes['media_category'];
+
+        if (!isset(ANIME::MEDIA_CATEGORY[$media_category])) {
+            return '';
+        }
+
+        return ANIME::MEDIA_CATEGORY[$media_category]['label'];
     }
 
     /**

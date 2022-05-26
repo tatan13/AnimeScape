@@ -111,6 +111,24 @@
                         <td><input type="text" name="company3" value="{{ $anime->companies[2]->name ?? '' }}"></td>
                     </tr>
                     <tr>
+                        <th>放送カテゴリー</th>
+                        <td>{{ $anime->media_category_label }}</td>
+                        <td>
+                            <select name="media_category">
+                                <option value="0" {{ $anime->media_category == 0 ? 'selected' : '' }}>-
+                                </option>
+                                <option value="1" {{ $anime->media_category == 1 ? 'selected' : '' }}>TVアニメ
+                                </option>
+                                <option value="2" {{ $anime->media_category == 2 ? 'selected' : '' }}>アニメ映画
+                                </option>
+                                <option value="3" {{ $anime->media_category == 3 ? 'selected' : '' }}>OVAアニメ
+                                </option>
+                                <option value="4" {{ $anime->media_category == 4 ? 'selected' : '' }}>配信
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                         <th>dアニメストアのID</th>
                         <td>{{ $anime->d_anime_store_id }}</td>
                         <td><input type="text" name="d_anime_store_id" value="{{ $anime->d_anime_store_id }}"></td>
@@ -150,6 +168,7 @@
                     </tr>
                     <tr>
                         <th>事由</th>
+                        <td></td>
                         <td><input type="text" size="100" name="remark" class="remark" value="{{ old('remark') }}"></td>
                     </tr>
                 </tbody>

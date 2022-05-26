@@ -31,6 +31,7 @@ class ModifyAnimeFactory extends Factory
             'company2' => 'modify_company2',
             'company3' => 'modify_company3',
             'city_name' => 'modify_city_name',
+            'media_category' => 1,
             'summary' => 'modify_summary',
             'd_anime_store_id' => 'modify_d_anime_store_id',
             'amazon_prime_video_id' => 'modify_amazon_prime_video_id',
@@ -38,6 +39,7 @@ class ModifyAnimeFactory extends Factory
             'fod_id' => 'modify_fod_id',
             'abema_id' => 'modify_abema_id',
             'disney_plus_id' => 'modify_disney_plus_id',
+            'remark' => 'modify_remark',
         ];
     }
 }

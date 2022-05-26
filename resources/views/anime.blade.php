@@ -49,6 +49,12 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <th>放送カテゴリー</th>
+                                    <td>
+                                        {{ $anime->media_category_label }}
+                                    </td>
+                                </tr>
+                                <tr>
                                     <th>ツイッターアカウント</th>
                                     <td>
                                         <a href="https://twitter.com/{{ $anime->twitter }}" target="_blank"

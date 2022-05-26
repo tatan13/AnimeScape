@@ -116,6 +116,7 @@ class AnimeTest extends TestCase
             $this->anime->year,
             $this->anime->coor_label,
             $this->anime->number_of_episode,
+            $this->anime->media_category_label,
             $this->anime->twitter,
             $this->anime->hash_tag,
             $this->anime->city_name,

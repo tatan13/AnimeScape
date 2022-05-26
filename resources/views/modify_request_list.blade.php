@@ -119,6 +119,34 @@
                                 </td>
                             </tr>
                             <tr>
+                                <th>放送カテゴリー</th>
+                                <td>{{ $modify_anime_request->anime->media_category_label }}</td>
+                                <td>
+                                    <select name="media_category">
+                                        <option value="0"
+                                            {{ $modify_anime_request->anime->media_category == 0 ? 'selected' : '' }}>
+                                            -
+                                        </option>
+                                        <option value="1"
+                                            {{ $modify_anime_request->anime->media_category == 1 ? 'selected' : '' }}>
+                                            TVアニメ
+                                        </option>
+                                        <option value="2"
+                                            {{ $modify_anime_request->anime->media_category == 2 ? 'selected' : '' }}>
+                                            アニメ映画
+                                        </option>
+                                        <option value="3"
+                                            {{ $modify_anime_request->anime->media_category == 3 ? 'selected' : '' }}>
+                                            OVAアニメ
+                                        </option>
+                                        <option value="4"
+                                            {{ $modify_anime_request->anime->media_category == 4 ? 'selected' : '' }}>
+                                            配信
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
                                 <th>dアニメストアのID</th>
                                 <td>{{ $modify_anime_request->anime->d_anime_store_id }}</td>
                                 <td><input type="text" name="d_anime_store_id"
@@ -158,7 +186,6 @@
                                 <th>あらすじ</th>
                                 <td>{{ $modify_anime_request->anime->summary }}</td>
                                 <td>
-                                    <label for="summary">内容</label><br>
                                     <textarea name="summary" class="summary" cols="80" rows="5">{{ $modify_anime_request->summary }}</textarea><br>
                                 </td>
                             </tr>
@@ -438,6 +465,33 @@
                                 <td><input type="text" name="company3" value="{{ $add_anime_request->company3 }}"></td>
                             </tr>
                             <tr>
+                                <th>放送カテゴリー</th>
+                                <td>
+                                    <select name="media_category">
+                                        <option value="0"
+                                            {{ $add_anime_request->media_category == 0 ? 'selected' : '' }}>
+                                            -
+                                        </option>
+                                        <option value="1"
+                                            {{ $add_anime_request->media_category == 1 ? 'selected' : '' }}>
+                                            TVアニメ
+                                        </option>
+                                        <option value="2"
+                                            {{ $add_anime_request->media_category == 2 ? 'selected' : '' }}>
+                                            アニメ映画
+                                        </option>
+                                        <option value="3"
+                                            {{ $add_anime_request->media_category == 3 ? 'selected' : '' }}>
+                                            OVAアニメ
+                                        </option>
+                                        <option value="4"
+                                            {{ $add_anime_request->media_category == 4 ? 'selected' : '' }}>
+                                            配信
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
                                 <th>dアニメストアのID</th>
                                 <td><input type="text" name="d_anime_store_id"
                                         value="{{ $add_anime_request->d_anime_store_id }}"></td>
@@ -468,7 +522,6 @@
                             <tr>
                                 <th>あらすじ</th>
                                 <td>
-                                    <label for="summary">内容</label><br>
                                     <textarea name="summary" class="summary" cols="80" rows="5">{{ $add_anime_request->summary }}</textarea><br>
                                 </td>
                             </tr>

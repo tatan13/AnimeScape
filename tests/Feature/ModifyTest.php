@@ -81,6 +81,7 @@ class ModifyTest extends TestCase
             'company2' => 'add_company2',
             'company3' => 'add_company3',
             'city_name' => 'add_city_name',
+            'media_category' => 1,
             'summary' => 'add_summary',
             'd_anime_store_id' => 'add_d_anime_store_id',
             'amazon_prime_video_id' => 'add_amazon_prime_video_id',
@@ -88,6 +89,7 @@ class ModifyTest extends TestCase
             'fod_id' => 'add_fod_id',
             'abema_id' => 'add_abema_id',
             'disney_plus_id' => 'add_disney_plus_id',
+            'remark' => 'add_remark',
         ]);
 
         $this->addAnimeDeleted = AddAnime::create([
@@ -149,6 +151,7 @@ class ModifyTest extends TestCase
             $this->anime->companies[1]->name,
             $this->anime->companies[2]->name,
             $this->anime->companies[2]->name,
+            $this->anime->media_category_label,
             $this->anime->d_anime_store_id,
             $this->anime->d_anime_store_id,
             $this->anime->amazon_prime_video_id,
@@ -201,6 +204,7 @@ class ModifyTest extends TestCase
             'company1' => 'modify_company1',
             'company2' => 'modify_company2',
             'company3' => 'modify_company3',
+            'media_category' => 1,
             'city_name' => 'modify_city_name',
             'summary' => 'modify_summary',
             'd_anime_store_id' => 'modify_d_anime_store_id',
@@ -209,6 +213,7 @@ class ModifyTest extends TestCase
             'fod_id' => 'modify_fod_id',
             'abema_id' => 'modify_abema_id',
             'disney_plus_id' => 'modify_disney_plus_id',
+            'remark' => 'modify_remark',
         ]);
         $response->assertRedirect(route('modify_anime_request.show', [
             'anime_id' => $this->anime->id,
@@ -227,6 +232,7 @@ class ModifyTest extends TestCase
             'company1' => 'modify_company1',
             'company2' => 'modify_company2',
             'company3' => 'modify_company3',
+            'media_category' => 1,
             'city_name' => 'modify_city_name',
             'summary' => 'modify_summary',
             'd_anime_store_id' => 'modify_d_anime_store_id',
@@ -235,6 +241,7 @@ class ModifyTest extends TestCase
             'fod_id' => 'modify_fod_id',
             'abema_id' => 'modify_abema_id',
             'disney_plus_id' => 'modify_disney_plus_id',
+            'remark' => 'modify_remark',
         ]);
     }
 
@@ -259,6 +266,7 @@ class ModifyTest extends TestCase
             'company1' => 'modify_company1',
             'company2' => 'modify_company2',
             'company3' => 'modify_company3',
+            'media_category' => 1,
             'city_name' => 'modify_city_name',
             'summary' => 'modify_summary',
             'd_anime_store_id' => 'modify_d_anime_store_id',
@@ -267,6 +275,7 @@ class ModifyTest extends TestCase
             'fod_id' => 'modify_fod_id',
             'abema_id' => 'modify_abema_id',
             'disney_plus_id' => 'modify_disney_plus_id',
+            'remark' => 'modify_remark',
         ]);
         $response->assertStatus(404);
     }
@@ -494,6 +503,7 @@ class ModifyTest extends TestCase
             $this->modifyAnime->company2,
             $this->anime->companies[2]->name,
             $this->modifyAnime->company3,
+            $this->modifyAnime->media_category_label,
             $this->anime->d_anime_store_id,
             $this->modifyAnime->d_anime_store_id,
             $this->anime->amazon_prime_video_id,
@@ -508,6 +518,7 @@ class ModifyTest extends TestCase
             $this->modifyAnime->disney_plus_id,
             $this->anime->summary,
             $this->modifyAnime->summary,
+            $this->modifyAnime->remark,
             '2件目',
             $this->modifyAnime1->title,
         ]);
@@ -601,6 +612,7 @@ class ModifyTest extends TestCase
             $this->addAnime->company1,
             $this->addAnime->company2,
             $this->addAnime->company3,
+            $this->addAnime->media_category_label,
             $this->addAnime->d_anime_store_id,
             $this->addAnime->amazon_prime_video_id,
             $this->addAnime->fod_id,
@@ -608,6 +620,7 @@ class ModifyTest extends TestCase
             $this->addAnime->abema_id,
             $this->addAnime->disney_plus_id,
             $this->addAnime->summary,
+            $this->addAnime->remark,
         ]);
         $response->assertDontSee($this->addAnimeDeleted->title);
     }
@@ -665,6 +678,7 @@ class ModifyTest extends TestCase
             'company1' => 'modify_company1',
             'company2' => 'modify_company2',
             'company3' => 'modify_company3',
+            'media_category' => 2,
             'city_name' => 'modify_city_name',
             'summary' => 'modify_summary',
             'd_anime_store_id' => 'modify_d_anime_store_id',
@@ -699,6 +713,7 @@ class ModifyTest extends TestCase
             'company1' => 'modify_company1',
             'company2' => 'modify_company2',
             'company3' => 'modify_company3',
+            'media_category' => 2,
             'city_name' => 'modify_city_name',
             'summary' => 'modify_summary',
             'd_anime_store_id' => 'modify_d_anime_store_id',
@@ -733,6 +748,7 @@ class ModifyTest extends TestCase
             'company1' => 'modify_company1',
             'company2' => 'modify_company2',
             'company3' => 'modify_company3',
+            'media_category' => 2,
             'city_name' => 'modify_city_name',
             'summary' => 'modify_summary',
             'd_anime_store_id' => 'modify_d_anime_store_id',
@@ -754,6 +770,7 @@ class ModifyTest extends TestCase
             'public_url' => 'https://modify_public_url',
             'twitter' => 'modify_twitterId',
             'hash_tag' => 'modify_hashTag',
+            'media_category' => 2,
             'city_name' => 'modify_city_name',
             'summary' => 'modify_summary',
             'd_anime_store_id' => 'modify_d_anime_store_id',
@@ -852,13 +869,6 @@ class ModifyTest extends TestCase
         $this->assertDatabaseMissing('modify_animes', [
             'id' => $this->modifyAnime->id,
             'anime_id' => $this->anime->id,
-            'title' => 'modify_title',
-            'year' => 2040,
-            'coor' => 4,
-            'public_url' => 'https://modify_public_url',
-            'twitter' => 'modify_twitterId',
-            'hash_tag' => 'modify_hashTag',
-            'company' => 'modify_company',
         ]);
     }
 
@@ -1423,6 +1433,7 @@ class ModifyTest extends TestCase
             'company1' => 'add_post_company1',
             'company2' => 'add_post_company2',
             'company3' => 'add_post_company3',
+            'media_category' => 2,
             'city_name' => 'add_post_city_name',
             'summary' => 'add_post_summary',
             'd_anime_store_id' => 'add_post_d_anime_store_id',
@@ -1431,6 +1442,7 @@ class ModifyTest extends TestCase
             'fod_id' => 'add_post_fod_id',
             'abema_id' => 'add_post_abema_id',
             'disney_plus_id' => 'add_post_disney_plus_id',
+            'remark' => 'add_post_remark',
         ]);
         $this->assertDatabaseHas('add_animes', [
             'title' => 'add_post_title',
@@ -1445,6 +1457,7 @@ class ModifyTest extends TestCase
             'company1' => 'add_post_company1',
             'company2' => 'add_post_company2',
             'company3' => 'add_post_company3',
+            'media_category' => 2,
             'city_name' => 'add_post_city_name',
             'summary' => 'add_post_summary',
             'd_anime_store_id' => 'add_post_d_anime_store_id',
@@ -1453,6 +1466,7 @@ class ModifyTest extends TestCase
             'fod_id' => 'add_post_fod_id',
             'abema_id' => 'add_post_abema_id',
             'disney_plus_id' => 'add_post_disney_plus_id',
+            'remark' => 'add_post_remark',
         ]);
     }
 
@@ -1545,6 +1559,7 @@ class ModifyTest extends TestCase
             'company1' => 'add_post_company1',
             'company2' => 'add_post_company2',
             'company3' => 'add_post_company3',
+            'media_category' => 2,
             'city_name' => 'add_post_city_name',
             'summary' => 'add_post_summary',
             'd_anime_store_id' => 'add_post_d_anime_store_id',
@@ -1565,6 +1580,7 @@ class ModifyTest extends TestCase
             'public_url' => 'https://add_post_public_url',
             'twitter' => 'add_post_twitterId',
             'hash_tag' => 'add_post_hashTag',
+            'media_category' => 2,
             'city_name' => 'add_post_city_name',
             'summary' => 'add_post_summary',
             'd_anime_store_id' => 'add_post_d_anime_store_id',
@@ -1588,6 +1604,7 @@ class ModifyTest extends TestCase
             'company1' => 'add_post_company1',
             'company2' => 'add_post_company2',
             'company3' => 'add_post_company3',
+            'media_category' => 2,
             'city_name' => 'add_post_city_name',
             'summary' => 'add_post_summary',
             'd_anime_store_id' => 'add_post_d_anime_store_id',

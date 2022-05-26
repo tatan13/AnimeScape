@@ -32,6 +32,9 @@ return new class extends Migration
             $table->integer('number_of_interesting_episode')->nullable();
         });
         Schema::table('animes', function (Blueprint $table) {
+            $table->integer('media_category')->default(0);
+        });
+        Schema::table('animes', function (Blueprint $table) {
             $table->text('summary')->nullable();
         });
         Schema::table('animes', function (Blueprint $table) {
@@ -78,6 +81,9 @@ return new class extends Migration
         });
         Schema::table('animes', function (Blueprint $table) {
             $table->dropColumn('number_of_interesting_episode');
+        });
+        Schema::table('animes', function (Blueprint $table) {
+            $table->dropColumn('media_category');
         });
         Schema::table('animes', function (Blueprint $table) {
             $table->dropColumn('summary');

@@ -27,6 +27,7 @@ class AnimeFactory extends Factory
             'twitter' => 'twitterId',
             'hash_tag' => 'hashTag',
             'city_name' => 'city_name',
+            'media_category' => 1,
             'summary' => 'summary',
             'd_anime_store_id' => 'd_anime_store_id',
             'amazon_prime_video_id' => 'amazon_prime_video_id',

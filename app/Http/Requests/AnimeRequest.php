@@ -37,6 +37,7 @@ class AnimeRequest extends FormRequest
             'company2' => 'nullable|string',
             'company3' => 'nullable|string',
             'city_name'  => 'nullable|string',
+            'media_category'  => 'nullable|integer',
             'summary'  => 'nullable|string',
             'd_anime_store_id'  => 'nullable|string',
             'amazon_prime_video_id'  => 'nullable|string',
