@@ -34,6 +34,7 @@ class AnimeFactory extends Factory
             'fod_id' => 'fod_id',
             'abema_id' => 'abema_id',
             'disney_plus_id' => 'disney_plus_id',
+            'number_of_interesting_episode' => 12,
             'average' => 100,
             'median' => 100,
             'max' => 100,

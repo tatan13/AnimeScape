@@ -145,7 +145,6 @@
                         <th>あらすじ</th>
                         <td>{{ $anime->summary }}</td>
                         <td>
-                            <label for="summary">内容</label><br>
                             <textarea name="summary" class="summary" cols="80" rows="5">{{ $anime->summary }}</textarea><br>
                         </td>
                     </tr>

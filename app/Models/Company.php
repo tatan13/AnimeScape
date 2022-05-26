@@ -26,7 +26,7 @@ class Company extends Model
      */
     public function animes()
     {
-        return $this->belongsToMany('App\Models\Anime');
+        return $this->belongsToMany('App\Models\Anime')->withTimestamps();
     }
 
     public function scopeWithAnimesWithMyReviewsLatestLimit($query)

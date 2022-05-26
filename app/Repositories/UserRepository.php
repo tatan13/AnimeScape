@@ -88,28 +88,6 @@ class UserRepository extends AbstractRepository
     }
 
     /**
-     * ユーザーに紐づく得点の付いているユーザーレビューをアニメと共に降順に取得
-     *
-     * @param User $user
-     * @return Collection<int,UserReview> | Collection<null>
-     */
-    public function getLatestScoreReviewListWithAnimeWithCompaniesOf(User $user)
-    {
-        return $user->userReviews()->whereNotNull('score')->with('anime.companies')->latest()->get();
-    }
-
-    /**
-     * ユーザーの視聴予定アニメリストを取得
-     *
-     * @param User $user
-     * @return Collection<int,Anime> | Collection<null>
-     */
-    public function getWillWatchAnimeListWithCompanies(User $user)
-    {
-        return $user->reviewAnimes()->where('user_reviews.will_watch', true)->withCompanies()->get();
-    }
-
-    /**
      * ユーザーのお気に入りユーザーリストを最新のユーザーレビューと共に取得
      *
      * @param User $user

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Anime;
 use App\Models\Cast;
+use App\Models\User;
 use App\Models\UserReview;
 use App\Models\ModifyAnime;
 use App\Models\ModifyOccupation;
@@ -80,7 +81,7 @@ class AnimeRepository extends AbstractRepository
     public function getNowCoorAnimeListWithCompaniesAndWithMyReviews()
     {
         return Anime::whereYear(Anime::NOW_YEAR)->whereCoor(Anime::NOW_COOR)
-        ->withCompanies()->withMyReviews()->latest(Anime::TYPE_MEDIAN)->get();
+        ->withCompanies()->withMyReviews()->sortable()->latest(Anime::TYPE_MEDIAN)->get();
     }
 
     /**
@@ -98,6 +99,66 @@ class AnimeRepository extends AbstractRepository
                 $query->select('id', 'name');
             });
         })->select(['id', 'title', 'year', 'coor'])->get();
+    }
+
+    /**
+     * ユーザーの得点の付いたアニメリストをユーザーレビューと制作会社とともに取得
+     *
+     * @param User $user
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getScoreAnimeListWithCompaniesWithUserReviewOf(User $user)
+    {
+        return Anime::whereHas('userReview', function ($query) use ($user) {
+            $query->where('user_id', $user->id)->whereNotNull('score');
+        })->with('userReview', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->withCompanies()->get();
+    }
+
+    /**
+     * ユーザーの視聴予定アニメリストをユーザーレビューと制作会社とともに取得
+     *
+     * @param User $user
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getWatchAnimeListWithCompaniesWithUserReviewOf(User $user)
+    {
+        return Anime::whereHas('userReview', function ($query) use ($user) {
+            $query->where('user_id', $user->id)->where('watch', 1);
+        })->with('userReview', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->withCompanies()->get();
+    }
+
+    /**
+     * ユーザーの視聴済みアニメリストを放送順にユーザーレビューと制作会社とともに取得
+     *
+     * @param User $user
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getLatestWillWatchAnimeListWithCompaniesWithUserReviewOf(User $user)
+    {
+        return Anime::whereHas('userReview', function ($query) use ($user) {
+            $query->where('user_id', $user->id)->whereNotIn('will_watch', [0]);
+        })->with('userReview', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->sortable()->latestYearCoorMedian()->withCompanies()->get();
+    }
+
+    /**
+     * ユーザーのギブアップしたアニメリストを放送順にユーザーレビューと制作会社とともに取得
+     *
+     * @param User $user
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getLatestGiveUpAnimeListWithCompaniesWithUserReviewOf(User $user)
+    {
+        return Anime::whereHas('userReview', function ($query) use ($user) {
+            $query->where('user_id', $user->id)->where('give_up', 1);
+        })->with('userReview', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->sortable()->latestYearCoorMedian()->withCompanies()->get();
     }
 
     /**
@@ -141,10 +202,10 @@ class AnimeRepository extends AbstractRepository
     public function getWithCompaniesAndWithMyReviewsLatestBySearch($search_word)
     {
         if (is_null($search_word)) {
-            return Anime::withCompanies()->withMyReviews()->LatestYearCoorMedian()->paginate(500);
+            return Anime::withCompanies()->withMyReviews()->sortable()->LatestYearCoorMedian()->paginate(500);
         }
         return Anime::where(Anime::SEARCH_COLUMN, 'like', "%$search_word%")
-        ->withCompanies()->withMyReviews()->LatestYearCoorMedian()->paginate(500);
+        ->withCompanies()->withMyReviews()->sortable()->LatestYearCoorMedian()->paginate(500);
     }
 
     /**
@@ -218,8 +279,9 @@ class AnimeRepository extends AbstractRepository
             'score' => $submit_reviews->score[$key],
             'will_watch' => $submit_reviews->will_watch[$key],
             'watch' => $submit_reviews->watch[$key],
+            'give_up' => $submit_reviews->give_up[$key],
+            'number_of_interesting_episode' => $submit_reviews->number_of_interesting_episode[$key],
             'one_word_comment' => $submit_reviews->one_word_comment[$key],
-            'spoiler' => $submit_reviews->spoiler[$key],
         ]);
     }
 
@@ -237,8 +299,9 @@ class AnimeRepository extends AbstractRepository
             'score' => $submit_reviews->score[$key],
             'will_watch' => $submit_reviews->will_watch[$key],
             'watch' => $submit_reviews->watch[$key],
+            'give_up' => $submit_reviews->give_up[$key],
+            'number_of_interesting_episode' => $submit_reviews->number_of_interesting_episode[$key],
             'one_word_comment' => $submit_reviews->one_word_comment[$key],
-            'spoiler' => $submit_reviews->spoiler[$key],
         ]);
     }
 
@@ -296,7 +359,7 @@ class AnimeRepository extends AbstractRepository
     public function getAnimeListWithCompaniesAndWithMyReviewsFor(ReviewsRequest | Request $request)
     {
         return Anime::whereYear($request->year)->whereCoor($request->coor)->whereAboveCount($request->count)
-        ->WithCompanies()->withMyReviews()->latestCategory($request->category)->paginate(500);
+        ->WithCompanies()->withMyReviews()->sortable()->latestCategory($request->category)->paginate(500);
     }
 
     /**
@@ -306,7 +369,7 @@ class AnimeRepository extends AbstractRepository
      */
     public function getRecommendAnimeListWithCompanies()
     {
-        return Auth::user()->recommendAnimes()->withCompanies()->latest('recommendation_score')->get();
+        return Auth::user()->recommendAnimes()->withCompanies()->sortable()->latest('recommendation_score')->get();
     }
 
     /**
@@ -317,7 +380,7 @@ class AnimeRepository extends AbstractRepository
     public function getTopAnimeListWithCompanies()
     {
         return Anime::whereNotIn('id', Auth::user()->userReviews()->whereNotNull('score')->pluck('anime_id'))
-        ->withCompanies()->latest('median')->whereAboveCount(2)->take(5)->get();
+        ->withCompanies()->sortable()->latest('median')->whereAboveCount(2)->take(5)->get();
     }
 
     /**

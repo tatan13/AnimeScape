@@ -90,7 +90,6 @@ class StatisticsTest extends TestCase
         $response = $this->get(route('anime_statistics.show', ['category' => Anime::TYPE_MEDIAN]));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
-            '（中央値順）',
             $this->anime1->title,
             75,
             $this->anime2->title,
@@ -113,7 +112,6 @@ class StatisticsTest extends TestCase
         $response = $this->get(route('anime_statistics.show', ['category' => Anime::TYPE_AVERAGE]));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
-            '（平均値順）',
             $this->anime4->title,
             $this->anime3->title,
             $this->anime2->title,
@@ -132,7 +130,6 @@ class StatisticsTest extends TestCase
         $response = $this->get(route('anime_statistics.show', ['count' => 2, 'category' => Anime::TYPE_COUNT]));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
-            '（データ数順）',
             $this->anime1->title,
             $this->anime4->title,
             $this->anime3->title
@@ -151,7 +148,6 @@ class StatisticsTest extends TestCase
         $response = $this->get(route('anime_statistics.show', ['category' => Anime::TYPE_MEDIAN, 'year' => 2022]));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
-            '（中央値順）',
             $this->anime1->title,
             $this->anime2->title,
             $this->anime4->title
@@ -172,7 +168,6 @@ class StatisticsTest extends TestCase
         ]));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
-            '（中央値順）',
             $this->anime1->title,
             $this->anime2->title
         ]);

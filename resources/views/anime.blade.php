@@ -102,6 +102,10 @@
                                     <th>最低点</th>
                                     <td>{{ $anime->min }}</td>
                                 </tr>
+                                <tr>
+                                    <th>面白さがわかる話数</th>
+                                    <td>{{ $anime->number_of_interesting_episode }}</td>
+                                </tr>
                                 @auth
                                     <tr>
                                         <th>つけた得点</th>
@@ -149,7 +153,7 @@
                     @endif
                     {{ $user_review->one_word_comment }}
                     @if (!is_null($user_review->long_word_comment))
-                        <a href="">→長文感想({{ mb_strlen($user_review->long_word_comment) }}文字)
+                        <a href="{{ route('user_anime_comment.show', ['user_review_id' => $user_review->id]) }}">→長文感想({{ mb_strlen($user_review->long_word_comment) }}文字)
                             @if ($user_review->spoiler == true)
                                 (ネタバレ注意)
                             @endif

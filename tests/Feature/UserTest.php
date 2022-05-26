@@ -67,12 +67,15 @@ class UserTest extends TestCase
         $this->anime1->reviewUsers()->attach($this->user1->id, [
             'score' => 100,
             'one_word_comment' => 'excellent',
-            'watch' => true
+            'long_word_comment' => 'long_word_comment_exellent',
+            'watch' => true,
+            'give_up' => true
         ]);
         $this->anime2->reviewUsers()->attach($this->user1->id, [
             'score' => 99,
             'one_word_comment' => 'not sad',
-            'watch' => true
+            'watch' => true,
+            'give_up' => true
         ]);
         $this->anime3->reviewUsers()->attach($this->user1->id, [
             'score' => 95,
@@ -479,7 +482,7 @@ class UserTest extends TestCase
     }
 
     /**
-     * ユーザーの視聴予定表の表示のテスト
+     * ユーザーの視聴予定表の表示の異常値テスト
      *
      * @test
      * @return void
@@ -487,6 +490,64 @@ class UserTest extends TestCase
     public function testNotExistUserWillWatchAnimeListView()
     {
         $response = $this->get(route('user_will_watch_anime_list.show', ['user_id' => 3333333333333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ユーザーの視聴アニメリストの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1WatchAnimeListView()
+    {
+        $response = $this->get(route('user_watch_anime_list.show', ['user_id' => $this->user1->id]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->anime1->title,
+            $this->anime2->title,
+            $this->anime3->title,
+            $this->anime4->title,
+        ]);
+    }
+
+    /**
+     * ユーザーの視聴アニメリストの表示の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistUserWatchAnimeListView()
+    {
+        $response = $this->get(route('user_watch_anime_list.show', ['user_id' => 3333333333333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ユーザーの視聴放棄アニメリストの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1GiveUpAnimeListView()
+    {
+        $response = $this->get(route('user_give_up_anime_list.show', ['user_id' => $this->user1->id]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->anime1->title,
+            $this->anime2->title,
+        ]);
+    }
+
+    /**
+     * ユーザーの視聴放棄アニメリストの表示の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistUserGiveUpAnimeListView()
+    {
+        $response = $this->get(route('user_give_up_anime_list.show', ['user_id' => 3333333333333333333333333]));
         $response->assertStatus(404);
     }
 
@@ -659,5 +720,36 @@ class UserTest extends TestCase
             'birth' => 1998,
             'sex' => 0,
         ]);
+    }
+
+    /**
+     * ユーザーのアニメコメントを表示
+     *
+     * @test
+     * @return void
+     */
+    public function testUserAnimeCommentView()
+    {
+        $response = $this->get(route('user_anime_comment.show', ['user_review_id' => 1]));
+        $response->assertStatus(200);
+        $user_review = $this->user1->userReviews()->where('anime_id', $this->anime1->id)->first();
+        $response->assertSeeInOrder([
+            $this->user1->name,
+            $this->anime1->title,
+            $user_review->score,
+            $user_review->one_word_comment,
+            $user_review->long_word_comment,
+        ]);
+    }
+    /**
+     * 存在しないユーザーのアニメコメントを表示
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistUserAnimeCommentView()
+    {
+        $response = $this->get(route('user_anime_comment.show', ['user_review_id' => 3333333333333]));
+        $response->assertStatus(404);
     }
 }

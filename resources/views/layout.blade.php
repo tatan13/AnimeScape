@@ -68,8 +68,6 @@
                                             </select>
                                             年
                                             <select name="coor" class="coor">
-                                                <option value="" {{ is_null($coor ?? null) ? 'selected' : '' }}>-
-                                                </option>
                                                 <option value="1"
                                                     {{ is_null($coor ?? null) ? '' : ($coor == 1 ? 'selected' : '') }}>
                                                     冬

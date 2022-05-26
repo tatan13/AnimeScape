@@ -132,7 +132,8 @@ class User extends Authenticatable
      */
     public function userLikeUsers()
     {
-        return $this->belongsToMany('App\Models\User', 'user_like_users', 'user_id', 'liked_user_id');
+        return $this->belongsToMany('App\Models\User', 'user_like_users', 'user_id', 'liked_user_id')
+        ->withTimestamps();
     }
 
     /**
@@ -142,7 +143,8 @@ class User extends Authenticatable
      */
     public function userLikedUsers()
     {
-        return $this->belongsToMany('App\Models\User', 'user_like_users', 'liked_user_id', 'user_id');
+        return $this->belongsToMany('App\Models\User', 'user_like_users', 'liked_user_id', 'user_id')
+        ->withTimestamps();
     }
 
     /**
@@ -152,7 +154,7 @@ class User extends Authenticatable
      */
     public function likeCasts()
     {
-        return $this->belongsToMany('App\Models\Cast', 'user_like_casts', 'user_id', 'cast_id');
+        return $this->belongsToMany('App\Models\Cast', 'user_like_casts', 'user_id', 'cast_id')->withTimestamps();
     }
 
     /**

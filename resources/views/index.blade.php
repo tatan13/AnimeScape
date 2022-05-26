@@ -20,9 +20,11 @@
                             <th>順位</th>
                             <th>アニメ名</th>
                             <th>制作会社</th>
-                            <th>放送クール</th>
-                            <th>中央値</th>
-                            <th>データ数</th>
+                            <th>@sortablelink('unionYearCoor', '放送クール')</th>
+                            <th>@sortablelink('number_of_episode', '話数')</th>
+                            <th>@sortablelink('median', '中央値')</th>
+                            <th>@sortablelink('average', '平均値')</th>
+                            <th>@sortablelink('count', 'データ数')</th>
                         </tr>
                         @foreach ($recommend_anime_list as $anime)
                             <tr>
@@ -36,7 +38,9 @@
                                     @endforeach
                                 </td>
                                 <td>{{ $anime->year }}年{{ $anime->coor_label }}クール</td>
+                                <td>{{ $anime->number_of_episode }}</td>
                                 <td>{{ $anime->median }}</td>
+                                <td>{{ $anime->average }}</td>
                                 <td>{{ $anime->count }}</td>
                             </tr>
                         @endforeach
@@ -52,8 +56,10 @@
                         <th>順位</th>
                         <th>アニメ名</th>
                         <th>制作会社</th>
-                        <th>中央値</th>
-                        <th>データ数</th>
+                        <th>@sortablelink('number_of_episode', '話数')</th>
+                        <th>@sortablelink('median', '中央値')</th>
+                        <th>@sortablelink('average', '平均値')</th>
+                        <th>@sortablelink('count', 'データ数')</th>
                         @auth
                             <th>つけた得点</th>
                         @endauth
@@ -70,7 +76,9 @@
                                         href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
                                 @endforeach
                             </td>
+                            <td>{{ $anime->number_of_episode }}</td>
                             <td>{{ $anime->median }}</td>
+                            <td>{{ $anime->average }}</td>
                             <td>{{ $anime->count }}</td>
                             @auth
                                 <td>{{ $anime->userReview->score ?? '' }}</td>

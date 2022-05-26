@@ -10,6 +10,29 @@ class UserReview extends Model
 {
     use HasFactory;
 
+    private const WILL_WATCH = [
+        0 => ['label' => '-' ],
+        1 => ['label' => '必ず視聴' ],
+        2 => ['label' => '多分視聴' ],
+        3 => ['label' => '様子見' ],
+    ];
+
+    /**
+     * 視聴予定をラベルに変換
+     *
+     * @return string
+     */
+    public function getWillWatchLabelAttribute()
+    {
+        $will_watch = $this->attributes['will_watch'];
+
+        if (!isset(self::WILL_WATCH[$will_watch])) {
+            return '';
+        }
+
+        return self::WILL_WATCH[$will_watch]['label'];
+    }
+
     /**
      * アニメの取得
      *
@@ -33,5 +56,12 @@ class UserReview extends Model
     public function scopeWhereInUserIdAndWhereNotNullScore($query, $users_id)
     {
         $query->whereIn('user_id', $users_id)->whereNotNull('score');
+    }
+
+    public function scopeLatestAnimeYearCoorMedian($query)
+    {
+        return $query->join('animes', 'user_reviews.anime_id', '=', 'animes.id')
+        ->select('user_reviews.*', 'animes.*')
+        ->orderByRaw('animes.year desc, animes.coor desc, animes.median desc');
     }
 }

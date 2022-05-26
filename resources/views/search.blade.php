@@ -14,12 +14,12 @@
                         <table class="anime_search_result_table">
                             <tbody>
                                 <tr>
-                                    <th>アニメ名</th>
+                                    <th>@sortablelink('title', 'アニメ名')</th>
                                     <th>制作会社</th>
-                                    <th>放送クール</th>
-                                    <th>中央値</th>
-                                    <th>標準偏差</th>
-                                    <th>データ数</th>
+                                    <th>@sortablelink('unionYearCoor', '放送クール')</th>
+                                    <th>@sortablelink('median', '中央値')</th>
+                                    <th>@sortablelink('average', '平均値')</th>
+                                    <th>@sortablelink('count', 'データ数')</th>
                                     @auth
                                         <th>つけた得点</th>
                                     @endauth
@@ -163,19 +163,19 @@
         @endswitch
         @if (!$search_results->onFirstPage())
             <a
-                href="{{ $search_results->appends(['category' => $category, 'search_word' => $search_word])->previousPageUrl() }}">前へ</a>
+                href="{{ $search_results->appends(request()->query())->previousPageUrl() }}">前へ</a>
         @endif
         @for ($i = 1; $i <= $search_results->lastPage(); $i++)
             @if ($search_results->currentPage() == $i)
                 {{ $i }}
             @else
                 <a
-                    href="{{ $search_results->appends(['category' => $category, 'search_word' => $search_word])->url($i) }}">{{ $i }}</a>
+                    href="{{ $search_results->appends(request()->query())->url($i) }}">{{ $i }}</a>
             @endif
         @endfor
         @if ($search_results->hasMorePages())
             <a
-                href="{{ $search_results->appends(['category' => $category, 'search_word' => $search_word])->nextPageUrl() }}">次へ</a>
+                href="{{ $search_results->appends(request()->query())->nextPageUrl() }}">次へ</a>
         @endif
         {{ $search_results->currentPage() }}/{{ $search_results->lastPage() }}ページ
     </article>

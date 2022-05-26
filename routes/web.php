@@ -20,6 +20,8 @@ Route::get('/', [App\Http\Controllers\IndexController::class, 'show'])->name('in
 
 Route::get('/anime/{anime_id}', [App\Http\Controllers\AnimeController::class, 'show'])->name('anime.show');
 
+Route::get('/user_anime_comment/{user_review_id}', [App\Http\Controllers\UserController::class, 'showUserAnimeComment'])->name('user_anime_comment.show');
+
 Route::get('/anime/{anime_id}/delete_request', [App\Http\Controllers\ModifyController::class, 'showDeleteAnimeRequest'])->name('delete_anime_request.show');
 
 Route::post('/anime/{anime_id}/delete_request', [App\Http\Controllers\ModifyController::class, 'postDeleteAnimeRequest'])->name('delete_anime_request.post');
@@ -37,6 +39,10 @@ Route::get('/user_information/{user_id}', [App\Http\Controllers\UserController::
 Route::get('/user_information/{user_id}/score_anime_list', [App\Http\Controllers\UserController::class, 'showScoreAnimeList'])->name('user_score_anime_list.show');
 
 Route::get('/user_information/{user_id}/will_watch_anime_list', [App\Http\Controllers\UserController::class, 'showWillWatchAnimeList'])->name('user_will_watch_anime_list.show');
+
+Route::get('/user_information/{user_id}/watch_anime_list', [App\Http\Controllers\UserController::class, 'showWatchAnimeList'])->name('user_watch_anime_list.show');
+
+Route::get('/user_information/{user_id}/give_up_anime_list', [App\Http\Controllers\UserController::class, 'showGiveUpAnimeList'])->name('user_give_up_anime_list.show');
 
 Route::get('/user_information/{user_id}/like_user_list', [App\Http\Controllers\UserController::class, 'showUserLikeUserList'])->name('user_like_user_list.show');
 

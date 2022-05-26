@@ -27,9 +27,11 @@ class ReviewRequest extends FormRequest
             'score' => 'integer|between:0,100|nullable',
             'one_word_comment' => 'max:400|string|nullable',
             'long_word_comment' => 'string|nullable',
-            'will_watch' => 'bool',
+            'will_watch' => 'integer|min:0|nullable',
             'watch' => 'bool',
             'spoiler' => 'bool',
+            'give_up' => 'bool',
+            'number_of_interesting_episode' => 'integer|nullable',
         ];
     }
 
@@ -46,6 +48,8 @@ class ReviewRequest extends FormRequest
           'one_word_comment.max' => '一言感想は400文字以下で入力してください。',
           'one_word_comment.string' => '一言感想には文字列を入力してください。',
           'long_word_comment.string' => '長文感想には文字列を入力してください。',
+          'number_of_interesting_episode.integer' => '面白さがわかる話数は整数で入力してください。',
+          'number_of_interesting_episode.min' => '面白さがわかる話数は0以上で入力してください。',
         ];
     }
 }

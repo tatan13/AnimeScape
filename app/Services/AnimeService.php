@@ -168,14 +168,49 @@ class AnimeService
     }
 
     /**
-     * ユーザーの視聴予定アニメリストを放送順に取得
+     * ユーザーの点数をつけたアニメリストを制作会社と降順のユーザーレビューとともに取得
      *
      * @param User $user
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getWillWatchAnimeListWithCompanies(User $user)
+    public function getScoreAnimeListWithCompaniesWithUserReviewLatestOf(User $user)
     {
-        return $this->userRepository->getWillWatchAnimeListWithCompanies($user)->sortByDesc('year_coor');
+        return $this->animeRepository->getScoreAnimeListWithCompaniesWithUserReviewOf($user)
+        ->sortByDesc('userReview.created_at');
+    }
+
+    /**
+     * ユーザーの視聴予定アニメリストを放送順に制作会社とユーザーレビューとともに取得
+     *
+     * @param User $user
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getLatestWillWatchAnimeListWithCompaniesWithUserReviewOf(User $user)
+    {
+        return $this->animeRepository->getLatestWillWatchAnimeListWithCompaniesWithUserReviewOf($user);
+    }
+
+    /**
+     * ユーザーの視聴済みアニメリストを制作会社と降順のユーザーレビューとともに取得
+     *
+     * @param User $user
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getWatchAnimeListWithCompaniesWithUserReviewLatestOf(User $user)
+    {
+        return $this->animeRepository->getWatchAnimeListWithCompaniesWithUserReviewOf($user)
+        ->sortByDesc('userReview.created_at');
+    }
+
+    /**
+     * ユーザーのギブアップしたアニメリストを放送順に制作会社とユーザーレビューとともに取得
+     *
+     * @param User $user
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getLatestGiveUpAnimeListWithCompaniesWithUserReviewOf(User $user)
+    {
+        return $this->animeRepository->getLatestGiveUpAnimeListWithCompaniesWithUserReviewOf($user);
     }
 
     /**

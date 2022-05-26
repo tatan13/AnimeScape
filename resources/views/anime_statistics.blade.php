@@ -1,12 +1,12 @@
 @extends('layout')
 
 @section('title')
-    <title>アニメランキング（中央値順）AnimeScape</title>
+    <title>アニメランキング AnimeScape</title>
 @endsection
 
 @section('main')
     <article class="anime_statistics">
-        <h2>{{ !is_null($year) ? $year . '年' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }}アニメランキング（{{ App\Models\Anime::getCategoryLabel($category) }}順）
+        <h2>{{ !is_null($year) ? $year . '年' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }}アニメランキング
         </h2>
         <h3>検索条件変更</h3>
         <form action="{{ route('anime_statistics.show') }}" class="search_parameters_form" method="GET">
@@ -52,10 +52,11 @@
                     <th>順位</th>
                     <th>アニメ名</th>
                     <th>制作会社</th>
-                    <th>放送クール</th>
-                    <th>中央値</th>
-                    <th>平均値</th>
-                    <th>データ数</th>
+                    <th>@sortablelink('unionYearCoor', '放送クール')</th>
+                    <th>@sortablelink('number_of_episode', '話数')</th>
+                    <th>@sortablelink('median', '中央値')</th>
+                    <th>@sortablelink('average', '平均値')</th>
+                    <th>@sortablelink('count', 'データ数')</th>
                     @auth
                         <th>つけた得点</th>
                     @endauth
@@ -72,6 +73,7 @@
                             @endforeach
                         </td>
                         <td>{{ $anime->year }}年{{ $anime->coor_label }}クール</td>
+                        <td>{{ $anime->number_of_episode }}</td>
                         <td>{{ $anime->median }}</td>
                         <td>{{ $anime->average }}</td>
                         <td>{{ $anime->count }}</td>
@@ -84,19 +86,19 @@
         </table>
         @if (!$animes->onFirstPage())
             <a
-                href="{{ $animes->appends(['year' => $year, 'coor' => $coor, 'category' => $category, 'count' => $count])->previousPageUrl() }}">前へ</a>
+                href="{{ $animes->appends(request()->query())->previousPageUrl() }}">前へ</a>
         @endif
         @for ($i = 1; $i <= $animes->lastPage(); $i++)
             @if ($animes->currentPage() == $i)
                 {{ $i }}
             @else
                 <a
-                    href="{{ $animes->appends(['year' => $year, 'coor' => $coor, 'category' => $category, 'count' => $count])->url($i) }}">{{ $i }}</a>
+                    href="{{ $animes->appends(request()->query())->url($i) }}">{{ $i }}</a>
             @endif
         @endfor
         @if ($animes->hasMorePages())
             <a
-                href="{{ $animes->appends(['year' => $year, 'coor' => $coor, 'category' => $category, 'count' => $count])->nextPageUrl() }}">次へ</a>
+                href="{{ $animes->appends(request()->query())->nextPageUrl() }}">次へ</a>
         @endif
         {{ $animes->currentPage() }}/{{ $animes->lastPage() }}ページ
     </article>

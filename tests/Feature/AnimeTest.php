@@ -33,6 +33,7 @@ class AnimeTest extends TestCase
         $this->anime = Anime::factory()->create([
             'title' => '霊剣山 叡智への資格',
             'title_short' => '霊剣山',
+            'number_of_episode' => 13,
             'median' => 70,
             'average' => 76,
             'count' => 256,
@@ -63,22 +64,27 @@ class AnimeTest extends TestCase
         ]);
         $this->anime->reviewUsers()->attach($this->user2->id, [
             'one_word_comment' => 'excellent',
-            'will_watch' => true,
+            'will_watch' => 1,
             'spoiler' => true,
         ]);
         $this->anime->reviewUsers()->attach($this->user3->id, [
             'score' => 100,
             'one_word_comment' => 'not sad',
-            'will_watch' => true,
+            'long_word_comment' => 'not long',
+            'will_watch' => 1,
             'watch' => true,
             'spoiler' => true,
+            'give_up' => true,
+            'number_of_interesting_episode' => 15,
         ]);
         $this->anime3->reviewUsers()->attach($this->user1->id, [
             'score' => 100,
             'one_word_comment' => 'not sad',
-            'will_watch' => true,
+            'long_word_comment' => 'not long',
+            'will_watch' => 1,
             'watch' => true,
             'spoiler' => true,
+            'number_of_interesting_episode' => 12,
         ]);
     }
 
@@ -118,6 +124,7 @@ class AnimeTest extends TestCase
             $this->anime->count,
             $this->anime->max,
             $this->anime->min,
+            $this->anime->number_of_interesting_episode,
         ]);
     }
 
@@ -147,6 +154,8 @@ class AnimeTest extends TestCase
             $this->user2->name,
             '100点',
             'not sad',
+            '長文感想',
+            'ネタバレ注意',
             $this->user3->name,
         ]);
         // コメントしていないユーザーのレビュー情報の非表示を確認
@@ -258,8 +267,10 @@ class AnimeTest extends TestCase
             'score' => '35',
             'one_word_comment' => 'exellent',
             'watch' => true,
-            'will_watch' => true,
+            'will_watch' => 1,
+            'give_up' => true,
             'spoiler' => true,
+            'number_of_interesting_episode' => 14,
         ]);
         $this->assertDatabaseHas('user_reviews', [
             'anime_id' => $this->anime->id,
@@ -267,8 +278,10 @@ class AnimeTest extends TestCase
             'score' => 35,
             'one_word_comment' => 'exellent',
             'watch' => true,
-            'will_watch' => true,
+            'will_watch' => 1,
+            'give_up' => true,
             'spoiler' => true,
+            'number_of_interesting_episode' => 14,
         ]);
         $this->assertDatabaseHas('animes', [
             'id' => $this->anime->id,
@@ -277,6 +290,7 @@ class AnimeTest extends TestCase
             'count' => 4,
             'max' => 100,
             'min' => 0,
+            'number_of_interesting_episode' => 14.5,
         ]);
         $response->assertRedirect(route('anime.show', ['anime_id' => $this->anime->id]));
         $this->get(route('anime.show', ['anime_id' => $this->anime->id]))->assertSee('入力が完了しました。');
@@ -294,18 +308,24 @@ class AnimeTest extends TestCase
         $response = $this->post(route('anime_review.post', ['anime_id' => $this->anime->id]), [
             'score' => '',
             'one_word_comment' => '',
+            'long_word_comment' => '',
             'watch' => false,
-            'will_watch' => false,
+            'will_watch' => 0,
+            'give_up' => false,
             'spoiler' => false,
+            'number_of_interesting_episode' => '',
         ]);
         $this->assertDatabaseHas('user_reviews', [
             'anime_id' => $this->anime->id,
             'user_id' => $this->user3->id,
             'score' => null,
             'one_word_comment' => null,
+            'long_word_comment' => null,
             'watch' => false,
-            'will_watch' => false,
+            'will_watch' => 0,
+            'give_up' => false,
             'spoiler' => false,
+            'number_of_interesting_episode' => null,
         ]);
     }
 
@@ -322,7 +342,7 @@ class AnimeTest extends TestCase
             'score' => '',
             'one_word_comment' => '',
             'watch' => false,
-            'will_watch' => false,
+            'will_watch' => 0,
             'spoiler' => false,
         ]);
         $response->assertStatus(404);
@@ -384,25 +404,29 @@ class AnimeTest extends TestCase
             'score[1]' => 40,
             'watch[1]' => 1,
             'will_watch[1]' => 1,
-            'spoiler[1]' => 1,
+            'give_up[1]' => 1,
+            'number_of_interesting_episode[1]' => 1,
             'one_word_comment[1]' => 'not sad',
             'anime_id[2]' => $this->anime1->id,
             'score[2]' => 35,
             'watch[2]' => 1,
             'will_watch[2]' => 1,
-            'spoiler[2]' => 1,
+            'give_up[2]' => 1,
+            'number_of_interesting_episode[2]' => 1,
             'one_word_comment[2]' => 'not sad',
             'anime_id[3]' => $this->anime2->id,
             'score[3]' => '',
             'watch[3]' => 0,
             'will_watch[3]' => 0,
-            'spoiler[3]' => 0,
+            'give_up[3]' => 0,
+            'number_of_interesting_episode[3]' => '',
             'one_word_comment[3]' => '',
             'anime_id[4]' => $this->anime3->id,
             'score[4]' => '',
             'watch[4]' => 0,
             'will_watch[4]' => 0,
-            'spoiler[4]' => 0,
+            'give_up[4]' => 0,
+            'number_of_interesting_episode[4]' => '',
             'one_word_comment[4]' => '',
         ]));
         $response->assertRedirect(route('anime_review_list.show', [
@@ -419,8 +443,9 @@ class AnimeTest extends TestCase
             'score' => 40,
             'one_word_comment' => 'not sad',
             'watch' => true,
-            'will_watch' => true,
-            'spoiler' => true,
+            'will_watch' => 1,
+            'number_of_interesting_episode' => 1,
+            'give_up' => true,
         ]);
         $this->assertDatabaseHas('user_reviews', [
             'anime_id' => $this->anime1->id,
@@ -428,16 +453,23 @@ class AnimeTest extends TestCase
             'score' => 35,
             'one_word_comment' => 'not sad',
             'watch' => true,
-            'will_watch' => true,
-            'spoiler' => true,
+            'will_watch' => 1,
+            'number_of_interesting_episode' => 1,
+            'give_up' => true,
         ]);
         $this->assertDatabaseMissing('user_reviews', [
             'anime_id' => $this->anime2->id,
             'user_id' => $this->user1->id,
         ]);
-        $this->assertDatabaseMissing('user_reviews', [
+        $this->assertDatabaseHas('user_reviews', [
             'anime_id' => $this->anime3->id,
             'user_id' => $this->user1->id,
+            'score' => null,
+            'one_word_comment' => null,
+            'watch' => false,
+            'will_watch' => 0,
+            'number_of_interesting_episode' => null,
+            'give_up' => false,
         ]);
         $this->assertDatabaseHas('animes', [
             'id' => $this->anime->id,
@@ -459,7 +491,7 @@ class AnimeTest extends TestCase
             'id' => $this->anime3->id,
             'median' => null,
             'average' => null,
-            'count' => 0,
+            'count' => 1,
             'max' => null,
             'min' => null,
         ]);

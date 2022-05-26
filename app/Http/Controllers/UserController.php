@@ -59,10 +59,42 @@ class UserController extends Controller
     public function showWillWatchAnimeList($user_id)
     {
         $user = $this->userService->getUserById($user_id);
-        $will_watch_anime_list = $this->animeService->getWillWatchAnimeListWithCompanies($user);
+        $will_watch_anime_list = $this->animeService->getLatestWillWatchAnimeListWithCompaniesWithUserReviewOf($user);
         return view('will_watch_anime_list', [
             'user' => $user,
             'will_watch_anime_list' => $will_watch_anime_list,
+        ]);
+    }
+
+    /**
+     * ユーザーの視聴済みアニメリストを表示
+     *
+     * @param int $user_id
+     * @return \Illuminate\View\View
+     */
+    public function showWatchAnimeList($user_id)
+    {
+        $user = $this->userService->getUserById($user_id);
+        $watch_anime_list = $this->animeService->getWatchAnimeListWithCompaniesWithUserReviewLatestOf($user);
+        return view('watch_anime_list', [
+            'user' => $user,
+            'watch_anime_list' => $watch_anime_list,
+        ]);
+    }
+
+    /**
+     * ユーザーのギブアップしたアニメリストを表示
+     *
+     * @param int $user_id
+     * @return \Illuminate\View\View
+     */
+    public function showGiveUpAnimeList($user_id)
+    {
+        $user = $this->userService->getUserById($user_id);
+        $give_up_anime_list = $this->animeService->getLatestGiveUpAnimeListWithCompaniesWithUserReviewOf($user);
+        return view('give_up_anime_list', [
+            'user' => $user,
+            'give_up_anime_list' => $give_up_anime_list,
         ]);
     }
 
@@ -75,10 +107,10 @@ class UserController extends Controller
     public function showScoreAnimeList($user_id)
     {
         $user = $this->userService->getUserById($user_id);
-        $score_review_list = $this->userReviewService->getLatestScoreReviewListWithAnimeWithCompaniesOf($user);
+        $score_anime_list = $this->animeService->getScoreAnimeListWithCompaniesWithUserReviewLatestOf($user);
         return view('score_anime_list', [
             'user' => $user,
-            'score_review_list' => $score_review_list,
+            'score_anime_list' => $score_anime_list,
         ]);
     }
 
@@ -200,6 +232,19 @@ class UserController extends Controller
             'count' => $request->count,
             'bottom_year' => $request->bottom_year,
             'top_year' => $request->top_year,
+        ]);
+    }
+
+    /**
+     * ユーザーのアニメコメントを表示
+     * @param int $user_review_id
+     * @return \Illuminate\View\View
+     */
+    public function showUserAnimeComment($user_review_id)
+    {
+        $user_review = $this->userReviewService->getUserReviewWithAnimeAndUser($user_review_id);
+        return view('anime_comment', [
+            'user_review' => $user_review,
         ]);
     }
 }

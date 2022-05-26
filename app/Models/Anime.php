@@ -13,6 +13,7 @@ class Anime extends Model
 {
     use HasFactory;
     use \Staudenmeir\EloquentEagerLimit\HasEagerLimit;
+    use \Kyslik\ColumnSortable\Sortable;
 
     public const WINTER = 1;
     public const SPRING = 2;
@@ -61,7 +62,16 @@ class Anime extends Model
         'disney_plus_id',
     ];
 
-    protected $appends = ['year_coor'];
+    protected $sortable = ['title', 'number_of_episode', 'median', 'average', 'count'];
+
+    /**
+     * 年、クールでマルチソート
+     *
+     */
+    public function unionYearCoorSortable($query, $direction)
+    {
+        return $query->orderBy('year', $direction)->orderBy('coor', $direction);
+    }
 
     /**
      * クールをラベルに変換
@@ -110,16 +120,6 @@ class Anime extends Model
     }
 
     /**
-     * 年とクールを結合した値を取得
-     *
-     * @return int
-     */
-    public function getYearCoorAttribute()
-    {
-        return (int)($this->attributes['year'] . $this->attributes['coor']);
-    }
-
-    /**
      * レビューユーザーを取得
      *
      * @return BelongsToMany
@@ -137,7 +137,7 @@ class Anime extends Model
      */
     public function companies()
     {
-        return $this->belongsToMany('App\Models\Company');
+        return $this->belongsToMany('App\Models\Company')->withTimestamps();
     }
 
     /**
@@ -228,7 +228,7 @@ class Anime extends Model
      */
     public function actCasts()
     {
-        return $this->belongsToMany('App\Models\Cast', 'occupations', 'anime_id', 'cast_id');
+        return $this->belongsToMany('App\Models\Cast', 'occupations', 'anime_id', 'cast_id')->withTimestamps();
     }
 
     /**
