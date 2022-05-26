@@ -66,6 +66,8 @@ Route::post('/anime/{anime_id}/modify_request', [App\Http\Controllers\ModifyCont
 
 Route::get('/modify_request_list', [App\Http\Controllers\ModifyController::class, 'showModifyRequestList'])->name('modify_request_list.show');
 
+Route::get('/add_anime_log', [App\Http\Controllers\ModifyController::class, 'showAddAnimeLog'])->name('add_anime_log.show');
+
 Route::get('/update_log', [App\Http\Controllers\IndexController::class, 'showUpdateLog'])->name('update_log.show');
 
 Route::get('/site_information', [App\Http\Controllers\IndexController::class, 'showSiteInformation'])->name('site_information.show');

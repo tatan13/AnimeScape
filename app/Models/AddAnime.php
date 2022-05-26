@@ -31,7 +31,35 @@ class AddAnime extends Model
         'unext_id',
         'abema_id',
         'disney_plus_id',
+        'delete_flag',
     ];
+    public const WINTER = 1;
+    public const SPRING = 2;
+    public const SUMMER = 3;
+    public const AUTUMN = 4;
+
+    private const COOR = [
+        self::WINTER => [ 'label' => '冬' ],
+        self::SPRING => [ 'label' => '春' ],
+        self::SUMMER => [ 'label' => '夏' ],
+        self::AUTUMN => [ 'label' => '秋' ],
+    ];
+
+    /**
+     * クールをラベルに変換
+     *
+     * @return string
+     */
+    public function getCoorLabelAttribute()
+    {
+        $coor = $this->attributes['coor'];
+
+        if (!isset(self::COOR[$coor])) {
+            return '';
+        }
+
+        return self::COOR[$coor]['label'];
+    }
 
     /**
      * アニメを取得

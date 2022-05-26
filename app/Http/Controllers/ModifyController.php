@@ -90,7 +90,7 @@ class ModifyController extends Controller
         $anime_list = $this->animeService->getAnimeListWithModifyOccupationRequestList();
         $modify_cast_request_list = $this->modifyService->getModifyCastRequestListWithCast();
         $delete_anime_request_list = $this->modifyService->getDeleteAnimeRequestListWithAnime();
-        $add_anime_request_list = $this->modifyService->getAddAnimeRequestList();
+        $add_anime_request_list = $this->modifyService->getAddAnimeRequestListDeleteUnFlag();
         $delete_cast_request_list = $this->modifyService->getDeleteCastRequestListWithCast();
         return view('modify_request_list', [
             'modify_anime_request_list' => $modify_anime_request_list,
@@ -403,5 +403,18 @@ class ModifyController extends Controller
             'flash_delete_cast_request_message',
             '削除申請の削除が完了しました。'
         );
+    }
+
+    /**
+     * 作品の追加履歴を表示
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showAddAnimeLog()
+    {
+        $add_anime_list = $this->modifyService->getAddAnimeListLatest();
+        return view('add_anime_log', [
+            'add_anime_list' => $add_anime_list,
+        ]);
     }
 }

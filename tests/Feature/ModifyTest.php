@@ -28,6 +28,7 @@ class ModifyTest extends TestCase
     private ModifyCast $modifyCast2;
     private DeleteAnime $deleteAnime1;
     private AddAnime $addAnime;
+    private AddAnime $addAnimeDeleted;
     private DeleteCast $deleteCast;
     private Cast $cast1;
     private Cast $cast2;
@@ -85,6 +86,12 @@ class ModifyTest extends TestCase
             'fod_id' => 'add_fod_id',
             'abema_id' => 'add_abema_id',
             'disney_plus_id' => 'add_disney_plus_id',
+        ]);
+
+        $this->addAnimeDeleted = AddAnime::create([
+            'title' => 'add_deleted',
+            'year' => 2040,
+            'delete_flag' => true,
         ]);
 
         $this->deleteCast = Deletecast::create(['cast_id' => $this->cast1->id, 'remark' => 'remark2']);
@@ -598,6 +605,7 @@ class ModifyTest extends TestCase
             $this->addAnime->disney_plus_id,
             $this->addAnime->summary,
         ]);
+        $response->assertDontSee($this->addAnimeDeleted->title);
     }
 
     /**
@@ -1546,8 +1554,29 @@ class ModifyTest extends TestCase
             'abema_id' => 'add_post_abema_id',
             'disney_plus_id' => 'add_post_disney_plus_id',
         ]);
-        $this->assertDatabaseMissing('add_animes', [
+        $this->assertDatabaseHas('add_animes', [
             'id' => $this->addAnime->id,
+            'title' => 'add_post_title',
+            'title_short' => 'add_post_title_short',
+            'furigana' => 'add_post_furigana',
+            'year' => 2040,
+            'coor' => 4,
+            'number_of_episode' => 13,
+            'public_url' => 'https://add_post_public_url',
+            'twitter' => 'add_post_twitterId',
+            'hash_tag' => 'add_post_hashTag',
+            'company1' => 'add_post_company1',
+            'company2' => 'add_post_company2',
+            'company3' => 'add_post_company3',
+            'city_name' => 'add_post_city_name',
+            'summary' => 'add_post_summary',
+            'd_anime_store_id' => 'add_post_d_anime_store_id',
+            'amazon_prime_video_id' => 'add_post_amazon_prime_video_id',
+            'unext_id' => 'add_post_unext_id',
+            'fod_id' => 'add_post_fod_id',
+            'abema_id' => 'add_post_abema_id',
+            'disney_plus_id' => 'add_post_disney_plus_id',
+            'delete_flag' => 1,
         ]);
         $this->assertDatabaseHas('companies', [
             'name' => 'add_post_company1'
@@ -1833,5 +1862,19 @@ class ModifyTest extends TestCase
         $this->actingAs($this->user1);
         $response = $this->get(route('delete_cast_request.reject', ['delete_cast_id' => 33333333333333333333333]));
         $response->assertStatus(404);
+    }
+
+    /**
+     * 作品の追加履歴の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAddAnimeLogView()
+    {
+        $response = $this->get(route('add_anime_log.show'));
+        $response->assertStatus(200);
+        $response->assertSee($this->addAnimeDeleted->title);
+        $response->assertDontSee($this->addAnime->title);
     }
 }

@@ -410,11 +410,11 @@ class ModifyService
     /**
      * アニメの追加申請リストを取得
      *
-     * @return Collection<int,DeleteAnime> | Collection<null>
+     * @return Collection<int,AddAnime> | Collection<null>
      */
-    public function getAddAnimeRequestList()
+    public function getAddAnimeRequestListDeleteUnFlag()
     {
-        return $this->addAnimeRepository->getAll();
+        return $this->addAnimeRepository->getDeleteUnFlag();
     }
 
     /**
@@ -426,10 +426,12 @@ class ModifyService
      */
     public function addAnimeByRequest($add_anime_id, AnimeRequest $request)
     {
+        // 存在しなければNot Found
+        $this->addAnimeRepository->getById($add_anime_id);
         DB::transaction(function () use ($add_anime_id, $request) {
             $anime = $this->animeRepository->addByRequest($request);
             $this->createAnimeCompanyByRequest($anime, $request);
-            $this->addAnimeRepository->deleteById($add_anime_id);
+            $this->addAnimeRepository->updateAddAnimeRequest($add_anime_id, $request);
         });
     }
 
@@ -492,5 +494,15 @@ class ModifyService
     public function rejectDeleteCastRequest($delete_cast_id)
     {
         $this->deleteCastRepository->deleteById($delete_cast_id);
+    }
+
+    /**
+     * アニメの追加リストを取得
+     *
+     * @return Collection<int,AddAnime> | Collection<null>
+     */
+    public function getAddAnimeListLatest()
+    {
+        return $this->addAnimeRepository->getDeleteFlagLatest();
     }
 }

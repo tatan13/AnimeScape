@@ -58,6 +58,9 @@ return new class extends Migration
         Schema::table('add_animes', function (Blueprint $table) {
             $table->string('company3')->nullable();
         });
+        Schema::table('add_animes', function (Blueprint $table) {
+            $table->boolean('delete_flag')->default(0);
+        });
     }
 
     /**
@@ -111,6 +114,9 @@ return new class extends Migration
         });
         Schema::table('add_animes', function (Blueprint $table) {
             $table->dropColumn('disney_plus_id');
+        });
+        Schema::table('add_animes', function (Blueprint $table) {
+            $table->dropColumn('delete_flag');
         });
     }
 };
