@@ -59,13 +59,7 @@
                                     <a href="javascript:anime_review_list.submit()">得点一括入力</a>
                                     <ul class="list-inline">
                                         <li>
-                                            <select name="year" class="coor_year">
-                                                @for ($i = 2022; $i >= 2000; $i--)
-                                                    <option value="{{ $i }}"
-                                                        {{ is_null($year ?? null) ? '' : ($year == $i ? 'selected' : '') }}>
-                                                        {{ $i }}</option>
-                                                @endfor
-                                            </select>
+                                            @include('layout.select_year')
                                             年
                                             <select name="coor" class="coor">
                                                 <option value="1"
@@ -138,13 +132,7 @@
 
                                 <ul class="list-inline">
                                     <li>
-                                        <select name="year" class="year">
-                                            @for ($i = 2022; $i >= 2000; $i--)
-                                                <option value="{{ $i }}"
-                                                    {{ is_null($year ?? null) ? '' : ($year == $i ? 'selected' : '') }}>
-                                                    {{ $i }}</option>
-                                            @endfor
-                                        </select>
+                                        @include('layout.select_year')
                                         <input type="submit" value="決定" />
                                     </li>
                                 </ul>
@@ -157,13 +145,7 @@
                             <li><a href="javascript:coor_statistics.submit()">クールごと</a>
                                 <ul class="list-inline">
                                     <li>
-                                        <select name="year" class="coor_year">
-                                            @for ($i = 2022; $i >= 2000; $i--)
-                                                <option value="{{ $i }}"
-                                                    {{ is_null($year ?? null) ? '' : ($year == $i ? 'selected' : '') }}>
-                                                    {{ $i }}</option>
-                                            @endfor
-                                        </select>
+                                        @include('layout.select_year')
                                         年
                                         <select name="coor" class="coor">
                                             <option value="1"

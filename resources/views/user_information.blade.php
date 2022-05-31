@@ -126,13 +126,7 @@
                 <form action="{{ route('user.show', ['user_id' => $user_information->id]) }}"
                     class="search_parameters_form" name="coor_score_animelist" method="get">
                     @csrf
-                    <select name="year" class="coor_year">
-                        @for ($i = 2022; $i >= 2000; $i--)
-                            <option value="{{ $i }}"
-                                {{ is_null($year ?? null) ?'' : ($year == $i ? 'selected' : '') }}>
-                                {{ $i }}</option>
-                        @endfor
-                    </select>
+                    @include('layout/select_year')
                     年
                     <select name="coor" class="coor">
                         <option value="">-</option>

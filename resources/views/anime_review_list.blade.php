@@ -16,14 +16,9 @@
             <h3>検索条件変更</h3>
             <form action="{{ route('anime_review_list.show') }}" class="search_parameters_form" method="get">
                 @csrf
-                <select name="year" class="year">
-                    @for ($i = 2022; $i >= 2000; $i--)
-                        <option value="{{ $i }}" {{ $year == $i ? 'selected' : '' }}>{{ $i }}
-                        </option>
-                    @endfor
-                </select>年
+                @include('layout/select_year')
+                年
                 <select name="coor" class="coor">
-                    <option value="" {{ is_null($coor) ? 'selected' : '' }}>-</option>
                     <option value="1" {{ $coor == 1 ? 'selected' : '' }}>冬</option>
                     <option value="2" {{ $coor == 2 ? 'selected' : '' }}>春</option>
                     <option value="3" {{ $coor == 3 ? 'selected' : '' }}>夏</option>
