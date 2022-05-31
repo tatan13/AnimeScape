@@ -437,7 +437,7 @@ class ModifyService
         DB::transaction(function () use ($add_anime_id, $request) {
             $anime = $this->animeRepository->addByRequest($request);
             $this->createAnimeCompanyByRequest($anime, $request);
-            $this->addAnimeRepository->updateAddAnimeRequest($add_anime_id, $request);
+            $this->addAnimeRepository->updateAddAnimeRequest($add_anime_id, $request, $anime);
         });
     }
 
