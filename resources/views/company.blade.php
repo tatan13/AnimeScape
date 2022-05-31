@@ -15,7 +15,7 @@
                 </div>
             @endif
             <span><strong>{{ $company->name }}</strong></span><br>
-            <a href="{{ route('delete_company_request.show', ['company_id' => $company->id]) }}">会社の削除申請をする</a>
+            <a href="{{ route('delete_company_request.show', ['company_id' => $company->id]) }}">制作会社の削除申請をする</a>
             <section class="company_anime_list">
                 <h3>制作アニメ一覧（計{{ $company->animes->count() }}本）</h3>
                 <table class="company_act_anime_list_table">

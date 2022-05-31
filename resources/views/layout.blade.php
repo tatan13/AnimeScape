@@ -104,7 +104,7 @@
                                 {{ is_null($category ?? null) ? '' : ($category == 'cast' ? 'selected' : '') }}>声優
                             </option>
                             <option value="company"
-                                {{ is_null($category ?? null) ? '' : ($category == 'company' ? 'selected' : '') }}>会社
+                                {{ is_null($category ?? null) ? '' : ($category == 'company' ? 'selected' : '') }}>制作会社
                             </option>
                             <option value="user"
                                 {{ is_null($category ?? null) ? '' : ($category == 'user' ? 'selected' : '') }}>ユーザー
