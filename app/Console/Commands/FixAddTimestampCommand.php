@@ -75,7 +75,7 @@ class FixAddTimestampCommand extends Command
         }
         UserReview::upsert($upsert_user_review_watch_list, ['id']);
 
-        $user_review_comment_list = UserReview::where('one_word_comment', 1)->get();
+        $user_review_comment_list = UserReview::whereNoTNull('one_word_comment')->get();
         $upsert_user_review_comment_list = [];
         foreach ($user_review_comment_list as $user_review) {
             $upsert_user_review_comment_list[] = [
