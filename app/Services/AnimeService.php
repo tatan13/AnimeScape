@@ -203,14 +203,25 @@ class AnimeService
     }
 
     /**
+     * ユーザーの視聴中アニメリストを放送順に制作会社とユーザーレビューとともに取得
+     *
+     * @param User $user
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getLatestNowWatchAnimeListWithCompaniesOf(User $user)
+    {
+        return $this->animeRepository->getLatestNowWatchAnimeListWithCompaniesOf($user);
+    }
+
+    /**
      * ユーザーのギブアップしたアニメリストを放送順に制作会社とユーザーレビューとともに取得
      *
      * @param User $user
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getLatestGiveUpAnimeListWithCompaniesWithUserReviewOf(User $user)
+    public function getLatestGiveUpAnimeListWithCompaniesOf(User $user)
     {
-        return $this->animeRepository->getLatestGiveUpAnimeListWithCompaniesWithUserReviewOf($user);
+        return $this->animeRepository->getLatestGiveUpAnimeListWithCompaniesOf($user);
     }
 
     /**

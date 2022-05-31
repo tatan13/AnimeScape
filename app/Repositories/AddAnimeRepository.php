@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Anime;
 use App\Models\AddAnime;
 use App\Http\Requests\AnimeRequest;
 use Illuminate\Database\Eloquent\Collection;
@@ -54,10 +55,14 @@ class AddAnimeRepository extends AbstractRepository
      *
      * @param int $add_anime_id
      * @param AnimeRequest $request
+     * @param Anime $anime
      * @return void
      */
-    public function updateAddAnimeRequest($add_anime_id, AnimeRequest $request)
+    public function updateAddAnimeRequest($add_anime_id, AnimeRequest $request, Anime $anime)
     {
-        AddAnime::where('id', $add_anime_id)->update(array_merge($request->validated(), ['delete_flag' => 1]));
+        AddAnime::where('id', $add_anime_id)->update(array_merge($request->validated(), [
+            'delete_flag' => 1,
+            'anime_id' => $anime->id
+        ]));
     }
 }

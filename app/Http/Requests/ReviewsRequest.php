@@ -29,6 +29,7 @@ class ReviewsRequest extends FormRequest
             'one_word_comment.*' => 'max:400|string|nullable',
             'will_watch.*' => 'integer|between:0,3|nullable',
             'watch.*' => 'bool',
+            'now_watch.*' => 'bool',
             'give_up.*' => 'bool',
             'number_of_interesting_episode.*' => 'integer|min:0|nullable',
         ];

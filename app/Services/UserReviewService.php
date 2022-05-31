@@ -13,6 +13,7 @@ use App\Http\Requests\ReviewsRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Collection;
+use Carbon\Carbon;
 
 class UserReviewService
 {
@@ -93,17 +94,20 @@ class UserReviewService
     public function createOrUpdateMyReview(Anime $anime, ReviewRequest $submit_review)
     {
         $my_review = $this->animeRepository->getMyReview($anime);
-        if (is_null($my_review)) {
-            DB::transaction(function () use ($anime, $submit_review) {
-                $this->animeRepository->createMyReview($anime, $submit_review);
-                $this->updateScoreStatistics($anime);
-            });
-        } else {
-            DB::transaction(function () use ($anime, $submit_review) {
-                $this->animeRepository->updateMyReview($anime, $submit_review);
-                $this->updateScoreStatistics($anime);
-            });
-        }
+        $update_review = array_merge($submit_review->validated(), [
+            'anime_id' => $anime->id,
+            'user_id' => Auth::id(),
+            'watch_timestamp' => (is_null($my_review ?? null) || ($my_review->watch ?? false) == false) &&
+            ($submit_review->watch == true) // watchがfalseからtrueになったときのみ
+             ? Carbon::now() : $my_review->watch_timestamp ?? null,
+            'comment_timestamp' => (is_null($my_review ?? null) || is_null($my_review->one_word_comment ?? null)) &&
+            (!is_null($submit_review->one_word_comment)) // commentがnullからnullではなくなったときのみ
+             ? Carbon::now() : $my_review->comment_timestamp ?? null,
+        ]);
+        DB::transaction(function () use ($anime, $my_review, $update_review) {
+            $this->userReviewRepository->createOrUpdateMyReview($my_review->id ?? null, $update_review);
+            $this->updateScoreStatistics($anime);
+        });
     }
 
     /**
@@ -122,6 +126,7 @@ class UserReviewService
                 !is_null($submit_reviews->score[$key]) ||
                 $submit_reviews->watch[$key] == true ||
                 $submit_reviews->will_watch[$key] != 0 ||
+                $submit_reviews->now_watch[$key] == true ||
                 $submit_reviews->give_up[$key] == true ||
                 !is_null($submit_reviews->number_of_interesting_episode[$key]) ||
                 !is_null($submit_reviews->one_word_comment[$key])
@@ -134,7 +139,12 @@ class UserReviewService
                     continue;
                 }
                 DB::transaction(function () use ($anime, $submit_reviews, $key) {
-                    $this->animeRepository->updateMyReviewByReviewsRequest($anime, $submit_reviews, $key);
+                    $this->animeRepository->updateMyReviewByReviewsRequest(
+                        $anime,
+                        $anime->userReview,
+                        $submit_reviews,
+                        $key
+                    );
                     $this->updateScoreStatistics($anime);
                 });
                 continue;
@@ -142,7 +152,12 @@ class UserReviewService
             // 何も入力されておらず、既にレビューが存在する場合、nullで更新
             if (!is_null($anime->userReview)) {
                 DB::transaction(function () use ($anime, $submit_reviews, $key) {
-                    $this->animeRepository->updateMyReviewByReviewsRequest($anime, $submit_reviews, $key);
+                    $this->animeRepository->updateMyReviewByReviewsRequest(
+                        $anime,
+                        $anime->userReview,
+                        $submit_reviews,
+                        $key
+                    );
                     $this->updateScoreStatistics($anime);
                 });
             }

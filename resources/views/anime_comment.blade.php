@@ -23,6 +23,7 @@
             </h3>
             <p class="text-info">{{ $user_review->one_word_comment }}</p>
             <p>{{ $user_review->long_word_comment }}</p>
+            <p>{{ $user_review->comment_timestamp }}</p>
         </section>
     </article>
 @endsection

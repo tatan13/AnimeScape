@@ -96,6 +96,7 @@ class ModifyTest extends TestCase
             'title' => 'add_deleted',
             'year' => 2040,
             'delete_flag' => true,
+            'anime_id' => 3
         ]);
 
         $this->deleteCast = DeleteCast::create(['cast_id' => $this->cast1->id, 'remark' => 'remark2']);

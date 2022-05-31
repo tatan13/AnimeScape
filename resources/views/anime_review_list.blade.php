@@ -16,14 +16,9 @@
             <h3>検索条件変更</h3>
             <form action="{{ route('anime_review_list.show') }}" class="search_parameters_form" method="get">
                 @csrf
-                <select name="year" class="year">
-                    @for ($i = 2022; $i >= 2000; $i--)
-                        <option value="{{ $i }}" {{ $year == $i ? 'selected' : '' }}>{{ $i }}
-                        </option>
-                    @endfor
-                </select>年
+                @include('layout/select_year')
+                年
                 <select name="coor" class="coor">
-                    <option value="" {{ is_null($coor) ? 'selected' : '' }}>-</option>
                     <option value="1" {{ $coor == 1 ? 'selected' : '' }}>冬</option>
                     <option value="2" {{ $coor == 2 ? 'selected' : '' }}>春</option>
                     <option value="3" {{ $coor == 3 ? 'selected' : '' }}>夏</option>
@@ -77,6 +72,7 @@
                             <th>得点</th>
                             <th>視聴済み</th>
                             <th>視聴予定</th>
+                            <th>視聴中</th>
                             <th>視聴リタイア</th>
                             <th>面白さがわかる話数</th>
                             <th>一言感想</th>
@@ -115,6 +111,11 @@
                                             {{ ($anime->userReview->will_watch ?? 0) == 3 ? 'selected' : '' }}>様子見
                                         </option>
                                     </select>
+                                </td>
+                                <input type="hidden" name="now_watch[{{ $loop->iteration }}]" class="now_watch"
+                                    value="0">
+                                <td><input type="checkbox" name="now_watch[{{ $loop->iteration }}]" class="now_watch"
+                                        value="1" {{ $anime->userReview->now_watch ?? false == true ? 'checked' : '' }}>
                                 </td>
                                 <input type="hidden" name="give_up[{{ $loop->iteration }}]" class="give_up"
                                     value="0">

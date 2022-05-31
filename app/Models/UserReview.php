@@ -17,6 +17,22 @@ class UserReview extends Model
         3 => ['label' => '様子見' ],
     ];
 
+    protected $fillable = [
+        'anime_id',
+        'user_id',
+        'score',
+        'one_word_comment',
+        'long_word_comment',
+        'will_watch',
+        'watch',
+        'spoiler',
+        'give_up',
+        'now_watch',
+        'number_of_interesting_episode',
+        'watch_timestamp',
+        'comment_timestamp',
+    ];
+
     /**
      * 視聴予定をラベルに変換
      *

@@ -74,6 +74,7 @@ class AnimeTest extends TestCase
             'will_watch' => 1,
             'watch' => true,
             'spoiler' => true,
+            'now_watch' => true,
             'give_up' => true,
             'number_of_interesting_episode' => 15,
         ]);
@@ -269,6 +270,7 @@ class AnimeTest extends TestCase
             'one_word_comment' => 'exellent',
             'watch' => true,
             'will_watch' => 1,
+            'now_watch' => true,
             'give_up' => true,
             'spoiler' => true,
             'number_of_interesting_episode' => 14,
@@ -280,6 +282,7 @@ class AnimeTest extends TestCase
             'one_word_comment' => 'exellent',
             'watch' => true,
             'will_watch' => 1,
+            'now_watch' => true,
             'give_up' => true,
             'spoiler' => true,
             'number_of_interesting_episode' => 14,
@@ -312,6 +315,7 @@ class AnimeTest extends TestCase
             'long_word_comment' => '',
             'watch' => false,
             'will_watch' => 0,
+            'now_watch' => false,
             'give_up' => false,
             'spoiler' => false,
             'number_of_interesting_episode' => '',
@@ -324,6 +328,7 @@ class AnimeTest extends TestCase
             'long_word_comment' => null,
             'watch' => false,
             'will_watch' => 0,
+            'now_watch' => false,
             'give_up' => false,
             'spoiler' => false,
             'number_of_interesting_episode' => null,
@@ -405,6 +410,7 @@ class AnimeTest extends TestCase
             'score[1]' => 40,
             'watch[1]' => 1,
             'will_watch[1]' => 1,
+            'now_watch[1]' => 1,
             'give_up[1]' => 1,
             'number_of_interesting_episode[1]' => 1,
             'one_word_comment[1]' => 'not sad',
@@ -412,6 +418,7 @@ class AnimeTest extends TestCase
             'score[2]' => 35,
             'watch[2]' => 1,
             'will_watch[2]' => 1,
+            'now_watch[2]' => 1,
             'give_up[2]' => 1,
             'number_of_interesting_episode[2]' => 1,
             'one_word_comment[2]' => 'not sad',
@@ -419,6 +426,7 @@ class AnimeTest extends TestCase
             'score[3]' => '',
             'watch[3]' => 0,
             'will_watch[3]' => 0,
+            'now_watch[3]' => 0,
             'give_up[3]' => 0,
             'number_of_interesting_episode[3]' => '',
             'one_word_comment[3]' => '',
@@ -426,6 +434,7 @@ class AnimeTest extends TestCase
             'score[4]' => '',
             'watch[4]' => 0,
             'will_watch[4]' => 0,
+            'now_watch[4]' => 0,
             'give_up[4]' => 0,
             'number_of_interesting_episode[4]' => '',
             'one_word_comment[4]' => '',
@@ -446,6 +455,7 @@ class AnimeTest extends TestCase
             'watch' => true,
             'will_watch' => 1,
             'number_of_interesting_episode' => 1,
+            'now_watch' => true,
             'give_up' => true,
         ]);
         $this->assertDatabaseHas('user_reviews', [
@@ -456,6 +466,7 @@ class AnimeTest extends TestCase
             'watch' => true,
             'will_watch' => 1,
             'number_of_interesting_episode' => 1,
+            'now_watch' => true,
             'give_up' => true,
         ]);
         $this->assertDatabaseMissing('user_reviews', [
@@ -470,6 +481,7 @@ class AnimeTest extends TestCase
             'watch' => false,
             'will_watch' => 0,
             'number_of_interesting_episode' => null,
+            'now_watch' => false,
             'give_up' => false,
         ]);
         $this->assertDatabaseHas('animes', [

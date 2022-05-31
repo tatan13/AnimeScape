@@ -34,6 +34,7 @@ class AddAnime extends Model
         'abema_id',
         'disney_plus_id',
         'delete_flag',
+        'anime_id',
         'remark',
     ];
 
