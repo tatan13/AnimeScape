@@ -16,7 +16,7 @@ class RecommendCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:recommend';
+    protected $signature = 'recommend:generate';
 
     /**
      * The console command description.
