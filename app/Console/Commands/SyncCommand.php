@@ -51,11 +51,12 @@ class SyncCommand extends Command
         $posts = json_decode($posts);
         foreach ($posts as $post) {
             $insert_anime_list [] = [
+                'id' => null,
                 'title' => $post->title,
                 'year' => $post->year,
                 'coor' => $post->coor,
             ];
         }
-        Anime::insert($insert_anime_list);
+        Anime::upsert($insert_anime_list, ['id']);
     }
 }
