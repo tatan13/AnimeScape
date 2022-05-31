@@ -69,12 +69,14 @@ class UserTest extends TestCase
             'one_word_comment' => 'excellent',
             'long_word_comment' => 'long_word_comment_exellent',
             'watch' => true,
+            'now_watch' => true,
             'give_up' => true
         ]);
         $this->anime2->reviewUsers()->attach($this->user1->id, [
             'score' => 99,
             'one_word_comment' => 'not sad',
             'watch' => true,
+            'now_watch' => true,
             'give_up' => true
         ]);
         $this->anime3->reviewUsers()->attach($this->user1->id, [
@@ -285,6 +287,10 @@ class UserTest extends TestCase
             2,
             '視聴数',
             4,
+            '視聴中数',
+            2,
+            'ギブアップ数',
+            2,
             'お気に入りユーザー数',
             3,
             'お気に入り声優数',
@@ -520,6 +526,34 @@ class UserTest extends TestCase
     public function testNotExistUserWatchAnimeListView()
     {
         $response = $this->get(route('user_watch_anime_list.show', ['user_id' => 3333333333333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ユーザーの視聴中アニメリストの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1NowWatchAnimeListView()
+    {
+        $response = $this->get(route('user_now_watch_anime_list.show', ['user_id' => $this->user1->id]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->anime1->title,
+            $this->anime2->title,
+        ]);
+    }
+
+    /**
+     * ユーザーの視聴中アニメリストの表示の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistUserNowWatchAnimeListView()
+    {
+        $response = $this->get(route('user_now_watch_anime_list.show', ['user_id' => 3333333333333333333333333]));
         $response->assertStatus(404);
     }
 

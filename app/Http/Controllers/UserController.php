@@ -83,6 +83,22 @@ class UserController extends Controller
     }
 
     /**
+     * ユーザーの視聴中アニメリストを表示
+     *
+     * @param int $user_id
+     * @return \Illuminate\View\View
+     */
+    public function showNowWatchAnimeList($user_id)
+    {
+        $user = $this->userService->getUserById($user_id);
+        $now_watch_anime_list = $this->animeService->getLatestNowWatchAnimeListWithCompaniesOf($user);
+        return view('now_watch_anime_list', [
+            'user' => $user,
+            'now_watch_anime_list' => $now_watch_anime_list,
+        ]);
+    }
+
+    /**
      * ユーザーのギブアップしたアニメリストを表示
      *
      * @param int $user_id
@@ -91,7 +107,7 @@ class UserController extends Controller
     public function showGiveUpAnimeList($user_id)
     {
         $user = $this->userService->getUserById($user_id);
-        $give_up_anime_list = $this->animeService->getLatestGiveUpAnimeListWithCompaniesWithUserReviewOf($user);
+        $give_up_anime_list = $this->animeService->getLatestGiveUpAnimeListWithCompaniesOf($user);
         return view('give_up_anime_list', [
             'user' => $user,
             'give_up_anime_list' => $give_up_anime_list,

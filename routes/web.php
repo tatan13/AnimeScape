@@ -46,6 +46,8 @@ Route::get('/user_information/{user_id}/will_watch_anime_list', [App\Http\Contro
 
 Route::get('/user_information/{user_id}/watch_anime_list', [App\Http\Controllers\UserController::class, 'showWatchAnimeList'])->name('user_watch_anime_list.show');
 
+Route::get('/user_information/{user_id}/now_watch_anime_list', [App\Http\Controllers\UserController::class, 'showNowWatchAnimeList'])->name('user_now_watch_anime_list.show');
+
 Route::get('/user_information/{user_id}/give_up_anime_list', [App\Http\Controllers\UserController::class, 'showGiveUpAnimeList'])->name('user_give_up_anime_list.show');
 
 Route::get('/user_information/{user_id}/like_user_list', [App\Http\Controllers\UserController::class, 'showUserLikeUserList'])->name('user_like_user_list.show');

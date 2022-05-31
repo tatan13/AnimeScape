@@ -31,6 +31,7 @@ class ReviewRequest extends FormRequest
             'watch' => 'bool',
             'spoiler' => 'bool',
             'give_up' => 'bool',
+            'now_watch' => 'bool',
             'number_of_interesting_episode' => 'integer|nullable',
         ];
     }

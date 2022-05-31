@@ -69,6 +69,13 @@
                                             </td>
                                     </tr>
                                     <tr>
+                                        <th>視聴中数</th>
+                                        <td>
+                                            <a
+                                                href="{{ route('user_now_watch_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->now_watches_count }}</a>
+                                            </td>
+                                    </tr>
+                                    <tr>
                                         <th>ギブアップ数</th>
                                         <td>
                                             <a

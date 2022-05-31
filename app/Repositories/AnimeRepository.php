@@ -14,6 +14,7 @@ use App\Http\Requests\ReviewRequest;
 use App\Http\Requests\ReviewsRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
+use Carbon\Carbon;
 
 class AnimeRepository extends AbstractRepository
 {
@@ -147,17 +148,28 @@ class AnimeRepository extends AbstractRepository
     }
 
     /**
+     * ユーザーの視聴中アニメリストを放送順にユーザーレビューと制作会社とともに取得
+     *
+     * @param User $user
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getLatestNowWatchAnimeListWithCompaniesOf(User $user)
+    {
+        return Anime::whereHas('userReview', function ($query) use ($user) {
+            $query->where('user_id', $user->id)->where('now_watch', 1);
+        })->sortable()->latestYearCoorMedian()->withCompanies()->get();
+    }
+
+    /**
      * ユーザーのギブアップしたアニメリストを放送順にユーザーレビューと制作会社とともに取得
      *
      * @param User $user
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getLatestGiveUpAnimeListWithCompaniesWithUserReviewOf(User $user)
+    public function getLatestGiveUpAnimeListWithCompaniesOf(User $user)
     {
         return Anime::whereHas('userReview', function ($query) use ($user) {
             $query->where('user_id', $user->id)->where('give_up', 1);
-        })->with('userReview', function ($query) use ($user) {
-            $query->where('user_id', $user->id);
         })->sortable()->latestYearCoorMedian()->withCompanies()->get();
     }
 
@@ -279,9 +291,12 @@ class AnimeRepository extends AbstractRepository
             'score' => $submit_reviews->score[$key],
             'will_watch' => $submit_reviews->will_watch[$key],
             'watch' => $submit_reviews->watch[$key],
+            'now_watch' => $submit_reviews->now_watch[$key],
             'give_up' => $submit_reviews->give_up[$key],
             'number_of_interesting_episode' => $submit_reviews->number_of_interesting_episode[$key],
             'one_word_comment' => $submit_reviews->one_word_comment[$key],
+            'watch_timestamp' => $submit_reviews->watch[$key] == true ? Carbon::now() : null,
+            'comment_timestamp' => !is_null($submit_reviews->one_word_comment[$key]) ? Carbon::now() : null,
         ]);
     }
 
@@ -289,19 +304,31 @@ class AnimeRepository extends AbstractRepository
      * ログインユーザーのアニメに紐づくユーザーレビューをReviewsRequestによって更新
      *
      * @param Anime $anime
+     * @param UserReview $my_review
      * @param ReviewsRequest $submit_reviews
      * @param int $key
      * @return void
      */
-    public function updateMyReviewByReviewsRequest(Anime $anime, ReviewsRequest $submit_reviews, $key)
-    {
+    public function updateMyReviewByReviewsRequest(
+        Anime $anime,
+        UserReview $my_review,
+        ReviewsRequest $submit_reviews,
+        $key
+    ) {
         $anime->reviewUsers()->updateExistingPivot(Auth::user()->id, [
             'score' => $submit_reviews->score[$key],
             'will_watch' => $submit_reviews->will_watch[$key],
             'watch' => $submit_reviews->watch[$key],
+            'now_watch' => $submit_reviews->now_watch[$key],
             'give_up' => $submit_reviews->give_up[$key],
             'number_of_interesting_episode' => $submit_reviews->number_of_interesting_episode[$key],
             'one_word_comment' => $submit_reviews->one_word_comment[$key],
+            'watch_timestamp' => $my_review->watch == false &&
+            $submit_reviews->watch[$key] == true ?
+            Carbon::now() : $my_review->watch_timestamp,
+            'comment_timestamp' => is_null($my_review->one_word_comment) &&
+            !is_null($submit_reviews->one_word_comment[$key]) ?
+            Carbon::now() : $my_review->comment_timestamp,
         ]);
     }
 

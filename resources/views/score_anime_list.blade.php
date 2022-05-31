@@ -21,7 +21,7 @@
                     <th>データ数</th>
                     <th>つけた得点</th>
                     <th>視聴済み</th>
-                    <th>作成日</th>
+                    <th>視聴登録日</th>
                 </tr>
                 @foreach ($score_anime_list as $score_anime)
                     <tr>
@@ -43,7 +43,7 @@
                         <td>{{ $score_anime->count }}</td>
                         <td>{{ $score_anime->userReview->score }}</td>
                         <td>{{ $score_anime->userReview->watch == 1 ? '済' : '' }}</td>
-                        <td>{{ $score_anime->userReview->created_at }}</td>
+                        <td>{{ $score_anime->userReview->watch_timestamp }}</td>
                     </tr>
                 @endforeach
             </tbody>

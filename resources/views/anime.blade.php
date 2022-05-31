@@ -166,7 +166,7 @@
                         </a>
                     @endif
                     <p>
-                        {{ $user_review->created_at }} <a
+                        {{ $user_review->comment_timestamp }} <a
                             href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a>
                     </p>
                     <hr>

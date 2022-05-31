@@ -20,7 +20,7 @@
                     <th>平均値</th>
                     <th>データ数</th>
                     <th>つけた得点</th>
-                    <th>作成日</th>
+                    <th>視聴登録日</th>
                 </tr>
                 @foreach ($watch_anime_list as $watch_anime)
                     <tr>
@@ -41,7 +41,7 @@
                         <td>{{ $watch_anime->average }}</td>
                         <td>{{ $watch_anime->count }}</td>
                         <td>{{ $watch_anime->userReview->score }}</td>
-                        <td>{{ $watch_anime->userReview->created_at }}</td>
+                        <td>{{ $watch_anime->userReview->watch_timestamp }}</td>
                     </tr>
                 @endforeach
             </tbody>
