@@ -29,7 +29,8 @@
             gtag('config', 'UA-227732808-1');
         </script>
     @endif
-    @yield('adsense')
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1583558174306860"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -105,7 +106,8 @@
                                 {{ is_null($category ?? null) ? '' : ($category == 'cast' ? 'selected' : '') }}>声優
                             </option>
                             <option value="company"
-                                {{ is_null($category ?? null) ? '' : ($category == 'company' ? 'selected' : '') }}>制作会社
+                                {{ is_null($category ?? null) ? '' : ($category == 'company' ? 'selected' : '') }}>
+                                制作会社
                             </option>
                             <option value="user"
                                 {{ is_null($category ?? null) ? '' : ($category == 'user' ? 'selected' : '') }}>ユーザー
