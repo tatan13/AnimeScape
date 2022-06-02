@@ -29,6 +29,7 @@
             gtag('config', 'UA-227732808-1');
         </script>
     @endif
+    @yield('adsense')
 </head>
 
 <body>
