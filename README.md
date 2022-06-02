@@ -22,7 +22,7 @@ IDを作成し，ログインすることで各アニメの点数や感想をつ
 5.【データ登録、削除、変更申請機能】
 
 アニメ等のデータを登録、削除、変更申請を行うことができる機能です．サービスの管理人がすべてのデータを管理するのは負担が大きく，現実的に難しいため，ユーザーにデータの登録、削除、変更の協力してもらうことで，半自動的にデータの更新を行うことを可能としています。
-![www animescape link_ (2)](https://user-images.githubusercontent.com/73135261/168776481-c685794a-42e7-4fb1-8bf0-12b2d4be06e7.png)
+![www animescape link_ (3)](https://user-images.githubusercontent.com/73135261/171683929-8e4cb111-7552-49df-b5cc-861f72e1067c.png)
 
 # テスト用アカウント
 ログインID： testuser
