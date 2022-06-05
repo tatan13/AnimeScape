@@ -90,8 +90,8 @@
                             </tr>
                             <tr>
                                 <th>公式ハッシュタグ</th>
-                                <td>{{ $modify_anime_request->anime->hash_tag }}</td>
-                                <td><input type="text" name="hash_tag" value="{{ $modify_anime_request->hash_tag }}">
+                                <td>#{{ $modify_anime_request->anime->hash_tag }}</td>
+                                <td>#<input type="text" name="hash_tag" value="{{ $modify_anime_request->hash_tag }}">
                                 </td>
                             </tr>
                             <tr>

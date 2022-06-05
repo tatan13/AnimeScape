@@ -77,7 +77,7 @@
                     </tr>
                     <tr>
                         <th>公式ハッシュタグ</th>
-                        <td><input type="text" name="hash_tag" value="{{ old('hash_tag') }}"></td>
+                        <td>#<input type="text" name="hash_tag" value="{{ old('hash_tag') }}"></td>
                     </tr>
                     <tr>
                         <th>舞台</th>
