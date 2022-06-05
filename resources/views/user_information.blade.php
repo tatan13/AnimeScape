@@ -76,7 +76,7 @@
                                             </td>
                                     </tr>
                                     <tr>
-                                        <th>ギブアップ数</th>
+                                        <th>視聴リタイア数</th>
                                         <td>
                                             <a
                                                 href="{{ route('user_give_up_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->give_ups_count }}</a>
