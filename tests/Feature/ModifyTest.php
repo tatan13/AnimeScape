@@ -5,10 +5,10 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\ModifyAnime;
-use App\Models\ModifyOccupation;
 use App\Models\ModifyCast;
 use App\Models\DeleteAnime;
 use App\Models\AddAnime;
+use App\Models\AddCast;
 use App\Models\DeleteCast;
 use App\Models\DeleteCompany;
 use App\Models\Anime;
@@ -30,6 +30,8 @@ class ModifyTest extends TestCase
     private DeleteAnime $deleteAnime1;
     private AddAnime $addAnime;
     private AddAnime $addAnimeDeleted;
+    private AddCast $addCast;
+    private AddCast $addCastDeleted;
     private DeleteCast $deleteCast;
     private DeleteCompany $deleteCompany;
     private Cast $cast1;
@@ -58,10 +60,6 @@ class ModifyTest extends TestCase
             'cast_id' => $this->cast1->id,
             'name' => 'modify_name1',
         ]);
-        $this->anime->modifyOccupations()->create(['cast_name' => $this->cast1->name]);
-        $this->anime->modifyOccupations()->create(['cast_name' => 'modify_cast1']);
-        $this->anime1->modifyOccupations()->create(['cast_name' => 'modify_cast1']);
-        $this->anime1->modifyOccupations()->create(['cast_name' => 'modify_cast2']);
         $this->anime->actCasts()->attach($this->cast1->id);
         $this->anime->actCasts()->attach($this->cast2->id);
 
@@ -93,10 +91,31 @@ class ModifyTest extends TestCase
         ]);
 
         $this->addAnimeDeleted = AddAnime::create([
-            'title' => 'add_deleted',
+            'title' => 'add_anime_deleted',
             'year' => 2040,
             'delete_flag' => true,
             'anime_id' => 3
+        ]);
+
+        $this->addCast = AddCast::create([
+            'name' => 'add_name',
+            'furigana' => 'add_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'office' => 'add_office',
+            'url' => 'add_url',
+            'twitter' => 'add_twitter',
+            'blog' => 'add_blog',
+            'blog_url' => 'add_blog_url',
+            'remark' => 'add_remark',
+        ]);
+
+        $this->addCastDeleted = AddCast::create([
+            'name' => 'add_cast_deleted',
+            'delete_flag' => true,
+            'cast_id' => 1
         ]);
 
         $this->deleteCast = DeleteCast::create(['cast_id' => $this->cast1->id, 'remark' => 'remark2']);
@@ -277,85 +296,6 @@ class ModifyTest extends TestCase
             'abema_id' => 'modify_abema_id',
             'disney_plus_id' => 'modify_disney_plus_id',
             'remark' => 'modify_remark',
-        ]);
-        $response->assertStatus(404);
-    }
-
-    /**
-     * アニメの出演声優情報変更申請ページの表示のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testModifyOccupationsRequestView()
-    {
-        $response = $this->get((route('modify_occupations_request.show', ['anime_id' => $this->anime->id])));
-        $response->assertStatus(200);
-        $response->assertSeeInOrder([
-            $this->cast1->name,
-            $this->cast2->name,
-        ]);
-    }
-
-    /**
-     * アニメの出演声優情報変更申請ページの表示の異常値テスト
-     *
-     * @test
-     * @return void
-     */
-    public function testNotExistModifyOccupationsRequestView()
-    {
-        $response = $this->get((route('modify_occupations_request.show', ['anime_id' => 3333333333333333333333333])));
-        $response->assertStatus(404);
-    }
-
-    /**
-     * アニメの出演声優情報変更申請のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testModifyOccupationsRequestPost()
-    {
-        $response = $this->post(route('modify_occupations_request.post', ['anime_id' => $this->anime->id,]), [
-            'cast_name_0' => $this->cast1->name,
-            'cast_name_1' => 'modify_cast2',
-            'cast_name_add_2' => null,
-        ]);
-        $this->assertDatabaseHas('modify_occupations', [
-            'anime_id' => $this->anime->id,
-            'cast_name' => $this->cast1->name,
-        ]);
-        $this->assertDatabaseHas('modify_occupations', [
-            'anime_id' => $this->anime->id,
-            'cast_name' => 'modify_cast1',
-        ]);
-        $this->assertDatabaseHas('modify_occupations', [
-            'anime_id' => $this->anime->id,
-            'cast_name' => 'modify_cast2',
-        ]);
-        $this->assertDatabaseMissing('modify_occupations', [
-            'anime_id' => $this->anime->id,
-            'cast_name' => null,
-        ]);
-        $this->assertDatabaseMissing('modify_occupations', [
-            'anime_id' => $this->anime->id,
-            'cast_name' => $this->cast2->name,
-        ]);
-    }
-
-    /**
-     * アニメの出演声優情報変更申請の異常値テスト
-     *
-     * @test
-     * @return void
-     */
-    public function testNotExistModifyOccupationsRequestPost()
-    {
-        $response = $this->post(route('modify_occupations_request.post', ['anime_id' => 33333333333333333333]), [
-            'cast_name_0' => $this->cast1->name,
-            'cast_name_1' => 'modify_cast2',
-            'cast_name_add_2' => null,
         ]);
         $response->assertStatus(404);
     }
@@ -542,29 +482,6 @@ class ModifyTest extends TestCase
     }
 
     /**
-     * 変更申請のリストページのアニメの出演声優変更申請の表示のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testModifyOccupationOfModifyRequestListView()
-    {
-        $response = $this->get(route('modify_request_list.show'));
-        $response->assertSeeInOrder([
-            '1件目',
-            $this->anime->title,
-            $this->cast1->name,
-            $this->cast2->name,
-            $this->cast1->name,
-            'modify_cast1',
-            '2件目',
-            $this->anime1->title,
-            'modify_cast1',
-            'modify_cast2',
-        ]);
-    }
-
-    /**
      * 変更申請のリストページの声優情報変更申請の表示のテスト
      *
      * @test
@@ -639,6 +556,31 @@ class ModifyTest extends TestCase
             $this->addAnime->remark,
         ]);
         $response->assertDontSee($this->addAnimeDeleted->title);
+    }
+
+    /**
+     * 変更申請のリストページの声優の追加申請の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAddCastOfModifyRequestListView()
+    {
+        $response = $this->get(route('modify_request_list.show'));
+        $response->assertSeeInOrder([
+            '1件目',
+            $this->addCast->name,
+            $this->addCast->furigana,
+            $this->addCast->birth,
+            $this->addCast->birthplace,
+            $this->addCast->office,
+            $this->addCast->url,
+            $this->addCast->twitter,
+            $this->addCast->blog,
+            $this->addCast->blog_url,
+            $this->addCast->remark,
+        ]);
+        $response->assertDontSee($this->addCastDeleted->name);
     }
 
     /**
@@ -898,143 +840,6 @@ class ModifyTest extends TestCase
     {
         $this->actingAs($this->user1);
         $response = $this->get(route('modify_anime_request.reject', ['modify_anime_id' => 33333333333333333333333]));
-        $response->assertStatus(404);
-    }
-
-    /**
-     * ゲスト時のアニメの出演声優更新リクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testGuestModifyOccupationsRequestApprove()
-    {
-        $response = $this->post(route('modify_occupations_request.approve', ['anime_id' => $this->anime->id]), [
-            $this->cast1->name,
-            'modify_cast1',
-        ]);
-        $response->assertStatus(403);
-    }
-
-    /**
-     * ユーザーログイン時のアニメの出演声優更新リクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testUser2LoginModifyOccupationsRequestApprove()
-    {
-        $this->actingAs($this->user2);
-        $response = $this->post(route('modify_occupations_request.approve', ['anime_id' => $this->anime->id]), [
-            $this->cast1->name,
-            'modify_cast1',
-        ]);
-        $response->assertStatus(403);
-    }
-
-    /**
-     * ルートユーザーログイン時のアニメの出演声優更新リクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testRootLoginModifyOccupationsRequestApprove()
-    {
-        $this->actingAs($this->user1);
-        $response = $this->post(route('modify_occupations_request.approve', ['anime_id' => $this->anime->id]), [
-            $this->cast1->name,
-            'modify_cast1',
-        ]);
-        $response->assertRedirect(route('modify_request_list.show'));
-        $this->assertDatabaseHas('occupations', [
-            'anime_id' => $this->anime->id,
-            'cast_id' => $this->cast1->id,
-        ]);
-        $modify_cast1 = Cast::where('name', 'modify_cast1')->first();
-        $this->assertDatabaseHas('casts', [
-            'id' => $modify_cast1->id,
-            'name' => 'modify_cast1',
-        ]);
-        $this->assertDatabaseHas('occupations', [
-            'anime_id' => $this->anime->id,
-            'cast_id' => $modify_cast1->id,
-        ]);
-        $this->assertDatabaseMissing('occupations', [
-            'anime_id' => $this->anime->id,
-            'cast_id' => $this->cast2->id,
-        ]);
-        $this->assertDatabaseMissing('modify_occupations', [
-            'anime_id' => $this->anime->id,
-        ]);
-    }
-
-    /**
-     * ルートユーザーログイン時のアニメの出演声優更新リクエスト時の異常値テスト
-     *
-     * @test
-     * @return void
-     */
-    public function testRootLoginNotExistModifyOccupationsRequestApprove()
-    {
-        $this->actingAs($this->user1);
-        $response = $this->post(route('modify_occupations_request.approve', ['anime_id' => 3333333333333333333333]), [
-            $this->cast1->name,
-            'modify_cast1',
-        ]);
-        $response->assertStatus(404);
-    }
-
-    /**
-     * ゲスト時のアニメの出演声優却下リクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testGuestModifyOccupationsRequestReject()
-    {
-        $response = $this->get(route('modify_occupations_request.reject', ['anime_id' => $this->anime->id]));
-        $response->assertStatus(403);
-    }
-
-    /**
-     * ユーザーログイン時のアニメの出演声優却下リクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testUser2LoginModifyOccupationsRequestReject()
-    {
-        $this->actingAs($this->user2);
-        $response = $this->get(route('modify_occupations_request.reject', ['anime_id' => $this->anime->id]));
-        $response->assertStatus(403);
-    }
-
-    /**
-     * ルートユーザーログイン時のアニメの出演声優却下リクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testRootLoginModifyOccupationsRequestReject()
-    {
-        $this->actingAs($this->user1);
-        $response = $this->get(route('modify_occupations_request.reject', ['anime_id' => $this->anime->id]));
-        $response->assertRedirect(route('modify_request_list.show'));
-        $this->assertDatabaseMissing('modify_occupations', [
-            'anime_id' => $this->anime->id,
-        ]);
-    }
-
-    /**
-     * ルートユーザーログイン時のアニメの出演声優却下リクエスト時の異常値テスト
-     *
-     * @test
-     * @return void
-     */
-    public function testRootLoginNotExistModifyOccupationsRequestReject()
-    {
-        $this->actingAs($this->user1);
-        $response = $this->get(route('modify_occupations_request.reject', ['anime_id' => 3333333333333333333333333]));
         $response->assertStatus(404);
     }
 
@@ -1763,6 +1568,238 @@ class ModifyTest extends TestCase
     {
         $this->actingAs($this->user1);
         $response = $this->get(route('add_anime_request.reject', ['add_anime_id' => 33333333333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * 声優追加申請ページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAddCastRequestView()
+    {
+        $response = $this->get(route('add_cast_request.show'));
+        $response->assertStatus(200);
+        $response->assertSee('声優の追加申請');
+    }
+
+    /**
+     * 声優追加申請のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAddCastRequestPost()
+    {
+        $response = $this->post(route('add_cast_request.post'), [
+            'name' => 'add_name',
+            'furigana' => 'add_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'office' => 'add_office',
+            'url' => 'add_url',
+            'twitter' => 'add_twitter',
+            'blog' => 'add_blog',
+            'blog_url' => 'add_blog_url',
+            'remark' => 'add_remark',
+        ]);
+        $this->assertDatabaseHas('add_casts', [
+            'name' => 'add_name',
+            'furigana' => 'add_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'office' => 'add_office',
+            'url' => 'add_url',
+            'twitter' => 'add_twitter',
+            'blog' => 'add_blog',
+            'blog_url' => 'add_blog_url',
+            'remark' => 'add_remark',
+        ]);
+    }
+
+    /**
+     * ゲスト時の声優追加リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestAddCastRequestApprove()
+    {
+        $response = $this->post(route('add_cast_request.approve', ['add_cast_id' => $this->addCast->id]), [
+            'name' => 'add_name',
+            'furigana' => 'add_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'office' => 'add_office',
+            'url' => 'add_url',
+            'twitter' => 'add_twitter',
+            'blog' => 'add_blog',
+            'blog_url' => 'add_blog_url',
+        ]);
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時の声優追加リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginAddCastRequestApprove()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->post(route('add_cast_request.approve', ['add_cast_id' => $this->addCast->id]), [
+            'name' => 'add_name',
+            'furigana' => 'add_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'office' => 'add_office',
+            'url' => 'add_url',
+            'twitter' => 'add_twitter',
+            'blog' => 'add_blog',
+            'blog_url' => 'add_blog_url',
+        ]);
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ルートユーザーログイン時の声優追加リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginAddCastRequestApprove()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('add_cast_request.approve', ['add_cast_id' => $this->addCast->id]), [
+            'name' => 'add_name',
+            'furigana' => 'add_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'office' => 'add_office',
+            'url' => 'add_url',
+            'twitter' => 'add_twitter',
+            'blog' => 'add_blog',
+            'blog_url' => 'add_blog_url',
+        ]);
+        $response->assertRedirect(route('modify_request_list.show'));
+        $this->assertDatabaseHas('casts', [
+            'name' => 'add_name',
+            'furigana' => 'add_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'office' => 'add_office',
+            'url' => 'add_url',
+            'twitter' => 'add_twitter',
+            'blog' => 'add_blog',
+            'blog_url' => 'add_blog_url',
+        ]);
+        $this->assertDatabaseHas('add_casts', [
+            'id' => $this->addCast->id,
+            'name' => 'add_name',
+            'furigana' => 'add_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'office' => 'add_office',
+            'url' => 'add_url',
+            'twitter' => 'add_twitter',
+            'blog' => 'add_blog',
+            'blog_url' => 'add_blog_url',
+            'delete_flag' => 1,
+        ]);
+    }
+
+    /**
+     * ルートユーザーログイン時の声優追加リクエスト時の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginNotExistAddCastRequestApprove()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('add_cast_request.approve', ['add_cast_id' => 33333333333333333333]), [
+            'name' => 'add_name',
+            'furigana' => 'add_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'office' => 'add_office',
+            'url' => 'add_url',
+            'twitter' => 'add_twitter',
+            'blog' => 'add_blog',
+            'blog_url' => 'add_blog_url',
+        ]);
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲスト時の声優追加申請却下リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestAddCastRequestReject()
+    {
+        $response = $this->get(route('add_cast_request.reject', ['add_cast_id' => $this->addCast->id]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時の声優追加申請却下リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginAddCastRequestReject()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->get(route('add_cast_request.reject', ['add_cast_id' => $this->addCast->id]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ルートユーザーログイン時の声優追加申請却下時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginAddCastRequestReject()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('add_cast_request.reject', ['add_cast_id' => $this->addCast->id]));
+        $response->assertRedirect(route('modify_request_list.show'));
+        $this->assertDatabaseMissing('add_casts', [
+            'id' => $this->addCast->id,
+        ]);
+    }
+
+    /**
+     * ルートユーザーログイン時の声優追加申請却下時の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginNotExistAddCastRequestReject()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('add_cast_request.reject', ['add_cast_id' => 33333333333333333333333]));
         $response->assertStatus(404);
     }
 
