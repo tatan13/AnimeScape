@@ -18,6 +18,10 @@ class ModifyCast extends Model
         'url',
         'twitter',
         'blog',
+        'blood_type',
+        'birth',
+        'birthplace',
+        'blog_url',
         'remark',
     ];
 

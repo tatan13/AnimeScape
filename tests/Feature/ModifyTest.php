@@ -374,10 +374,14 @@ class ModifyTest extends TestCase
             $this->cast1->name,
             $this->cast1->furigana,
             $this->cast1->sex_label,
+            $this->cast1->birth,
+            $this->cast1->birthplace,
+            $this->cast1->blood_type,
             $this->cast1->office,
             $this->cast1->url,
             $this->cast1->twitter,
             $this->cast1->blog,
+            $this->cast1->blog_url,
         ]);
     }
 
@@ -405,20 +409,28 @@ class ModifyTest extends TestCase
             'name' => 'modify_name',
             'furigana' => 'modify_furigana',
             'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
             'office' => 'modify_office',
             'url' => 'modify_url',
             'twitter' => 'modify_twitter',
             'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
         ]);
         $this->assertDatabaseHas('modify_casts', [
             'name' => 'modify_name',
             'cast_id' => $this->cast1->id,
             'furigana' => 'modify_furigana',
             'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
             'office' => 'modify_office',
             'url' => 'modify_url',
             'twitter' => 'modify_twitter',
             'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
         ]);
     }
 
@@ -434,10 +446,14 @@ class ModifyTest extends TestCase
             'name' => 'modify_name',
             'furigana' => 'modify_furigana',
             'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
             'office' => 'modify_office',
             'url' => 'modify_url',
             'twitter' => 'modify_twitter',
             'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
         ]);
         $response->assertStatus(404);
     }
@@ -561,17 +577,16 @@ class ModifyTest extends TestCase
             '1件目',
             $this->modifyCast1->name,
             $this->modifyCast1->furigana,
+            $this->modifyCast1->birth,
+            $this->modifyCast1->birthplace,
+            $this->modifyCast1->blood_type,
             $this->modifyCast1->office,
             $this->modifyCast1->url,
             $this->modifyCast1->twitter,
             $this->modifyCast1->blog,
+            $this->modifyCast1->blog_url,
             '2件目',
             $this->modifyCast2->name,
-            $this->modifyCast2->furigana,
-            $this->modifyCast2->office,
-            $this->modifyCast2->url,
-            $this->modifyCast2->twitter,
-            $this->modifyCast2->blog,
         ]);
     }
 
@@ -1035,10 +1050,14 @@ class ModifyTest extends TestCase
             'name' => 'modify_name',
             'furigana' => 'modify_furigana',
             'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
             'office' => 'modify_office',
             'url' => 'modify_url',
             'twitter' => 'modify_twitter',
             'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
         ]);
         $response->assertStatus(403);
     }
@@ -1056,10 +1075,14 @@ class ModifyTest extends TestCase
             'name' => 'modify_name',
             'furigana' => 'modify_furigana',
             'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
             'office' => 'modify_office',
             'url' => 'modify_url',
             'twitter' => 'modify_twitter',
             'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
         ]);
         $response->assertStatus(403);
     }
@@ -1077,10 +1100,14 @@ class ModifyTest extends TestCase
             'name' => 'modify_name',
             'furigana' => 'modify_furigana',
             'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
             'office' => 'modify_office',
             'url' => 'modify_url',
             'twitter' => 'modify_twitter',
             'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
         ]);
         $response->assertRedirect(route('modify_request_list.show'));
         $this->assertDatabaseHas('casts', [
@@ -1088,10 +1115,14 @@ class ModifyTest extends TestCase
             'name' => 'modify_name',
             'furigana' => 'modify_furigana',
             'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
             'office' => 'modify_office',
             'url' => 'modify_url',
             'twitter' => 'modify_twitter',
             'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
         ]);
         $this->assertDatabaseMissing('modify_casts', [
             'id' => $this->modifyCast1->id,
@@ -1112,10 +1143,14 @@ class ModifyTest extends TestCase
             'name' => 'modify_name',
             'furigana' => 'modify_furigana',
             'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
             'office' => 'modify_office',
             'url' => 'modify_url',
             'twitter' => 'modify_twitter',
             'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
         ]);
         $response->assertStatus(404);
     }

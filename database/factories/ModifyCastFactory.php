@@ -25,6 +25,10 @@ class ModifyCastFactory extends Factory
             'url' => 'url',
             'twitter' => 'twitter',
             'blog' => 'blog',
+            'blood_type' => 'A',
+            'birth' => '2000年4月13日',
+            'birthplace' => '東京都',
+            'blog_url' => 'blog_url',
         ];
     }
 }

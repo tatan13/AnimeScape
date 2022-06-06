@@ -22,7 +22,8 @@
                 {{ session('flash_message') }}
             </div>
         @endif
-        <form action="{{ route('modify_cast_request.post', ['cast_id' => $cast->id]) }}" class="modify_cast_request_form" method="POST">
+        <form action="{{ route('modify_cast_request.post', ['cast_id' => $cast->id]) }}" class="modify_cast_request_form"
+            method="POST">
             @csrf
             <input type="submit" value="登録">
             <table class="modify_cast_request_table">
@@ -51,7 +52,37 @@
                                 </option>
                                 <option value="1" {{ $cast->sex == 1 ? 'selected' : '' }}>男性
                                 </option>
-                                <option value="2" {{ $cast->coor == 2 ? 'selected' : '' }}>女性
+                                <option value="2" {{ $cast->sex == 2 ? 'selected' : '' }}>女性
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>生年月日</th>
+                        <td>{{ $cast->birth }}</td>
+                        <td><input type="text" name="birth" value="{{ $cast->birth }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>出身地</th>
+                        <td>{{ $cast->birthplace }}</td>
+                        <td><input type="text" name="birthplace" value="{{ $cast->birthplace }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>血液型</th>
+                        <td>{{ $cast->blood_type }}</td>
+                        <td>
+                            <select name="blood_type">
+                                <option value="" {{ is_null($cast->blood_type) ? 'selected' : '' }}>-
+                                </option>
+                                <option value="A" {{ $cast->blood_type == 'A' ? 'selected' : '' }}>A
+                                </option>
+                                <option value="B" {{ $cast->blood_type == 'B' ? 'selected' : '' }}>B
+                                </option>
+                                <option value="O" {{ $cast->blood_type == 'O' ? 'selected' : '' }}>O
+                                </option>
+                                <option value="AB" {{ $cast->blood_type == 'AB' ? 'selected' : '' }}>AB
                                 </option>
                             </select>
                         </td>
@@ -73,19 +104,26 @@
                         <td>@<input type="text" name="twitter" value="{{ $cast->twitter }}"></td>
                     </tr>
                     <tr>
-                        <th>公式ブログ</th>
+                        <th>公式ブログ名</th>
                         <td>{{ $cast->blog }}</td>
                         <td><input type="text" name="blog" value="{{ $cast->blog }}"></td>
                     </tr>
                     <tr>
+                        <th>公式ブログURL</th>
+                        <td>{{ $cast->blog_url }}</td>
+                        <td><input type="text" name="blog_url" value="{{ $cast->blog_url }}"></td>
+                    </tr>
+                    <tr>
                         <th>事由</th>
                         <td></td>
-                        <td><input type="text" size="100" name="remark" class="remark" value="{{ old('remark') }}"></td>
+                        <td><input type="text" size="100" name="remark" class="remark"
+                                value="{{ old('remark') }}"></td>
                     </tr>
                 </tbody>
             </table>
         </form>
         <h3>注意事項</h3>
-        事由は400文字以内で入力してください。
+        事由は400文字以内で入力してください。<br>
+        生年月日は〇年〇月〇日で入力してください。生まれ年が不明の場合は〇月〇日で入力してください。
     </article>
 @endsection

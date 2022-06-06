@@ -299,7 +299,42 @@
                                         </option>
                                         <option value="1" {{ $modify_cast_request->sex == 1 ? 'selected' : '' }}>男性
                                         </option>
-                                        <option value="2" {{ $modify_cast_request->coor == 2 ? 'selected' : '' }}>女性
+                                        <option value="2" {{ $modify_cast_request->sex == 2 ? 'selected' : '' }}>女性
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>生年月日</th>
+                                <td>{{ $modify_cast_request->birth }}</td>
+                                <td><input type="text" name="birth" value="{{ $modify_cast_request->birth }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>出身地</th>
+                                <td>{{ $modify_cast_request->birthplace }}</td>
+                                <td><input type="text" name="birthplace" value="{{ $modify_cast_request->birthplace }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>血液型</th>
+                                <td>{{ $modify_cast_request->blood_type }}</td>
+                                <td>
+                                    <select name="blood_type">
+                                        <option value=""
+                                            {{ is_null($modify_cast_request->blood_type) ? 'selected' : '' }}>-
+                                        </option>
+                                        <option value="A"
+                                            {{ $modify_cast_request->blood_type == 'A' ? 'selected' : '' }}>A
+                                        </option>
+                                        <option value="B"
+                                            {{ $modify_cast_request->blood_type == 'B' ? 'selected' : '' }}>B
+                                        </option>
+                                        <option value="O"
+                                            {{ $modify_cast_request->blood_type == 'O' ? 'selected' : '' }}>O
+                                        </option>
+                                        <option value="AB"
+                                            {{ $modify_cast_request->blood_type == 'AB' ? 'selected' : '' }}>AB
                                         </option>
                                     </select>
                                 </td>
@@ -324,6 +359,11 @@
                                 <th>公式ブログ</th>
                                 <td>{{ $modify_cast_request->cast->blog }}</td>
                                 <td><input type="text" name="blog" value="{{ $modify_cast_request->blog }}"></td>
+                            </tr>
+                            <tr>
+                                <th>公式ブログURL</th>
+                                <td>{{ $modify_cast_request->blog_url }}</td>
+                                <td><input type="text" name="blog_url" value="{{ $modify_cast_request->blog_url }}"></td>
                             </tr>
                             <tr>
                                 <th>事由</th>

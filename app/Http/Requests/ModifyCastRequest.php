@@ -31,6 +31,10 @@ class ModifyCastRequest extends FormRequest
             'url' => 'nullable|string',
             'twitter' => 'nullable|string',
             'blog' => 'nullable|string',
+            'birth' => 'nullable|string',
+            'birthplace' => 'nullable|string',
+            'blog_url' => 'nullable|string',
+            'blood_type' => 'nullable|string',
             'remark' => 'max:400|string|nullable',
         ];
     }

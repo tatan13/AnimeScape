@@ -61,6 +61,28 @@ class CastTest extends TestCase
     }
 
     /**
+     * 声優ページのプロフィールの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCastProfileView()
+    {
+        $response = $this->get(route('cast.show', ['cast_id' => $this->cast->id]));
+        $response->assertSeeInOrder([
+            $this->cast->name,
+            $this->cast->furigana,
+            $this->cast->sex_label,
+            $this->cast->birth,
+            $this->cast->birthplace,
+            $this->cast->blood_type,
+            $this->cast->office,
+            $this->cast->twitter,
+            $this->cast->blog,
+        ]);
+    }
+
+    /**
      * 声優ページの情報の表示のテスト
      *
      * @test

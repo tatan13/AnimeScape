@@ -33,8 +33,21 @@
                         <td>{{ $cast->sex_label }}</td>
                     </tr>
                     <tr>
+                        <th>生年月日</th>
+                        <td>{{ $cast->birth }}</td>
+                    </tr>
+                    <tr>
+                        <th>出身地</th>
+                        <td>{{ $cast->birthplace }}</td>
+                    </tr>
+                    <tr>
+                        <th>血液型</th>
+                        <td>{{ $cast->blood_type }}</td>
+                    </tr>
+                    <tr>
                         <th>所属事務所</th>
-                        <td>{{ $cast->office }}</td>
+                        <td><a href="{{ $cast->url }}" target="_blank"
+                                rel="noopener noreferrer">{{ $cast->office }}</a></td>
                     </tr>
                     <tr>
                         <th>ツイッター</th>
@@ -43,7 +56,8 @@
                     </tr>
                     <tr>
                         <th>公式ブログ</th>
-                        <td>{{ $cast->blog }}</td>
+                        <td><a href="{{ $cast->blog_url }}" target="_blank"
+                                rel="noopener noreferrer">{{ $cast->blog }}</a></td>
                     </tr>
                 </table>
                 <a href="{{ route('modify_cast_request.show', ['cast_id' => $cast->id]) }}">声優の情報の変更申請をする</a><br>
