@@ -69,9 +69,9 @@ class AnimeRepository extends AbstractRepository
      * @param int $anime_id
      * @return Anime
      */
-    public function getAnimeWithActCastsById($anime_id)
+    public function getAnimeWithActCastsWithOccupationsById($anime_id)
     {
-        return Anime::with('actCasts')->findOrFail($anime_id);
+        return Anime::with('occupations.cast')->findOrFail($anime_id);
     }
 
     /**
@@ -437,12 +437,12 @@ class AnimeRepository extends AbstractRepository
     }
 
     /**
-     * アニメをリクエストに従って追加
+     * アニメをリクエストに従って作成
      *
      * @param AnimeRequest $request
      * @return Anime
      */
-    public function addByRequest(AnimeRequest $request)
+    public function createByRequest(AnimeRequest $request)
     {
         return Anime::create($request->validated());
     }

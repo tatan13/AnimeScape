@@ -88,9 +88,9 @@ class AnimeService
      * @param int $anime_id
      * @return Anime
      */
-    public function getAnimeWithActCastsById($anime_id)
+    public function getAnimeWithActCastsWithOccupationsById($anime_id)
     {
-        return $this->animeRepository->getAnimeWithActCastsById($anime_id);
+        return $this->animeRepository->getAnimeWithActCastsWithOccupationsById($anime_id);
     }
 
     /**
