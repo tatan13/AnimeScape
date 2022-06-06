@@ -113,7 +113,7 @@
                                 {{ is_null($category ?? null) ? '' : ($category == 'user' ? 'selected' : '') }}>ユーザー
                             </option>
                         </select>
-                        <input type="text" name="search_word" style="width: 90%;" class="search_word" value=""
+                        <input type="text" name="search_word" style="width: 90%;" class="search_word" value="{{ $search_word ?? '' }}"
                             size="15" /><br>
                         <input type="submit" value="検索" />
                     </form>
