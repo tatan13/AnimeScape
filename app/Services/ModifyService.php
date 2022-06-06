@@ -617,4 +617,14 @@ class ModifyService
     {
         return $this->addAnimeRepository->getDeleteFlagLatest();
     }
+
+    /**
+     * 声優の追加リストを取得
+     *
+     * @return Collection<int,AddCast> | Collection<null>
+     */
+    public function getAddCastListLatest()
+    {
+        return $this->addCastRepository->getDeleteFlagLatest();
+    }
 }

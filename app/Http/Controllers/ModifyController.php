@@ -537,4 +537,17 @@ class ModifyController extends Controller
             'add_anime_list' => $add_anime_list,
         ]);
     }
+
+    /**
+     * 声優の追加履歴を表示
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showAddCastLog()
+    {
+        $add_cast_list = $this->modifyService->getAddCastListLatest();
+        return view('add_cast_log', [
+            'add_cast_list' => $add_cast_list,
+        ]);
+    }
 }

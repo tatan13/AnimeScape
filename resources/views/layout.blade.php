@@ -177,6 +177,7 @@
                         <li><a href="{{ route('add_anime_log.show') }}">作品の追加履歴</a></li>
                         <li><a href="{{ route('add_anime_request.show') }}">作品の追加申請</a></li>
                         <li><a href="{{ route('add_cast_request.show') }}">声優の追加申請</a></li>
+                        <li><a href="{{ route('add_cast_log.show') }}">声優の追加履歴</a></li>
                         <li><a href="{{ route('modify_request_list.show') }}">変更申請リスト</a></li>
                     </ul>
                 </section>

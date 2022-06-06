@@ -80,6 +80,8 @@ Route::get('/modify_request_list', [App\Http\Controllers\ModifyController::class
 
 Route::get('/add_anime_log', [App\Http\Controllers\ModifyController::class, 'showAddAnimeLog'])->name('add_anime_log.show');
 
+Route::get('/add_cast_log', [App\Http\Controllers\ModifyController::class, 'showAddCastLog'])->name('add_cast_log.show');
+
 Route::get('/update_log', [App\Http\Controllers\IndexController::class, 'showUpdateLog'])->name('update_log.show');
 
 Route::get('/site_information', [App\Http\Controllers\IndexController::class, 'showSiteInformation'])->name('site_information.show');
@@ -138,6 +140,10 @@ Route::group(['middleware' => 'admin_auth'], function () {
     Route::post('/modify/cast/{modify_cast_id}/approve', [App\Http\Controllers\ModifyController::class, 'approveModifyCastRequest'])->name('modify_cast_request.approve');
     
     Route::get('/modify/cast/{modify_cast_id}/reject', [App\Http\Controllers\ModifyController::class, 'rejectModifyCastRequest'])->name('modify_cast_request.reject');
+
+    Route::post('/add/cast/{add_cast_id}/approve', [App\Http\Controllers\ModifyController::class, 'approveAddCastRequest'])->name('add_cast_request.approve');
+
+    Route::get('/add/cast/{add_cast_id}/reject', [App\Http\Controllers\ModifyController::class, 'rejectAddCastRequest'])->name('add_cast_request.reject');
 
     Route::post('/delete/cast/{delete_cast_id}/approve', [App\Http\Controllers\ModifyController::class, 'approveDeleteCastRequest'])->name('delete_cast_request.approve');
 

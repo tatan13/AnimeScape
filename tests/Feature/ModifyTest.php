@@ -2174,4 +2174,18 @@ class ModifyTest extends TestCase
         $response->assertSee($this->addAnimeDeleted->title);
         $response->assertDontSee($this->addAnime->title);
     }
+
+    /**
+     * 声優の追加履歴の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAddCastLogView()
+    {
+        $response = $this->get(route('add_cast_log.show'));
+        $response->assertStatus(200);
+        $response->assertSee($this->addCastDeleted->name);
+        $response->assertDontSee($this->addCast->name);
+    }
 }
