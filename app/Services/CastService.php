@@ -78,4 +78,14 @@ class CastService
     {
         return $this->userRepository->getLikeCastList($user);
     }
+
+    /**
+     * すべての声優を取得
+     *
+     * @return Collection<int,Cast> | Collection<null>
+     */
+    public function getCastAll()
+    {
+        return $this->castRepository->getAll();
+    }
 }

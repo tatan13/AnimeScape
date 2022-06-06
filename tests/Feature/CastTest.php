@@ -246,4 +246,16 @@ class CastTest extends TestCase
         $response = $this->get(route('cast.unlike', ['cast_id' => $this->cast->id]));
         $response->assertRedirect(route('login'));
     }
+
+    /**
+     * 声優リストの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCastListView()
+    {
+        $response = $this->get(route('cast_list.show'));
+        $response->assertStatus(200);
+    }
 }

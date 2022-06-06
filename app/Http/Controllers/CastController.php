@@ -56,4 +56,17 @@ class CastController extends Controller
         $cast = $this->castService->getCast($cast_id);
         $this->userService->unlikeCast($cast);
     }
+
+    /**
+     * 声優リストを表示
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showList()
+    {
+        $cast_all = $this->castService->getCastAll();
+        return view('cast_list', [
+            'cast_all' => $cast_all,
+        ]);
+    }
 }
