@@ -34,9 +34,11 @@ class AnimeRepository extends AbstractRepository
      * @param int $anime_id
      * @return Anime
      */
-    public function getWithCompaniesAndMyReviewAndActCastsAndLatestUserReviewsOfAnimeWithUserById($anime_id)
+    public function getAnimeWithCompaniesMyReviewOccupationsWithCastLatestUserReviewsOfAnimeWithUserById($anime_id)
     {
-        return Anime::withCompanies()->withMyReviews()->with('actCasts')->with('userReviews', function ($query) {
+        return Anime::withCompanies()->withMyReviews()->with(['occupations' => function ($query) {
+            $query->latest('main_sub')->with('cast');
+        }])->with('userReviews', function ($query) {
             $query->with('user')->latest();
         })->findOrFail($anime_id);
     }
