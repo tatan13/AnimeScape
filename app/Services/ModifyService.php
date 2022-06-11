@@ -227,6 +227,37 @@ class ModifyService
     }
 
     /**
+     * アニメの出演声優をリクエストから作成または削除または変更
+     *
+     * @param int $anime_id
+     * @param Request $request
+     * @return void
+     */
+    public function createOrDeleteOrModifyOccupations($anime_id, $request)
+    {
+        foreach ($request->modify_type as $key => $modify_type) {
+            if (is_null($request->cast_id[$key])) {
+                continue;
+            }
+            if ($modify_type == 'no_change') {
+                continue;
+            }
+            if ($modify_type == 'change') {
+                $this->occupationRepository->getById($request->occupation_id[$key]);
+                $this->occupationRepository->modifyOccupationByRequst($request, $key);
+            }
+            if ($modify_type == 'delete') {
+                $this->occupationRepository->getById($request->occupation_id[$key]);
+                $this->occupationRepository->deleteById($request->occupation_id[$key]);
+            }
+            if ($modify_type == 'add') {
+                $this->castRepository->getById($request->cast_id[$key]);
+                $this->occupationRepository->createOccupationByRequest($anime_id, $request, $key);
+            }
+        }
+    }
+
+    /**
      * アニメの出演声優をリクエストから作成
      *
      * @param int $anime_id

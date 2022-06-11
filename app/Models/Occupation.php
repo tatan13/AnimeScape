@@ -10,6 +10,16 @@ class Occupation extends Model
 {
     use HasFactory;
 
+    public const TYPE_MAIN = 3;
+    public const TYPE_SUB = 2;
+    public const TYPE_OTHERS = 1;
+
+    protected $fillable = [
+        'anime_id',
+        'cast_id',
+        'character',
+        'main_sub',
+    ];
     /**
      * 声優を取得
      *

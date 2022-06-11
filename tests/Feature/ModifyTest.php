@@ -36,6 +36,7 @@ class ModifyTest extends TestCase
     private DeleteCompany $deleteCompany;
     private Cast $cast1;
     private Cast $cast2;
+    private Cast $cast3;
     private Company $company1;
     private Company $company2;
     private Company $company3;
@@ -55,13 +56,20 @@ class ModifyTest extends TestCase
         ]);
         $this->cast1 = Cast::factory()->create();
         $this->cast2 = Cast::factory()->create();
+        $this->cast3 = Cast::factory()->create();
         $this->modifyCast1 = ModifyCast::factory()->create(['cast_id' => $this->cast1->id]);
         $this->modifyCast2 = ModifyCast::factory()->create([
             'cast_id' => $this->cast1->id,
             'name' => 'modify_name1',
         ]);
-        $this->anime->actCasts()->attach($this->cast1->id);
-        $this->anime->actCasts()->attach($this->cast2->id);
+        $this->anime->actCasts()->attach($this->cast1->id, [
+            'character' => 'character_name1',
+            'main_sub' => 1
+        ]);
+        $this->anime->actCasts()->attach($this->cast2->id, [
+            'character' => 'character_name2',
+            'main_sub' => 2
+        ]);
 
         $this->deleteAnime1 = DeleteAnime::create(['anime_id' => $this->anime1->id, 'remark' => 'remark1']);
 
@@ -2187,5 +2195,190 @@ class ModifyTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee($this->addCastDeleted->name);
         $response->assertDontSee($this->addCast->name);
+    }
+
+    /**
+     * アニメの出演声優情報変更ページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyOccupationView()
+    {
+        $response = $this->get(route('modify_occupations.show', ['anime_id' => $this->anime->id]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->cast1->id,
+            $this->cast1->name,
+            'character_name1',
+            $this->cast2->id,
+            $this->cast2->name,
+            'character_name2',
+        ]);
+    }
+
+    /**
+     * アニメの出演声優情報変更ページの異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistModifyOccupationView()
+    {
+        $response = $this->get(route('modify_occupations.show', ['anime_id' => 3333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * アニメの出演声優情報変更の変更なしのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyOccupationNoChangePost()
+    {
+        $response = $this->post(route('modify_occupations.post', ['anime_id' => $this->anime->id]), [
+            'occupation_id[1]' => 1,
+            'modify_type[1]' => 'no_change',
+            'cast_id[1]' => $this->cast1->id,
+            'character[1]' => 'modify_character1',
+            'main_sub[1]' => 1,
+            'occupation_id[2]' => 2,
+            'modify_type[2]' => 'no_change',
+            'cast_id[2]' => $this->cast2->id,
+            'character[2]' => 'modify_character2',
+            'main_sub[2]' => 2,
+            'modify_type[3]' => 'no_change',
+            'cast_id[3]' => $this->cast3->id,
+            'character[3]' => 'modify_character3',
+            'main_sub[3]' => 3,
+        ]);
+        $this->assertDatabaseHas('occupations', [
+            'id' => 1,
+            'anime_id' => $this->anime->id,
+            'cast_id' => $this->cast1->id,
+            'character' => 'character_name1',
+            'main_sub' => 1,
+        ]);
+        $this->assertDatabaseHas('occupations', [
+            'id' => 2,
+            'anime_id' => $this->anime->id,
+            'cast_id' => $this->cast2->id,
+            'character' => 'character_name2',
+            'main_sub' => 2,
+        ]);
+        $this->assertDatabaseMissing('occupations', [
+            'anime_id' => $this->anime->id,
+            'cast_id' => $this->cast3->id,
+        ]);
+    }
+
+    /**
+     * アニメの出演声優情報変更の変更のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyOccupationChangePost()
+    {
+        $response = $this->post(route('modify_occupations.post', [
+            'anime_id' => $this->anime->id,
+            'occupation_id[1]' => 1,
+            'modify_type[1]' => 'change',
+            'cast_id[1]' => $this->cast1->id,
+            'character[1]' => 'modify_character1',
+            'main_sub[1]' => 2,
+            'occupation_id[2]' => 2,
+            'modify_type[2]' => 'change',
+            'cast_id[2]' => $this->cast2->id,
+            'character[2]' => '',
+            'main_sub[2]' => 1,
+            'modify_type[3]' => 'no_change',
+            'cast_id[3]' => $this->cast3->id,
+            'character[3]' => 'modify_character3',
+            'main_sub[3]' => 3,
+        ]));
+        $this->assertDatabaseHas('occupations', [
+            'id' => 1,
+            'anime_id' => $this->anime->id,
+            'cast_id' => $this->cast1->id,
+            'character' => 'modify_character1',
+            'main_sub' => 2,
+        ]);
+        $this->assertDatabaseHas('occupations', [
+            'id' => 2,
+            'anime_id' => $this->anime->id,
+            'cast_id' => $this->cast2->id,
+            'character' => null,
+            'main_sub' => 1,
+        ]);
+    }
+
+    /**
+     * アニメの出演声優情報変更の削除のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyOccupationDeletePost()
+    {
+        $response = $this->post(route('modify_occupations.post', [
+            'anime_id' => $this->anime->id,
+            'occupation_id[1]' => 1,
+            'modify_type[1]' => 'delete',
+            'cast_id[1]' => $this->cast1->id,
+            'character[1]' => 'modify_character1',
+            'main_sub[1]' => 2,
+            'occupation_id[2]' => 2,
+            'modify_type[2]' => 'delete',
+            'cast_id[2]' => $this->cast2->id,
+            'character[2]' => '',
+            'main_sub[2]' => 1,
+            'modify_type[3]' => 'no_change',
+            'cast_id[3]' => $this->cast3->id,
+            'character[3]' => 'modify_character3',
+            'main_sub[3]' => 3,
+        ]));
+        $this->assertDatabaseMissing('occupations', [
+            'anime_id' => $this->anime->id,
+            'cast_id' => $this->cast1->id,
+        ]);
+        $this->assertDatabaseMissing('occupations', [
+            'anime_id' => $this->anime->id,
+            'cast_id' => $this->cast2->id,
+        ]);
+    }
+
+    /**
+     * アニメの出演声優情報変更の追加のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyOccupationAddPost()
+    {
+        $response = $this->post(route('modify_occupations.post', [
+            'anime_id' => $this->anime->id,
+            'occupation_id[1]' => 1,
+            'modify_type[1]' => 'no_change',
+            'cast_id[1]' => $this->cast1->id,
+            'character[1]' => 'modify_character1',
+            'main_sub[1]' => 2,
+            'occupation_id[2]' => 2,
+            'modify_type[2]' => 'no_change',
+            'cast_id[2]' => $this->cast2->id,
+            'character[2]' => '',
+            'main_sub[2]' => 1,
+            'modify_type[3]' => 'add',
+            'cast_id[3]' => $this->cast3->id,
+            'character[3]' => 'modify_character3',
+            'main_sub[3]' => 3,
+        ]));
+        $this->assertDatabaseHas('occupations', [
+            'anime_id' => $this->anime->id,
+            'cast_id' => $this->cast3->id,
+            'character' => 'modify_character3',
+            'main_sub' => 3,
+        ]);
     }
 }

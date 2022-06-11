@@ -136,7 +136,7 @@ class ModifyController extends Controller
         $this->modifyService->createOrDeleteOrModifyOccupations($anime_id, $request);
         return redirect()->route('modify_occupations.show', [
             'anime_id' => $anime_id,
-        ])->with('flash_message', '変更申請が完了しました。');
+        ])->with('flash_message', '変更が完了しました。');
     }
 
     /**

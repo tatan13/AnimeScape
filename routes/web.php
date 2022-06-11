@@ -88,6 +88,10 @@ Route::get('/site_information', [App\Http\Controllers\IndexController::class, 's
 
 Route::get('/privacy_policy', [App\Http\Controllers\IndexController::class, 'showPrivacyPolicy'])->name('privacy_policy.show');
 
+Route::get('/anime/{anime_id}/act_casts/modify', [App\Http\Controllers\ModifyController::class, 'showModifyOccupations'])->name('modify_occupations.show');
+
+Route::post('/anime/{anime_id}/act_casts/modify', [App\Http\Controllers\ModifyController::class, 'postModifyOccupations'])->name('modify_occupations.post');
+
 Route::get('/cast/{cast_id}/modify_request', [App\Http\Controllers\ModifyController::class, 'showModifyCastRequest'])->name('modify_cast_request.show');
 
 Route::post('/cast/{cast_id}/modify_request', [App\Http\Controllers\ModifyController::class, 'postModifyCastRequest'])->name('modify_cast_request.post');
