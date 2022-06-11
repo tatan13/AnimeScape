@@ -32,7 +32,7 @@ jobs:
 
   deploy:
     machine:
-      image: circleci/classic:edge
+      image: ubuntu-2204:2022.04.1
     steps:
       - add_ssh_keys:
           fingerprints:
