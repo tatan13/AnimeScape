@@ -54,10 +54,10 @@ class AnimeService
      * @param int $anime_id
      * @return Anime
      */
-    public function getAnimeWithCompaniesAndMyReviewAndActCastsAndLatestUserReviewsOfAnimeWithUser($anime_id)
+    public function getAnimeWithCompaniesMyReviewOccupationsWithCastLatestUserReviewsOfAnimeWithUser($anime_id)
     {
         return $this->animeRepository
-        ->getWithCompaniesAndMyReviewAndActCastsAndLatestUserReviewsOfAnimeWithUserById($anime_id);
+        ->getAnimeWithCompaniesMyReviewOccupationsWithCastLatestUserReviewsOfAnimeWithUserById($anime_id);
     }
 
     /**
