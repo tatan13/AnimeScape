@@ -80,6 +80,17 @@ class CastService
     }
 
     /**
+     * cast_idから声優をapiのために取得
+     *
+     * @param int $cast_id
+     * @return string
+     */
+    public function getCastNameForApi($cast_id)
+    {
+        return $this->castRepository->getForApiById($cast_id)->name ?? 'idに対応する声優が存在しません。';
+    }
+
+    /**
      * すべての声優を取得
      *
      * @return Collection<int,Cast> | Collection<null>

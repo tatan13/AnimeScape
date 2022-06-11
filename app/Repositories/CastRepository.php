@@ -143,6 +143,17 @@ class CastRepository extends AbstractRepository
     }
 
     /**
+     * cast_idから声優をapiのために取得
+     *
+     * @param int $cast_id
+     * @return Cast | null
+     */
+    public function getForApiById($cast_id)
+    {
+        return Cast::find($cast_id);
+    }
+
+    /**
      * 声優をリクエストに従って作成
      *
      * @param CastRequest $request

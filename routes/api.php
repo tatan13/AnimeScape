@@ -19,3 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/anime', [App\Http\Controllers\AnimeController::class, 'showAllAnimeList']);
+
+Route::get('/cast/{cast_id}', [App\Http\Controllers\CastController::class, 'getCastNameById']);

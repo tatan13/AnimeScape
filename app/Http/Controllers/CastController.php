@@ -58,6 +58,18 @@ class CastController extends Controller
     }
 
     /**
+     * 声優を取得し、REST API形式で出力
+     *
+     * @param int $cast_id
+     * @return string
+     */
+    public function getCastNameById($cast_id)
+    {
+        $cast_name = $this->castService->getCastNameForApi($cast_id);
+        return $cast_name;
+    }
+
+    /**
      * 声優リストを表示
      *
      * @return \Illuminate\View\View
