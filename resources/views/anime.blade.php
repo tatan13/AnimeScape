@@ -140,15 +140,22 @@
                     <tr>
                         <th>声優</th>
                         <td>
-                            @foreach ($anime->actCasts as $actCast)
+                            @foreach ($anime->occupations as $occupation)
                                 <a
-                                    href="{{ route('cast.show', ['cast_id' => $actCast->id]) }}">{{ $actCast->name }}</a>
+                                    href="{{ route('cast.show', ['cast_id' => $occupation->cast->id]) }}">{{ $occupation->cast->name }}</a>
+                                    @if ($occupation->main_sub == \App\Models\Occupation::TYPE_MAIN)
+                                        <b>({{ $occupation->character }})</b>
+                                    @elseif ($occupation->main_sub == \App\Models\Occupation::TYPE_SUB)
+                                        ({{ $occupation->character }})
+                                    @elseif ($occupation->main_sub == \App\Models\Occupation::TYPE_OTHERS)
+                                        (その他)
+                                    @endif
                             @endforeach
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <a href="{{ route('modify_occupations_request.show', ['anime_id' => $anime->id]) }}">アニメの出演声優情報の変更申請をする</a>
+            <a href="{{ route('modify_occupations.show', ['anime_id' => $anime->id]) }}">アニメの出演声優情報の変更をする</a>
         </section>
         <section class="anime_comment">
             <h3>コメント（新着順）</h3>

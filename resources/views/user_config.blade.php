@@ -53,7 +53,7 @@
                     <tr>
                         <td>Twitterのユーザー名</td>
                         <td>
-                            <input type="text" name="twitter" class="twitter" value="{{ $user->twitter }}">
+                            @<input type="text" name="twitter" class="twitter" value="{{ $user->twitter }}">
                         </td>
                         <td></td>
                     </tr>

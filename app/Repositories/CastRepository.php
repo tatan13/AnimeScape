@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\Cast;
 use App\Models\ModifyCast;
 use App\Models\Anime;
-use App\Http\Requests\ModifyCastRequest;
+use App\Http\Requests\CastRequest;
 use Illuminate\Database\Eloquent\Collection;
 
 class CastRepository extends AbstractRepository
@@ -96,10 +96,10 @@ class CastRepository extends AbstractRepository
      * 声優情報変更申請データを作成
      *
      * @param Cast $cast
-     * @param ModifyCastRequest $request
+     * @param CastRequest $request
      * @return void
      */
-    public function createModifyCastRequest(Cast $cast, ModifyCastRequest $request)
+    public function createModifyCastRequest(Cast $cast, CastRequest $request)
     {
         $cast->modifyCasts()->create($request->validated());
     }
@@ -108,10 +108,10 @@ class CastRepository extends AbstractRepository
      * 声優情報変更申請データから声優情報を更新
      *
      * @param Cast $cast
-     * @param ModifyCastRequest $request
+     * @param CastRequest $request
      * @return void
      */
-    public function updateInformationByRequest(Cast $cast, ModifyCastRequest $request)
+    public function updateInformationByRequest(Cast $cast, CastRequest $request)
     {
         $cast->update($request->validated());
     }
@@ -140,5 +140,27 @@ class CastRepository extends AbstractRepository
         return Cast::whereHas('deleteCasts', function ($query) use ($delete_cast_id) {
             $query->where('id', $delete_cast_id);
         })->firstOrFail();
+    }
+
+    /**
+     * cast_idから声優をapiのために取得
+     *
+     * @param int $cast_id
+     * @return Cast | null
+     */
+    public function getForApiById($cast_id)
+    {
+        return Cast::find($cast_id);
+    }
+
+    /**
+     * 声優をリクエストに従って作成
+     *
+     * @param CastRequest $request
+     * @return Cast
+     */
+    public function createByRequest(CastRequest $request)
+    {
+        return Cast::create($request->validated());
     }
 }

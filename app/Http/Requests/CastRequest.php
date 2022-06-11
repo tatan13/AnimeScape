@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ModifyCastRequest extends FormRequest
+class CastRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -48,8 +48,8 @@ class ModifyCastRequest extends FormRequest
     {
         return [
             'name.required' => '名前を入力してください。',
-            'remark.max' => '変更事由は400文字以下で入力してください。',
-            'remark.string' => '変更事由には文字列を入力してください。',
+            'remark.max' => '事由は400文字以下で入力してください。',
+            'remark.string' => '事由には文字列を入力してください。',
         ];
     }
 }

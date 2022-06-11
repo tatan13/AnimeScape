@@ -56,4 +56,29 @@ class CastController extends Controller
         $cast = $this->castService->getCast($cast_id);
         $this->userService->unlikeCast($cast);
     }
+
+    /**
+     * 声優を取得し、REST API形式で出力
+     *
+     * @param int $cast_id
+     * @return string
+     */
+    public function getCastNameById($cast_id)
+    {
+        $cast_name = $this->castService->getCastNameForApi($cast_id);
+        return $cast_name;
+    }
+
+    /**
+     * 声優リストを表示
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showList()
+    {
+        $cast_all = $this->castService->getCastAll();
+        return view('cast_list', [
+            'cast_all' => $cast_all,
+        ]);
+    }
 }

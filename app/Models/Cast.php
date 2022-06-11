@@ -23,6 +23,10 @@ class Cast extends Model
         'url',
         'twitter',
         'blog',
+        'blood_type',
+        'birth',
+        'birthplace',
+        'blog_url',
     ];
 
     private const SEX = [

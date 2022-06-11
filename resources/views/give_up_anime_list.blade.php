@@ -1,14 +1,14 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ $user->name }}さんのギブアップしたアニメリスト AnimeScape</title>
+    <title>{{ $user->name }}さんの視聴リタイアしたアニメリスト AnimeScape</title>
 @endsection
 
 @section('main')
     <article class="give_up_anime_list">
-        <h2>{{ $user->name }}さんのギブアップしたアニメリスト</h2>
+        <h2>{{ $user->name }}さんの視聴リタイアしたアニメリスト</h2>
         <strong>{{ $user->name }}</strong>
-        <h3>ギブアップしたアニメリスト</h3>
+        <h3>視聴リタイアしたアニメリスト</h3>
         <table class="give_up_anime_list_table">
             <tbody>
                 <tr>

@@ -1,13 +1,13 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ $cast->name }}の情報変更申請 AnimeScape</title>
+    <title>声優の追加申請 AnimeScape</title>
 @endsection
 
 @section('main')
-    <article class="modify_cast_request">
-        <h2>{{ $cast->name }}の情報変更申請</h2>
-        <h3><a href="{{ route('cast.show', ['cast_id' => $cast->id]) }}">{{ $cast->name }}</a></h3>
+    <article class="add_cast_request">
+        <h2>声優の追加申請</h2>
+        <h3>申請フォーム</h3>
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -22,100 +22,87 @@
                 {{ session('flash_message') }}
             </div>
         @endif
-        <form action="{{ route('modify_cast_request.post', ['cast_id' => $cast->id]) }}" class="modify_cast_request_form"
+        <form action="{{ route('add_cast_request.post') }}" class="add_cast_request_form"
             method="POST">
             @csrf
             <input type="submit" value="登録">
-            <table class="modify_cast_request_table">
+            <table class="add_cast_request_table">
                 <tbody>
                     <tr>
                         <th>項目</th>
-                        <th>現在の情報</th>
-                        <th>訂正情報</th>
+                        <th>情報</th>
                     </tr>
                     <tr>
                         <th>名前</th>
-                        <td>{{ $cast->name }}</td>
-                        <td><input type="text" name="name" value="{{ $cast->name }}"></td>
+                        <td><input type="text" name="name" value=""></td>
                     </tr>
                     <tr>
                         <th>ふりがな</th>
-                        <td>{{ $cast->furigana }}</td>
-                        <td><input type="text" name="furigana" value="{{ $cast->furigana }}"></td>
+                        <td><input type="text" name="furigana" value=""></td>
                     </tr>
                     <tr>
                         <th>性別</th>
-                        <td>{{ $cast->sex_label }}</td>
                         <td>
                             <select name="sex">
-                                <option value="" {{ is_null($cast->sex) ? 'selected' : '' }}>-
+                                <option value="">-
                                 </option>
-                                <option value="1" {{ $cast->sex == 1 ? 'selected' : '' }}>男性
+                                <option value="1">男性
                                 </option>
-                                <option value="2" {{ $cast->sex == 2 ? 'selected' : '' }}>女性
+                                <option value="2">女性
                                 </option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th>生年月日</th>
-                        <td>{{ $cast->birth }}</td>
-                        <td><input type="text" name="birth" value="{{ $cast->birth }}">
+                        <td><input type="text" name="birth" value="">
                         </td>
                     </tr>
                     <tr>
                         <th>出身地</th>
-                        <td>{{ $cast->birthplace }}</td>
-                        <td><input type="text" name="birthplace" value="{{ $cast->birthplace }}">
+                        <td><input type="text" name="birthplace" value="">
                         </td>
                     </tr>
                     <tr>
                         <th>血液型</th>
-                        <td>{{ $cast->blood_type }}</td>
                         <td>
                             <select name="blood_type">
-                                <option value="" {{ is_null($cast->blood_type) ? 'selected' : '' }}>-
+                                <option value="">-
                                 </option>
-                                <option value="A" {{ $cast->blood_type == 'A' ? 'selected' : '' }}>A
+                                <option value="A">A
                                 </option>
-                                <option value="B" {{ $cast->blood_type == 'B' ? 'selected' : '' }}>B
+                                <option value="B">B
                                 </option>
-                                <option value="O" {{ $cast->blood_type == 'O' ? 'selected' : '' }}>O
+                                <option value="O">O
                                 </option>
-                                <option value="AB" {{ $cast->blood_type == 'AB' ? 'selected' : '' }}>AB
+                                <option value="AB">AB
                                 </option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th>所属事務所</th>
-                        <td>{{ $cast->office }}</td>
-                        <td><input type="text" name="office" value="{{ $cast->office }}">
+                        <td><input type="text" name="office" value="">
                         </td>
                     </tr>
                     <tr>
                         <th>公式HP</th>
-                        <td>{{ $cast->url }}</td>
-                        <td><input type="text" name="url" value="{{ $cast->url }}"></td>
+                        <td><input type="text" name="url" value=""></td>
                     </tr>
                     <tr>
                         <th>ツイッター</th>
-                        <td>{{ '@' . $cast->twitter }}</td>
-                        <td>@<input type="text" name="twitter" value="{{ $cast->twitter }}"></td>
+                        <td>@<input type="text" name="twitter" value=""></td>
                     </tr>
                     <tr>
                         <th>公式ブログ名</th>
-                        <td>{{ $cast->blog }}</td>
-                        <td><input type="text" name="blog" value="{{ $cast->blog }}"></td>
+                        <td><input type="text" name="blog" value=""></td>
                     </tr>
                     <tr>
                         <th>公式ブログURL</th>
-                        <td>{{ $cast->blog_url }}</td>
-                        <td><input type="text" name="blog_url" value="{{ $cast->blog_url }}"></td>
+                        <td><input type="text" name="blog_url" value=""></td>
                     </tr>
                     <tr>
                         <th>事由</th>
-                        <td></td>
                         <td><input type="text" size="100" name="remark" class="remark"
                                 value="{{ old('remark') }}"></td>
                     </tr>
