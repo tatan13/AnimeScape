@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -55,5 +56,22 @@ class LoginController extends Controller
     protected function loggedOut(\Illuminate\Http\Request $request)
     {
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    /**
+     * remember meを実装
+     * @param \Illuminate\Http\Request $request
+     * @return void
+     */
+    protected function authenticated(\Illuminate\Http\Request $request)
+    {
+        $params = $request->all();
+        if (Auth::attempt(['name' => $params['name'], 'password' => $params['password']])) {
+            if (isset($params['remember-me']) && $params['remember-me'] === 'on') {
+                Auth::attempt(['name' => $params['name'], 'password' => $params['password']], true);
+            } else {
+                Auth::attempt(['name' => $params['name'], 'password' => $params['password']], false);
+            }
+        }
     }
 }

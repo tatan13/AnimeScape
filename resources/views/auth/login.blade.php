@@ -20,6 +20,7 @@
             <input type="text" size="15" name="name" class="name" required><br>
             <label for="password">パスワード</label><br>
             <input type="password" size="15" name="password" class="password" required><br>
+            <input type="checkbox" name="remember-me" class="remember-me"> ログイン状態を記憶する<br>
             <input type="submit" value="ログイン">
         </form>
         IDを取得していない方はこちらへ → <a href="{{ route('register') }}">新規ID取得</a><br>
