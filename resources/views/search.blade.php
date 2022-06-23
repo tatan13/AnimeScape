@@ -101,6 +101,55 @@
                 </section>
             @break
 
+            @case('creater')
+                <section class="creater_search_result">
+                    <h2>検索結果 creater:{{ $search_word }}</h2>
+                    @if (!$search_results->isEmpty())
+                        @foreach ($search_results as $creater)
+                            <h3><a href="{{ route('creater.show', ['creater_id' => $creater->id]) }}">{{ $creater->name }}</a></h3>
+                            <strong>関わったアニメ</strong>
+                            <table class="creater_search_result_table">
+                                <tbody>
+                                    <tr>
+                                        <th>アニメ名</th>
+                                        <th>制作会社</th>
+                                        <th>放送クール</th>
+                                        <th>中央値</th>
+                                        <th>データ数</th>
+                                        @auth
+                                            <th>つけた得点</th>
+                                        @endauth
+                                    </tr>
+                                    @foreach ($creater->animes as $anie)
+                                        <tr>
+                                            <td><a
+                                                    href="{{ route('anime.show', ['anime_id' => $anie->id]) }}">{{ $anie->title }}</a>
+                                            </td>
+                                            <td>
+                                                @foreach ($anie->companies as $company)
+                                                    <a
+                                                        href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                {{ $anie->year }}年{{ $anie->coor_label }}クール
+                                            </td>
+                                            <td>{{ $anie->median }}</td>
+                                            <td>{{ $anie->count }}</td>
+                                            @auth
+                                                <td>{{ $anime->userReview->score ?? '' }}</td>
+                                            @endauth
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @endforeach
+                    @else
+                        該当するクリエイターがいませんでした。
+                    @endif
+                </section>
+            @break
+
             @case('company')
                 <section class="company_search_result">
                     <h2>検索結果 company:{{ $search_word }}</h2>

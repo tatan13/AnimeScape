@@ -19,7 +19,7 @@
             @auth
                 <like-cast-component :props-cast-id="{{ json_encode($cast->id) }}"
                     :default-is-like-cast="{{ json_encode(Auth::user()->isLikeCast($cast->id)) }}">
-                    ></like-cast-component>
+                    </like-cast-component>
             @endauth
             <section class="cast_profile">
                 <h3>プロフィール</h3>

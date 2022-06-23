@@ -4,16 +4,20 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Anime;
 use App\Models\ModifyAnime;
-use App\Models\ModifyCast;
-use App\Models\DeleteAnime;
 use App\Models\AddAnime;
+use App\Models\DeleteAnime;
+use App\Models\Cast;
+use App\Models\ModifyCast;
 use App\Models\AddCast;
 use App\Models\DeleteCast;
-use App\Models\DeleteCompany;
-use App\Models\Anime;
-use App\Models\Cast;
+use App\Models\Creater;
+use App\Models\ModifyCreater;
+use App\Models\AddCreater;
+use App\Models\DeleteCreater;
 use App\Models\Company;
+use App\Models\DeleteCompany;
 use App\Models\User;
 use Tests\TestCase;
 
@@ -25,21 +29,29 @@ class ModifyTest extends TestCase
     private Anime $anime1;
     private ModifyAnime $modifyAnime;
     private ModifyAnime $modifyAnime1;
-    private ModifyCast $modifyCast1;
-    private ModifyCast $modifyCast2;
     private DeleteAnime $deleteAnime1;
     private AddAnime $addAnime;
     private AddAnime $addAnimeDeleted;
-    private AddCast $addCast;
-    private AddCast $addCastDeleted;
-    private DeleteCast $deleteCast;
-    private DeleteCompany $deleteCompany;
     private Cast $cast1;
     private Cast $cast2;
     private Cast $cast3;
+    private ModifyCast $modifyCast1;
+    private ModifyCast $modifyCast2;
+    private AddCast $addCast;
+    private AddCast $addCastDeleted;
+    private DeleteCast $deleteCast;
+    private Creater $creater1;
+    private Creater $creater2;
+    private Creater $creater3;
+    private ModifyCreater $modifyCreater1;
+    private ModifyCreater $modifyCreater2;
+    private AddCreater $addCreater;
+    private AddCreater $addCreaterDeleted;
+    private DeleteCreater $deleteCreater;
     private Company $company1;
     private Company $company2;
     private Company $company3;
+    private DeleteCompany $deleteCompany;
     private User $user1;
     private User $user2;
 
@@ -54,25 +66,6 @@ class ModifyTest extends TestCase
             'title' => 'modify_title2',
             'title_short' => 'modify_title_short2',
         ]);
-        $this->cast1 = Cast::factory()->create();
-        $this->cast2 = Cast::factory()->create();
-        $this->cast3 = Cast::factory()->create();
-        $this->modifyCast1 = ModifyCast::factory()->create(['cast_id' => $this->cast1->id]);
-        $this->modifyCast2 = ModifyCast::factory()->create([
-            'cast_id' => $this->cast1->id,
-            'name' => 'modify_name1',
-        ]);
-        $this->anime->actCasts()->attach($this->cast1->id, [
-            'character' => 'character_name1',
-            'main_sub' => 1
-        ]);
-        $this->anime->actCasts()->attach($this->cast2->id, [
-            'character' => 'character_name2',
-            'main_sub' => 2
-        ]);
-
-        $this->deleteAnime1 = DeleteAnime::create(['anime_id' => $this->anime1->id, 'remark' => 'remark1']);
-
         $this->addAnime = AddAnime::create([
             'title' => 'add_title',
             'title_short' => 'add_title_short',
@@ -97,14 +90,30 @@ class ModifyTest extends TestCase
             'disney_plus_id' => 'add_disney_plus_id',
             'remark' => 'add_remark',
         ]);
-
         $this->addAnimeDeleted = AddAnime::create([
             'title' => 'add_anime_deleted',
             'year' => 2040,
             'delete_flag' => true,
             'anime_id' => 3
         ]);
+        $this->deleteAnime1 = DeleteAnime::create(['anime_id' => $this->anime1->id, 'remark' => 'remark1']);
 
+        $this->cast1 = Cast::factory()->create();
+        $this->cast2 = Cast::factory()->create();
+        $this->cast3 = Cast::factory()->create();
+        $this->anime->actCasts()->attach($this->cast1->id, [
+            'character' => 'character_name1',
+            'main_sub' => 1
+        ]);
+        $this->anime->actCasts()->attach($this->cast2->id, [
+            'character' => 'character_name2',
+            'main_sub' => 2
+        ]);
+        $this->modifyCast1 = ModifyCast::factory()->create(['cast_id' => $this->cast1->id]);
+        $this->modifyCast2 = ModifyCast::factory()->create([
+            'cast_id' => $this->cast1->id,
+            'name' => 'modify_name1',
+        ]);
         $this->addCast = AddCast::create([
             'name' => 'add_name',
             'furigana' => 'add_furigana',
@@ -119,14 +128,50 @@ class ModifyTest extends TestCase
             'blog_url' => 'add_blog_url',
             'remark' => 'add_remark',
         ]);
-
         $this->addCastDeleted = AddCast::create([
             'name' => 'add_cast_deleted',
             'delete_flag' => true,
             'cast_id' => 1
         ]);
-
         $this->deleteCast = DeleteCast::create(['cast_id' => $this->cast1->id, 'remark' => 'remark2']);
+
+        $this->creater1 = Creater::factory()->create();
+        $this->creater2 = Creater::factory()->create();
+        $this->creater3 = Creater::factory()->create();
+        $this->anime->creaters()->attach($this->creater1->id, [
+            'occupation' => 'occupation_name1',
+            'classification' => 1,
+            'main_sub' => 1
+        ]);
+        $this->anime->creaters()->attach($this->creater2->id, [
+            'occupation' => 'occupation_name2',
+            'classification' => 2,
+            'main_sub' => 2
+        ]);
+        $this->modifyCreater1 = ModifyCreater::factory()->create(['creater_id' => $this->creater1->id]);
+        $this->modifyCreater2 = ModifyCreater::factory()->create([
+            'creater_id' => $this->creater1->id,
+            'name' => 'modify_name1',
+        ]);
+        $this->addCreater = AddCreater::create([
+            'name' => 'add_name',
+            'furigana' => 'add_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'url' => 'add_url',
+            'twitter' => 'add_twitter',
+            'blog' => 'add_blog',
+            'blog_url' => 'add_blog_url',
+            'remark' => 'add_remark',
+        ]);
+        $this->addCreaterDeleted = AddCreater::create([
+            'name' => 'add_creater_deleted',
+            'delete_flag' => true,
+            'creater_id' => 1
+        ]);
+        $this->deleteCreater = DeleteCreater::create(['creater_id' => $this->creater1->id, 'remark' => 'remark2']);
 
         $this->user1 = User::factory()->create(['name' => 'root']);
         $this->user2 = User::factory()->create();
@@ -137,8 +182,289 @@ class ModifyTest extends TestCase
         $this->anime->companies()->attach($this->company1->id);
         $this->anime->companies()->attach($this->company2->id);
         $this->anime->companies()->attach($this->company3->id);
-
         $this->deleteCompany = DeleteCompany::create(['company_id' => $this->company1->id, 'remark' => 'remark2']);
+    }
+
+    /**
+     * ルートログイン時の変更申請のリストページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginModifyRequestListView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('modify_request_list.show'));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder(['許可', '却下']);
+    }
+
+    /**
+     * 変更申請のリストページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyRequestListView()
+    {
+        $response = $this->get(route('modify_request_list.show'));
+        $response->assertStatus(200);
+        $response->assertDontSee('許可');
+        $response->assertDontSee('却下');
+    }
+
+    /**
+     * 変更申請のリストページのアニメの基本情報変更申請の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyAnimeOfModifyRequestListView()
+    {
+        $response = $this->get(route('modify_request_list.show'));
+        $response->assertSeeInOrder([
+            '1件目',
+            $this->anime->title,
+            $this->anime->title,
+            $this->modifyAnime->title,
+            $this->anime->furigana,
+            $this->modifyAnime->furigana,
+            $this->anime->title_short,
+            $this->modifyAnime->title_short,
+            $this->anime->year,
+            $this->modifyAnime->year,
+            $this->anime->number_of_episode,
+            $this->modifyAnime->number_of_episode,
+            $this->anime->public_url,
+            $this->modifyAnime->public_url,
+            $this->anime->twitter,
+            $this->modifyAnime->twitter,
+            $this->anime->hash_tag,
+            $this->modifyAnime->hash_tag,
+            $this->anime->companies[0]->name,
+            $this->modifyAnime->company1,
+            $this->anime->companies[1]->name,
+            $this->modifyAnime->company2,
+            $this->anime->companies[2]->name,
+            $this->modifyAnime->company3,
+            $this->modifyAnime->media_category_label,
+            $this->anime->d_anime_store_id,
+            $this->modifyAnime->d_anime_store_id,
+            $this->anime->amazon_prime_video_id,
+            $this->modifyAnime->amazon_prime_video_id,
+            $this->anime->fod_id,
+            $this->modifyAnime->fod_id,
+            $this->anime->unext_id,
+            $this->modifyAnime->unext_id,
+            $this->anime->abema_id,
+            $this->modifyAnime->abema_id,
+            $this->anime->disney_plus_id,
+            $this->modifyAnime->disney_plus_id,
+            $this->anime->summary,
+            $this->modifyAnime->summary,
+            $this->modifyAnime->remark,
+            '2件目',
+            $this->modifyAnime1->title,
+        ]);
+    }
+
+    /**
+     * 変更申請のリストページのアニメの追加申請の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAddAnimeOfModifyRequestListView()
+    {
+        $response = $this->get(route('modify_request_list.show'));
+        $response->assertSeeInOrder([
+            '1件目',
+            $this->addAnime->title,
+            $this->addAnime->furigana,
+            $this->addAnime->title_short,
+            $this->addAnime->year,
+            $this->addAnime->number_of_episode,
+            $this->addAnime->public_url,
+            $this->addAnime->twitter,
+            $this->addAnime->hash_tag,
+            $this->addAnime->company1,
+            $this->addAnime->company2,
+            $this->addAnime->company3,
+            $this->addAnime->media_category_label,
+            $this->addAnime->d_anime_store_id,
+            $this->addAnime->amazon_prime_video_id,
+            $this->addAnime->fod_id,
+            $this->addAnime->unext_id,
+            $this->addAnime->abema_id,
+            $this->addAnime->disney_plus_id,
+            $this->addAnime->summary,
+            $this->addAnime->remark,
+        ]);
+        $response->assertDontSee($this->addAnimeDeleted->title);
+    }
+
+    /**
+     * 変更申請のリストページのアニメの削除申請の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testDeleteAnimeOfModifyRequestListView()
+    {
+        $response = $this->get(route('modify_request_list.show'));
+        $response->assertSeeInOrder([
+            '1件目',
+            $this->deleteAnime1->anime->title,
+            $this->deleteAnime1->remark,
+        ]);
+    }
+
+    /**
+     * 変更申請のリストページの声優情報変更申請の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyCastOfModifyRequestListView()
+    {
+        $response = $this->get(route('modify_request_list.show'));
+        $response->assertSeeInOrder([
+            '1件目',
+            $this->modifyCast1->name,
+            $this->modifyCast1->furigana,
+            $this->modifyCast1->birth,
+            $this->modifyCast1->birthplace,
+            $this->modifyCast1->blood_type,
+            $this->modifyCast1->office,
+            $this->modifyCast1->url,
+            $this->modifyCast1->twitter,
+            $this->modifyCast1->blog,
+            $this->modifyCast1->blog_url,
+            '2件目',
+            $this->modifyCast2->name,
+        ]);
+    }
+
+    /**
+     * 変更申請のリストページの声優の追加申請の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAddCastOfModifyRequestListView()
+    {
+        $response = $this->get(route('modify_request_list.show'));
+        $response->assertSeeInOrder([
+            '1件目',
+            $this->addCast->name,
+            $this->addCast->furigana,
+            $this->addCast->birth,
+            $this->addCast->birthplace,
+            $this->addCast->office,
+            $this->addCast->url,
+            $this->addCast->twitter,
+            $this->addCast->blog,
+            $this->addCast->blog_url,
+            $this->addCast->remark,
+        ]);
+        $response->assertDontSee($this->addCastDeleted->name);
+    }
+
+    /**
+     * 変更申請のリストページの声優の削除申請の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testDeleteCastOfModifyRequestListView()
+    {
+        $response = $this->get(route('modify_request_list.show'));
+        $response->assertSeeInOrder([
+            '1件目',
+            $this->deleteCast->cast->name,
+            $this->deleteCast->remark,
+        ]);
+    }
+
+    /**
+     * 変更申請のリストページのクリエイター情報変更申請の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyCreaterOfModifyRequestListView()
+    {
+        $response = $this->get(route('modify_request_list.show'));
+        $response->assertSeeInOrder([
+            '1件目',
+            $this->modifyCreater1->name,
+            $this->modifyCreater1->furigana,
+            $this->modifyCreater1->birth,
+            $this->modifyCreater1->birthplace,
+            $this->modifyCreater1->blood_type,
+            $this->modifyCreater1->url,
+            $this->modifyCreater1->twitter,
+            $this->modifyCreater1->blog,
+            $this->modifyCreater1->blog_url,
+            '2件目',
+            $this->modifyCreater2->name,
+        ]);
+    }
+
+    /**
+     * 変更申請のリストページのクリエイターの追加申請の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAddCreaterOfModifyRequestListView()
+    {
+        $response = $this->get(route('modify_request_list.show'));
+        $response->assertSeeInOrder([
+            '1件目',
+            $this->addCreater->name,
+            $this->addCreater->furigana,
+            $this->addCreater->birth,
+            $this->addCreater->birthplace,
+            $this->addCreater->url,
+            $this->addCreater->twitter,
+            $this->addCreater->blog,
+            $this->addCreater->blog_url,
+            $this->addCreater->remark,
+        ]);
+        $response->assertDontSee($this->addCreaterDeleted->name);
+    }
+
+    /**
+     * 変更申請のリストページのクリエイターの削除申請の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testDeleteCreaterOfModifyRequestListView()
+    {
+        $response = $this->get(route('modify_request_list.show'));
+        $response->assertSeeInOrder([
+            '1件目',
+            $this->deleteCreater->creater->name,
+            $this->deleteCreater->remark,
+        ]);
+    }
+
+    /**
+     * 変更申請のリストページの会社の削除申請の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testDeleteCompanyOfModifyRequestListView()
+    {
+        $response = $this->get(route('modify_request_list.show'));
+        $response->assertSeeInOrder([
+            '1件目',
+            $this->deleteCompany->company->name,
+            $this->deleteCompany->remark,
+        ]);
     }
 
     /**
@@ -306,321 +632,6 @@ class ModifyTest extends TestCase
             'remark' => 'modify_remark',
         ]);
         $response->assertStatus(404);
-    }
-
-    /**
-     * 声優情報変更申請ページの表示のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testModifyCastRequestView()
-    {
-        $response = $this->get(route('modify_cast_request.show', ['cast_id' => $this->cast1->id]));
-        $response->assertStatus(200);
-        $response->assertSeeInOrder([
-            $this->cast1->name,
-            $this->cast1->furigana,
-            $this->cast1->sex_label,
-            $this->cast1->birth,
-            $this->cast1->birthplace,
-            $this->cast1->blood_type,
-            $this->cast1->office,
-            $this->cast1->url,
-            $this->cast1->twitter,
-            $this->cast1->blog,
-            $this->cast1->blog_url,
-        ]);
-    }
-
-    /**
-     * 声優情報変更申請ページの表示の異常値テスト
-     *
-     * @test
-     * @return void
-     */
-    public function testNotExistModifyCastRequestView()
-    {
-        $response = $this->get(route('modify_cast_request.show', ['cast_id' => 333333333333333333333333333]));
-        $response->assertStatus(404);
-    }
-
-    /**
-     * 声優情報変更申請のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testModifyCastRequestPost()
-    {
-        $response = $this->post(route('modify_cast_request.post', ['cast_id' => $this->cast1->id,]), [
-            'name' => 'modify_name',
-            'furigana' => 'modify_furigana',
-            'sex' => 2,
-            'birth' => '2000年4月13日',
-            'birthplace' => '千葉県',
-            'blood_type' => 'AB',
-            'office' => 'modify_office',
-            'url' => 'modify_url',
-            'twitter' => 'modify_twitter',
-            'blog' => 'modify_blog',
-            'blog_url' => 'modify_blog_url',
-        ]);
-        $this->assertDatabaseHas('modify_casts', [
-            'name' => 'modify_name',
-            'cast_id' => $this->cast1->id,
-            'furigana' => 'modify_furigana',
-            'sex' => 2,
-            'birth' => '2000年4月13日',
-            'birthplace' => '千葉県',
-            'blood_type' => 'AB',
-            'office' => 'modify_office',
-            'url' => 'modify_url',
-            'twitter' => 'modify_twitter',
-            'blog' => 'modify_blog',
-            'blog_url' => 'modify_blog_url',
-        ]);
-    }
-
-    /**
-     * 声優情報変更申請の異常値テスト
-     *
-     * @test
-     * @return void
-     */
-    public function testNotExistModifyCastRequestPost()
-    {
-        $response = $this->post(route('modify_cast_request.post', ['cast_id' => 33333333333333333333333]), [
-            'name' => 'modify_name',
-            'furigana' => 'modify_furigana',
-            'sex' => 2,
-            'birth' => '2000年4月13日',
-            'birthplace' => '千葉県',
-            'blood_type' => 'AB',
-            'office' => 'modify_office',
-            'url' => 'modify_url',
-            'twitter' => 'modify_twitter',
-            'blog' => 'modify_blog',
-            'blog_url' => 'modify_blog_url',
-        ]);
-        $response->assertStatus(404);
-    }
-
-    /**
-     * ルートログイン時の変更申請のリストページリクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testRootLoginModifyRequestListView()
-    {
-        $this->actingAs($this->user1);
-        $response = $this->get(route('modify_request_list.show'));
-        $response->assertStatus(200);
-        $response->assertSeeInOrder(['許可', '却下']);
-    }
-
-    /**
-     * 変更申請のリストページリクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testModifyRequestListView()
-    {
-        $response = $this->get(route('modify_request_list.show'));
-        $response->assertStatus(200);
-        $response->assertDontSee('許可');
-        $response->assertDontSee('却下');
-    }
-
-    /**
-     * 変更申請のリストページのアニメの基本情報変更申請の表示のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testModifyAnimeOfModifyRequestListView()
-    {
-        $response = $this->get(route('modify_request_list.show'));
-        $response->assertSeeInOrder([
-            '1件目',
-            $this->anime->title,
-            $this->anime->title,
-            $this->modifyAnime->title,
-            $this->anime->furigana,
-            $this->modifyAnime->furigana,
-            $this->anime->title_short,
-            $this->modifyAnime->title_short,
-            $this->anime->year,
-            $this->modifyAnime->year,
-            $this->anime->number_of_episode,
-            $this->modifyAnime->number_of_episode,
-            $this->anime->public_url,
-            $this->modifyAnime->public_url,
-            $this->anime->twitter,
-            $this->modifyAnime->twitter,
-            $this->anime->hash_tag,
-            $this->modifyAnime->hash_tag,
-            $this->anime->companies[0]->name,
-            $this->modifyAnime->company1,
-            $this->anime->companies[1]->name,
-            $this->modifyAnime->company2,
-            $this->anime->companies[2]->name,
-            $this->modifyAnime->company3,
-            $this->modifyAnime->media_category_label,
-            $this->anime->d_anime_store_id,
-            $this->modifyAnime->d_anime_store_id,
-            $this->anime->amazon_prime_video_id,
-            $this->modifyAnime->amazon_prime_video_id,
-            $this->anime->fod_id,
-            $this->modifyAnime->fod_id,
-            $this->anime->unext_id,
-            $this->modifyAnime->unext_id,
-            $this->anime->abema_id,
-            $this->modifyAnime->abema_id,
-            $this->anime->disney_plus_id,
-            $this->modifyAnime->disney_plus_id,
-            $this->anime->summary,
-            $this->modifyAnime->summary,
-            $this->modifyAnime->remark,
-            '2件目',
-            $this->modifyAnime1->title,
-        ]);
-    }
-
-    /**
-     * 変更申請のリストページの声優情報変更申請の表示のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testModifyCastOfModifyRequestListView()
-    {
-        $response = $this->get(route('modify_request_list.show'));
-        $response->assertSeeInOrder([
-            '1件目',
-            $this->modifyCast1->name,
-            $this->modifyCast1->furigana,
-            $this->modifyCast1->birth,
-            $this->modifyCast1->birthplace,
-            $this->modifyCast1->blood_type,
-            $this->modifyCast1->office,
-            $this->modifyCast1->url,
-            $this->modifyCast1->twitter,
-            $this->modifyCast1->blog,
-            $this->modifyCast1->blog_url,
-            '2件目',
-            $this->modifyCast2->name,
-        ]);
-    }
-
-    /**
-     * 変更申請のリストページのアニメの削除申請の表示のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testDeleteAnimeOfModifyRequestListView()
-    {
-        $response = $this->get(route('modify_request_list.show'));
-        $response->assertSeeInOrder([
-            '1件目',
-            $this->deleteAnime1->anime->title,
-            $this->deleteAnime1->remark,
-        ]);
-    }
-
-    /**
-     * 変更申請のリストページのアニメの追加申請の表示のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testAddAnimeOfModifyRequestListView()
-    {
-        $response = $this->get(route('modify_request_list.show'));
-        $response->assertSeeInOrder([
-            '1件目',
-            $this->addAnime->title,
-            $this->addAnime->furigana,
-            $this->addAnime->title_short,
-            $this->addAnime->year,
-            $this->addAnime->number_of_episode,
-            $this->addAnime->public_url,
-            $this->addAnime->twitter,
-            $this->addAnime->hash_tag,
-            $this->addAnime->company1,
-            $this->addAnime->company2,
-            $this->addAnime->company3,
-            $this->addAnime->media_category_label,
-            $this->addAnime->d_anime_store_id,
-            $this->addAnime->amazon_prime_video_id,
-            $this->addAnime->fod_id,
-            $this->addAnime->unext_id,
-            $this->addAnime->abema_id,
-            $this->addAnime->disney_plus_id,
-            $this->addAnime->summary,
-            $this->addAnime->remark,
-        ]);
-        $response->assertDontSee($this->addAnimeDeleted->title);
-    }
-
-    /**
-     * 変更申請のリストページの声優の追加申請の表示のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testAddCastOfModifyRequestListView()
-    {
-        $response = $this->get(route('modify_request_list.show'));
-        $response->assertSeeInOrder([
-            '1件目',
-            $this->addCast->name,
-            $this->addCast->furigana,
-            $this->addCast->birth,
-            $this->addCast->birthplace,
-            $this->addCast->office,
-            $this->addCast->url,
-            $this->addCast->twitter,
-            $this->addCast->blog,
-            $this->addCast->blog_url,
-            $this->addCast->remark,
-        ]);
-        $response->assertDontSee($this->addCastDeleted->name);
-    }
-
-    /**
-     * 変更申請のリストページの声優の削除申請の表示のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testDeleteCastOfModifyRequestListView()
-    {
-        $response = $this->get(route('modify_request_list.show'));
-        $response->assertSeeInOrder([
-            '1件目',
-            $this->deleteCast->cast->name,
-            $this->deleteCast->remark,
-        ]);
-    }
-
-    /**
-     * 変更申請のリストページの会社の削除申請の表示のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testDeleteCompanyOfModifyRequestListView()
-    {
-        $response = $this->get(route('modify_request_list.show'));
-        $response->assertSeeInOrder([
-            '1件目',
-            $this->deleteCompany->company->name,
-            $this->deleteCompany->remark,
-        ]);
     }
 
     /**
@@ -849,403 +860,6 @@ class ModifyTest extends TestCase
         $this->actingAs($this->user1);
         $response = $this->get(route('modify_anime_request.reject', ['modify_anime_id' => 33333333333333333333333]));
         $response->assertStatus(404);
-    }
-
-    /**
-     * ゲスト時の声優情報更新リクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testGuestModifyCastRequestApprove()
-    {
-        $response = $this->post(route('modify_cast_request.approve', ['modify_cast_id' => $this->modifyCast1->id]), [
-            'name' => 'modify_name',
-            'furigana' => 'modify_furigana',
-            'sex' => 2,
-            'birth' => '2000年4月13日',
-            'birthplace' => '千葉県',
-            'blood_type' => 'AB',
-            'office' => 'modify_office',
-            'url' => 'modify_url',
-            'twitter' => 'modify_twitter',
-            'blog' => 'modify_blog',
-            'blog_url' => 'modify_blog_url',
-        ]);
-        $response->assertStatus(403);
-    }
-
-    /**
-     * ユーザーログイン時の声優情報更新リクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testUser2LoginModifyCastRequestApprove()
-    {
-        $this->actingAs($this->user2);
-        $response = $this->post(route('modify_cast_request.approve', ['modify_cast_id' => $this->modifyCast1->id]), [
-            'name' => 'modify_name',
-            'furigana' => 'modify_furigana',
-            'sex' => 2,
-            'birth' => '2000年4月13日',
-            'birthplace' => '千葉県',
-            'blood_type' => 'AB',
-            'office' => 'modify_office',
-            'url' => 'modify_url',
-            'twitter' => 'modify_twitter',
-            'blog' => 'modify_blog',
-            'blog_url' => 'modify_blog_url',
-        ]);
-        $response->assertStatus(403);
-    }
-
-    /**
-     * ルートユーザーログイン時の声優情報更新リクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testRootLoginModifyCastRequestApprove()
-    {
-        $this->actingAs($this->user1);
-        $response = $this->post(route('modify_cast_request.approve', ['modify_cast_id' => $this->modifyCast1->id]), [
-            'name' => 'modify_name',
-            'furigana' => 'modify_furigana',
-            'sex' => 2,
-            'birth' => '2000年4月13日',
-            'birthplace' => '千葉県',
-            'blood_type' => 'AB',
-            'office' => 'modify_office',
-            'url' => 'modify_url',
-            'twitter' => 'modify_twitter',
-            'blog' => 'modify_blog',
-            'blog_url' => 'modify_blog_url',
-        ]);
-        $response->assertRedirect(route('modify_request_list.show'));
-        $this->assertDatabaseHas('casts', [
-            'id' => $this->cast1->id,
-            'name' => 'modify_name',
-            'furigana' => 'modify_furigana',
-            'sex' => 2,
-            'birth' => '2000年4月13日',
-            'birthplace' => '千葉県',
-            'blood_type' => 'AB',
-            'office' => 'modify_office',
-            'url' => 'modify_url',
-            'twitter' => 'modify_twitter',
-            'blog' => 'modify_blog',
-            'blog_url' => 'modify_blog_url',
-        ]);
-        $this->assertDatabaseMissing('modify_casts', [
-            'id' => $this->modifyCast1->id,
-            'cast_id' => $this->cast1->id,
-        ]);
-    }
-
-    /**
-     * ルートユーザーログイン時の声優情報更新リクエスト時の異常値テスト
-     *
-     * @test
-     * @return void
-     */
-    public function testRootLoginNotExistModifyCastRequestApprove()
-    {
-        $this->actingAs($this->user1);
-        $response = $this->post(route('modify_cast_request.approve', ['modify_cast_id' => 3333333333333333333333]), [
-            'name' => 'modify_name',
-            'furigana' => 'modify_furigana',
-            'sex' => 2,
-            'birth' => '2000年4月13日',
-            'birthplace' => '千葉県',
-            'blood_type' => 'AB',
-            'office' => 'modify_office',
-            'url' => 'modify_url',
-            'twitter' => 'modify_twitter',
-            'blog' => 'modify_blog',
-            'blog_url' => 'modify_blog_url',
-        ]);
-        $response->assertStatus(404);
-    }
-
-    /**
-     * ゲスト時の声優情報変更申請却下リクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testGuestModifyCastRequestReject()
-    {
-        $response = $this->get(route('modify_cast_request.reject', ['modify_cast_id' => $this->modifyCast1->id]));
-        $response->assertStatus(403);
-    }
-
-    /**
-     * ユーザーログイン時の声優情報変更申請却下リクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testUser2LoginModifyCastRequestReject()
-    {
-        $this->actingAs($this->user2);
-        $response = $this->get(route('modify_cast_request.reject', ['modify_cast_id' => $this->modifyCast1->id]));
-        $response->assertStatus(403);
-    }
-
-    /**
-     * ルートユーザーログイン時の声優情報変更申請却下時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testRootLoginModifyCastRequestReject()
-    {
-        $this->actingAs($this->user1);
-        $response = $this->get(route('modify_cast_request.reject', ['modify_cast_id' => $this->modifyCast1->id]));
-        $response->assertRedirect(route('modify_request_list.show'));
-        $this->assertDatabaseMissing('modify_casts', [
-            'id' => $this->modifyCast1->id,
-            'cast_id' => $this->cast1->id,
-        ]);
-    }
-
-    /**
-     * ルートユーザーログイン時の声優情報変更申請却下時の異常値テスト
-     *
-     * @test
-     * @return void
-     */
-    public function testRootLoginNotExistModifyCastRequestReject()
-    {
-        $this->actingAs($this->user1);
-        $response = $this->get(route('modify_cast_request.reject', ['modify_cast_id' => 333333333333333333333333333]));
-        $response->assertStatus(404);
-    }
-
-    /**
-     * アニメ削除申請ページの表示のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testDeleteAnimeRequestView()
-    {
-        $response = $this->get(route('delete_anime_request.show', ['anime_id' => $this->anime->id]));
-        $response->assertStatus(200);
-        $response->assertSeeInOrder([
-            $this->anime->title,
-            '削除事由',
-        ]);
-    }
-
-    /**
-     * アニメ削除申請ページの表示の異常値テスト
-     *
-     * @test
-     * @return void
-     */
-    public function testNotExistDeleteAnimeRequestView()
-    {
-        $response = $this->get(route('delete_anime_request.show', ['anime_id' => 3333333333333333]));
-        $response->assertStatus(404);
-    }
-
-    /**
-     * アニメ削除申請のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testDeleteAnimeRequestPost()
-    {
-        $response = $this->post(route('delete_anime_request.post', ['anime_id' => $this->anime->id,]), [
-            'remark' => 'remark_comment',
-        ]);
-        $this->assertDatabaseHas('delete_animes', [
-            'anime_id' => $this->anime->id,
-            'remark' => 'remark_comment',
-        ]);
-    }
-
-    /**
-     * アニメ削除申請の異常値テスト
-     *
-     * @test
-     * @return void
-     */
-    public function testNotExistDeleteAnimeRequestPost()
-    {
-        $response = $this->post(route('delete_anime_request.post', ['anime_id' => 3333333333333333333333333]), [
-            'remark' => 'remark_comment',
-        ]);
-        $response->assertStatus(404);
-    }
-
-    /**
-     * ゲスト時のアニメ削除リクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testGuestDeleteAnimeRequestApprove()
-    {
-        $response = $this->post(route('delete_anime_request.approve', ['delete_anime_id' => $this->deleteAnime1->id]));
-        $response->assertStatus(403);
-    }
-
-    /**
-     * ユーザーログイン時のアニメ削除リクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testUser2LoginDeleteAnimeRequestApprove()
-    {
-        $this->actingAs($this->user2);
-        $response = $this->post(route('delete_anime_request.approve', ['delete_anime_id' => $this->deleteAnime1->id]));
-        $response->assertStatus(403);
-    }
-
-    /**
-     * ルートユーザーログイン時のアニメ削除リクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testRootLoginDeleteAnimeRequestApprove()
-    {
-        $this->actingAs($this->user1);
-        $response = $this->post(route('delete_anime_request.approve', ['delete_anime_id' => $this->deleteAnime1->id]));
-        $response->assertRedirect(route('modify_request_list.show'));
-        $this->assertDatabaseMissing('animes', [
-            'id' => $this->anime1->id,
-        ]);
-        $this->assertDatabaseMissing('delete_animes', [
-            'id' => $this->deleteAnime1->id,
-        ]);
-    }
-
-    /**
-     * ルートユーザーログイン時のアニメ削除リクエスト時の異常値テスト
-     *
-     * @test
-     * @return void
-     */
-    public function testRootLoginNotExistDeleteAnimeRequestApprove()
-    {
-        $this->actingAs($this->user1);
-        $response = $this->post(route('delete_anime_request.approve', ['delete_anime_id' => 33333333333333333333]));
-        $response->assertStatus(404);
-    }
-
-    /**
-     * ゲスト時のアニメ削除申請却下リクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testGuestDeleteAnimeRequestReject()
-    {
-        $response = $this->get(route('delete_anime_request.reject', ['delete_anime_id' => $this->deleteAnime1->id]));
-        $response->assertStatus(403);
-    }
-
-    /**
-     * ユーザーログイン時のアニメ削除申請却下リクエスト時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testUser2LoginDeleteAnimeRequestReject()
-    {
-        $this->actingAs($this->user2);
-        $response = $this->get(route('delete_anime_request.reject', ['delete_anime_id' => $this->deleteAnime1->id]));
-        $response->assertStatus(403);
-    }
-
-    /**
-     * ルートユーザーログイン時のアニメ削除申請却下時のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testRootLoginDeleteAnimeRequestReject()
-    {
-        $this->actingAs($this->user1);
-        $response = $this->get(route('delete_anime_request.reject', ['delete_anime_id' => $this->deleteAnime1->id]));
-        $response->assertRedirect(route('modify_request_list.show'));
-        $this->assertDatabaseMissing('delete_animes', [
-            'id' => $this->deleteAnime1->id,
-            'anime_id' => $this->anime1->id,
-        ]);
-    }
-
-    /**
-     * ルートユーザーログイン時のアニメ削除申請却下時の異常値テスト
-     *
-     * @test
-     * @return void
-     */
-    public function testRootLoginNotExistDeleteAnimeRequestReject()
-    {
-        $this->actingAs($this->user1);
-        $response = $this->get(route('delete_anime_request.reject', ['delete_anime_id' => 33333333333333333333333]));
-        $response->assertStatus(404);
-    }
-
-    /**
-     * ルートログイン時のアニメ削除のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testRootLoginAnimeDelete()
-    {
-        $this->actingAs($this->user1);
-        $response = $this->get((route('anime.delete', ['anime_id' => $this->anime->id])));
-        $response->assertRedirect(route('index.show'));
-        $this->assertDatabaseMissing('animes', [
-            'id' => $this->anime->id,
-        ]);
-    }
-
-    /**
-     * ルートログイン時のアニメ削除の異常値テスト
-     *
-     * @test
-     * @return void
-     */
-    public function testRootLoginNotExistAnimeDelete()
-    {
-        $this->actingAs($this->user1);
-        $response = $this->get((route('anime.delete', ['anime_id' => 3333333333333333333333])));
-        $response->assertStatus(404);
-    }
-
-    /**
-     * ゲスト時のアニメ削除のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testGuestAnimeDelete()
-    {
-        $response = $this->get((route('anime.delete', ['anime_id' => $this->anime->id])));
-        $response->assertStatus(403);
-    }
-
-    /**
-     * ユーザーログイン時のアニメ削除のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testUserAnimeDelete()
-    {
-        $this->actingAs($this->user2);
-        $response = $this->get((route('anime.delete', ['anime_id' => $this->anime->id])));
-        $response->assertStatus(403);
     }
 
     /**
@@ -1576,6 +1190,447 @@ class ModifyTest extends TestCase
     {
         $this->actingAs($this->user1);
         $response = $this->get(route('add_anime_request.reject', ['add_anime_id' => 33333333333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * アニメ削除申請ページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testDeleteAnimeRequestView()
+    {
+        $response = $this->get(route('delete_anime_request.show', ['anime_id' => $this->anime->id]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->anime->title,
+            '削除事由',
+        ]);
+    }
+
+    /**
+     * アニメ削除申請ページの表示の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistDeleteAnimeRequestView()
+    {
+        $response = $this->get(route('delete_anime_request.show', ['anime_id' => 3333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * アニメ削除申請のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testDeleteAnimeRequestPost()
+    {
+        $response = $this->post(route('delete_anime_request.post', ['anime_id' => $this->anime->id,]), [
+            'remark' => 'remark_comment',
+        ]);
+        $this->assertDatabaseHas('delete_animes', [
+            'anime_id' => $this->anime->id,
+            'remark' => 'remark_comment',
+        ]);
+    }
+
+    /**
+     * アニメ削除申請の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistDeleteAnimeRequestPost()
+    {
+        $response = $this->post(route('delete_anime_request.post', ['anime_id' => 3333333333333333333333333]), [
+            'remark' => 'remark_comment',
+        ]);
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲスト時のアニメ削除リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestDeleteAnimeRequestApprove()
+    {
+        $response = $this->post(route('delete_anime_request.approve', ['delete_anime_id' => $this->deleteAnime1->id]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時のアニメ削除リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginDeleteAnimeRequestApprove()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->post(route('delete_anime_request.approve', ['delete_anime_id' => $this->deleteAnime1->id]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ルートユーザーログイン時のアニメ削除リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginDeleteAnimeRequestApprove()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('delete_anime_request.approve', ['delete_anime_id' => $this->deleteAnime1->id]));
+        $response->assertRedirect(route('modify_request_list.show'));
+        $this->assertDatabaseMissing('animes', [
+            'id' => $this->anime1->id,
+        ]);
+        $this->assertDatabaseMissing('delete_animes', [
+            'id' => $this->deleteAnime1->id,
+        ]);
+    }
+
+    /**
+     * ルートユーザーログイン時のアニメ削除リクエスト時の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginNotExistDeleteAnimeRequestApprove()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('delete_anime_request.approve', ['delete_anime_id' => 33333333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲスト時のアニメ削除申請却下リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestDeleteAnimeRequestReject()
+    {
+        $response = $this->get(route('delete_anime_request.reject', ['delete_anime_id' => $this->deleteAnime1->id]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時のアニメ削除申請却下リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginDeleteAnimeRequestReject()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->get(route('delete_anime_request.reject', ['delete_anime_id' => $this->deleteAnime1->id]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ルートユーザーログイン時のアニメ削除申請却下時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginDeleteAnimeRequestReject()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('delete_anime_request.reject', ['delete_anime_id' => $this->deleteAnime1->id]));
+        $response->assertRedirect(route('modify_request_list.show'));
+        $this->assertDatabaseMissing('delete_animes', [
+            'id' => $this->deleteAnime1->id,
+            'anime_id' => $this->anime1->id,
+        ]);
+    }
+
+    /**
+     * ルートユーザーログイン時のアニメ削除申請却下時の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginNotExistDeleteAnimeRequestReject()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('delete_anime_request.reject', ['delete_anime_id' => 33333333333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * 声優情報変更申請ページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyCastRequestView()
+    {
+        $response = $this->get(route('modify_cast_request.show', ['cast_id' => $this->cast1->id]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->cast1->name,
+            $this->cast1->furigana,
+            $this->cast1->sex_label,
+            $this->cast1->birth,
+            $this->cast1->birthplace,
+            $this->cast1->blood_type,
+            $this->cast1->office,
+            $this->cast1->url,
+            $this->cast1->twitter,
+            $this->cast1->blog,
+            $this->cast1->blog_url,
+        ]);
+    }
+
+    /**
+     * 声優情報変更申請ページの表示の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistModifyCastRequestView()
+    {
+        $response = $this->get(route('modify_cast_request.show', ['cast_id' => 333333333333333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * 声優情報変更申請のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyCastRequestPost()
+    {
+        $response = $this->post(route('modify_cast_request.post', ['cast_id' => $this->cast1->id,]), [
+            'name' => 'modify_name',
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'office' => 'modify_office',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
+        ]);
+        $this->assertDatabaseHas('modify_casts', [
+            'name' => 'modify_name',
+            'cast_id' => $this->cast1->id,
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'office' => 'modify_office',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
+        ]);
+    }
+
+    /**
+     * 声優情報変更申請の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistModifyCastRequestPost()
+    {
+        $response = $this->post(route('modify_cast_request.post', ['cast_id' => 33333333333333333333333]), [
+            'name' => 'modify_name',
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'office' => 'modify_office',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
+        ]);
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲスト時の声優情報更新リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestModifyCastRequestApprove()
+    {
+        $response = $this->post(route('modify_cast_request.approve', ['modify_cast_id' => $this->modifyCast1->id]), [
+            'name' => 'modify_name',
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'office' => 'modify_office',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
+        ]);
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時の声優情報更新リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginModifyCastRequestApprove()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->post(route('modify_cast_request.approve', ['modify_cast_id' => $this->modifyCast1->id]), [
+            'name' => 'modify_name',
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'office' => 'modify_office',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
+        ]);
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ルートユーザーログイン時の声優情報更新リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginModifyCastRequestApprove()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('modify_cast_request.approve', ['modify_cast_id' => $this->modifyCast1->id]), [
+            'name' => 'modify_name',
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'office' => 'modify_office',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
+        ]);
+        $response->assertRedirect(route('modify_request_list.show'));
+        $this->assertDatabaseHas('casts', [
+            'id' => $this->cast1->id,
+            'name' => 'modify_name',
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'office' => 'modify_office',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
+        ]);
+        $this->assertDatabaseMissing('modify_casts', [
+            'id' => $this->modifyCast1->id,
+            'cast_id' => $this->cast1->id,
+        ]);
+    }
+
+    /**
+     * ルートユーザーログイン時の声優情報更新リクエスト時の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginNotExistModifyCastRequestApprove()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('modify_cast_request.approve', ['modify_cast_id' => 3333333333333333333333]), [
+            'name' => 'modify_name',
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'office' => 'modify_office',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
+        ]);
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲスト時の声優情報変更申請却下リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestModifyCastRequestReject()
+    {
+        $response = $this->get(route('modify_cast_request.reject', ['modify_cast_id' => $this->modifyCast1->id]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時の声優情報変更申請却下リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginModifyCastRequestReject()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->get(route('modify_cast_request.reject', ['modify_cast_id' => $this->modifyCast1->id]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ルートユーザーログイン時の声優情報変更申請却下時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginModifyCastRequestReject()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('modify_cast_request.reject', ['modify_cast_id' => $this->modifyCast1->id]));
+        $response->assertRedirect(route('modify_request_list.show'));
+        $this->assertDatabaseMissing('modify_casts', [
+            'id' => $this->modifyCast1->id,
+            'cast_id' => $this->cast1->id,
+        ]);
+    }
+
+    /**
+     * ルートユーザーログイン時の声優情報変更申請却下時の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginNotExistModifyCastRequestReject()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('modify_cast_request.reject', ['modify_cast_id' => 333333333333333333333333333]));
         $response->assertStatus(404);
     }
 
@@ -1983,6 +2038,694 @@ class ModifyTest extends TestCase
     }
 
     /**
+     * クリエイター情報変更申請ページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyCreaterRequestView()
+    {
+        $response = $this->get(route('modify_creater_request.show', ['creater_id' => $this->creater1->id]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->creater1->name,
+            $this->creater1->furigana,
+            $this->creater1->sex_label,
+            $this->creater1->birth,
+            $this->creater1->birthplace,
+            $this->creater1->blood_type,
+            $this->creater1->url,
+            $this->creater1->twitter,
+            $this->creater1->blog,
+            $this->creater1->blog_url,
+        ]);
+    }
+
+    /**
+     * クリエイター情報変更申請ページの表示の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistModifyCreaterRequestView()
+    {
+        $response = $this->get(route('modify_creater_request.show', ['creater_id' => 333333333333333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * クリエイター情報変更申請のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyCreaterRequestPost()
+    {
+        $response = $this->post(route('modify_creater_request.post', ['creater_id' => $this->creater1->id,]), [
+            'name' => 'modify_name',
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
+        ]);
+        $this->assertDatabaseHas('modify_creaters', [
+            'name' => 'modify_name',
+            'creater_id' => $this->creater1->id,
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
+        ]);
+    }
+
+    /**
+     * クリエイター情報変更申請の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistModifyCreaterRequestPost()
+    {
+        $response = $this->post(route('modify_creater_request.post', ['creater_id' => 33333333333333333333333]), [
+            'name' => 'modify_name',
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
+        ]);
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲスト時のクリエイター情報更新リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestModifyCreaterRequestApprove()
+    {
+        $response = $this->post(route('modify_creater_request.approve', [
+            'modify_creater_id' => $this->modifyCreater1->id
+        ]), [
+            'name' => 'modify_name',
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
+        ]);
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時のクリエイター情報更新リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginModifyCreaterRequestApprove()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->post(route('modify_creater_request.approve', [
+            'modify_creater_id' => $this->modifyCreater1->id
+        ]), [
+            'name' => 'modify_name',
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
+        ]);
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ルートユーザーログイン時のクリエイター情報更新リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginModifyCreaterRequestApprove()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('modify_creater_request.approve', [
+            'modify_creater_id' => $this->modifyCreater1->id
+        ]), [
+            'name' => 'modify_name',
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
+        ]);
+        $response->assertRedirect(route('modify_request_list.show'));
+        $this->assertDatabaseHas('creaters', [
+            'id' => $this->creater1->id,
+            'name' => 'modify_name',
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
+        ]);
+        $this->assertDatabaseMissing('modify_creaters', [
+            'id' => $this->modifyCreater1->id,
+            'creater_id' => $this->creater1->id,
+        ]);
+    }
+
+    /**
+     * ルートユーザーログイン時のクリエイター情報更新リクエスト時の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginNotExistModifyCreaterRequestApprove()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('modify_creater_request.approve', [
+            'modify_creater_id' => 3333333333333333333333
+        ]), [
+            'name' => 'modify_name',
+            'furigana' => 'modify_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'url' => 'modify_url',
+            'twitter' => 'modify_twitter',
+            'blog' => 'modify_blog',
+            'blog_url' => 'modify_blog_url',
+        ]);
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲスト時のクリエイター情報変更申請却下リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestModifyCreaterRequestReject()
+    {
+        $response = $this->get(route('modify_creater_request.reject', [
+            'modify_creater_id' => $this->modifyCreater1->id
+        ]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時のクリエイター情報変更申請却下リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginModifyCreaterRequestReject()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->get(route('modify_creater_request.reject', [
+            'modify_creater_id' => $this->modifyCreater1->id
+        ]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ルートユーザーログイン時のクリエイター情報変更申請却下時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginModifyCreaterRequestReject()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('modify_creater_request.reject', [
+            'modify_creater_id' => $this->modifyCreater1->id
+        ]));
+        $response->assertRedirect(route('modify_request_list.show'));
+        $this->assertDatabaseMissing('modify_creaters', [
+            'id' => $this->modifyCreater1->id,
+            'creater_id' => $this->creater1->id,
+        ]);
+    }
+
+    /**
+     * ルートユーザーログイン時のクリエイター情報変更申請却下時の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginNotExistModifyCreaterRequestReject()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('modify_creater_request.reject', [
+            'modify_creater_id' => 333333333333333333333333333
+        ]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * クリエイター追加申請ページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAddCreaterRequestView()
+    {
+        $response = $this->get(route('add_creater_request.show'));
+        $response->assertStatus(200);
+        $response->assertSee('クリエイターの追加申請');
+    }
+
+    /**
+     * クリエイター追加申請のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAddCreaterRequestPost()
+    {
+        $response = $this->post(route('add_creater_request.post'), [
+            'name' => 'add_name',
+            'furigana' => 'add_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'url' => 'add_url',
+            'twitter' => 'add_twitter',
+            'blog' => 'add_blog',
+            'blog_url' => 'add_blog_url',
+            'remark' => 'add_remark',
+        ]);
+        $this->assertDatabaseHas('add_creaters', [
+            'name' => 'add_name',
+            'furigana' => 'add_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'url' => 'add_url',
+            'twitter' => 'add_twitter',
+            'blog' => 'add_blog',
+            'blog_url' => 'add_blog_url',
+            'remark' => 'add_remark',
+        ]);
+    }
+
+    /**
+     * ゲスト時のクリエイター追加リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestAddCreaterRequestApprove()
+    {
+        $response = $this->post(route('add_creater_request.approve', ['add_creater_id' => $this->addCreater->id]), [
+            'name' => 'add_name',
+            'furigana' => 'add_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'url' => 'add_url',
+            'twitter' => 'add_twitter',
+            'blog' => 'add_blog',
+            'blog_url' => 'add_blog_url',
+        ]);
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時のクリエイター追加リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginAddCreaterRequestApprove()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->post(route('add_creater_request.approve', ['add_creater_id' => $this->addCreater->id]), [
+            'name' => 'add_name',
+            'furigana' => 'add_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'url' => 'add_url',
+            'twitter' => 'add_twitter',
+            'blog' => 'add_blog',
+            'blog_url' => 'add_blog_url',
+        ]);
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ルートユーザーログイン時のクリエイター追加リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginAddCreaterRequestApprove()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('add_creater_request.approve', ['add_creater_id' => $this->addCreater->id]), [
+            'name' => 'add_name',
+            'furigana' => 'add_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'url' => 'add_url',
+            'twitter' => 'add_twitter',
+            'blog' => 'add_blog',
+            'blog_url' => 'add_blog_url',
+        ]);
+        $response->assertRedirect(route('modify_request_list.show'));
+        $this->assertDatabaseHas('creaters', [
+            'name' => 'add_name',
+            'furigana' => 'add_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'url' => 'add_url',
+            'twitter' => 'add_twitter',
+            'blog' => 'add_blog',
+            'blog_url' => 'add_blog_url',
+        ]);
+        $this->assertDatabaseHas('add_creaters', [
+            'id' => $this->addCreater->id,
+            'name' => 'add_name',
+            'furigana' => 'add_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'url' => 'add_url',
+            'twitter' => 'add_twitter',
+            'blog' => 'add_blog',
+            'blog_url' => 'add_blog_url',
+            'delete_flag' => 1,
+        ]);
+    }
+
+    /**
+     * ルートユーザーログイン時のクリエイター追加リクエスト時の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginNotExistAddCreaterRequestApprove()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('add_creater_request.approve', ['add_creater_id' => 33333333333333333333]), [
+            'name' => 'add_name',
+            'furigana' => 'add_furigana',
+            'sex' => 2,
+            'birth' => '2000年4月13日',
+            'birthplace' => '千葉県',
+            'blood_type' => 'AB',
+            'url' => 'add_url',
+            'twitter' => 'add_twitter',
+            'blog' => 'add_blog',
+            'blog_url' => 'add_blog_url',
+        ]);
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲスト時のクリエイター追加申請却下リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestAddCreaterRequestReject()
+    {
+        $response = $this->get(route('add_creater_request.reject', ['add_creater_id' => $this->addCreater->id]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時のクリエイター追加申請却下リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginAddCreaterRequestReject()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->get(route('add_creater_request.reject', ['add_creater_id' => $this->addCreater->id]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ルートユーザーログイン時のクリエイター追加申請却下時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginAddCreaterRequestReject()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('add_creater_request.reject', ['add_creater_id' => $this->addCreater->id]));
+        $response->assertRedirect(route('modify_request_list.show'));
+        $this->assertDatabaseMissing('add_creaters', [
+            'id' => $this->addCreater->id,
+        ]);
+    }
+
+    /**
+     * ルートユーザーログイン時のクリエイター追加申請却下時の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginNotExistAddCreaterRequestReject()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('add_creater_request.reject', ['add_creater_id' => 33333333333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * クリエイター削除申請ページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testDeleteCreaterRequestView()
+    {
+        $response = $this->get(route('delete_creater_request.show', ['creater_id' => $this->creater1->id]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->creater1->name,
+            '削除事由',
+        ]);
+    }
+
+    /**
+     * クリエイター削除申請ページの表示の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistDeleteCreaterRequestView()
+    {
+        $response = $this->get(route('delete_creater_request.show', ['creater_id' => 3333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * クリエイター削除申請のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testDeleteCreaterRequestPost()
+    {
+        $response = $this->post(route('delete_creater_request.post', ['creater_id' => $this->creater1->id,]), [
+            'remark' => 'remark_comment',
+        ]);
+        $this->assertDatabaseHas('delete_creaters', [
+            'creater_id' => $this->creater1->id,
+            'remark' => 'remark_comment',
+        ]);
+    }
+
+    /**
+     * クリエイター削除申請の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistDeleteCreaterRequestPost()
+    {
+        $response = $this->post(route('delete_creater_request.post', ['creater_id' => 3333333333333333333333333]), [
+            'remark' => 'remark_comment',
+        ]);
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲスト時のクリエイター削除リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestDeleteCreaterRequestApprove()
+    {
+        $response = $this->post(route('delete_creater_request.approve', [
+            'delete_creater_id' => $this->deleteCreater->id
+        ]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時のクリエイター削除リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginDeleteCreaterRequestApprove()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->post(route('delete_creater_request.approve', [
+            'delete_creater_id' => $this->deleteCreater->id
+        ]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ルートユーザーログイン時のクリエイター削除リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginDeleteCreaterRequestApprove()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('delete_creater_request.approve', [
+            'delete_creater_id' => $this->deleteCreater->id
+        ]));
+        $response->assertRedirect(route('modify_request_list.show'));
+        $this->assertDatabaseMissing('creaters', [
+            'id' => $this->creater1->id,
+        ]);
+        $this->assertDatabaseMissing('delete_creaters', [
+            'id' => $this->deleteCreater->id,
+        ]);
+    }
+
+    /**
+     * ルートユーザーログイン時のクリエイター削除リクエスト時の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginNotExistDeleteCreaterRequestApprove()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('delete_creater_request.approve', [
+            'delete_creater_id' => 33333333333333333333
+        ]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲスト時のクリエイター削除申請却下リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestDeleteCreaterRequestReject()
+    {
+        $response = $this->get(route('delete_creater_request.reject', [
+            'delete_creater_id' => $this->deleteCreater->id
+        ]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時のクリエイター削除申請却下リクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2LoginDeleteCreaterRequestReject()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->get(route('delete_creater_request.reject', [
+            'delete_creater_id' => $this->deleteCreater->id
+        ]));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ルートユーザーログイン時のクリエイター削除申請却下時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginDeleteCreaterRequestReject()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('delete_creater_request.reject', [
+            'delete_creater_id' => $this->deleteCreater->id
+        ]));
+        $response->assertRedirect(route('modify_request_list.show'));
+        $this->assertDatabaseMissing('delete_creaters', [
+            'id' => $this->deleteCreater->id,
+            'creater_id' => $this->creater1->id,
+        ]);
+    }
+
+    /**
+     * ルートユーザーログイン時のクリエイター削除申請却下時の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginNotExistDeleteCreaterRequestReject()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('delete_creater_request.reject', [
+            'delete_creater_id' => 33333333333333333333333
+        ]));
+        $response->assertStatus(404);
+    }
+
+    /**
      * 会社削除申請ページの表示のテスト
      *
      * @test
@@ -2198,6 +2941,20 @@ class ModifyTest extends TestCase
     }
 
     /**
+     * クリエイターの追加履歴の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAddCreaterLogView()
+    {
+        $response = $this->get(route('add_creater_log.show'));
+        $response->assertStatus(200);
+        $response->assertSee($this->addCreaterDeleted->name);
+        $response->assertDontSee($this->addCreater->name);
+    }
+
+    /**
      * アニメの出演声優情報変更ページの表示のテスト
      *
      * @test
@@ -2380,5 +3137,261 @@ class ModifyTest extends TestCase
             'character' => 'modify_character3',
             'main_sub' => 3,
         ]);
+    }
+
+    /**
+     * アニメのクリエイター情報変更ページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyAnimeCreaterView()
+    {
+        $response = $this->get(route('modify_anime_creaters.show', ['anime_id' => $this->anime->id]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->creater1->id,
+            $this->creater1->name,
+            'occupation_name1',
+            $this->creater2->id,
+            $this->creater2->name,
+            'occupation_name2',
+        ]);
+    }
+
+    /**
+     * アニメのクリエイター情報変更ページの異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistModifyAnimeCreaterView()
+    {
+        $response = $this->get(route('modify_anime_creaters.show', ['anime_id' => 3333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * アニメのクリエイター情報変更の変更なしのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyAnimeCreaterNoChangePost()
+    {
+        $response = $this->post(route('modify_anime_creaters.post', ['anime_id' => $this->anime->id]), [
+            'anime_creater_id[1]' => 1,
+            'modify_type[1]' => 'no_change',
+            'creater_id[1]' => $this->creater1->id,
+            'occupation[1]' => 'modify_occupation1',
+            'classification[1]' => 1,
+            'main_sub[1]' => 1,
+            'anime_creater_id[2]' => 2,
+            'modify_type[2]' => 'no_change',
+            'creater_id[2]' => $this->creater2->id,
+            'occupation[2]' => 'modify_occupation2',
+            'classification[2]' => 2,
+            'main_sub[2]' => 2,
+            'modify_type[3]' => 'no_change',
+            'creater_id[3]' => $this->creater3->id,
+            'occupation[3]' => 'modify_occupation3',
+            'classification[3]' => 3,
+            'main_sub[3]' => 3,
+        ]);
+        $this->assertDatabaseHas('anime_creaters', [
+            'id' => 1,
+            'anime_id' => $this->anime->id,
+            'creater_id' => $this->creater1->id,
+            'occupation' => 'occupation_name1',
+            'classification' => 1,
+            'main_sub' => 1,
+        ]);
+        $this->assertDatabaseHas('anime_creaters', [
+            'id' => 2,
+            'anime_id' => $this->anime->id,
+            'creater_id' => $this->creater2->id,
+            'occupation' => 'occupation_name2',
+            'classification' => 2,
+            'main_sub' => 2,
+        ]);
+        $this->assertDatabaseMissing('anime_creaters', [
+            'anime_id' => $this->anime->id,
+            'creater_id' => $this->creater3->id,
+        ]);
+    }
+
+    /**
+     * アニメのクリエイター情報変更の変更のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyAnimeCreaterChangePost()
+    {
+        $response = $this->post(route('modify_anime_creaters.post', [
+            'anime_id' => $this->anime->id,
+            'anime_creater_id[1]' => 1,
+            'modify_type[1]' => 'change',
+            'creater_id[1]' => $this->creater1->id,
+            'occupation[1]' => 'modify_occupation1',
+            'classification[1]' => 2,
+            'main_sub[1]' => 2,
+            'anime_creater_id[2]' => 2,
+            'modify_type[2]' => 'change',
+            'creater_id[2]' => $this->creater2->id,
+            'occupation[2]' => '',
+            'classification[2]' => 1,
+            'main_sub[2]' => 1,
+            'modify_type[3]' => 'no_change',
+            'creater_id[3]' => $this->creater3->id,
+            'occupation[3]' => 'modify_occupation3',
+            'classification[3]' => 3,
+            'main_sub[3]' => 3,
+        ]));
+        $this->assertDatabaseHas('anime_creaters', [
+            'id' => 1,
+            'anime_id' => $this->anime->id,
+            'creater_id' => $this->creater1->id,
+            'occupation' => 'modify_occupation1',
+            'classification' => 2,
+            'main_sub' => 2,
+        ]);
+        $this->assertDatabaseHas('anime_creaters', [
+            'id' => 2,
+            'anime_id' => $this->anime->id,
+            'creater_id' => $this->creater2->id,
+            'occupation' => null,
+            'classification' => 1,
+            'main_sub' => 1,
+        ]);
+    }
+
+    /**
+     * アニメのクリエイター情報変更の削除のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyAnimeCreaterDeletePost()
+    {
+        $response = $this->post(route('modify_anime_creaters.post', [
+            'anime_id' => $this->anime->id,
+            'anime_creater_id[1]' => 1,
+            'modify_type[1]' => 'delete',
+            'creater_id[1]' => $this->creater1->id,
+            'occupation[1]' => 'modify_occupation1',
+            'classification[1]' => 2,
+            'main_sub[1]' => 2,
+            'anime_creater_id[2]' => 2,
+            'modify_type[2]' => 'delete',
+            'creater_id[2]' => $this->creater2->id,
+            'occupation[2]' => '',
+            'classification[2]' => 1,
+            'main_sub[2]' => 1,
+            'modify_type[3]' => 'no_change',
+            'creater_id[3]' => $this->creater3->id,
+            'occupation[3]' => 'modify_occupation3',
+            'classification[3]' => 3,
+            'main_sub[3]' => 3,
+        ]));
+        $this->assertDatabaseMissing('anime_creaters', [
+            'anime_id' => $this->anime->id,
+            'creater_id' => $this->creater1->id,
+        ]);
+        $this->assertDatabaseMissing('anime_creaters', [
+            'anime_id' => $this->anime->id,
+            'creater_id' => $this->creater2->id,
+        ]);
+    }
+
+    /**
+     * アニメのクリエイター情報変更の追加のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testModifyAnimeCreaterAddPost()
+    {
+        $response = $this->post(route('modify_anime_creaters.post', [
+            'anime_id' => $this->anime->id,
+            'anime_creater_id[1]' => 1,
+            'modify_type[1]' => 'no_change',
+            'creater_id[1]' => $this->creater1->id,
+            'occupation[1]' => 'modify_occupation1',
+            'classification[1]' => 2,
+            'main_sub[1]' => 2,
+            'anime_creater_id[2]' => 2,
+            'modify_type[2]' => 'no_change',
+            'creater_id[2]' => $this->creater2->id,
+            'occupation[2]' => '',
+            'classification[2]' => 1,
+            'main_sub[2]' => 1,
+            'modify_type[3]' => 'add',
+            'creater_id[3]' => $this->creater3->id,
+            'occupation[3]' => 'modify_occupation3',
+            'classification[3]' => 3,
+            'main_sub[3]' => 3,
+        ]));
+        $this->assertDatabaseHas('anime_creaters', [
+            'anime_id' => $this->anime->id,
+            'creater_id' => $this->creater3->id,
+            'occupation' => 'modify_occupation3',
+            'classification' => 3,
+            'main_sub' => 3,
+        ]);
+    }
+
+    /**
+     * ルートログイン時のアニメ削除のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginAnimeDelete()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get((route('anime.delete', ['anime_id' => $this->anime->id])));
+        $response->assertRedirect(route('index.show'));
+        $this->assertDatabaseMissing('animes', [
+            'id' => $this->anime->id,
+        ]);
+    }
+
+    /**
+     * ルートログイン時のアニメ削除の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testRootLoginNotExistAnimeDelete()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get((route('anime.delete', ['anime_id' => 3333333333333333333333])));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲスト時のアニメ削除のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestAnimeDelete()
+    {
+        $response = $this->get((route('anime.delete', ['anime_id' => $this->anime->id])));
+        $response->assertStatus(403);
+    }
+
+    /**
+     * ユーザーログイン時のアニメ削除のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUserAnimeDelete()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->get((route('anime.delete', ['anime_id' => $this->anime->id])));
+        $response->assertStatus(403);
     }
 }

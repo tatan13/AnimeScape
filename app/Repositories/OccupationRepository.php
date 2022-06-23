@@ -20,17 +20,6 @@ class OccupationRepository extends AbstractRepository
     }
 
     /**
-     * アニメの出演声優情報を削除
-     *
-     * @param int $anime_id
-     * @return void
-     */
-    public function deleteOccupationsOfAnimeId($anime_id)
-    {
-        Occupation::where('anime_id', $anime_id)->delete();
-    }
-
-    /**
      * アニメの出演声優情報を変更
      *
      * @param Request $request

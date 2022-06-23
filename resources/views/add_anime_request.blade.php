@@ -24,7 +24,7 @@
         @endif
         <form action="{{ route('add_anime_request.post') }}" class="add_anime_request_form" method="POST">
             @csrf
-            <input type="submit" value="登録">
+            <input type="submit" value="送信">
             <table class="add_anime_request_table">
                 <tbody>
                     <tr>

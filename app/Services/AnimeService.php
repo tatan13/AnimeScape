@@ -54,10 +54,10 @@ class AnimeService
      * @param int $anime_id
      * @return Anime
      */
-    public function getAnimeWithCompaniesMyReviewOccupationsWithCastLatestUserReviewsOfAnimeWithUser($anime_id)
+    public function getAnimeWithCompaniesMyReviewOccupationsAnimeCreatersLatestUserReviewsOfAnimeWithUser($anime_id)
     {
         return $this->animeRepository
-        ->getAnimeWithCompaniesMyReviewOccupationsWithCastLatestUserReviewsOfAnimeWithUserById($anime_id);
+        ->getAnimeWithCompaniesMyReviewOccupationsAnimeCreatersLatestUserReviewsOfAnimeWithUserById($anime_id);
     }
 
     /**
@@ -91,6 +91,17 @@ class AnimeService
     public function getAnimeWithActCastsWithOccupationsById($anime_id)
     {
         return $this->animeRepository->getAnimeWithActCastsWithOccupationsById($anime_id);
+    }
+
+    /**
+     * anime_idからアニメをクリエイターリストと取得
+     *
+     * @param int $anime_id
+     * @return Anime
+     */
+    public function getAnimeWithCreatersWithAnimeCreaterById($anime_id)
+    {
+        return $this->animeRepository->getAnimeWithCreatersWithAnimeCreaterById($anime_id);
     }
 
     /**

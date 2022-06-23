@@ -15,7 +15,7 @@
         <table class="add_cast_log_table">
             <tbody>
                 <tr>
-                    <th>アニメ名</th>
+                    <th>声優名</th>
                     <th>追加日</th>
                 </tr>
                 @foreach ($add_cast_list as $add_cast)

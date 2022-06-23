@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\Anime;
 use App\Models\User;
 use App\Models\Cast;
+use App\Models\Creater;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -26,6 +27,9 @@ class UserTest extends TestCase
     private Cast $cast1;
     private Cast $cast2;
     private Cast $cast3;
+    private Creater $creater1;
+    private Creater $creater2;
+    private Creater $creater3;
 
     protected function setUp(): void
     {
@@ -63,6 +67,10 @@ class UserTest extends TestCase
         $this->cast1 = Cast::factory()->create();
         $this->cast2 = Cast::factory()->create();
         $this->cast3 = Cast::factory()->create();
+
+        $this->creater1 = Creater::factory()->create();
+        $this->creater2 = Creater::factory()->create();
+        $this->creater3 = Creater::factory()->create();
 
         $this->anime1->reviewUsers()->attach($this->user1->id, [
             'score' => 100,
@@ -105,6 +113,10 @@ class UserTest extends TestCase
         $this->user1->likeCasts()->attach($this->cast1->id);
         $this->user1->likeCasts()->attach($this->cast2->id);
         $this->user2->likeCasts()->attach($this->cast3->id);
+
+        $this->user1->likeCreaters()->attach($this->creater1->id);
+        $this->user1->likeCreaters()->attach($this->creater2->id);
+        $this->user2->likeCreaters()->attach($this->creater3->id);
 
         $this->user1->userLikeUsers()->attach($this->user2->id);
         $this->user1->userLikeUsers()->attach($this->user3->id);
@@ -294,6 +306,8 @@ class UserTest extends TestCase
             'お気に入りユーザー数',
             3,
             'お気に入り声優数',
+            2,
+            'お気に入りクリエイター数',
             2,
             '100',
             1,
@@ -667,6 +681,34 @@ class UserTest extends TestCase
     public function testNotExistUserLikeCastListView()
     {
         $response = $this->get(route('user_like_cast_list.show', ['user_id' => 33333333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ユーザーのお気に入りクリエイターリストの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LikeCreaterListView()
+    {
+        $response = $this->get(route('user_like_creater_list.show', ['user_id' => $this->user1->id]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->creater1->name,
+            $this->creater2->name,
+        ]);
+    }
+
+    /**
+     * ユーザーのお気に入りクリエイターリストの表示の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistUserLikeCreaterListView()
+    {
+        $response = $this->get(route('user_like_creater_list.show', ['user_id' => 33333333333333333333]));
         $response->assertStatus(404);
     }
 

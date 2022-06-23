@@ -34,12 +34,14 @@ class AnimeRepository extends AbstractRepository
      * @param int $anime_id
      * @return Anime
      */
-    public function getAnimeWithCompaniesMyReviewOccupationsWithCastLatestUserReviewsOfAnimeWithUserById($anime_id)
+    public function getAnimeWithCompaniesMyReviewOccupationsAnimeCreatersLatestUserReviewsOfAnimeWithUserById($anime_id)
     {
         return Anime::withCompanies()->withMyReviews()->with(['occupations' => function ($query) {
             $query->latest('main_sub')->with('cast');
         }])->with('userReviews', function ($query) {
             $query->with('user')->latest();
+        })->with('animeCreaters', function ($query) {
+            $query->latest('main_sub')->with('creater');
         })->findOrFail($anime_id);
     }
 
@@ -74,6 +76,17 @@ class AnimeRepository extends AbstractRepository
     public function getAnimeWithActCastsWithOccupationsById($anime_id)
     {
         return Anime::with('occupations.cast')->findOrFail($anime_id);
+    }
+
+    /**
+     * anime_idからアニメをクリエイターリストと取得
+     *
+     * @param int $anime_id
+     * @return Anime
+     */
+    public function getAnimeWithCreatersWithAnimeCreaterById($anime_id)
+    {
+        return Anime::with('animeCreaters.creater')->findOrFail($anime_id);
     }
 
     /**

@@ -158,6 +158,17 @@ class User extends Authenticatable
     }
 
     /**
+     * お気に入りクリエイターを取得
+     *
+     * @return BelongsToMany
+     */
+    public function likeCreaters()
+    {
+        return $this->belongsToMany('App\Models\Creater', 'user_like_creaters', 'user_id', 'creater_id')
+        ->withTimestamps();
+    }
+
+    /**
      * 引数に指定されたユーザーをお気に入り登録しているか調べる
      *
      * @param int $user_id
@@ -188,6 +199,17 @@ class User extends Authenticatable
     public function isLikeCast($cast_id)
     {
         return $this->likeCasts()->where('cast_id', $cast_id)->exists();
+    }
+
+    /**
+     * 引数に指定されたクリエイターをお気に入り登録しているか調べる
+     *
+     * @param int $creater_id
+     * @return bool
+     */
+    public function isLikeCreater($creater_id)
+    {
+        return $this->likeCreaters()->where('creater_id', $creater_id)->exists();
     }
 
     public function scopeWhereId($query, $user_id)

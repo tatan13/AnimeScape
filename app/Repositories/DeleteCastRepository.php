@@ -19,7 +19,7 @@ class DeleteCastRepository extends AbstractRepository
     }
 
     /**
-     * 声優の削除申請リストをアニメと共に取得
+     * 声優の削除申請リストを声優と共に取得
      *
      * @return Collection<int,DeleteCast> | Collection<null>
      */
