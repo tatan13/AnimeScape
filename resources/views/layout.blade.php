@@ -29,8 +29,7 @@
             gtag('config', 'UA-227732808-1');
         </script>
     @endif
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1583558174306860"
-        crossorigin="anonymous"></script>
+    @yield('adsense')
 </head>
 
 <body>
@@ -106,7 +105,8 @@
                                 {{ is_null($category ?? null) ? '' : ($category == 'cast' ? 'selected' : '') }}>声優
                             </option>
                             <option value="creater"
-                                {{ is_null($category ?? null) ? '' : ($category == 'creater' ? 'selected' : '') }}>クリエイター
+                                {{ is_null($category ?? null) ? '' : ($category == 'creater' ? 'selected' : '') }}>
+                                クリエイター
                             </option>
                             <option value="company"
                                 {{ is_null($category ?? null) ? '' : ($category == 'company' ? 'selected' : '') }}>
@@ -116,8 +116,8 @@
                                 {{ is_null($category ?? null) ? '' : ($category == 'user' ? 'selected' : '') }}>ユーザー
                             </option>
                         </select>
-                        <input type="text" name="search_word" style="width: 90%;" class="search_word" value="{{ $search_word ?? '' }}"
-                            size="15" /><br>
+                        <input type="text" name="search_word" style="width: 90%;" class="search_word"
+                            value="{{ $search_word ?? '' }}" size="15" /><br>
                         <input type="submit" value="検索" />
                     </form>
                 </section>

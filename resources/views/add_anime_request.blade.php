@@ -118,7 +118,8 @@
                     </tr>
                     <tr>
                         <th>AmazonプライムビデオのID</th>
-                        <td><input type="text" name="amazon_prime_video_id" value="{{ old('amazon_prime_video_id') }}">
+                        <td><input type="text" name="amazon_prime_video_id"
+                                value="{{ old('amazon_prime_video_id') }}">
                         </td>
                     </tr>
                     <tr>
@@ -145,7 +146,8 @@
                     </tr>
                     <tr>
                         <th>事由</th>
-                        <td><input type="text" size="100" name="remark" class="remark" value="{{ old('remark') }}"></td>
+                        <td><input type="text" size="100" name="remark" class="remark"
+                                value="{{ old('remark') }}"></td>
                     </tr>
                 </tbody>
             </table>

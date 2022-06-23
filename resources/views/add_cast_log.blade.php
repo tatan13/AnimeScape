@@ -4,6 +4,11 @@
     <title>声優の追加履歴 AnimeScape</title>
 @endsection
 
+@section('adsense')
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1583558174306860"
+        crossorigin="anonymous"></script>
+@endsection
+
 @section('main')
     <article class="add_cast_log">
         <h2>声優の追加履歴</h2>
