@@ -22,6 +22,7 @@ window.Vue = require('vue').default;
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('like-user-component', require('./components/LikeUserComponent.vue').default);
 Vue.component('like-cast-component', require('./components/LikeCastComponent.vue').default);
+Vue.component('like-creater-component', require('./components/LikeCreaterComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

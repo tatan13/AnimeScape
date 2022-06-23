@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\UserReview;
 use App\Models\Anime;
 use App\Models\Cast;
+use App\Models\Creater;
 use Illuminate\Http\Request;
 use App\Http\Requests\ConfigRequest;
 use Illuminate\Support\Facades\Auth;
@@ -121,6 +122,17 @@ class UserRepository extends AbstractRepository
     }
 
     /**
+     * ユーザーのお気に入りクリエイターリストを取得
+     *
+     * @param User $user
+     * @return Collection<int,Creater> | Collection<null>
+     */
+    public function getLikeCreaterList(User $user)
+    {
+        return $user->likeCreaters;
+    }
+
+    /**
      * ユーザーをお気に入り登録
      *
      * @param User $user
@@ -162,6 +174,28 @@ class UserRepository extends AbstractRepository
     public function unlikeCast(Cast $cast)
     {
         Auth::user()->likeCasts()->detach($cast->id);
+    }
+
+    /**
+     * クリエイターをお気に入り登録
+     *
+     * @param Creater $creater
+     * @return void
+     */
+    public function likeCreater(Creater $creater)
+    {
+        Auth::user()->likeCreaters()->attach($creater->id);
+    }
+
+    /**
+     * クリエイターをお気に入り解除
+     *
+     * @param Creater $creater
+     * @return void
+     */
+    public function unlikeCreater(Creater $creater)
+    {
+        Auth::user()->likeCreaters()->detach($creater->id);
     }
 
     /**

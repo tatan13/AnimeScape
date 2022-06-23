@@ -30,7 +30,7 @@ class AnimeController extends Controller
     public function show($anime_id)
     {
         $anime = $this->animeService
-        ->getAnimeWithCompaniesMyReviewOccupationsWithCastLatestUserReviewsOfAnimeWithUser($anime_id);
+        ->getAnimeWithCompaniesMyReviewOccupationsAnimeCreatersLatestUserReviewsOfAnimeWithUser($anime_id);
         return view('anime', [
             'anime' => $anime,
         ]);

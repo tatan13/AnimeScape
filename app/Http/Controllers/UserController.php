@@ -10,6 +10,7 @@ use App\Services\UserService;
 use App\Services\AnimeService;
 use App\Services\UserReviewService;
 use App\Services\CastService;
+use App\Services\CreaterService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\ConfigRequest;
@@ -20,17 +21,20 @@ class UserController extends Controller
     private UserReviewService $userReviewService;
     private AnimeService $animeService;
     private CastService $castService;
+    private CreaterService $createrService;
 
     public function __construct(
         UserService $userService,
         UserReviewService $userReviewService,
         AnimeService $animeService,
         CastService $castService,
+        CreaterService $createrService,
     ) {
         $this->userService = $userService;
         $this->userReviewService = $userReviewService;
         $this->animeService = $animeService;
         $this->castService = $castService;
+        $this->createrService = $createrService;
     }
 
     /**
@@ -175,6 +179,22 @@ class UserController extends Controller
         return view('like_cast_list', [
             'user' => $user,
             'like_cast_list' => $like_cast_list,
+        ]);
+    }
+
+    /**
+     * ユーザーのお気に入りクリエイターリストを表示
+     *
+     * @param int $user_id
+     * @return \Illuminate\View\View
+     */
+    public function showUserLikeCreaterList($user_id)
+    {
+        $user = $this->userService->getUserById($user_id);
+        $like_creater_list = $this->createrService->getLikeCreaterList($user);
+        return view('like_creater_list', [
+            'user' => $user,
+            'like_creater_list' => $like_creater_list,
         ]);
     }
 

@@ -160,6 +160,16 @@ class Anime extends Model
     }
 
     /**
+     * クリエイターを取得
+     *
+     * @return BelongsToMany
+     */
+    public function creaters()
+    {
+        return $this->belongsToMany('App\Models\Creater', 'anime_creaters', 'anime_id', 'creater_id')->withTimestamps();
+    }
+
+    /**
      * 制作会社を取得
      *
      * @return BelongsToMany
@@ -228,6 +238,16 @@ class Anime extends Model
     public function occupations()
     {
         return $this->hasMany('App\Models\Occupation');
+    }
+
+    /**
+     * クリエイターの所属アニメ情報を取得
+     *
+     * @return HasMany
+     */
+    public function animeCreaters()
+    {
+        return $this->hasMany('App\Models\AnimeCreater');
     }
 
     /**

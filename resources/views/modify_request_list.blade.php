@@ -20,7 +20,7 @@
                 <form class="modify_anime_request_list_form">
                     @csrf
                     @can('isAdmin')
-                        <input type="submit" value="登録"
+                        <input type="submit" value="許可"
                             formaction="{{ route('modify_anime_request.approve', ['modify_anime_id' => $modify_anime_request->id]) }}"
                             formmethod="POST">
                         <input type="submit" value="却下"
@@ -199,166 +199,6 @@
                 </form>
             @endforeach
         </section>
-        <section class="modify_cast_request_list">
-            <h2>声優情報変更申請リスト</h2>
-            @if (session('flash_modify_cast_request_message'))
-                <div class="alert alert-success">
-                    {{ session('flash_modify_cast_request_message') }}
-                </div>
-            @endif
-            @foreach ($modify_cast_request_list as $modify_cast_request)
-                <h3>{{ $loop->iteration }}件目(<a
-                        href="{{ route('cast.show', ['cast_id' => $modify_cast_request->cast->id]) }}">{{ $modify_cast_request->cast->name }}</a>)
-                </h3>
-                <form class="modify_cast_request_list_form">
-                    @csrf
-                    @can('isAdmin')
-                        <input type="submit" value="登録"
-                            formaction="{{ route('modify_cast_request.approve', ['modify_cast_id' => $modify_cast_request->id]) }}"
-                            formmethod="POST">
-                        <input type="submit" value="却下"
-                            formaction="{{ route('modify_cast_request.reject', ['modify_cast_id' => $modify_cast_request->id]) }}"
-                            formmethod="GET">
-                    @endcan
-                    <table class="modify_cast_request_list_table">
-                        <tbody>
-                            <tr>
-                                <th>項目</th>
-                                <th>現在の情報</th>
-                                <th>訂正情報</th>
-                            </tr>
-                            <tr>
-                                <th>名前</th>
-                                <td>{{ $modify_cast_request->cast->name }}</td>
-                                <td><input type="text" name="name" value="{{ $modify_cast_request->name }}"></td>
-                            </tr>
-                            <tr>
-                                <th>ふりがな</th>
-                                <td>{{ $modify_cast_request->cast->furigana }}</td>
-                                <td><input type="text" name="furigana" value="{{ $modify_cast_request->furigana }}"></td>
-                            </tr>
-                            <tr>
-                                <th>性別</th>
-                                <td>{{ $modify_cast_request->cast->sex_label }}</td>
-                                <td>
-                                    <select name="sex">
-                                        <option value="" {{ is_null($modify_cast_request->sex) ? 'selected' : '' }}>-
-                                        </option>
-                                        <option value="1" {{ $modify_cast_request->sex == 1 ? 'selected' : '' }}>男性
-                                        </option>
-                                        <option value="2" {{ $modify_cast_request->sex == 2 ? 'selected' : '' }}>女性
-                                        </option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>生年月日</th>
-                                <td>{{ $modify_cast_request->birth }}</td>
-                                <td><input type="text" name="birth" value="{{ $modify_cast_request->birth }}">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>出身地</th>
-                                <td>{{ $modify_cast_request->birthplace }}</td>
-                                <td><input type="text" name="birthplace" value="{{ $modify_cast_request->birthplace }}">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>血液型</th>
-                                <td>{{ $modify_cast_request->blood_type }}</td>
-                                <td>
-                                    <select name="blood_type">
-                                        <option value=""
-                                            {{ is_null($modify_cast_request->blood_type) ? 'selected' : '' }}>-
-                                        </option>
-                                        <option value="A"
-                                            {{ $modify_cast_request->blood_type == 'A' ? 'selected' : '' }}>A
-                                        </option>
-                                        <option value="B"
-                                            {{ $modify_cast_request->blood_type == 'B' ? 'selected' : '' }}>B
-                                        </option>
-                                        <option value="O"
-                                            {{ $modify_cast_request->blood_type == 'O' ? 'selected' : '' }}>O
-                                        </option>
-                                        <option value="AB"
-                                            {{ $modify_cast_request->blood_type == 'AB' ? 'selected' : '' }}>AB
-                                        </option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>所属事務所</th>
-                                <td>{{ $modify_cast_request->cast->office }}</td>
-                                <td><input type="text" name="office" value="{{ $modify_cast_request->office }}">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>公式HP</th>
-                                <td>{{ $modify_cast_request->cast->url }}</td>
-                                <td><input type="text" name="url" value="{{ $modify_cast_request->url }}"></td>
-                            </tr>
-                            <tr>
-                                <th>ツイッター</th>
-                                <td>{{ '@' . $modify_cast_request->cast->twitter }}</td>
-                                <td>@<input type="text" name="twitter" value="{{ $modify_cast_request->twitter }}"></td>
-                            </tr>
-                            <tr>
-                                <th>公式ブログ</th>
-                                <td>{{ $modify_cast_request->cast->blog }}</td>
-                                <td><input type="text" name="blog" value="{{ $modify_cast_request->blog }}"></td>
-                            </tr>
-                            <tr>
-                                <th>公式ブログURL</th>
-                                <td>{{ $modify_cast_request->blog_url }}</td>
-                                <td><input type="text" name="blog_url" value="{{ $modify_cast_request->blog_url }}"></td>
-                            </tr>
-                            <tr>
-                                <th>事由</th>
-                                <td></td>
-                                <td>{{ $modify_cast_request->remark }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </form>
-            @endforeach
-        </section>
-        <section class="delete_anime_request_list">
-            <h2>アニメの削除申請リスト</h2>
-            @if (session('flash_delete_anime_request_message'))
-                <div class="alert alert-success">
-                    {{ session('flash_delete_anime_request_message') }}
-                </div>
-            @endif
-            @foreach ($delete_anime_request_list as $delete_anime_request)
-                <h3>{{ $loop->iteration }}件目(<a
-                        href="{{ route('anime.show', ['anime_id' => $delete_anime_request->anime->id]) }}">{{ $delete_anime_request->anime->title }}</a>)
-                </h3>
-                <form class="delete_anime_request_list_form">
-                    @csrf
-                    @can('isAdmin')
-                        <input type="submit" value="許可"
-                            formaction="{{ route('delete_anime_request.approve', ['delete_anime_id' => $delete_anime_request->id]) }}"
-                            formmethod="POST">
-                        <input type="submit" value="却下"
-                            formaction="{{ route('delete_anime_request.reject', ['delete_anime_id' => $delete_anime_request->id]) }}"
-                            formmethod="GET">
-                    @endcan
-                    <table class="delete_anime_request_list_table">
-                        <tbody>
-                            <tr>
-                                <th>アニメ名</th>
-                                <th>削除事由</th>
-                            </tr>
-                            <tr>
-                                <td>{{ $delete_anime_request->anime->title }}
-                                </td>
-                                <td>{{ $delete_anime_request->remark }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </form>
-            @endforeach
-        </section>
         <section class="add_anime_request_list">
             <h2>アニメの追加申請リスト</h2>
             @if (session('flash_add_anime_request_message'))
@@ -371,7 +211,7 @@
                 <form class="add_anime_request_list_form">
                     @csrf
                     @can('isAdmin')
-                        <input type="submit" value="登録"
+                        <input type="submit" value="許可"
                             formaction="{{ route('add_anime_request.approve', ['add_anime_id' => $add_anime_request->id]) }}"
                             formmethod="POST">
                         <input type="submit" value="却下"
@@ -521,6 +361,168 @@
                 </form>
             @endforeach
         </section>
+        <section class="delete_anime_request_list">
+            <h2>アニメの削除申請リスト</h2>
+            @if (session('flash_delete_anime_request_message'))
+                <div class="alert alert-success">
+                    {{ session('flash_delete_anime_request_message') }}
+                </div>
+            @endif
+            @foreach ($delete_anime_request_list as $delete_anime_request)
+                <h3>{{ $loop->iteration }}件目(<a
+                        href="{{ route('anime.show', ['anime_id' => $delete_anime_request->anime->id]) }}">{{ $delete_anime_request->anime->title }}</a>)
+                </h3>
+                <form class="delete_anime_request_list_form">
+                    @csrf
+                    @can('isAdmin')
+                        <input type="submit" value="許可"
+                            formaction="{{ route('delete_anime_request.approve', ['delete_anime_id' => $delete_anime_request->id]) }}"
+                            formmethod="POST">
+                        <input type="submit" value="却下"
+                            formaction="{{ route('delete_anime_request.reject', ['delete_anime_id' => $delete_anime_request->id]) }}"
+                            formmethod="GET">
+                    @endcan
+                    <table class="delete_anime_request_list_table">
+                        <tbody>
+                            <tr>
+                                <th>アニメ名</th>
+                                <th>削除事由</th>
+                            </tr>
+                            <tr>
+                                <td>{{ $delete_anime_request->anime->title }}
+                                </td>
+                                <td>{{ $delete_anime_request->remark }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            @endforeach
+        </section>
+        <section class="modify_cast_request_list">
+            <h2>声優情報変更申請リスト</h2>
+            @if (session('flash_modify_cast_request_message'))
+                <div class="alert alert-success">
+                    {{ session('flash_modify_cast_request_message') }}
+                </div>
+            @endif
+            @foreach ($modify_cast_request_list as $modify_cast_request)
+                <h3>{{ $loop->iteration }}件目(<a
+                        href="{{ route('cast.show', ['cast_id' => $modify_cast_request->cast->id]) }}">{{ $modify_cast_request->cast->name }}</a>)
+                </h3>
+                <form class="modify_cast_request_list_form">
+                    @csrf
+                    @can('isAdmin')
+                        <input type="submit" value="許可"
+                            formaction="{{ route('modify_cast_request.approve', ['modify_cast_id' => $modify_cast_request->id]) }}"
+                            formmethod="POST">
+                        <input type="submit" value="却下"
+                            formaction="{{ route('modify_cast_request.reject', ['modify_cast_id' => $modify_cast_request->id]) }}"
+                            formmethod="GET">
+                    @endcan
+                    <table class="modify_cast_request_list_table">
+                        <tbody>
+                            <tr>
+                                <th>項目</th>
+                                <th>現在の情報</th>
+                                <th>訂正情報</th>
+                            </tr>
+                            <tr>
+                                <th>名前</th>
+                                <td>{{ $modify_cast_request->cast->name }}</td>
+                                <td><input type="text" name="name" value="{{ $modify_cast_request->name }}"></td>
+                            </tr>
+                            <tr>
+                                <th>ふりがな</th>
+                                <td>{{ $modify_cast_request->cast->furigana }}</td>
+                                <td><input type="text" name="furigana" value="{{ $modify_cast_request->furigana }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>性別</th>
+                                <td>{{ $modify_cast_request->cast->sex_label }}</td>
+                                <td>
+                                    <select name="sex">
+                                        <option value="" {{ is_null($modify_cast_request->sex) ? 'selected' : '' }}>-
+                                        </option>
+                                        <option value="1" {{ $modify_cast_request->sex == 1 ? 'selected' : '' }}>男性
+                                        </option>
+                                        <option value="2" {{ $modify_cast_request->sex == 2 ? 'selected' : '' }}>女性
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>生年月日</th>
+                                <td>{{ $modify_cast_request->birth }}</td>
+                                <td><input type="text" name="birth" value="{{ $modify_cast_request->birth }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>出身地</th>
+                                <td>{{ $modify_cast_request->birthplace }}</td>
+                                <td><input type="text" name="birthplace" value="{{ $modify_cast_request->birthplace }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>血液型</th>
+                                <td>{{ $modify_cast_request->blood_type }}</td>
+                                <td>
+                                    <select name="blood_type">
+                                        <option value=""
+                                            {{ is_null($modify_cast_request->blood_type) ? 'selected' : '' }}>-
+                                        </option>
+                                        <option value="A"
+                                            {{ $modify_cast_request->blood_type == 'A' ? 'selected' : '' }}>A
+                                        </option>
+                                        <option value="B"
+                                            {{ $modify_cast_request->blood_type == 'B' ? 'selected' : '' }}>B
+                                        </option>
+                                        <option value="O"
+                                            {{ $modify_cast_request->blood_type == 'O' ? 'selected' : '' }}>O
+                                        </option>
+                                        <option value="AB"
+                                            {{ $modify_cast_request->blood_type == 'AB' ? 'selected' : '' }}>AB
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>所属事務所</th>
+                                <td>{{ $modify_cast_request->cast->office }}</td>
+                                <td><input type="text" name="office" value="{{ $modify_cast_request->office }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>公式HP</th>
+                                <td>{{ $modify_cast_request->cast->url }}</td>
+                                <td><input type="text" name="url" value="{{ $modify_cast_request->url }}"></td>
+                            </tr>
+                            <tr>
+                                <th>ツイッター</th>
+                                <td>{{ '@' . $modify_cast_request->cast->twitter }}</td>
+                                <td>@<input type="text" name="twitter" value="{{ $modify_cast_request->twitter }}"></td>
+                            </tr>
+                            <tr>
+                                <th>公式ブログ</th>
+                                <td>{{ $modify_cast_request->cast->blog }}</td>
+                                <td><input type="text" name="blog" value="{{ $modify_cast_request->blog }}"></td>
+                            </tr>
+                            <tr>
+                                <th>公式ブログURL</th>
+                                <td>{{ $modify_cast_request->blog_url }}</td>
+                                <td><input type="text" name="blog_url" value="{{ $modify_cast_request->blog_url }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>事由</th>
+                                <td></td>
+                                <td>{{ $modify_cast_request->remark }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            @endforeach
+        </section>
         <section class="add_cast_request_list">
             <h2>声優の追加申請リスト</h2>
             @if (session('flash_add_cast_request_message'))
@@ -534,7 +536,7 @@
                 <form class="add_cast_request_list_form">
                     @csrf
                     @can('isAdmin')
-                        <input type="submit" value="登録"
+                        <input type="submit" value="許可"
                             formaction="{{ route('add_cast_request.approve', ['add_cast_id' => $add_cast_request->id]) }}"
                             formmethod="POST">
                         <input type="submit" value="却下"
@@ -582,17 +584,14 @@
                                 <th>血液型</th>
                                 <td>
                                     <select name="blood_type">
-                                        <option value=""
-                                            {{ is_null($add_cast_request->blood_type) ? 'selected' : '' }}>-
+                                        <option value="" {{ is_null($add_cast_request->blood_type) ? 'selected' : '' }}>
+                                            -
                                         </option>
-                                        <option value="A"
-                                            {{ $add_cast_request->blood_type == 'A' ? 'selected' : '' }}>A
+                                        <option value="A" {{ $add_cast_request->blood_type == 'A' ? 'selected' : '' }}>A
                                         </option>
-                                        <option value="B"
-                                            {{ $add_cast_request->blood_type == 'B' ? 'selected' : '' }}>B
+                                        <option value="B" {{ $add_cast_request->blood_type == 'B' ? 'selected' : '' }}>B
                                         </option>
-                                        <option value="O"
-                                            {{ $add_cast_request->blood_type == 'O' ? 'selected' : '' }}>O
+                                        <option value="O" {{ $add_cast_request->blood_type == 'O' ? 'selected' : '' }}>O
                                         </option>
                                         <option value="AB"
                                             {{ $add_cast_request->blood_type == 'AB' ? 'selected' : '' }}>AB
@@ -660,6 +659,267 @@
                             <tr>
                                 <td>{{ $delete_cast_request->cast->name }}</td>
                                 <td>{{ $delete_cast_request->remark }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            @endforeach
+        </section>
+        <section class="modify_creater_request_list">
+            <h2>クリエイター情報変更申請リスト</h2>
+            @if (session('flash_modify_creater_request_message'))
+                <div class="alert alert-success">
+                    {{ session('flash_modify_creater_request_message') }}
+                </div>
+            @endif
+            @foreach ($modify_creater_request_list as $modify_creater_request)
+                <h3>{{ $loop->iteration }}件目(<a
+                        href="{{ route('creater.show', ['creater_id' => $modify_creater_request->creater->id]) }}">{{ $modify_creater_request->creater->name }}</a>)
+                </h3>
+                <form class="modify_creater_request_list_form">
+                    @csrf
+                    @can('isAdmin')
+                        <input type="submit" value="許可"
+                            formaction="{{ route('modify_creater_request.approve', ['modify_creater_id' => $modify_creater_request->id]) }}"
+                            formmethod="POST">
+                        <input type="submit" value="却下"
+                            formaction="{{ route('modify_creater_request.reject', ['modify_creater_id' => $modify_creater_request->id]) }}"
+                            formmethod="GET">
+                    @endcan
+                    <table class="modify_creater_request_list_table">
+                        <tbody>
+                            <tr>
+                                <th>項目</th>
+                                <th>現在の情報</th>
+                                <th>訂正情報</th>
+                            </tr>
+                            <tr>
+                                <th>名前</th>
+                                <td>{{ $modify_creater_request->creater->name }}</td>
+                                <td><input type="text" name="name" value="{{ $modify_creater_request->name }}"></td>
+                            </tr>
+                            <tr>
+                                <th>ふりがな</th>
+                                <td>{{ $modify_creater_request->creater->furigana }}</td>
+                                <td><input type="text" name="furigana" value="{{ $modify_creater_request->furigana }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>性別</th>
+                                <td>{{ $modify_creater_request->creater->sex_label }}</td>
+                                <td>
+                                    <select name="sex">
+                                        <option value="" {{ is_null($modify_creater_request->sex) ? 'selected' : '' }}>-
+                                        </option>
+                                        <option value="1" {{ $modify_creater_request->sex == 1 ? 'selected' : '' }}>男性
+                                        </option>
+                                        <option value="2" {{ $modify_creater_request->sex == 2 ? 'selected' : '' }}>女性
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>生年月日</th>
+                                <td>{{ $modify_creater_request->birth }}</td>
+                                <td><input type="text" name="birth" value="{{ $modify_creater_request->birth }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>出身地</th>
+                                <td>{{ $modify_creater_request->birthplace }}</td>
+                                <td><input type="text" name="birthplace" value="{{ $modify_creater_request->birthplace }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>血液型</th>
+                                <td>{{ $modify_creater_request->blood_type }}</td>
+                                <td>
+                                    <select name="blood_type">
+                                        <option value=""
+                                            {{ is_null($modify_creater_request->blood_type) ? 'selected' : '' }}>-
+                                        </option>
+                                        <option value="A"
+                                            {{ $modify_creater_request->blood_type == 'A' ? 'selected' : '' }}>A
+                                        </option>
+                                        <option value="B"
+                                            {{ $modify_creater_request->blood_type == 'B' ? 'selected' : '' }}>B
+                                        </option>
+                                        <option value="O"
+                                            {{ $modify_creater_request->blood_type == 'O' ? 'selected' : '' }}>O
+                                        </option>
+                                        <option value="AB"
+                                            {{ $modify_creater_request->blood_type == 'AB' ? 'selected' : '' }}>AB
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>公式HP</th>
+                                <td>{{ $modify_creater_request->creater->url }}</td>
+                                <td><input type="text" name="url" value="{{ $modify_creater_request->url }}"></td>
+                            </tr>
+                            <tr>
+                                <th>ツイッター</th>
+                                <td>{{ '@' . $modify_creater_request->creater->twitter }}</td>
+                                <td>@<input type="text" name="twitter" value="{{ $modify_creater_request->twitter }}"></td>
+                            </tr>
+                            <tr>
+                                <th>公式ブログ</th>
+                                <td>{{ $modify_creater_request->creater->blog }}</td>
+                                <td><input type="text" name="blog" value="{{ $modify_creater_request->blog }}"></td>
+                            </tr>
+                            <tr>
+                                <th>公式ブログURL</th>
+                                <td>{{ $modify_creater_request->blog_url }}</td>
+                                <td><input type="text" name="blog_url" value="{{ $modify_creater_request->blog_url }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>事由</th>
+                                <td></td>
+                                <td>{{ $modify_creater_request->remark }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            @endforeach
+        </section>
+        <section class="add_creater_request_list">
+            <h2>クリエイターの追加申請リスト</h2>
+            @if (session('flash_add_creater_request_message'))
+                <div class="alert alert-success">
+                    {{ session('flash_add_creater_request_message') }}
+                </div>
+            @endif
+            @foreach ($add_creater_request_list as $add_creater_request)
+                <h3>{{ $loop->iteration }}件目
+                </h3>
+                <form class="add_creater_request_list_form">
+                    @csrf
+                    @can('isAdmin')
+                        <input type="submit" value="許可"
+                            formaction="{{ route('add_creater_request.approve', ['add_creater_id' => $add_creater_request->id]) }}"
+                            formmethod="POST">
+                        <input type="submit" value="却下"
+                            formaction="{{ route('add_creater_request.reject', ['add_creater_id' => $add_creater_request->id]) }}"
+                            formmethod="GET">
+                    @endcan
+                    <table class="add_creater_request_list_table">
+                        <tbody>
+                            <tr>
+                                <th>項目</th>
+                                <th>訂正情報</th>
+                            </tr>
+                            <tr>
+                                <th>名前</th>
+                                <td><input type="text" name="name" value="{{ $add_creater_request->name }}"></td>
+                            </tr>
+                            <tr>
+                                <th>ふりがな</th>
+                                <td><input type="text" name="furigana" value="{{ $add_creater_request->furigana }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>性別</th>
+                                <td>
+                                    <select name="sex">
+                                        <option value="" {{ is_null($add_creater_request->sex) ? 'selected' : '' }}>-
+                                        </option>
+                                        <option value="1" {{ $add_creater_request->sex == 1 ? 'selected' : '' }}>男性
+                                        </option>
+                                        <option value="2" {{ $add_creater_request->sex == 2 ? 'selected' : '' }}>女性
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>生年月日</th>
+                                <td><input type="text" name="birth" value="{{ $add_creater_request->birth }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>出身地</th>
+                                <td><input type="text" name="birthplace" value="{{ $add_creater_request->birthplace }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>血液型</th>
+                                <td>
+                                    <select name="blood_type">
+                                        <option value=""
+                                            {{ is_null($add_creater_request->blood_type) ? 'selected' : '' }}>-
+                                        </option>
+                                        <option value="A"
+                                            {{ $add_creater_request->blood_type == 'A' ? 'selected' : '' }}>A
+                                        </option>
+                                        <option value="B"
+                                            {{ $add_creater_request->blood_type == 'B' ? 'selected' : '' }}>B
+                                        </option>
+                                        <option value="O"
+                                            {{ $add_creater_request->blood_type == 'O' ? 'selected' : '' }}>O
+                                        </option>
+                                        <option value="AB"
+                                            {{ $add_creater_request->blood_type == 'AB' ? 'selected' : '' }}>AB
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>公式HP</th>
+                                <td><input type="text" name="url" value="{{ $add_creater_request->url }}"></td>
+                            </tr>
+                            <tr>
+                                <th>ツイッター</th>
+                                <td>@<input type="text" name="twitter" value="{{ $add_creater_request->twitter }}"></td>
+                            </tr>
+                            <tr>
+                                <th>公式ブログ</th>
+                                <td><input type="text" name="blog" value="{{ $add_creater_request->blog }}"></td>
+                            </tr>
+                            <tr>
+                                <th>公式ブログURL</th>
+                                <td><input type="text" name="blog_url" value="{{ $add_creater_request->blog_url }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>事由</th>
+                                <td>{{ $add_creater_request->remark }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            @endforeach
+        </section>
+        <section class="delete_creater_request_list">
+            <h2>クリエイターの削除申請リスト</h2>
+            @if (session('flash_delete_creater_request_message'))
+                <div class="alert alert-success">
+                    {{ session('flash_delete_creater_request_message') }}
+                </div>
+            @endif
+            @foreach ($delete_creater_request_list as $delete_creater_request)
+                <h3>{{ $loop->iteration }}件目(<a
+                        href="{{ route('creater.show', ['creater_id' => $delete_creater_request->creater->id]) }}">{{ $delete_creater_request->creater->name }}</a>)
+                </h3>
+                <form class="delete_creater_request_list_form">
+                    @csrf
+                    @can('isAdmin')
+                        <input type="submit" value="許可"
+                            formaction="{{ route('delete_creater_request.approve', ['delete_creater_id' => $delete_creater_request->id]) }}"
+                            formmethod="POST">
+                        <input type="submit" value="却下"
+                            formaction="{{ route('delete_creater_request.reject', ['delete_creater_id' => $delete_creater_request->id]) }}"
+                            formmethod="GET">
+                    @endcan
+                    <table class="delete_creater_request_list_table">
+                        <tbody>
+                            <tr>
+                                <th>クリエイター名</th>
+                                <th>削除事由</th>
+                            </tr>
+                            <tr>
+                                <td>{{ $delete_creater_request->creater->name }}</td>
+                                <td>{{ $delete_creater_request->remark }}</td>
                             </tr>
                         </tbody>
                     </table>

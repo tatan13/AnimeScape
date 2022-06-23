@@ -100,6 +100,12 @@
                                                 href="{{ route('user_like_cast_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->likeCasts->count() }}</a>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <th>お気に入りクリエイター数</th>
+                                        <td><a
+                                                href="{{ route('user_like_creater_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->likeCreaters->count() }}</a>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

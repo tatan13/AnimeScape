@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AnimeRequest;
 use App\Http\Requests\CastRequest;
+use App\Http\Requests\CreaterRequest;
 use App\Http\Requests\DeleteRequest;
 use App\Services\ModifyService;
 use App\Services\AnimeService;
 use App\Services\CastService;
+use App\Services\CreaterService;
 use App\Services\CompanyService;
 use Illuminate\Http\Request;
 
@@ -16,18 +18,51 @@ class ModifyController extends Controller
     private ModifyService $modifyService;
     private AnimeService $animeService;
     private CastService $castService;
+    private CreaterService $createrService;
     private CompanyService $companyService;
 
     public function __construct(
         ModifyService $modifyService,
         AnimeService $animeService,
         CastService $castService,
+        CreaterService $createrService,
         CompanyService $companyService,
     ) {
         $this->modifyService = $modifyService;
         $this->animeService = $animeService;
         $this->castService = $castService;
+        $this->createrService = $createrService;
         $this->companyService = $companyService;
+    }
+
+    /**
+     * アニメ，声優の情報変更申請リストを表示
+     * @return \Illuminate\View\View
+     */
+    public function showModifyRequestList()
+    {
+        $modify_anime_request_list = $this->modifyService->getModifyAnimeRequestListWithAnimeWithCompanies();
+        $add_anime_request_list = $this->modifyService->getAddAnimeRequestListDeleteUnFlag();
+        $delete_anime_request_list = $this->modifyService->getDeleteAnimeRequestListWithAnime();
+        $modify_cast_request_list = $this->modifyService->getModifyCastRequestListWithCast();
+        $add_cast_request_list = $this->modifyService->getAddCastRequestListDeleteUnFlag();
+        $delete_cast_request_list = $this->modifyService->getDeleteCastRequestListWithCast();
+        $modify_creater_request_list = $this->modifyService->getModifyCreaterRequestListWithCreater();
+        $add_creater_request_list = $this->modifyService->getAddCreaterRequestListDeleteUnFlag();
+        $delete_creater_request_list = $this->modifyService->getDeleteCreaterRequestListWithCreater();
+        $delete_company_request_list = $this->modifyService->getDeleteCompanyRequestListWithCompany();
+        return view('modify_request_list', [
+            'modify_anime_request_list' => $modify_anime_request_list,
+            'add_anime_request_list' => $add_anime_request_list,
+            'delete_anime_request_list' => $delete_anime_request_list,
+            'modify_cast_request_list' => $modify_cast_request_list,
+            'add_cast_request_list' => $add_cast_request_list,
+            'delete_cast_request_list' => $delete_cast_request_list,
+            'modify_creater_request_list' => $modify_creater_request_list,
+            'add_creater_request_list' => $add_creater_request_list,
+            'delete_creater_request_list' => $delete_creater_request_list,
+            'delete_company_request_list' => $delete_company_request_list,
+        ]);
     }
 
     /**
@@ -85,148 +120,55 @@ class ModifyController extends Controller
     }
 
     /**
-     * アニメ，声優の情報変更申請リストを表示
+     * アニメの追加申請ページを表示
+     *
      * @return \Illuminate\View\View
      */
-    public function showModifyRequestList()
+    public function showAddAnimeRequest()
     {
-        $modify_anime_request_list = $this->modifyService->getModifyAnimeRequestListWithAnimeWithCompanies();
-        $anime_list = $this->animeService->getAnimeListWithModifyOccupationRequestList();
-        $modify_cast_request_list = $this->modifyService->getModifyCastRequestListWithCast();
-        $delete_anime_request_list = $this->modifyService->getDeleteAnimeRequestListWithAnime();
-        $add_anime_request_list = $this->modifyService->getAddAnimeRequestListDeleteUnFlag();
-        $add_cast_request_list = $this->modifyService->getAddCastRequestListDeleteUnFlag();
-        $delete_cast_request_list = $this->modifyService->getDeleteCastRequestListWithCast();
-        $delete_company_request_list = $this->modifyService->getDeleteCompanyRequestListWithCompany();
-        return view('modify_request_list', [
-            'modify_anime_request_list' => $modify_anime_request_list,
-            'anime_list' => $anime_list,
-            'modify_cast_request_list' => $modify_cast_request_list,
-            'delete_anime_request_list' => $delete_anime_request_list,
-            'add_anime_request_list' => $add_anime_request_list,
-            'add_cast_request_list' => $add_cast_request_list,
-            'delete_cast_request_list' => $delete_cast_request_list,
-            'delete_company_request_list' => $delete_company_request_list,
-        ]);
+        return view('add_anime_request');
     }
 
     /**
-     * アニメの出演声優情報変更ページを表示
+     * アニメの追加申請を作成
      *
-     * @param int $anime_id
-     * @return \Illuminate\View\View
-     */
-    public function showModifyOccupations($anime_id)
-    {
-        $anime = $this->animeService->getAnimeWithActCastsWithOccupationsById($anime_id);
-        return view('modify_occupations', [
-            'anime' => $anime,
-        ]);
-    }
-
-    /**
-     * アニメの出演声優情報を変更し，元の画面にリダイレクト
-     *
-     * @param int $anime_id
-     * @param Request $request
+     * @param AnimeRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postModifyOccupations($anime_id, Request $request)
+    public function postAddAnimeRequest(AnimeRequest $request)
     {
-        $this->modifyService->createOrDeleteOrModifyOccupations($anime_id, $request);
-        return redirect()->route('modify_occupations.show', [
-            'anime_id' => $anime_id,
-        ])->with('flash_message', '変更が完了しました。');
+        $this->modifyService->createAddAnimeRequest($request);
+        return redirect()->route('add_anime_request.show')->with('flash_message', '追加申請が完了しました。');
     }
 
     /**
-     * アニメの出演声優情報変更申請を処理し，元の画面にリダイレクト
+     * アニメの追加申請を処理し，元の画面にリダイレクト
      *
-     * @param int $anime_id
-     * @param Request $request
+     * @param int $add_anime_id
+     * @param AnimeRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function approveModifyOccupationsRequest($anime_id, Request $request)
+    public function approveAddAnimeRequest($add_anime_id, AnimeRequest $request)
     {
-        $this->modifyService->updateAnimeCastsByRequest($anime_id, $request);
+        $this->modifyService->createAnimeByRequest($add_anime_id, $request);
         return redirect()->route('modify_request_list.show')->with(
-            'flash_modify_occupations_request_message',
-            '変更が完了しました。'
+            'flash_add_anime_request_message',
+            'アニメの追加が完了しました。'
         );
     }
 
     /**
-     * アニメの出演声優情報変更申請を却下し，元の画面にリダイレクト
+     * アニメの追加申請を却下
      *
-     * @param int $anime_id
+     * @param int $add_anime_id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function rejectModifyOccupationsRequest($anime_id)
+    public function rejectAddAnimeRequest($add_anime_id)
     {
-        $this->modifyService->rejectModifyOccupationsRequestOfAnimeId($anime_id);
+        $this->modifyService->rejectAddAnimeRequest($add_anime_id);
         return redirect()->route('modify_request_list.show')->with(
-            'flash_modify_occupations_request_message',
-            '削除が完了しました。'
-        );
-    }
-
-    /**
-     * 声優情報変更申請ページを表示
-     *
-     * @param int $cast_id
-     * @return \Illuminate\View\View
-     */
-    public function showModifyCastRequest($cast_id)
-    {
-        $cast = $this->castService->getCast($cast_id);
-        return view('modify_cast_request', [
-            'cast' => $cast,
-        ]);
-    }
-
-    /**
-     * 声優情報変更申請をデータベースに保存し，元の画面にリダイレクト
-     *
-     * @param int $cast_id
-     * @param CastRequest $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function postModifyCastRequest($cast_id, CastRequest $request)
-    {
-        $this->modifyService->createModifyCastRequest($cast_id, $request);
-        return redirect()->route('modify_cast_request.show', [
-            'cast_id' => $cast_id,
-        ])->with('flash_message', '変更申請が完了しました。');
-    }
-
-    /**
-     * 演声優情報変更申請を処理し，元の画面にリダイレクト
-     *
-     * @param int $modify_cast_id
-     * @param CastRequest $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function approveModifyCastRequest($modify_cast_id, CastRequest $request)
-    {
-        $this->modifyService->updateCastInformationByRequest($modify_cast_id, $request);
-        return redirect()->route('modify_request_list.show')->with(
-            'flash_modify_cast_request_message',
-            '変更が完了しました。'
-        );
-    }
-
-    /**
-     * 声優情報変更申請を却下し，元の画面にリダイレクト
-     *
-     * @param int $modify_cast_id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function rejectModifyCastRequest($modify_cast_id)
-    {
-        $this->modifyService->rejectModifyCastRequest($modify_cast_id);
-        return redirect()->route('modify_request_list.show')->with(
-            'flash_modify_cast_request_message',
-            '削除が完了しました。'
+            'flash_add_anime_request_message',
+            '追加申請の削除が完了しました。'
         );
     }
 
@@ -290,67 +232,62 @@ class ModifyController extends Controller
     }
 
     /**
-     * アニメを削除
+     * 声優情報変更申請ページを表示
      *
-     * @param int $anime_id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function deleteAnime($anime_id)
-    {
-        $this->modifyService->deleteAnime($anime_id);
-        return redirect()->route('index.show');
-    }
-
-    /**
-     * アニメの追加申請ページを表示
-     *
+     * @param int $cast_id
      * @return \Illuminate\View\View
      */
-    public function showAddAnimeRequest()
+    public function showModifyCastRequest($cast_id)
     {
-        return view('add_anime_request');
+        $cast = $this->castService->getCast($cast_id);
+        return view('modify_cast_request', [
+            'cast' => $cast,
+        ]);
     }
 
     /**
-     * アニメの追加申請を作成
+     * 声優情報変更申請をデータベースに保存し，元の画面にリダイレクト
      *
-     * @param AnimeRequest $request
+     * @param int $cast_id
+     * @param CastRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postAddAnimeRequest(AnimeRequest $request)
+    public function postModifyCastRequest($cast_id, CastRequest $request)
     {
-        $this->modifyService->createAddAnimeRequest($request);
-        return redirect()->route('add_anime_request.show')->with('flash_message', '追加申請が完了しました。');
+        $this->modifyService->createModifyCastRequest($cast_id, $request);
+        return redirect()->route('modify_cast_request.show', [
+            'cast_id' => $cast_id,
+        ])->with('flash_message', '変更申請が完了しました。');
     }
 
     /**
-     * アニメの追加申請を処理し，元の画面にリダイレクト
+     * 声優情報変更申請を処理し，元の画面にリダイレクト
      *
-     * @param int $add_anime_id
-     * @param AnimeRequest $request
+     * @param int $modify_cast_id
+     * @param CastRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function approveAddAnimeRequest($add_anime_id, AnimeRequest $request)
+    public function approveModifyCastRequest($modify_cast_id, CastRequest $request)
     {
-        $this->modifyService->createAnimeByRequest($add_anime_id, $request);
+        $this->modifyService->updateCastInformationByRequest($modify_cast_id, $request);
         return redirect()->route('modify_request_list.show')->with(
-            'flash_add_anime_request_message',
-            'アニメの追加が完了しました。'
+            'flash_modify_cast_request_message',
+            '変更が完了しました。'
         );
     }
 
     /**
-     * アニメの追加申請を却下
+     * 声優情報変更申請を却下し，元の画面にリダイレクト
      *
-     * @param int $add_anime_id
+     * @param int $modify_cast_id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function rejectAddAnimeRequest($add_anime_id)
+    public function rejectModifyCastRequest($modify_cast_id)
     {
-        $this->modifyService->rejectAddAnimeRequest($add_anime_id);
+        $this->modifyService->rejectModifyCastRequest($modify_cast_id);
         return redirect()->route('modify_request_list.show')->with(
-            'flash_add_anime_request_message',
-            '追加申請の削除が完了しました。'
+            'flash_modify_cast_request_message',
+            '削除が完了しました。'
         );
     }
 
@@ -467,6 +404,178 @@ class ModifyController extends Controller
     }
 
     /**
+     * クリエイター情報変更申請ページを表示
+     *
+     * @param int $creater_id
+     * @return \Illuminate\View\View
+     */
+    public function showModifyCreaterRequest($creater_id)
+    {
+        $creater = $this->createrService->getCreater($creater_id);
+        return view('modify_creater_request', [
+            'creater' => $creater,
+        ]);
+    }
+
+    /**
+     * クリエイター情報変更申請をデータベースに保存し，元の画面にリダイレクト
+     *
+     * @param int $creater_id
+     * @param CreaterRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postModifyCreaterRequest($creater_id, CreaterRequest $request)
+    {
+        $this->modifyService->createModifyCreaterRequest($creater_id, $request);
+        return redirect()->route('modify_creater_request.show', [
+            'creater_id' => $creater_id,
+        ])->with('flash_message', '変更申請が完了しました。');
+    }
+
+    /**
+     * クリエイター情報変更申請を処理し，元の画面にリダイレクト
+     *
+     * @param int $modify_creater_id
+     * @param CreaterRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function approveModifyCreaterRequest($modify_creater_id, CreaterRequest $request)
+    {
+        $this->modifyService->updateCreaterInformationByRequest($modify_creater_id, $request);
+        return redirect()->route('modify_request_list.show')->with(
+            'flash_modify_creater_request_message',
+            '変更が完了しました。'
+        );
+    }
+
+    /**
+     * クリエイター情報変更申請を却下し，元の画面にリダイレクト
+     *
+     * @param int $modify_creater_id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function rejectModifyCreaterRequest($modify_creater_id)
+    {
+        $this->modifyService->rejectModifyCreaterRequest($modify_creater_id);
+        return redirect()->route('modify_request_list.show')->with(
+            'flash_modify_creater_request_message',
+            '削除が完了しました。'
+        );
+    }
+
+    /**
+     * クリエイターの追加申請ページを表示
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showAddCreaterRequest()
+    {
+        return view('add_creater_request');
+    }
+
+    /**
+     * クリエイターの追加申請を作成
+     *
+     * @param CreaterRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postAddCreaterRequest(CreaterRequest $request)
+    {
+        $this->modifyService->createAddCreaterRequest($request);
+        return redirect()->route('add_creater_request.show')->with('flash_message', '追加申請が完了しました。');
+    }
+
+    /**
+     * クリエイターの追加申請を処理し，元の画面にリダイレクト
+     *
+     * @param int $add_creater_id
+     * @param CreaterRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function approveAddCreaterRequest($add_creater_id, CreaterRequest $request)
+    {
+        $this->modifyService->createCreaterByRequest($add_creater_id, $request);
+        return redirect()->route('modify_request_list.show')->with(
+            'flash_add_creater_request_message',
+            'クリエイターの追加が完了しました。'
+        );
+    }
+
+    /**
+     * クリエイターの追加申請を却下
+     *
+     * @param int $add_creater_id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function rejectAddCreaterRequest($add_creater_id)
+    {
+        $this->modifyService->rejectAddCreaterRequest($add_creater_id);
+        return redirect()->route('modify_request_list.show')->with(
+            'flash_add_creater_request_message',
+            '追加申請の削除が完了しました。'
+        );
+    }
+
+    /**
+     * クリエイターの削除申請ページを表示
+     *
+     * @param int $creater_id
+     * @return \Illuminate\View\View
+     */
+    public function showDeleteCreaterRequest($creater_id)
+    {
+        $creater = $this->createrService->getCreater($creater_id);
+        return view('delete_creater_request', [
+            'creater' => $creater,
+        ]);
+    }
+
+    /**
+     * クリエイターの削除申請を作成
+     *
+     * @param int $creater_id
+     * @param DeleteRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postDeleteCreaterRequest($creater_id, DeleteRequest $request)
+    {
+        $this->modifyService->createDeleteCreaterRequest($creater_id, $request);
+        return redirect()->route('creater.show', [
+            'creater_id' => $creater_id,
+        ])->with('flash_message', '削除申請が完了しました。');
+    }
+
+    /**
+     * クリエイターの削除申請を処理し，元の画面にリダイレクト
+     *
+     * @param int $delete_creater_id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function approveDeleteCreaterRequest($delete_creater_id)
+    {
+        $this->modifyService->deleteCreaterByRequest($delete_creater_id);
+        return redirect()->route('modify_request_list.show')->with(
+            'flash_delete_creater_request_message',
+            'クリエイターの削除が完了しました。'
+        );
+    }
+
+    /**
+     * クリエイターの削除申請を却下
+     *
+     * @param int $delete_creater_id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function rejectDeleteCreaterRequest($delete_creater_id)
+    {
+        $this->modifyService->rejectDeleteCreaterRequest($delete_creater_id);
+        return redirect()->route('modify_request_list.show')->with(
+            'flash_delete_creater_request_message',
+            '削除申請の削除が完了しました。'
+        );
+    }
+
+    /**
      * 会社の削除申請ページを表示
      *
      * @param int $company_id
@@ -526,6 +635,64 @@ class ModifyController extends Controller
     }
 
     /**
+     * アニメの出演声優情報変更ページを表示
+     *
+     * @param int $anime_id
+     * @return \Illuminate\View\View
+     */
+    public function showModifyOccupations($anime_id)
+    {
+        $anime = $this->animeService->getAnimeWithActCastsWithOccupationsById($anime_id);
+        return view('modify_occupations', [
+            'anime' => $anime,
+        ]);
+    }
+
+    /**
+     * アニメの出演声優情報を変更し，元の画面にリダイレクト
+     *
+     * @param int $anime_id
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postModifyOccupations($anime_id, Request $request)
+    {
+        $this->modifyService->createOrDeleteOrModifyOccupations($anime_id, $request);
+        return redirect()->route('modify_occupations.show', [
+            'anime_id' => $anime_id,
+        ])->with('flash_message', '変更が完了しました。');
+    }
+
+    /**
+     * アニメのクリエイター情報変更ページを表示
+     *
+     * @param int $anime_id
+     * @return \Illuminate\View\View
+     */
+    public function showModifyAnimeCreaters($anime_id)
+    {
+        $anime = $this->animeService->getAnimeWithCreatersWithAnimeCreaterById($anime_id);
+        return view('modify_anime_creaters', [
+            'anime' => $anime,
+        ]);
+    }
+
+    /**
+     * アニメのクリエイター情報を変更し，元の画面にリダイレクト
+     *
+     * @param int $anime_id
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postModifyAnimeCreaters($anime_id, Request $request)
+    {
+        $this->modifyService->createOrDeleteOrModifyAnimeCreaters($anime_id, $request);
+        return redirect()->route('modify_anime_creaters.show', [
+            'anime_id' => $anime_id,
+        ])->with('flash_message', '変更が完了しました。');
+    }
+
+    /**
      * 作品の追加履歴を表示
      *
      * @return \Illuminate\View\View
@@ -549,5 +716,30 @@ class ModifyController extends Controller
         return view('add_cast_log', [
             'add_cast_list' => $add_cast_list,
         ]);
+    }
+
+    /**
+     * クリエイターの追加履歴を表示
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showAddCreaterLog()
+    {
+        $add_creater_list = $this->modifyService->getAddCreaterListLatest();
+        return view('add_creater_log', [
+            'add_creater_list' => $add_creater_list,
+        ]);
+    }
+
+    /**
+     * アニメを削除
+     *
+     * @param int $anime_id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteAnime($anime_id)
+    {
+        $this->modifyService->deleteAnime($anime_id);
+        return redirect()->route('index.show');
     }
 }
