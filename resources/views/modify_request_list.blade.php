@@ -547,7 +547,7 @@
                         <tbody>
                             <tr>
                                 <th>項目</th>
-                                <th>訂正情報</th>
+                                <th>情報</th>
                             </tr>
                             <tr>
                                 <th>名前</th>
@@ -808,7 +808,7 @@
                         <tbody>
                             <tr>
                                 <th>項目</th>
-                                <th>訂正情報</th>
+                                <th>情報</th>
                             </tr>
                             <tr>
                                 <th>名前</th>
