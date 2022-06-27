@@ -55,7 +55,7 @@
             @endauth
         </section>
         <section class="anime_ranking">
-            <h3>2022年冬クールアニメランキング</h3>
+            <h3>2022年{{ App\Models\Anime::getCoorLabel(\App\Models\Anime::NOW_COOR) }}クールアニメランキング</h3>
             <table class="anime_ranking_table">
                 <tbody>
                     <tr>
@@ -73,8 +73,7 @@
                     @foreach ($animes as $anime)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td><a
-                                    href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
+                            <td><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
                             </td>
                             <td>
                                 @foreach ($anime->companies as $company)
