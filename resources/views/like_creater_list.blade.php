@@ -4,6 +4,11 @@
     <title>{{ $user->name }}さんのお気に入りクリエイター AnimeScape</title>
 @endsection
 
+@section('adsense')
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1583558174306860"
+        crossorigin="anonymous"></script>
+@endsection
+
 @section('main')
     <article class="like_creater_list">
         <h2>{{ $user->name }}さんのお気に入りクリエイター</h2>

@@ -4,12 +4,18 @@
     <title>AnimeScape</title>
 @endsection
 
+@section('adsense')
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1583558174306860"
+        crossorigin="anonymous"></script>
+@endsection
+
 @section('main')
     <article class="index">
         <h2>トップページ</h2>
         <section class="information">
             <h3>お知らせ</h3>
             クリエイターの実装を完了しました。データの追加は今後コツコツやっていきますのでご協力していただけると助かります。<br>
+            2022年夏アニメの追加が完了しました。<br>
             現在はアニメ作品のジャンル、傾向等を表せるタグ機能の実装を進めています。
         </section>
         <section class="recommend_anime_list">
@@ -50,7 +56,7 @@
             @endauth
         </section>
         <section class="anime_ranking">
-            <h3>2022年冬クールアニメランキング</h3>
+            <h3>2022年{{ App\Models\Anime::getCoorLabel(\App\Models\Anime::NOW_COOR) }}クールアニメランキング</h3>
             <table class="anime_ranking_table">
                 <tbody>
                     <tr>
@@ -68,8 +74,7 @@
                     @foreach ($animes as $anime)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td><a
-                                    href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
+                            <td><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
                             </td>
                             <td>
                                 @foreach ($anime->companies as $company)

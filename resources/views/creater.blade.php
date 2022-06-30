@@ -4,6 +4,11 @@
     <title>{{ $creater->name }} AnimeScape</title>
 @endsection
 
+@section('adsense')
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1583558174306860"
+        crossorigin="anonymous"></script>
+@endsection
+
 @section('main')
     <div id="app">
         <article class=creater_information>
@@ -15,11 +20,11 @@
                     {{ session('flash_message') }}
                 </div>
             @endif
-            <span><strong>{{ $creater->name }}</strong></span><br>
+            <p><strong>{{ $creater->name }}</strong></p>
             @auth
                 <like-creater-component :props-creater-id="{{ json_encode($creater->id) }}"
                     :default-is-like-creater="{{ json_encode(Auth::user()->isLikeCreater($creater->id)) }}">
-                    </like-creater-component>
+                </like-creater-component>
             @endauth
             <section class="creater_profile">
                 <h3>プロフィール</h3>
@@ -55,7 +60,8 @@
                                 rel="noopener noreferrer">{{ $creater->blog }}</a></td>
                     </tr>
                 </table>
-                <a href="{{ route('modify_creater_request.show', ['creater_id' => $creater->id]) }}">クリエイターの情報の変更申請をする</a><br>
+                <a
+                    href="{{ route('modify_creater_request.show', ['creater_id' => $creater->id]) }}">クリエイターの情報の変更申請をする</a><br>
                 <a href="{{ route('delete_creater_request.show', ['creater_id' => $creater->id]) }}">クリエイターの削除申請をする</a>
             </section>
             <section class="creater_act_anime_list">

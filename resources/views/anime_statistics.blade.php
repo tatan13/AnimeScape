@@ -4,6 +4,11 @@
     <title>アニメランキング AnimeScape</title>
 @endsection
 
+@section('adsense')
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1583558174306860"
+        crossorigin="anonymous"></script>
+@endsection
+
 @section('main')
     <article class="anime_statistics">
         <h2>{{ !is_null($year) ? $year . '年' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }}アニメランキング

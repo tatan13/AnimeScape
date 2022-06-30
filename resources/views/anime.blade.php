@@ -4,6 +4,11 @@
     <title>{{ $anime->title }} AnimeScape</title>
 @endsection
 
+@section('adsense')
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1583558174306860"
+        crossorigin="anonymous"></script>
+@endsection
+
 @section('main')
     <article class="anime_information">
         <h2>
@@ -15,7 +20,7 @@
             </div>
         @endif
         <section>
-            <span><strong>{{ $anime->title }}</strong></span>
+            <p><strong>{{ $anime->title }}</strong></p>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-3">
@@ -149,6 +154,8 @@
                                     {{ !is_null($occupation->character) ? '(' . $occupation->character . ')' : '' }}
                                 @elseif ($occupation->main_sub == \App\Models\Occupation::TYPE_OTHERS)
                                     (その他)
+                                @else
+                                    {{ !is_null($occupation->character) ? '(' . $occupation->character . ')' : '' }}
                                 @endif
                             @endforeach
                         </td>

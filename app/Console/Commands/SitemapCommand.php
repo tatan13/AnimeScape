@@ -87,6 +87,22 @@ class SitemapCommand extends Command
         \File::append($file, $content);
 
         $content = "<url>
+            <loc>" . route('add_cast_log.show') . "</loc>
+            <lastmod>"
+            . \App\Models\AddCast::where('delete_flag', 1)->latest()->first()->updated_at->format("Y-m-d") .
+            "</lastmod>
+            </url>";
+        \File::append($file, $content);
+
+        $content = "<url>
+            <loc>" . route('add_creater_log.show') . "</loc>
+            <lastmod>"
+            . \App\Models\AddCreater::where('delete_flag', 1)->latest()->first()->updated_at->format("Y-m-d") .
+            "</lastmod>
+            </url>";
+        \File::append($file, $content);
+
+        $content = "<url>
             <loc>" . route('contact.show') . "</loc>
             <lastmod>" . \App\Models\Contact::latest()->first()->created_at->format("Y-m-d") . "</lastmod>
             </url>";
@@ -112,6 +128,15 @@ class SitemapCommand extends Command
             $content = "<url>
             <loc>" . route('cast.show', ['cast_id' => $cast->id]) . "</loc>
             <lastmod>" . $cast->updated_at->format("Y-m-d") . "</lastmod>
+            </url>";
+            \File::append($file, $content);
+        }
+
+        $creater_list = \App\Models\Creater::select(['id', 'updated_at'])->oldest('id')->get();
+        foreach ($creater_list as $creater) {
+            $content = "<url>
+            <loc>" . route('creater.show', ['creater_id' => $creater->id]) . "</loc>
+            <lastmod>" . $creater->updated_at->format("Y-m-d") . "</lastmod>
             </url>";
             \File::append($file, $content);
         }
@@ -195,6 +220,14 @@ class SitemapCommand extends Command
         foreach ($user_list as $user) {
             $content = "<url>
             <loc>" . route('user_like_cast_list.show', ['user_id' => $user->id]) . "</loc>
+            <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
+            </url>";
+            \File::append($file, $content);
+        }
+
+        foreach ($user_list as $user) {
+            $content = "<url>
+            <loc>" . route('user_like_creater_list.show', ['user_id' => $user->id]) . "</loc>
             <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
             </url>";
             \File::append($file, $content);

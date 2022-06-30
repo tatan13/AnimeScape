@@ -4,6 +4,11 @@
     <title>{{ $user_review->user->name }}さんの「{{ $user_review->anime->title }}」の感想 AnimeScape</title>
 @endsection
 
+@section('adsense')
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1583558174306860"
+        crossorigin="anonymous"></script>
+@endsection
+
 @section('main')
     <article class="anime_comment">
         <h2>
