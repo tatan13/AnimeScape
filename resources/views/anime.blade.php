@@ -154,6 +154,8 @@
                                     {{ !is_null($occupation->character) ? '(' . $occupation->character . ')' : '' }}
                                 @elseif ($occupation->main_sub == \App\Models\Occupation::TYPE_OTHERS)
                                     (その他)
+                                @else
+                                    {{ !is_null($occupation->character) ? '(' . $occupation->character . ')' : '' }}
                                 @endif
                             @endforeach
                         </td>
