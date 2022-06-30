@@ -20,7 +20,7 @@
             </div>
         @endif
         <section>
-            <span><strong>{{ $anime->title }}</strong></span>
+            <p><strong>{{ $anime->title }}</strong></p>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-3">

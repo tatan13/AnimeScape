@@ -13,7 +13,7 @@
     <div id="likeUser">
         <article class="user_information">
             <h2>{{ $user_information->name }}さんの情報</h2>
-            <p>{{ $user_information->name }}</p>
+            <p><strong>{{ $user_information->name }}</strong></p>
             @auth
                 @if (Auth::id() == $user_information->id)
                     <a href="{{ route('user_config.show') }}">個人情報設定</a>
@@ -71,21 +71,21 @@
                                         <td>
                                             <a
                                                 href="{{ route('user_watch_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->watches_count }}</a>
-                                            </td>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th>視聴中数</th>
                                         <td>
                                             <a
                                                 href="{{ route('user_now_watch_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->now_watches_count }}</a>
-                                            </td>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th>視聴リタイア数</th>
                                         <td>
                                             <a
                                                 href="{{ route('user_give_up_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->give_ups_count }}</a>
-                                            </td>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th>お気に入りユーザー数</th>
@@ -148,13 +148,13 @@
                     年
                     <select name="coor" class="coor">
                         <option value="">-</option>
-                        <option value="1" {{ is_null($coor ?? null) ?'' : ($coor == 1 ? 'selected' : '') }}>冬
+                        <option value="1" {{ is_null($coor ?? null) ? '' : ($coor == 1 ? 'selected' : '') }}>冬
                         </option>
-                        <option value="2" {{ is_null($coor ?? null) ?'' : ($coor == 2 ? 'selected' : '') }}>春
+                        <option value="2" {{ is_null($coor ?? null) ? '' : ($coor == 2 ? 'selected' : '') }}>春
                         </option>
-                        <option value="3" {{ is_null($coor ?? null) ?'' : ($coor == 3 ? 'selected' : '') }}>夏
+                        <option value="3" {{ is_null($coor ?? null) ? '' : ($coor == 3 ? 'selected' : '') }}>夏
                         </option>
-                        <option value="4" {{ is_null($coor ?? null) ?'' : ($coor == 4 ? 'selected' : '') }}>秋
+                        <option value="4" {{ is_null($coor ?? null) ? '' : ($coor == 4 ? 'selected' : '') }}>秋
                         </option>
                     </select>
                     <input type="submit" value="絞り込み"> <a
