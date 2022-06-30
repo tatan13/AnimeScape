@@ -64,8 +64,18 @@ class IndexTest extends TestCase
      */
     public function testIndexAnimeView()
     {
-        $anime1 = Anime::factory()->create(['median' => 100, 'count' => 200]);
-        $anime2 = Anime::factory()->create(['median' => 0, 'count' => 300]);
+        $anime1 = Anime::factory()->create([
+            'median' => 100,
+            'count' => 200,
+            'year' => Anime::NOW_YEAR,
+            'coor' => Anime::NOW_COOR
+        ]);
+        $anime2 = Anime::factory()->create([
+            'median' => 0,
+            'count' => 300,
+            'year' => Anime::NOW_YEAR,
+            'coor' => Anime::NOW_COOR
+        ]);
         $company = Company::factory()->create();
         $anime1->companies()->attach($company->id);
         $response = $this->get(route('index.show'));
