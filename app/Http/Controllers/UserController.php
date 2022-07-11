@@ -55,6 +55,22 @@ class UserController extends Controller
     }
 
     /**
+     * ユーザーの感想リストを表示
+     *
+     * @param int $user_id
+     * @return \Illuminate\View\View
+     */
+    public function showCommentAnimeList($user_id)
+    {
+        $user = $this->userService->getUserById($user_id);
+        $comment_anime_list = $this->animeService->getLatestCommentAnimeListWithUserReviewOf($user);
+        return view('comment_anime_list', [
+            'user' => $user,
+            'comment_anime_list' => $comment_anime_list,
+        ]);
+    }
+
+    /**
      * ユーザーの視聴予定アニメリストを表示
      *
      * @param int $user_id

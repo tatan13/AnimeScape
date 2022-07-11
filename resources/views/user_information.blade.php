@@ -57,8 +57,10 @@
                                         <td>{{ $user_information->score_median }}</td>
                                     </tr>
                                     <tr>
-                                        <th>一言感想入力数</th>
-                                        <td>{{ $user_information->one_comments_count }}</td>
+                                        <th>感想入力数</th>
+                                        <td><a
+                                                href="{{ route('user_comment_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->comments_count }}</a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th>視聴予定数</th>

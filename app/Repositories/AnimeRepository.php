@@ -118,6 +118,22 @@ class AnimeRepository extends AbstractRepository
     }
 
     /**
+     * ユーザーの感想をつけたアニメリストをユーザーレビューとともに取得
+     *
+     * @param User $user
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getCommentAnimeListWithUserReviewOf(User $user)
+    {
+        return Anime::whereHas('userReview', function ($query) use ($user) {
+            $query->where('user_id', $user->id)
+            ->whereNotNull('one_word_comment')->orWhereNotNull('long_word_comment');
+        })->with('userReview', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->get();
+    }
+
+    /**
      * ユーザーの得点の付いたアニメリストをユーザーレビューと制作会社とともに取得
      *
      * @param User $user

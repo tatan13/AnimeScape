@@ -179,6 +179,18 @@ class AnimeService
     }
 
     /**
+     * ユーザーの感想をつけたアニメリストを降順のユーザーレビューとともに取得
+     *
+     * @param User $user
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getLatestCommentAnimeListWithUserReviewOf(User $user)
+    {
+        return $this->animeRepository->getCommentAnimeListWithUserReviewOf($user)
+        ->sortByDesc('userReview.created_at');
+    }
+
+    /**
      * ユーザーの点数をつけたアニメリストを制作会社と降順のユーザーレビューとともに取得
      *
      * @param User $user

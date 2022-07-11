@@ -100,8 +100,10 @@ class UserReviewService
             'watch_timestamp' => (is_null($my_review ?? null) || ($my_review->watch ?? false) == false) &&
             ($submit_review->watch == true) // watchがfalseからtrueになったときのみ
              ? Carbon::now() : $my_review->watch_timestamp ?? null,
-            'comment_timestamp' => (is_null($my_review ?? null) || is_null($my_review->one_word_comment ?? null)) &&
-            (!is_null($submit_review->one_word_comment)) // commentがnullからnullではなくなったときのみ
+            'comment_timestamp' => (is_null($my_review ?? null) ||
+            (is_null($my_review->one_word_comment ?? null) && is_null($my_review->long_word_comment ?? null))) &&
+            (!is_null($submit_review->one_word_comment) ||
+            !is_null($submit_review->long_word_comment)) // commentがnullからnullではなくなったときのみ
              ? Carbon::now() : $my_review->comment_timestamp ?? null,
         ]);
         DB::transaction(function () use ($anime, $my_review, $update_review) {

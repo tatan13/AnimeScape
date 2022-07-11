@@ -54,6 +54,8 @@ Route::post('/company/{company_id}/delete_request', [App\Http\Controllers\Modify
 
 Route::get('/user_information/{user_id}', [App\Http\Controllers\UserController::class, 'show'])->name('user.show');
 
+Route::get('/user_information/{user_id}/comment_anime_list', [App\Http\Controllers\UserController::class, 'showCommentAnimeList'])->name('user_comment_anime_list.show');
+
 Route::get('/user_information/{user_id}/score_anime_list', [App\Http\Controllers\UserController::class, 'showScoreAnimeList'])->name('user_score_anime_list.show');
 
 Route::get('/user_information/{user_id}/will_watch_anime_list', [App\Http\Controllers\UserController::class, 'showWillWatchAnimeList'])->name('user_will_watch_anime_list.show');
