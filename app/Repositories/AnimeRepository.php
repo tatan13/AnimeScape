@@ -126,10 +126,13 @@ class AnimeRepository extends AbstractRepository
     public function getCommentAnimeListWithUserReviewOf(User $user)
     {
         return Anime::whereHas('userReview', function ($query) use ($user) {
-            $query->where('user_id', $user->id)
-            ->whereNotNull('one_word_comment')->orWhereNotNull('long_word_comment');
+            $query->where('user_id', $user->id)->where(function ($query) {
+                $query->whereNotNull('one_word_comment')->orWhereNotNull('long_word_comment');
+            });
         })->with('userReview', function ($query) use ($user) {
-            $query->where('user_id', $user->id);
+            $query->where('user_id', $user->id)->where(function ($query) {
+                $query->whereNotNull('one_word_comment')->orWhereNotNull('long_word_comment');
+            });
         })->get();
     }
 
