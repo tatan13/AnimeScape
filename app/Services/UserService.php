@@ -53,10 +53,9 @@ class UserService
         $user_information['score_count'] = $user_information->userReviews->whereNotNull('score')->count();
         $user_information['score_average'] = (int)$user_information->userReviews->avg('score');
         $user_information['score_median'] = $user_information->userReviews->median('score');
-        $user_information['one_comments_count'] = $user_information->userReviews->whereNotNull('one_word_comment')
-        ->count();
-        $user_information['long_comments_count'] = $user_information->userReviews->whereNotNull('long_word_comment')
-        ->count();
+        $user_information['comments_count'] = $user_information->userReviews->filter(function ($value, $key) {
+            return !is_null($value['one_word_comment']) || !is_null($value['long_word_comment']);
+        })->count();
         $user_information['will_watches_count'] = $user_information->userReviews->where('will_watch', true)->count();
         $user_information['give_ups_count'] = $user_information->userReviews->where('give_up', true)->count();
         $user_information['now_watches_count'] = $user_information->userReviews->where('now_watch', true)->count();

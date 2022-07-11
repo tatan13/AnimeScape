@@ -293,7 +293,7 @@ class UserTest extends TestCase
             59,
             '得点の中央値',
             95,
-            '一言感想入力数',
+            '感想入力数',
             2,
             '視聴予定数',
             2,
@@ -353,7 +353,7 @@ class UserTest extends TestCase
                 74,
                 '得点の中央値',
                 97,
-                '一言感想入力数',
+                '感想入力数',
                 2,
                 '視聴予定数',
                 1,
@@ -402,7 +402,7 @@ class UserTest extends TestCase
             98,
             '得点の中央値',
             99,
-            '一言感想入力数',
+            '感想入力数',
             2,
             '視聴予定数',
             0,
@@ -455,6 +455,22 @@ class UserTest extends TestCase
             'coor' => 0,
         ]));
         $response->assertStatus(200);
+    }
+
+    /**
+     * ユーザーの感想を付けたアニメリストの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1CommentAnimeListView()
+    {
+        $response = $this->get(route('user_comment_anime_list.show', ['user_id' => $this->user1->id]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->anime1->title,
+            $this->anime2->title,
+        ]);
     }
 
     /**
