@@ -29,7 +29,7 @@
             @endif
             <p>
                 {{ $comment_anime->userReview->comment_timestamp }} <a
-                    href="{{ route('user.show', ['user_id' => $comment_anime->userReview->user->id]) }}">{{ $comment_anime->userReview->user->name }}</a>
+                    href="{{ route('user.show', ['user_id' => $user->id]) }}">{{ $user->name }}</a>
             </p>
             <hr>
         @endforeach
