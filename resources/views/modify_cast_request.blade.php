@@ -25,7 +25,7 @@
         <form action="{{ route('modify_cast_request.post', ['cast_id' => $cast->id]) }}" class="modify_cast_request_form"
             method="POST">
             @csrf
-            <input type="submit" value="登録">
+            <input type="submit" value="送信">
             <table class="modify_cast_request_table">
                 <tbody>
                     <tr>

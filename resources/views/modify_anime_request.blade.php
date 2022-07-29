@@ -25,7 +25,7 @@
         <form action="{{ route('modify_anime_request.post', ['anime_id' => $anime->id]) }}"
             class="modify_anime_request_form" method="POST">
             @csrf
-            <input type="submit" value="登録">
+            <input type="submit" value="送信">
             <table class="modify_anime_request_table">
                 <tbody>
                     <tr>

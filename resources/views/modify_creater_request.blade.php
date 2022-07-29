@@ -25,7 +25,7 @@
         <form action="{{ route('modify_creater_request.post', ['creater_id' => $creater->id]) }}" class="modify_creater_request_form"
             method="POST">
             @csrf
-            <input type="submit" value="登録">
+            <input type="submit" value="送信">
             <table class="modify_creater_request_table">
                 <tbody>
                     <tr>
