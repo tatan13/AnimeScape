@@ -453,19 +453,19 @@
                             </tr>
                             <tr>
                                 <th>生年月日</th>
-                                <td>{{ $modify_cast_request->birth }}</td>
+                                <td>{{ $modify_cast_request->cast->birth }}</td>
                                 <td><input type="text" name="birth" value="{{ $modify_cast_request->birth }}">
                                 </td>
                             </tr>
                             <tr>
                                 <th>出身地</th>
-                                <td>{{ $modify_cast_request->birthplace }}</td>
+                                <td>{{ $modify_cast_request->cast->birthplace }}</td>
                                 <td><input type="text" name="birthplace" value="{{ $modify_cast_request->birthplace }}">
                                 </td>
                             </tr>
                             <tr>
                                 <th>血液型</th>
-                                <td>{{ $modify_cast_request->blood_type }}</td>
+                                <td>{{ $modify_cast_request->cast->blood_type }}</td>
                                 <td>
                                     <select name="blood_type">
                                         <option value=""
@@ -509,7 +509,7 @@
                             </tr>
                             <tr>
                                 <th>公式ブログURL</th>
-                                <td>{{ $modify_cast_request->blog_url }}</td>
+                                <td>{{ $modify_cast_request->cast->blog_url }}</td>
                                 <td><input type="text" name="blog_url" value="{{ $modify_cast_request->blog_url }}">
                                 </td>
                             </tr>
