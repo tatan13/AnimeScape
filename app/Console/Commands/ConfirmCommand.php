@@ -40,7 +40,7 @@ class ConfirmCommand extends Command
      */
     public function handle()
     {
-        $posts = file_get_contents("data/2022_3_mix_anime_list.json");
+        $posts = file_get_contents("data/2022_4_mix_anime_list.json");
         $posts = mb_convert_encoding($posts, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
         $posts = json_decode($posts);
 
