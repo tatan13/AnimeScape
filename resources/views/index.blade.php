@@ -14,8 +14,7 @@
         <h2>トップページ</h2>
         <section class="information">
             <h3>お知らせ</h3>
-            2022年夏アニメの追加が完了しました。<br>
-            感想リストページを追加しました。<br>
+            2022年秋アニメの追加が完了しました。<br>
             現在はアニメ作品のジャンル、傾向等を表せるタグ機能の実装を進めています。
         </section>
         <section class="recommend_anime_list">

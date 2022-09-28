@@ -72,9 +72,11 @@ class CoorAnimeSeeder extends Seeder
             }
         }
         Anime::upsert($upsert_anime_list, ['id']);
+        unset($upsert_anime_list);
 
         $upsert_cast_list = array_unique($upsert_cast_list, SORT_REGULAR);
         Cast::upsert($upsert_cast_list, ['id']);
+        unset($upsert_cast_list);
 
         $anime_all = Anime::with(['companies', 'actCasts'])->get();
         $cast_all = Cast::all();
@@ -89,6 +91,8 @@ class CoorAnimeSeeder extends Seeder
             ];
         }
         AddAnime::upsert($upsert_add_anime_list, ['id']);
+        unset($upsert_add_anime_list);
+        unset($add_anime_list);
 
         $add_cast_list = array_unique($add_cast_list, SORT_REGULAR);
         foreach ($add_cast_list as $add_cast) {
@@ -100,6 +104,8 @@ class CoorAnimeSeeder extends Seeder
             ];
         }
         AddCast::upsert($upsert_add_cast_list, ['id']);
+        unset($upsert_add_cast_list);
+        unset($add_cast_list);
 
         foreach ($posts as $post) {
             if (!empty($post->casts)) {
