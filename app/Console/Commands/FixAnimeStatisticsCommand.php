@@ -46,8 +46,8 @@ class FixAnimeStatisticsCommand extends Command
             $anime->number_of_interesting_episode = $user_reviews->median('number_of_interesting_episode');
             $anime->median = $user_reviews->median('score');
             $anime->average = $user_reviews->avg('score');
-            $anime->max = $user_reviews->max('score');
-            $anime->min = $user_reviews->min('score');
+            $anime->max = $user_reviews->max('score'); // @phpstan-ignore-line
+            $anime->min = $user_reviews->min('score'); // @phpstan-ignore-line
             $anime->count = $user_reviews->whereNotNull('score')->count();
             $anime->save();
         }
