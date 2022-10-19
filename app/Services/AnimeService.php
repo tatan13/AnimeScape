@@ -273,6 +273,17 @@ class AnimeService
     }
 
     /**
+     * アニメに紐づくユーザーレビューを取得
+     *
+     * @param int $anime_id
+     * @return Anime
+     */
+    public function getAnimeWithUserReviewsWithUserNotNullScoreLatest($anime_id)
+    {
+        return $this->animeRepository->getAnimeWithUserReviewsWithUserNotNullScoreLatest($anime_id);
+    }
+
+    /**
      * 全てのアニメリストを取得
      *
      * @return string

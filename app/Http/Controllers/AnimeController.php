@@ -98,9 +98,23 @@ class AnimeController extends Controller
     }
 
     /**
+     * アニメの得点リストを表示
+     *
+     * @param int $anime_id
+     * @return \Illuminate\View\View
+     */
+    public function showAnimeScoreList($anime_id)
+    {
+        $anime = $this->animeService->getAnimeWithUserReviewsWithUserNotNullScoreLatest($anime_id);
+        return view('anime_score_list', [
+            'anime' => $anime,
+        ]);
+    }
+
+    /**
      * 全てのアニメを取得し、json形式で出力
      *
-     * @return \Illuminate\Http\Response.
+     * @return \Illuminate\Http\Response
      */
     public function showAllAnimeList()
     {

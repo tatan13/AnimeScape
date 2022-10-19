@@ -562,4 +562,23 @@ class AnimeTest extends TestCase
         $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
         $response->assertSee('このアニメを削除する');
     }
+
+    /**
+     * アニメの得点を付けたユーザーリストの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAnimeScoreListView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('anime_score_list.show', ['anime_id' => $this->anime->id]));
+
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            '得点を付けたユーザーリスト',
+            $this->user1->name,
+            $this->user3->name,
+        ]);
+    }
 }

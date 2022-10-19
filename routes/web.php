@@ -20,6 +20,8 @@ Route::get('/', [App\Http\Controllers\IndexController::class, 'show'])->name('in
 
 Route::get('/anime/{anime_id}', [App\Http\Controllers\AnimeController::class, 'show'])->name('anime.show');
 
+Route::get('/anime/{anime_id}/score_list', [App\Http\Controllers\AnimeController::class, 'showAnimeScoreList'])->name('anime_score_list.show');
+
 Route::get('/user_anime_comment/{user_review_id}', [App\Http\Controllers\UserController::class, 'showUserAnimeComment'])->name('user_anime_comment.show');
 
 Route::get('/anime/{anime_id}/delete_request', [App\Http\Controllers\ModifyController::class, 'showDeleteAnimeRequest'])->name('delete_anime_request.show');
