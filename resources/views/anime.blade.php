@@ -102,8 +102,10 @@
                                     <td>{{ $anime->average }}</td>
                                 </tr>
                                 <tr>
-                                    <th>データ数</th>
-                                    <td>{{ $anime->count }}</td>
+                                    <th>得点数</th>
+                                    <td><a
+                                            href="{{ route('anime_score_list.show', ['anime_id' => $anime->id]) }}">{{ $anime->count }}</a>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>最高点</th>

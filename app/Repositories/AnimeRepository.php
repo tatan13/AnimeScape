@@ -29,6 +29,19 @@ class AnimeRepository extends AbstractRepository
     }
 
     /**
+     * アニメに紐づくユーザーレビューを取得
+     *
+     * @param int $anime_id
+     * @return Anime
+     */
+    public function getAnimeWithUserReviewsWithUserNotNullScoreLatest($anime_id)
+    {
+        return Anime::with(['userReviews' => function ($query) {
+            $query->with('user')->whereNotNull('score')->latest();
+        }])->findOrFail($anime_id);
+    }
+
+    /**
      * anime_idからアニメを制作会社とともに取得
      *
      * @param int $anime_id

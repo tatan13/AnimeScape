@@ -291,7 +291,7 @@ class AnimeTest extends TestCase
             'id' => $this->anime->id,
             'median' => 35,
             'average' => 45,
-            'count' => 4,
+            'count' => 3,
             'max' => 100,
             'min' => 0,
             'number_of_interesting_episode' => 14.5,
@@ -488,7 +488,7 @@ class AnimeTest extends TestCase
             'id' => $this->anime->id,
             'median' => 70,
             'average' => 70,
-            'count' => 3,
+            'count' => 2,
             'max' => 100,
             'min' => 40,
         ]);
@@ -504,7 +504,7 @@ class AnimeTest extends TestCase
             'id' => $this->anime3->id,
             'median' => null,
             'average' => null,
-            'count' => 1,
+            'count' => 0,
             'max' => null,
             'min' => null,
         ]);
@@ -561,5 +561,24 @@ class AnimeTest extends TestCase
         $this->actingAs($this->user1);
         $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
         $response->assertSee('このアニメを削除する');
+    }
+
+    /**
+     * アニメの得点を付けたユーザーリストの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAnimeScoreListView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('anime_score_list.show', ['anime_id' => $this->anime->id]));
+
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            '得点を付けたユーザーリスト',
+            $this->user1->name,
+            $this->user3->name,
+        ]);
     }
 }
