@@ -103,7 +103,9 @@
                                 </tr>
                                 <tr>
                                     <th>得点数</th>
-                                    <td>{{ $anime->count }}</td>
+                                    <td><a
+                                            href="{{ route('anime_score_list.show', ['anime_id' => $anime->id]) }}">{{ $anime->count }}</a>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>最高点</th>
