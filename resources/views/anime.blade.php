@@ -102,7 +102,7 @@
                                     <td>{{ $anime->average }}</td>
                                 </tr>
                                 <tr>
-                                    <th>データ数</th>
+                                    <th>得点数</th>
                                     <td>{{ $anime->count }}</td>
                                 </tr>
                                 <tr>

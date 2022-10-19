@@ -180,7 +180,7 @@ class UserReviewService
         $anime->average = $user_reviews->avg('score');
         $anime->max = $user_reviews->max('score');
         $anime->min = $user_reviews->min('score');
-        $anime->count = $user_reviews->count();
+        $anime->count = $user_reviews->whereNotNull('score')->count();
         $this->animeRepository->update($anime);
     }
 
