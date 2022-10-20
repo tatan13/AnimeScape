@@ -61,6 +61,7 @@
                     <th>@sortablelink('number_of_episode', '話数')</th>
                     <th>@sortablelink('median', '中央値')</th>
                     <th>@sortablelink('average', '平均値')</th>
+                    <th>@sortablelink('stdev', '標準偏差')</th>
                     <th>@sortablelink('count', 'データ数')</th>
                     @auth
                         <th>つけた得点</th>
@@ -81,6 +82,7 @@
                         <td>{{ $anime->number_of_episode }}</td>
                         <td>{{ $anime->median }}</td>
                         <td>{{ $anime->average }}</td>
+                        <td>{{ $anime->stdev }}</td>
                         <td>{{ $anime->count }}</td>
                         @auth
                             <td>{{ $anime->userReview->score ?? '' }}</td>

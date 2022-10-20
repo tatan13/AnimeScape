@@ -75,7 +75,7 @@ class Anime extends Model
         'disney_plus_id',
     ];
 
-    protected $sortable = ['title', 'number_of_episode', 'median', 'average', 'count'];
+    protected $sortable = ['title', 'number_of_episode', 'median', 'average', 'stdev', 'count'];
 
     /**
      * 年、クールでマルチソート

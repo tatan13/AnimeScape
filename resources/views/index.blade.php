@@ -14,10 +14,13 @@
         <h2>トップページ</h2>
         <section class="information">
             <h3>お知らせ</h3>
-            2022年秋アニメの追加が完了しました。<br>
-            アニメの統計情報"データ数"を"得点数"に変更しました。<br>
-            アニメに得点を付けたユーザーリストページを追加しました。アニメページの得点数リンクから飛べます。<br>
-            現在はアニメ作品のジャンル、傾向等を表せるタグ機能の実装を進めています。
+            <ul class="list-inline">
+                <li>2022年秋アニメの追加が完了しました。</li>
+                <li>アニメの統計情報"データ数"を"得点数"に変更しました。</li>
+                <li>アニメに得点を付けたユーザーリストページを追加しました。アニメページの得点数リンクから飛べます。</li>
+                <li>アニメの統計情報に標準偏差を追加しました。</li>
+                <li>現在はアニメ作品のジャンル、傾向等を表せるタグ機能の実装を進めています。</li>
+            </ul>
         </section>
         <section class="recommend_anime_list">
             @auth
@@ -32,6 +35,7 @@
                             <th>@sortablelink('number_of_episode', '話数')</th>
                             <th>@sortablelink('median', '中央値')</th>
                             <th>@sortablelink('average', '平均値')</th>
+                            <th>@sortablelink('stdev', '標準偏差')</th>
                             <th>@sortablelink('count', 'データ数')</th>
                         </tr>
                         @foreach ($recommend_anime_list as $anime)
@@ -49,6 +53,7 @@
                                 <td>{{ $anime->number_of_episode }}</td>
                                 <td>{{ $anime->median }}</td>
                                 <td>{{ $anime->average }}</td>
+                                <td>{{ $anime->stdev }}</td>
                                 <td>{{ $anime->count }}</td>
                             </tr>
                         @endforeach
@@ -67,6 +72,7 @@
                         <th>@sortablelink('number_of_episode', '話数')</th>
                         <th>@sortablelink('median', '中央値')</th>
                         <th>@sortablelink('average', '平均値')</th>
+                        <th>@sortablelink('stdev', '標準偏差')</th>
                         <th>@sortablelink('count', 'データ数')</th>
                         @auth
                             <th>つけた得点</th>
@@ -86,6 +92,7 @@
                             <td>{{ $anime->number_of_episode }}</td>
                             <td>{{ $anime->median }}</td>
                             <td>{{ $anime->average }}</td>
+                            <td>{{ $anime->stdev }}</td>
                             <td>{{ $anime->count }}</td>
                             @auth
                                 <td>{{ $anime->userReview->score ?? '' }}</td>

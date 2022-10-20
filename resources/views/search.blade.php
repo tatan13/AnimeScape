@@ -24,6 +24,7 @@
                                     <th>@sortablelink('unionYearCoor', '放送クール')</th>
                                     <th>@sortablelink('median', '中央値')</th>
                                     <th>@sortablelink('average', '平均値')</th>
+                                    <th>@sortablelink('average', '標準偏差')</th>
                                     <th>@sortablelink('count', 'データ数')</th>
                                     @auth
                                         <th>つけた得点</th>
@@ -42,6 +43,7 @@
                                         </td>
                                         <td>{{ $anime->year }}年{{ $anime->coor_label }}クール</td>
                                         <td>{{ $anime->median }}</td>
+                                        <td>{{ $anime->average }}</td>
                                         <td>{{ $anime->stdev }}</td>
                                         <td>{{ $anime->count }}</td>
                                         @auth

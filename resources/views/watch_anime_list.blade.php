@@ -23,6 +23,7 @@
                     <th>話数</th>
                     <th>中央値</th>
                     <th>平均値</th>
+                    <th>標準偏差</th>
                     <th>データ数</th>
                     <th>つけた得点</th>
                     <th>視聴登録日</th>
@@ -44,6 +45,7 @@
                         <td>{{ $watch_anime->number_of_episode }}</td>
                         <td>{{ $watch_anime->median }}</td>
                         <td>{{ $watch_anime->average }}</td>
+                        <td>{{ $watch_anime->stdev }}</td>
                         <td>{{ $watch_anime->count }}</td>
                         <td>{{ $watch_anime->userReview->score }}</td>
                         <td>{{ $watch_anime->userReview->watch_timestamp }}</td>
