@@ -66,12 +66,16 @@ class IndexTest extends TestCase
     {
         $anime1 = Anime::factory()->create([
             'median' => 100,
+            'average' => 100,
+            'stdev' => 35,
             'count' => 200,
             'year' => Anime::NOW_YEAR,
             'coor' => Anime::NOW_COOR
         ]);
         $anime2 = Anime::factory()->create([
             'median' => 0,
+            'average' => 0,
+            'stdev' => 34,
             'count' => 300,
             'year' => Anime::NOW_YEAR,
             'coor' => Anime::NOW_COOR
@@ -84,9 +88,13 @@ class IndexTest extends TestCase
             $anime1->title,
             $anime1->companies[0]->name,
             $anime1->median,
+            $anime1->average,
+            $anime1->stdev,
             $anime1->count,
             $anime2->title,
             $anime2->median,
+            $anime2->average,
+            $anime2->stdev,
             $anime2->count,
         ]);
     }

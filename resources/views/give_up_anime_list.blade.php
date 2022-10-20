@@ -23,6 +23,7 @@
                     <th>@sortablelink('number_of_episode', '話数')</th>
                     <th>@sortablelink('median', '中央値')</th>
                     <th>@sortablelink('average', '平均値')</th>
+                    <th>@sortablelink('stdev', '標準偏差')</th>
                     <th>@sortablelink('count', 'データ数')</th>
                 </tr>
                 @foreach ($give_up_anime_list as $give_up_anime)
@@ -42,6 +43,7 @@
                         <td>{{ $give_up_anime->number_of_episode }}</td>
                         <td>{{ $give_up_anime->median }}</td>
                         <td>{{ $give_up_anime->average }}</td>
+                        <td>{{ $give_up_anime->stdev }}</td>
                         <td>{{ $give_up_anime->count }}</td>
                     </tr>
                 @endforeach

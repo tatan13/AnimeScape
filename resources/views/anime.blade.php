@@ -108,6 +108,10 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <th>標準偏差</th>
+                                    <td>{{ $anime->stdev }}</td>
+                                </tr>
+                                <tr>
                                     <th>最高点</th>
                                     <td>{{ $anime->max }}</td>
                                 </tr>

@@ -49,7 +49,60 @@ class FixAnimeStatisticsCommand extends Command
             $anime->max = $user_reviews->max('score'); // @phpstan-ignore-line
             $anime->min = $user_reviews->min('score'); // @phpstan-ignore-line
             $anime->count = $user_reviews->whereNotNull('score')->count();
+            $anime->stdev = self::standardDeviation($user_reviews->whereNotNull('score')->pluck('score')->toArray());
             $anime->save();
         }
+    }
+
+    /**
+     * 平均を求める
+     *
+     * @return float | null
+     */
+    public static function average(array $values)
+    {
+        $count = count($values);
+
+        if ($count == 0) {
+            return null;
+        }
+        return (float) (array_sum($values) / count($values));
+    }
+
+    /**
+     * 分散を求める
+     *
+     * @return float | null
+     */
+    public static function variance(array $values)
+    {
+        $count = count($values);
+
+        if ($count == 0) {
+            return null;
+        }
+
+        // 平均値を求める
+        $ave = self::average($values);
+
+        $variance = 0.0;
+        foreach ($values as $val) {
+            $variance += pow($val - $ave, 2);
+        }
+        return (float) ($variance / count($values));
+    }
+
+    /**
+     * 標準偏差を求める
+     *
+     * @return float | null
+     */
+    public static function standardDeviation(array $values)
+    {
+        $variance = self::variance($values);
+        if (is_null($variance)) {
+            return null;
+        }
+        return (float) sqrt($variance);
     }
 }

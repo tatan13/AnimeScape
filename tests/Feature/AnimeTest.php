@@ -37,6 +37,7 @@ class AnimeTest extends TestCase
             'median' => 70,
             'average' => 76,
             'count' => 256,
+            'stdev' => 31,
             'max' => 100,
             'min' => 0,
         ]);
@@ -124,6 +125,7 @@ class AnimeTest extends TestCase
             $this->anime->median,
             $this->anime->average,
             $this->anime->count,
+            $this->anime->stdev,
             $this->anime->max,
             $this->anime->min,
             $this->anime->number_of_interesting_episode,
@@ -266,7 +268,7 @@ class AnimeTest extends TestCase
     {
         $this->actingAs($this->user4);
         $response = $this->post(route('anime_review.post', ['anime_id' => $this->anime->id]), [
-            'score' => '35',
+            'score' => 35,
             'one_word_comment' => 'exellent',
             'watch' => true,
             'will_watch' => 1,
@@ -292,6 +294,7 @@ class AnimeTest extends TestCase
             'median' => 35,
             'average' => 45,
             'count' => 3,
+            'stdev' => 41.43267631552,
             'max' => 100,
             'min' => 0,
             'number_of_interesting_episode' => 14.5,

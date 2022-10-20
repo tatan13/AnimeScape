@@ -23,6 +23,7 @@
                     <th>話数</th>
                     <th>中央値</th>
                     <th>平均値</th>
+                    <th>標準偏差</th>
                     <th>データ数</th>
                     <th>つけた得点</th>
                     <th>視聴済み</th>
@@ -45,6 +46,7 @@
                         <td>{{ $score_anime->number_of_episode }}</td>
                         <td>{{ $score_anime->median }}</td>
                         <td>{{ $score_anime->average }}</td>
+                        <td>{{ $score_anime->stdev }}</td>
                         <td>{{ $score_anime->count }}</td>
                         <td>{{ $score_anime->userReview->score }}</td>
                         <td>{{ $score_anime->userReview->watch == 1 ? '済' : '' }}</td>
