@@ -247,6 +247,31 @@ class AnimeService
         return $this->animeRepository->getLatestGiveUpAnimeListWithCompaniesOf($user);
     }
 
+
+    /**
+     * ユーザーの視聴完了前一言感想をつけたアニメリストを降順のユーザーレビューとともに取得
+     *
+     * @param User $user
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getLatestBeforeCommentAnimeListWithUserReviewOf(User $user)
+    {
+        return $this->animeRepository->getBeforeCommentAnimeListWithUserReviewOf($user)
+        ->sortByDesc('userReview.created_at');
+    }
+
+    /**
+     * ユーザーの視聴完了前点数をつけたアニメリストを制作会社と降順のユーザーレビューとともに取得
+     *
+     * @param User $user
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getBeforeScoreAnimeListWithCompaniesWithUserReviewLatestOf(User $user)
+    {
+        return $this->animeRepository->getBeforeScoreAnimeListWithCompaniesWithUserReviewOf($user)
+        ->sortByDesc('userReview.created_at');
+    }
+
     /**
      * アニメリストをアニメ出演声優変更申請リストと共に取得
      *
@@ -273,7 +298,7 @@ class AnimeService
     }
 
     /**
-     * アニメに紐づくユーザーレビューを取得
+     * アニメに紐づく得点の付いたユーザーレビューを取得
      *
      * @param int $anime_id
      * @return Anime
@@ -281,6 +306,17 @@ class AnimeService
     public function getAnimeWithUserReviewsWithUserNotNullScoreLatest($anime_id)
     {
         return $this->animeRepository->getAnimeWithUserReviewsWithUserNotNullScoreLatest($anime_id);
+    }
+
+    /**
+     * アニメに紐づく視聴完了前得点の付いたユーザーレビューを取得
+     *
+     * @param int $anime_id
+     * @return Anime
+     */
+    public function getAnimeWithUserReviewsWithUserNotNullBeforeScoreLatest($anime_id)
+    {
+        return $this->animeRepository->getAnimeWithUserReviewsWithUserNotNullBeforeScoreLatest($anime_id);
     }
 
     /**

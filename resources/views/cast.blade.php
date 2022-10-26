@@ -77,7 +77,7 @@
                             <th>制作会社</th>
                             <th>放送クール</th>
                             <th>中央値</th>
-                            <th>データ数</th>
+                            <th>得点数</th>
                             @auth
                                 <th>つけた得点</th>
                             @endauth

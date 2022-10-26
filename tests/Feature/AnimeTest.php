@@ -40,6 +40,10 @@ class AnimeTest extends TestCase
             'stdev' => 31,
             'max' => 100,
             'min' => 0,
+            'before_median' => 70,
+            'before_average' => 76,
+            'before_count' => 256,
+            'before_stdev' => 31,
         ]);
         $this->anime1 = Anime::factory()->create();
         $this->anime2 = Anime::factory()->create();
@@ -62,11 +66,13 @@ class AnimeTest extends TestCase
         $this->anime->reviewUsers()->attach($this->user1->id, [
             'score' => 0,
             'watch' => true,
+            'before_score' => 0,
         ]);
         $this->anime->reviewUsers()->attach($this->user2->id, [
             'one_word_comment' => 'excellent',
             'will_watch' => 1,
             'spoiler' => true,
+            'before_comment' => 'excellent',
         ]);
         $this->anime->reviewUsers()->attach($this->user3->id, [
             'score' => 100,
@@ -78,6 +84,8 @@ class AnimeTest extends TestCase
             'now_watch' => true,
             'give_up' => true,
             'number_of_interesting_episode' => 15,
+            'before_score' => 100,
+            'before_comment' => 'not sad',
         ]);
         $this->anime3->reviewUsers()->attach($this->user1->id, [
             'score' => 100,
@@ -87,6 +95,8 @@ class AnimeTest extends TestCase
             'watch' => true,
             'spoiler' => true,
             'number_of_interesting_episode' => 12,
+            'before_score' => 100,
+            'before_comment' => 'not sad',
         ]);
     }
 
@@ -150,7 +160,7 @@ class AnimeTest extends TestCase
      * @test
      * @return void
      */
-    public function testAnimeReviewsView()
+    public function testAnimeCommentView()
     {
         $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
         $response->assertSeeInOrder([
@@ -160,6 +170,45 @@ class AnimeTest extends TestCase
             'not sad',
             '長文感想',
             'ネタバレ注意',
+            $this->user3->name,
+        ]);
+        // コメントしていないユーザーのレビュー情報の非表示を確認
+        $response->assertDontSee($this->user1->name);
+    }
+
+    /**
+     * アニメページの視聴完了前統計情報の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAnimeBeforeStatisticsView()
+    {
+        $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
+        $response->assertSeeInOrder([
+            '視聴完了前統計情報',
+            $this->anime->before_median,
+            $this->anime->before_average,
+            $this->anime->before_count,
+            $this->anime->before_stdev,
+        ]);
+    }
+
+    /**
+     * アニメページの視聴完了前コメントの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAnimeBeforeCommentView()
+    {
+        $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
+        $response->assertSeeInOrder([
+            '視聴完了前コメント（新着順）',
+            'excellent',
+            $this->user2->name,
+            '100点',
+            'not sad',
             $this->user3->name,
         ]);
         // コメントしていないユーザーのレビュー情報の非表示を確認
@@ -276,6 +325,8 @@ class AnimeTest extends TestCase
             'give_up' => true,
             'spoiler' => true,
             'number_of_interesting_episode' => 14,
+            'before_score' => 35,
+            'before_comment' => 'exellent',
         ]);
         $this->assertDatabaseHas('user_reviews', [
             'anime_id' => $this->anime->id,
@@ -288,6 +339,8 @@ class AnimeTest extends TestCase
             'give_up' => true,
             'spoiler' => true,
             'number_of_interesting_episode' => 14,
+            'before_score' => 35,
+            'before_comment' => 'exellent',
         ]);
         $this->assertDatabaseHas('animes', [
             'id' => $this->anime->id,
@@ -298,6 +351,10 @@ class AnimeTest extends TestCase
             'max' => 100,
             'min' => 0,
             'number_of_interesting_episode' => 14.5,
+            'before_median' => 35,
+            'before_average' => 45,
+            'before_count' => 3,
+            'before_stdev' => 41.43267631552,
         ]);
         $response->assertRedirect(route('anime.show', ['anime_id' => $this->anime->id]));
         $this->get(route('anime.show', ['anime_id' => $this->anime->id]))->assertSee('入力が完了しました。');
@@ -322,6 +379,8 @@ class AnimeTest extends TestCase
             'give_up' => false,
             'spoiler' => false,
             'number_of_interesting_episode' => '',
+            'before_score' => '',
+            'before_comment' => '',
         ]);
         $this->assertDatabaseHas('user_reviews', [
             'anime_id' => $this->anime->id,
@@ -335,6 +394,8 @@ class AnimeTest extends TestCase
             'give_up' => false,
             'spoiler' => false,
             'number_of_interesting_episode' => null,
+            'before_score' => null,
+            'before_comment' => null,
         ]);
     }
 
@@ -353,6 +414,8 @@ class AnimeTest extends TestCase
             'watch' => false,
             'will_watch' => 0,
             'spoiler' => false,
+            'before_score' => '',
+            'before_comment' => '',
         ]);
         $response->assertStatus(404);
     }
@@ -580,6 +643,25 @@ class AnimeTest extends TestCase
         $response->assertStatus(200);
         $response->assertSeeInOrder([
             '得点を付けたユーザーリスト',
+            $this->user1->name,
+            $this->user3->name,
+        ]);
+    }
+
+    /**
+     * アニメの視聴完了前得点を付けたユーザーリストの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAnimeBeforeScoreListView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('anime_before_score_list.show', ['anime_id' => $this->anime->id]));
+
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            '視聴完了前得点を付けたユーザーリスト',
             $this->user1->name,
             $this->user3->name,
         ]);

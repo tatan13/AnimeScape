@@ -124,23 +124,23 @@
                                 <td>
                                     <select name="media_category">
                                         <option value="0"
-                                            {{ $modify_anime_request->anime->media_category == 0 ? 'selected' : '' }}>
+                                            {{ $modify_anime_request->media_category == 0 ? 'selected' : '' }}>
                                             -
                                         </option>
                                         <option value="1"
-                                            {{ $modify_anime_request->anime->media_category == 1 ? 'selected' : '' }}>
+                                            {{ $modify_anime_request->media_category == 1 ? 'selected' : '' }}>
                                             TVアニメ
                                         </option>
                                         <option value="2"
-                                            {{ $modify_anime_request->anime->media_category == 2 ? 'selected' : '' }}>
+                                            {{ $modify_anime_request->media_category == 2 ? 'selected' : '' }}>
                                             アニメ映画
                                         </option>
                                         <option value="3"
-                                            {{ $modify_anime_request->anime->media_category == 3 ? 'selected' : '' }}>
+                                            {{ $modify_anime_request->media_category == 3 ? 'selected' : '' }}>
                                             OVAアニメ
                                         </option>
                                         <option value="4"
-                                            {{ $modify_anime_request->anime->media_category == 4 ? 'selected' : '' }}>
+                                            {{ $modify_anime_request->media_category == 4 ? 'selected' : '' }}>
                                             配信
                                         </option>
                                     </select>

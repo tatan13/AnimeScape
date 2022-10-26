@@ -78,36 +78,44 @@ class UserTest extends TestCase
             'long_word_comment' => 'long_word_comment_exellent',
             'watch' => true,
             'now_watch' => true,
-            'give_up' => true
+            'give_up' => true,
+            'before_score' => 100,
+            'before_comment' => 'excellent',
         ]);
         $this->anime2->reviewUsers()->attach($this->user1->id, [
             'score' => 99,
             'one_word_comment' => 'not sad',
             'watch' => true,
             'now_watch' => true,
-            'give_up' => true
+            'give_up' => true,
+            'before_score' => 99,
+            'before_comment' => 'not sad',
         ]);
         $this->anime3->reviewUsers()->attach($this->user1->id, [
             'score' => 95,
-            'watch' => true
+            'watch' => true,
+            'before_score' => 95,
         ]);
         $this->anime4->reviewUsers()->attach($this->user1->id, [
             'score' => 5,
-            'watch' => true
+            'watch' => true,
+            'before_score' => 5,
         ]);
         $this->anime5->reviewUsers()->attach($this->user1->id, [
             'score' => 0,
-            'will_watch' => true
+            'will_watch' => true,
+            'before_score' => 0,
         ]);
         $this->anime6->reviewUsers()->attach($this->user1->id, [
-            'will_watch' => true
+            'will_watch' => true,
         ]);
 
         $this->anime6->reviewUsers()->attach($this->user2->id, [
             'score' => 50,
             'one_word_comment' => 'false',
             'will_watch' => true,
-            'watch' => true
+            'watch' => true,
+            'before_score' => 50,
         ]);
 
         $this->user1->likeCasts()->attach($this->cast1->id);
@@ -303,6 +311,10 @@ class UserTest extends TestCase
             2,
             '視聴リタイア数',
             2,
+            '視聴完了前得点入力数',
+            5,
+            '視聴完了前一言感想入力数',
+            2,
             'お気に入りユーザー数',
             3,
             'お気に入り声優数',
@@ -468,9 +480,26 @@ class UserTest extends TestCase
         $response = $this->get(route('user_comment_anime_list.show', ['user_id' => $this->user1->id]));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
+            100,
             $this->anime1->title,
+            'excellent',
+            '長文感想',
+            99,
             $this->anime2->title,
+            'not sad',
         ]);
+    }
+
+    /**
+     * ユーザーの感想を付けたアニメリストの表示の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistUserCommentAnimeListView()
+    {
+        $response = $this->get(route('user_comment_anime_list.show', ['user_id' => 33333333333333333]));
+        $response->assertStatus(404);
     }
 
     /**
@@ -612,6 +641,66 @@ class UserTest extends TestCase
     public function testNotExistUserGiveUpAnimeListView()
     {
         $response = $this->get(route('user_give_up_anime_list.show', ['user_id' => 3333333333333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ユーザーの視聴完了前得点を付けたアニメリストの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1BeforeScoreAnimeListView()
+    {
+        $response = $this->get(route('user_before_score_anime_list.show', ['user_id' => $this->user1->id]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->anime1->title,
+            $this->anime2->title,
+        ]);
+    }
+
+    /**
+     * ユーザーの視聴完了前得点を付けたアニメリストの表示の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistUserBeforeScoreAnimeListView()
+    {
+        $response = $this->get(route('user_before_score_anime_list.show', ['user_id' => 33333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ユーザーの視聴完了前感想を付けたアニメリストの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1BeforeCommentAnimeListView()
+    {
+        $response = $this->get(route('user_before_comment_anime_list.show', ['user_id' => $this->user1->id]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            100,
+            $this->anime1->title,
+            'excellent',
+            99,
+            $this->anime2->title,
+            'not sad',
+        ]);
+    }
+
+    /**
+     * ユーザーの視聴完了前感想を付けたアニメリストの表示の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistUserBeforeCommentAnimeListView()
+    {
+        $response = $this->get(route('user_before_comment_anime_list.show', ['user_id' => 33333333333333333]));
         $response->assertStatus(404);
     }
 

@@ -18,13 +18,13 @@
             @csrf
             <input type="hidden" name="year" class="year" value="{{ $year }}">
             <input type="hidden" name="coor" class="coor" value="{{ $coor }}">
-            データ数が
+            得点数が
             <input type="number" name="count" class="count" value="{{ $count ?? 0 }}" style="width:60px;">
             以上のアニメで
             <select name="category" class="category">
                 <option value="median" {{ $category == 'median' ? 'selected' : '' }}>中央値</option>
                 <option value="average" {{ $category == 'average' ? 'selected' : '' }}>平均値</option>
-                <option value="count" {{ $category == 'count' ? 'selected' : '' }}>データ数</option>
+                <option value="count" {{ $category == 'count' ? 'selected' : '' }}>得点数</option>
             </select>
             順に<input type="submit" value="絞り込む">
         </form>
@@ -57,12 +57,13 @@
                     <th>順位</th>
                     <th>アニメ名</th>
                     <th>制作会社</th>
+                    <th>放送カテゴリー</th>
                     <th>@sortablelink('unionYearCoor', '放送クール')</th>
                     <th>@sortablelink('number_of_episode', '話数')</th>
                     <th>@sortablelink('median', '中央値')</th>
                     <th>@sortablelink('average', '平均値')</th>
                     <th>@sortablelink('stdev', '標準偏差')</th>
-                    <th>@sortablelink('count', 'データ数')</th>
+                    <th>@sortablelink('count', '得点数')</th>
                     @auth
                         <th>つけた得点</th>
                     @endauth
@@ -78,6 +79,7 @@
                                     href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
                             @endforeach
                         </td>
+                        <td>{{ $anime->media_category_label }}</td>
                         <td>{{ $anime->year }}年{{ $anime->coor_label }}クール</td>
                         <td>{{ $anime->number_of_episode }}</td>
                         <td>{{ $anime->median }}</td>

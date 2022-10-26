@@ -90,6 +90,20 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <th>視聴完了前得点入力数</th>
+                                        <td>
+                                            <a
+                                                href="{{ route('user_before_score_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->before_score_count }}</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>視聴完了前一言感想入力数</th>
+                                        <td>
+                                            <a
+                                                href="{{ route('user_before_comment_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->before_comments_count }}</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <th>お気に入りユーザー数</th>
                                         <td><a
                                                 href="{{ route('user_like_user_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->userLikeUsers->count() }}</a>

@@ -120,7 +120,7 @@ class StatisticsTest extends TestCase
     }
 
     /**
-     * すべてのアニメのデータ数順ランキングページのテスト
+     * すべてのアニメの得点数順ランキングページのテスト
      *
      * @test
      * @return void

@@ -65,18 +65,18 @@ class IndexTest extends TestCase
     public function testIndexAnimeView()
     {
         $anime1 = Anime::factory()->create([
-            'median' => 100,
-            'average' => 100,
-            'stdev' => 35,
-            'count' => 200,
+            'before_median' => 100,
+            'before_average' => 100,
+            'before_stdev' => 35,
+            'before_count' => 200,
             'year' => Anime::NOW_YEAR,
             'coor' => Anime::NOW_COOR
         ]);
         $anime2 = Anime::factory()->create([
-            'median' => 0,
-            'average' => 0,
-            'stdev' => 34,
-            'count' => 300,
+            'before_median' => 0,
+            'before_average' => 0,
+            'before_stdev' => 34,
+            'before_count' => 300,
             'year' => Anime::NOW_YEAR,
             'coor' => Anime::NOW_COOR
         ]);
@@ -87,15 +87,15 @@ class IndexTest extends TestCase
         $response->assertSeeInOrder([
             $anime1->title,
             $anime1->companies[0]->name,
-            $anime1->median,
-            $anime1->average,
-            $anime1->stdev,
-            $anime1->count,
+            $anime1->before_median,
+            $anime1->before_average,
+            $anime1->before_stdev,
+            $anime1->before_count,
             $anime2->title,
-            $anime2->median,
-            $anime2->average,
-            $anime2->stdev,
-            $anime2->count,
+            $anime2->before_median,
+            $anime2->before_average,
+            $anime2->before_stdev,
+            $anime2->before_count,
         ]);
     }
 
