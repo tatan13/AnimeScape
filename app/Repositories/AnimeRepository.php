@@ -29,7 +29,7 @@ class AnimeRepository extends AbstractRepository
     }
 
     /**
-     * アニメに紐づくユーザーレビューを取得
+     * アニメに紐づく得点の付いたユーザーレビューを取得
      *
      * @param int $anime_id
      * @return Anime
@@ -38,6 +38,19 @@ class AnimeRepository extends AbstractRepository
     {
         return Anime::with(['userReviews' => function ($query) {
             $query->with('user')->whereNotNull('score')->latest();
+        }])->findOrFail($anime_id);
+    }
+
+    /**
+     * アニメに紐づく視聴完了前得点の付いたユーザーレビューを取得
+     *
+     * @param int $anime_id
+     * @return Anime
+     */
+    public function getAnimeWithUserReviewsWithUserNotNullBeforeScoreLatest($anime_id)
+    {
+        return Anime::with(['userReviews' => function ($query) {
+            $query->with('user')->whereNotNull('before_score')->latest();
         }])->findOrFail($anime_id);
     }
 
@@ -110,7 +123,7 @@ class AnimeRepository extends AbstractRepository
     public function getNowCoorAnimeListWithCompaniesAndWithMyReviews()
     {
         return Anime::whereYear(Anime::NOW_YEAR)->whereCoor(Anime::NOW_COOR)
-        ->withCompanies()->withMyReviews()->sortable()->latest(Anime::TYPE_MEDIAN)->get();
+        ->withCompanies()->withMyReviews()->sortable()->latest('before_median')->get();
     }
 
     /**
@@ -218,6 +231,37 @@ class AnimeRepository extends AbstractRepository
         return Anime::whereHas('userReview', function ($query) use ($user) {
             $query->where('user_id', $user->id)->where('give_up', 1);
         })->sortable()->latestYearCoorMedian()->withCompanies()->get();
+    }
+
+
+    /**
+     * ユーザーの視聴完了前感想をつけたアニメリストをユーザーレビューとともに取得
+     *
+     * @param User $user
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getBeforeCommentAnimeListWithUserReviewOf(User $user)
+    {
+        return Anime::whereHas('userReview', function ($query) use ($user) {
+            $query->where('user_id', $user->id)->whereNotNull('before_comment');
+        })->with('userReview', function ($query) use ($user) {
+            $query->where('user_id', $user->id)->whereNotNull('before_comment');
+        })->get();
+    }
+
+    /**
+     * ユーザーの得点の付いたアニメリストをユーザーレビューと制作会社とともに取得
+     *
+     * @param User $user
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getBeforeScoreAnimeListWithCompaniesWithUserReviewOf(User $user)
+    {
+        return Anime::whereHas('userReview', function ($query) use ($user) {
+            $query->where('user_id', $user->id)->whereNotNull('before_score');
+        })->with('userReview', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->withCompanies()->get();
     }
 
     /**

@@ -24,7 +24,7 @@
                     <th>@sortablelink('median', '中央値')</th>
                     <th>@sortablelink('average', '平均値')</th>
                     <th>@sortablelink('stdev', '標準偏差')</th>
-                    <th>@sortablelink('count', 'データ数')</th>
+                    <th>@sortablelink('count', '得点数')</th>
                 </tr>
                 @foreach ($now_watch_anime_list as $now_watch_anime)
                     <tr>

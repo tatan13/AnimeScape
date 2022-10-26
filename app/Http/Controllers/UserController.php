@@ -135,7 +135,7 @@ class UserController extends Controller
     }
 
     /**
-     * ユーザーの得点を付けたレビューリストを表示
+     * ユーザーの得点を付けたアニメリストを表示
      *
      * @param int $user_id
      * @return \Illuminate\View\View
@@ -147,6 +147,39 @@ class UserController extends Controller
         return view('score_anime_list', [
             'user' => $user,
             'score_anime_list' => $score_anime_list,
+        ]);
+    }
+
+    /**
+     * ユーザーの視聴完了前得点を付けたアニメリストを表示
+     *
+     * @param int $user_id
+     * @return \Illuminate\View\View
+     */
+    public function showBeforeScoreAnimeList($user_id)
+    {
+        $user = $this->userService->getUserById($user_id);
+        $before_score_anime_list = $this->animeService
+        ->getBeforeScoreAnimeListWithCompaniesWithUserReviewLatestOf($user);
+        return view('before_score_anime_list', [
+            'user' => $user,
+            'before_score_anime_list' => $before_score_anime_list,
+        ]);
+    }
+
+    /**
+     * ユーザーの視聴完了前一言感想を付けたアニメを表示
+     *
+     * @param int $user_id
+     * @return \Illuminate\View\View
+     */
+    public function showBeforeCommentAnimeList($user_id)
+    {
+        $user = $this->userService->getUserById($user_id);
+        $before_comment_anime_list = $this->animeService->getLatestBeforeCommentAnimeListWithUserReviewOf($user);
+        return view('before_comment_anime_list', [
+            'user' => $user,
+            'before_comment_anime_list' => $before_comment_anime_list,
         ]);
     }
 

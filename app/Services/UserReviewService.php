@@ -105,6 +105,10 @@ class UserReviewService
             (!is_null($submit_review->one_word_comment) ||
             !is_null($submit_review->long_word_comment)) // commentがnullからnullではなくなったときのみ
              ? Carbon::now() : $my_review->comment_timestamp ?? null,
+            'before_score_timestamp' => (($my_review->before_score ?? null) != $submit_review->before_score)
+             ? Carbon::now() : $my_review->before_score_timestamp ?? null,
+            'before_comment_timestamp' => (($my_review->before_comment ?? null) != $submit_review->before_comment)
+             ? Carbon::now() : $my_review->before_comment_timestamp ?? null,
         ]);
         DB::transaction(function () use ($anime, $my_review, $update_review) {
             $this->userReviewRepository->createOrUpdateMyReview($my_review->id ?? null, $update_review);
@@ -182,6 +186,11 @@ class UserReviewService
         $anime->min = $user_reviews->min('score');
         $anime->count = $user_reviews->whereNotNull('score')->count();
         $anime->stdev = self::standardDeviation($user_reviews->whereNotNull('score')->pluck('score')->toArray());
+        $anime->before_median = $user_reviews->median('before_score');
+        $anime->before_average = $user_reviews->avg('before_score');
+        $anime->before_count = $user_reviews->whereNotNull('before_score')->count();
+        $anime->before_stdev = self::standardDeviation($user_reviews->whereNotNull('before_score')
+        ->pluck('before_score')->toArray());
         $this->animeRepository->update($anime);
     }
 

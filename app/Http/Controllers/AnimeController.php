@@ -112,6 +112,20 @@ class AnimeController extends Controller
     }
 
     /**
+     * アニメの視聴完了前得点リストを表示
+     *
+     * @param int $anime_id
+     * @return \Illuminate\View\View
+     */
+    public function showAnimeBeforeScoreList($anime_id)
+    {
+        $anime = $this->animeService->getAnimeWithUserReviewsWithUserNotNullBeforeScoreLatest($anime_id);
+        return view('anime_before_score_list', [
+            'anime' => $anime,
+        ]);
+    }
+
+    /**
      * 全てのアニメを取得し、json形式で出力
      *
      * @return \Illuminate\Http\Response

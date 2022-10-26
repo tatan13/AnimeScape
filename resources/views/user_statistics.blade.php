@@ -20,7 +20,7 @@
             中央値
             <input type="number" name="median" class="median" value="{{ $median ?? 70 }}"
                 style="width:50px;">以上<br>
-            データ数
+            得点数
             <input type="number" name="count" class="count" value="{{ $count ?? 0 }}" style="width:60px;">以上<br>
             放送時期
             <input type="number" name="bottom_year" class="bottom_year" value="{{ $bottom_year ?? 1900 }}"
@@ -37,7 +37,7 @@
                     <th>アニメ名</th>
                     <th>放送クール</th>
                     <th>中央値</th>
-                    <th>データ数</th>
+                    <th>得点数</th>
                     <th>入力済み</th>
                     <th>入力ユーザー</th>
                 </tr>

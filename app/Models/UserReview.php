@@ -31,6 +31,10 @@ class UserReview extends Model
         'number_of_interesting_episode',
         'watch_timestamp',
         'comment_timestamp',
+        'before_score',
+        'before_comment',
+        'before_score_timestamp',
+        'before_comment_timestamp',
     ];
 
     /**

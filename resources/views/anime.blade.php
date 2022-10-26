@@ -345,6 +345,49 @@
                 @endif
             @endforeach
         </section>
+        <section class="before_anime_information">
+            <h3>視聴完了前統計情報</h3>
+            <table class="before_anime_statistics_table">
+                <tbody>
+                    <tr>
+                        <th>中央値</th>
+                        <th>平均値</th>
+                        <th>得点数</th>
+                        <th>標準偏差</th>
+                        @auth
+                            <th>つけた得点</th>
+                        @endauth
+                    </tr>
+                    <tr>
+                        <td>{{ $anime->before_median }}</td>
+                        <td>{{ $anime->before_average }}</td>
+                        <td><a
+                                href="{{ route('anime_before_score_list.show', ['anime_id' => $anime->id]) }}">{{ $anime->before_count }}</a>
+                        </td>
+                        <td>{{ $anime->before_stdev }}</td>
+                        @auth
+                            <td>{{ $anime->userReview->before_score ?? '' }}</td>
+                        @endauth
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="before_anime_comment">
+            <h3>視聴完了前コメント（新着順）</h3>
+            @foreach ($anime->userReviews as $user_review)
+                @if (!is_null($user_review->before_comment))
+                    @if (!is_null($user_review->before_score))
+                        <strong>{{ $user_review->before_score }}点</strong><br>
+                    @endif
+                    {{ $user_review->before_comment }}
+                    <p>
+                        {{ $user_review->before_comment_timestamp }} <a
+                            href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a>
+                    </p>
+                    <hr>
+                @endif
+            @endforeach
+        </section>
         <section class="streaming_information">
             <h3>配信サイトのリンク</h3>
             <ul>

@@ -15,10 +15,10 @@
         <section class="information">
             <h3>お知らせ</h3>
             <ul class="list-inline">
-                <li>2022年秋アニメの追加が完了しました。</li>
-                <li>アニメの統計情報"データ数"を"得点数"に変更しました。</li>
-                <li>アニメに得点を付けたユーザーリストページを追加しました。アニメページの得点数リンクから飛べます。</li>
+                <li>アニメのレビューに視聴完了前得点，視聴完了前一言感想を追加しました。今後はこの得点を用いて今期アニメの評価をしていきます。</li>
                 <li>アニメの統計情報に標準偏差を追加しました。</li>
+                <li>アニメに得点を付けたユーザーリストページを追加しました。アニメページの得点数リンクから飛べます。</li>
+                <li>2022年秋アニメの追加が完了しました。</li>
                 <li>現在はアニメ作品のジャンル、傾向等を表せるタグ機能の実装を進めています。</li>
             </ul>
         </section>
@@ -36,7 +36,7 @@
                             <th>@sortablelink('median', '中央値')</th>
                             <th>@sortablelink('average', '平均値')</th>
                             <th>@sortablelink('stdev', '標準偏差')</th>
-                            <th>@sortablelink('count', 'データ数')</th>
+                            <th>@sortablelink('count', '得点数')</th>
                         </tr>
                         @foreach ($recommend_anime_list as $anime)
                             <tr>
@@ -62,18 +62,19 @@
             @endauth
         </section>
         <section class="anime_ranking">
-            <h3>2022年{{ App\Models\Anime::getCoorLabel(\App\Models\Anime::NOW_COOR) }}クールアニメランキング</h3>
+            <h3>2022年{{ App\Models\Anime::getCoorLabel(\App\Models\Anime::NOW_COOR) }}クールアニメ視聴完了前ランキング</h3>
             <table class="anime_ranking_table">
                 <tbody>
                     <tr>
                         <th>順位</th>
                         <th>アニメ名</th>
                         <th>制作会社</th>
+                        <th>放送カテゴリー</th>
                         <th>@sortablelink('number_of_episode', '話数')</th>
-                        <th>@sortablelink('median', '中央値')</th>
-                        <th>@sortablelink('average', '平均値')</th>
-                        <th>@sortablelink('stdev', '標準偏差')</th>
-                        <th>@sortablelink('count', 'データ数')</th>
+                        <th>@sortablelink('before_median', '中央値')</th>
+                        <th>@sortablelink('before_average', '平均値')</th>
+                        <th>@sortablelink('before_stdev', '標準偏差')</th>
+                        <th>@sortablelink('before_count', '得点数')</th>
                         @auth
                             <th>つけた得点</th>
                         @endauth
@@ -89,13 +90,14 @@
                                         href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
                                 @endforeach
                             </td>
+                            <td>{{ $anime->media_category_label }}</td>
                             <td>{{ $anime->number_of_episode }}</td>
-                            <td>{{ $anime->median }}</td>
-                            <td>{{ $anime->average }}</td>
-                            <td>{{ $anime->stdev }}</td>
-                            <td>{{ $anime->count }}</td>
+                            <td>{{ $anime->before_median }}</td>
+                            <td>{{ $anime->before_average }}</td>
+                            <td>{{ $anime->before_stdev }}</td>
+                            <td>{{ $anime->before_count }}</td>
                             @auth
-                                <td>{{ $anime->userReview->score ?? '' }}</td>
+                                <td>{{ $anime->userReview->before_score ?? '' }}</td>
                             @endauth
                         </tr>
                     @endforeach

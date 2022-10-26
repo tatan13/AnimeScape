@@ -23,7 +23,7 @@
                     <th>@sortablelink('number_of_episode', '話数')</th>
                     <th>@sortablelink('median', '中央値')</th>
                     <th>@sortablelink('average', '平均値')</th>
-                    <th>@sortablelink('count', 'データ数')</th>
+                    <th>@sortablelink('count', '得点数')</th>
                     <th>視聴予定</th>
                 </tr>
                 @foreach ($will_watch_anime_list as $will_watch_anime)

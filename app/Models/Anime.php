@@ -21,7 +21,7 @@ class Anime extends Model
     public const AUTUMN = 4;
 
     public const NOW_YEAR = 2022;
-    public const NOW_COOR = self::SUMMER;
+    public const NOW_COOR = self::AUTUMN;
 
     public const SEARCH_COLUMN = 'title';
 
@@ -44,13 +44,14 @@ class Anime extends Model
     public const CATEGORY = [
         self::TYPE_MEDIAN => ['label' => '中央値' ],
         self::TYPE_AVERAGE => ['label' => '平均値' ],
-        self::TYPE_COUNT => ['label' => 'データ数' ],
+        self::TYPE_COUNT => ['label' => '得点数' ],
     ];
 
     public const MEDIA_CATEGORY = [
         0 => ['label' => '' ],
         self::TYPE_TV => ['label' => 'TVアニメ' ],
         self::TYPE_MOVIE => ['label' => 'アニメ映画' ],
+        self::TYPE_OVA => ['label' => 'OVAアニメ' ],
         self::TYPE_STREAMING => ['label' => '配信' ],
     ];
 
@@ -75,7 +76,18 @@ class Anime extends Model
         'disney_plus_id',
     ];
 
-    protected $sortable = ['title', 'number_of_episode', 'median', 'average', 'stdev', 'count'];
+    protected $sortable = [
+        'title',
+        'number_of_episode',
+        'median',
+        'average',
+        'stdev',
+        'count',
+        'before_median',
+        'before_average',
+        'before_stdev',
+        'before_count',
+    ];
 
     /**
      * 年、クールでマルチソート
