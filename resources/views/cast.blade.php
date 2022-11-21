@@ -20,7 +20,7 @@
                     {{ session('flash_message') }}
                 </div>
             @endif
-            <p><strong>{{ $cast->name }}</strong></p>
+            <div class="title">{{ $cast->name }}</div>
             @auth
                 <like-cast-component :props-cast-id="{{ json_encode($cast->id) }}"
                     :default-is-like-cast="{{ json_encode(Auth::user()->isLikeCast($cast->id)) }}">

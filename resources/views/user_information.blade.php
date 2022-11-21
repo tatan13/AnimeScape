@@ -13,7 +13,7 @@
     <div id="likeUser">
         <article class="user_information">
             <h2>{{ $user_information->name }}さんの情報</h2>
-            <p><strong>{{ $user_information->name }}</strong></p>
+            <div class="title">{{ $user_information->name }}</div>
             @auth
                 @if (Auth::id() == $user_information->id)
                     <a href="{{ route('user_config.show') }}">個人情報設定</a>

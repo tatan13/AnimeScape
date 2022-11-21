@@ -48,72 +48,6 @@ class SitemapCommand extends Command
             </url>";
         \File::append($file, $content);
 
-        $content = "<url>
-            <loc>" . route('register') . "</loc>
-            <lastmod>2022-05-10</lastmod>
-            </url>";
-        \File::append($file, $content);
-
-        $content = "<url>
-            <loc>" . route('login') . "</loc>
-            <lastmod>2022-05-10</lastmod>
-            </url>";
-        \File::append($file, $content);
-
-        $content = "<url>
-            <loc>" . route('update_log.show') . "</loc>
-            <lastmod>2022-05-27</lastmod>
-            </url>";
-        \File::append($file, $content);
-
-        $content = "<url>
-            <loc>" . route('site_information.show') . "</loc>
-            <lastmod>2022-05-12</lastmod>
-            </url>";
-        \File::append($file, $content);
-
-        $content = "<url>
-            <loc>" . route('privacy_policy.show') . "</loc>
-            <lastmod>2022-05-10</lastmod>
-            </url>";
-        \File::append($file, $content);
-
-        $content = "<url>
-            <loc>" . route('add_anime_log.show') . "</loc>
-            <lastmod>"
-            . \App\Models\AddAnime::where('delete_flag', 1)->latest()->first()->updated_at->format("Y-m-d") .
-            "</lastmod>
-            </url>";
-        \File::append($file, $content);
-
-        $content = "<url>
-            <loc>" . route('add_cast_log.show') . "</loc>
-            <lastmod>"
-            . \App\Models\AddCast::where('delete_flag', 1)->latest()->first()->updated_at->format("Y-m-d") .
-            "</lastmod>
-            </url>";
-        \File::append($file, $content);
-
-        $content = "<url>
-            <loc>" . route('add_creater_log.show') . "</loc>
-            <lastmod>"
-            . \App\Models\AddCreater::where('delete_flag', 1)->latest()->first()->updated_at->format("Y-m-d") .
-            "</lastmod>
-            </url>";
-        \File::append($file, $content);
-
-        $content = "<url>
-            <loc>" . route('contact.show') . "</loc>
-            <lastmod>" . \App\Models\Contact::latest()->first()->created_at->format("Y-m-d") . "</lastmod>
-            </url>";
-        \File::append($file, $content);
-
-        $content = "<url>
-            <loc>" . route('anime_statistics.show') . "</loc>
-            <lastmod>2022-05-27</lastmod>
-            </url>";
-        \File::append($file, $content);
-
         $anime_list = \App\Models\Anime::select(['id', 'updated_at'])->oldest('id')->get();
         foreach ($anime_list as $anime) {
             $content = "<url>
@@ -123,29 +57,18 @@ class SitemapCommand extends Command
             \File::append($file, $content);
         }
 
-        $cast_list = \App\Models\Cast::select(['id', 'updated_at'])->oldest('id')->get();
-        foreach ($cast_list as $cast) {
+        foreach ($anime_list as $anime) {
             $content = "<url>
-            <loc>" . route('cast.show', ['cast_id' => $cast->id]) . "</loc>
-            <lastmod>" . $cast->updated_at->format("Y-m-d") . "</lastmod>
+            <loc>" . route('anime_score_list.show', ['anime_id' => $anime->id]) . "</loc>
+            <lastmod>" . $anime->updated_at->format("Y-m-d") . "</lastmod>
             </url>";
             \File::append($file, $content);
         }
 
-        $creater_list = \App\Models\Creater::select(['id', 'updated_at'])->oldest('id')->get();
-        foreach ($creater_list as $creater) {
+        foreach ($anime_list as $anime) {
             $content = "<url>
-            <loc>" . route('creater.show', ['creater_id' => $creater->id]) . "</loc>
-            <lastmod>" . $creater->updated_at->format("Y-m-d") . "</lastmod>
-            </url>";
-            \File::append($file, $content);
-        }
-
-        $company_list = \App\Models\Company::select(['id', 'updated_at'])->oldest('id')->get();
-        foreach ($company_list as $company) {
-            $content = "<url>
-            <loc>" . route('company.show', ['company_id' => $company->id]) . "</loc>
-            <lastmod>" . $company->updated_at->format("Y-m-d") . "</lastmod>
+            <loc>" . route('anime_before_score_list.show', ['anime_id' => $anime->id]) . "</loc>
+            <lastmod>" . $anime->updated_at->format("Y-m-d") . "</lastmod>
             </url>";
             \File::append($file, $content);
         }
@@ -160,7 +83,80 @@ class SitemapCommand extends Command
             \File::append($file, $content);
         }
 
+        $content = "<url>
+            <loc>" . route('add_anime_request.show') . "</loc>
+            <lastmod>2022-05-10</lastmod>
+            </url>";
+        \File::append($file, $content);
+
+        $cast_list = \App\Models\Cast::select(['id', 'updated_at'])->oldest('id')->get();
+        foreach ($cast_list as $cast) {
+            $content = "<url>
+            <loc>" . route('cast.show', ['cast_id' => $cast->id]) . "</loc>
+            <lastmod>" . $cast->updated_at->format("Y-m-d") . "</lastmod>
+            </url>";
+            \File::append($file, $content);
+        }
+
+        $content = "<url>
+            <loc>" . route('cast_list.show') . "</loc>
+            <lastmod>2022-05-10</lastmod>
+            </url>";
+        \File::append($file, $content);
+
+        $creater_list = \App\Models\Creater::select(['id', 'updated_at'])->oldest('id')->get();
+        foreach ($creater_list as $creater) {
+            $content = "<url>
+            <loc>" . route('creater.show', ['creater_id' => $creater->id]) . "</loc>
+            <lastmod>" . $creater->updated_at->format("Y-m-d") . "</lastmod>
+            </url>";
+            \File::append($file, $content);
+        }
+
+        $content = "<url>
+            <loc>" . route('creater_list.show') . "</loc>
+            <lastmod>2022-05-10</lastmod>
+            </url>";
+        \File::append($file, $content);
+
+        $content = "<url>
+            <loc>" . route('add_cast_request.show') . "</loc>
+            <lastmod>2022-05-10</lastmod>
+            </url>";
+        \File::append($file, $content);
+
+        $content = "<url>
+            <loc>" . route('add_creater_request.show') . "</loc>
+            <lastmod>2022-05-10</lastmod>
+            </url>";
+        \File::append($file, $content);
+
+        $company_list = \App\Models\Company::select(['id', 'updated_at'])->oldest('id')->get();
+        foreach ($company_list as $company) {
+            $content = "<url>
+            <loc>" . route('company.show', ['company_id' => $company->id]) . "</loc>
+            <lastmod>" . $company->updated_at->format("Y-m-d") . "</lastmod>
+            </url>";
+            \File::append($file, $content);
+        }
+
         $user_list = \App\Models\User::select(['id', 'updated_at'])->oldest('id')->get();
+        foreach ($user_list as $user) {
+            $content = "<url>
+            <loc>" . route('user.show', ['user_id' => $user->id]) . "</loc>
+            <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
+            </url>";
+            \File::append($file, $content);
+        }
+
+        foreach ($user_list as $user) {
+            $content = "<url>
+            <loc>" . route('user_comment_anime_list.show', ['user_id' => $user->id]) . "</loc>
+            <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
+            </url>";
+            \File::append($file, $content);
+        }
+
         foreach ($user_list as $user) {
             $content = "<url>
             <loc>" . route('user_score_anime_list.show', ['user_id' => $user->id]) . "</loc>
@@ -196,6 +192,22 @@ class SitemapCommand extends Command
         foreach ($user_list as $user) {
             $content = "<url>
             <loc>" . route('user_give_up_anime_list.show', ['user_id' => $user->id]) . "</loc>
+            <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
+            </url>";
+            \File::append($file, $content);
+        }
+
+        foreach ($user_list as $user) {
+            $content = "<url>
+            <loc>" . route('user_before_score_anime_list.show', ['user_id' => $user->id]) . "</loc>
+            <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
+            </url>";
+            \File::append($file, $content);
+        }
+
+        foreach ($user_list as $user) {
+            $content = "<url>
+            <loc>" . route('user_before_comment_anime_list.show', ['user_id' => $user->id]) . "</loc>
             <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
             </url>";
             \File::append($file, $content);
@@ -240,6 +252,72 @@ class SitemapCommand extends Command
             </url>";
             \File::append($file, $content);
         }
+
+        $content = "<url>
+            <loc>" . route('contact.show') . "</loc>
+            <lastmod>" . \App\Models\Contact::latest()->first()->created_at->format("Y-m-d") . "</lastmod>
+            </url>";
+        \File::append($file, $content);
+
+        $content = "<url>
+            <loc>" . route('anime_statistics.show') . "</loc>
+            <lastmod>2022-05-27</lastmod>
+            </url>";
+        \File::append($file, $content);
+
+        $content = "<url>
+            <loc>" . route('add_anime_log.show') . "</loc>
+            <lastmod>"
+            . \App\Models\AddAnime::where('delete_flag', 1)->latest()->first()->updated_at->format("Y-m-d") .
+            "</lastmod>
+            </url>";
+        \File::append($file, $content);
+
+        $content = "<url>
+            <loc>" . route('add_cast_log.show') . "</loc>
+            <lastmod>"
+            . \App\Models\AddCast::where('delete_flag', 1)->latest()->first()->updated_at->format("Y-m-d") .
+            "</lastmod>
+            </url>";
+        \File::append($file, $content);
+
+        $content = "<url>
+            <loc>" . route('add_creater_log.show') . "</loc>
+            <lastmod>"
+            . \App\Models\AddCreater::where('delete_flag', 1)->latest()->first()->updated_at->format("Y-m-d") .
+            "</lastmod>
+            </url>";
+        \File::append($file, $content);
+
+        $content = "<url>
+            <loc>" . route('update_log.show') . "</loc>
+            <lastmod>2022-05-27</lastmod>
+            </url>";
+        \File::append($file, $content);
+
+        $content = "<url>
+            <loc>" . route('site_information.show') . "</loc>
+            <lastmod>2022-05-12</lastmod>
+            </url>";
+        \File::append($file, $content);
+
+        $content = "<url>
+            <loc>" . route('privacy_policy.show') . "</loc>
+            <lastmod>2022-05-10</lastmod>
+            </url>";
+        \File::append($file, $content);
+
+        $content = "<url>
+            <loc>" . route('register') . "</loc>
+            <lastmod>2022-05-10</lastmod>
+            </url>";
+        \File::append($file, $content);
+
+        $content = "<url>
+            <loc>" . route('login') . "</loc>
+            <lastmod>2022-05-10</lastmod>
+            </url>";
+        \File::append($file, $content);
 
         $end_content = '</urlset>';
         \File::append($file, $end_content);

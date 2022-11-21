@@ -19,7 +19,7 @@
                 {{ session('flash_message') }}
             </div>
         @endif
-        <p><strong>{{ $company->name }}</strong></p>
+        <div class="title">{{ $company->name }}</div>
         <a href="{{ route('delete_company_request.show', ['company_id' => $company->id]) }}">制作会社の削除申請をする</a>
         <section class="company_anime_list">
             <h3>制作アニメ一覧（計{{ $company->animes->count() }}本）</h3>

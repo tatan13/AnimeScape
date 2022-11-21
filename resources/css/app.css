@@ -62,3 +62,13 @@ th {
 td {
     background-color: #FFF0C0;
 }
+
+input, select {
+    margin: 2px 0px;
+}
+
+.title {
+    font-size: 130%;
+    font-weight: bold;
+    padding: 10px 0px;
+}

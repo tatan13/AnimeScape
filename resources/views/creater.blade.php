@@ -20,7 +20,7 @@
                     {{ session('flash_message') }}
                 </div>
             @endif
-            <p><strong>{{ $creater->name }}</strong></p>
+            <div class="title">{{ $creater->name }}</div>
             @auth
                 <like-creater-component :props-creater-id="{{ json_encode($creater->id) }}"
                     :default-is-like-creater="{{ json_encode(Auth::user()->isLikeCreater($creater->id)) }}">
