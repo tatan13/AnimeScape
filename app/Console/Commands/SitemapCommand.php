@@ -257,7 +257,7 @@ class SitemapCommand extends Command
             <loc>" . route('contact.show') . "</loc>
             <lastmod>" . \App\Models\Contact::latest()->first()->created_at->format("Y-m-d") . "</lastmod>
             </url>";
-        \File::append($file, $content);       
+        \File::append($file, $content);
 
         $content = "<url>
             <loc>" . route('anime_statistics.show') . "</loc>
