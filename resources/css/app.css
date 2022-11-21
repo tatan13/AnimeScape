@@ -62,3 +62,7 @@ th {
 td {
     background-color: #FFF0C0;
 }
+
+input {
+    margin: 2px 0px;
+}
