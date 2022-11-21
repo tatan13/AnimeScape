@@ -19,8 +19,8 @@
                 {{ session('flash_message') }}
             </div>
         @endif
-        <section>
-            <p><strong>{{ $anime->title }}</strong></p>
+        <section class="anime_information">
+            <div class="title">{{ $anime->title }}</div>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-3">
