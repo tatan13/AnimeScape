@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ $anime->title }}のデータ入力画面 AnimeScape</title>
+    <title>{{ $anime->title }}のデータ入力画面 AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('adsense')

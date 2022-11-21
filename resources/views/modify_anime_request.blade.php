@@ -1,7 +1,8 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ $anime->title }}の基本情報変更申請 AnimeScape</title>
+    <title>{{ $anime->title }}の基本情報変更申請 AnimeScape -アニメ批評空間-</title>
+    <meta name="robots" content="noindex,nofollow">
 @endsection
 
 @section('main')

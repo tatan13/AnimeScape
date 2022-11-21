@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ $anime->title }}の得点を付けたユーザーリスト AnimeScape</title>
+    <title>{{ $anime->title }}の得点を付けたユーザーリスト AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('adsense')

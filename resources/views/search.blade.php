@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    <title>AnimeScape</title>
+    <title>AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('adsense')

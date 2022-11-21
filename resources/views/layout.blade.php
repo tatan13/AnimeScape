@@ -9,12 +9,13 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <meta property="og:url" content="https://www.animescape.link/" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="AnimeScape" />
-    <meta property="og:description" content="アニメ批評サービス" />
-    <meta property="og:site_name" content="AnimeScape" />
+    <meta property="og:title" content="AnimeScape -アニメ批評空間-" />
+    <meta property="og:description" content="アニメの情報やアニメに付けたユーザーの得点や感想を集めた統計サイトです。視聴管理、アニメ探し等様々な用途でご利用ください。" />
+    <meta property="og:site_name" content="AnimeScape -アニメ批評空間-" />
     <meta property="og:image" content="https://www.animescape.link/animescape_ogp.png" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@tatan_tech" />
+    <meta name="keywords" content="アニメ,アニメスケープ,アニスケ">
     @yield('title')
     @if (env('APP_ENV') == 'production')
         <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -34,7 +35,7 @@
 
 <body>
     <header>
-        <h1><a href="{{ route('index.show') }}">AnimeScape</a></h1>
+        <h1><a href="{{ route('index.show') }}">AnimeScape -アニメ批評空間-</a></h1>
     </header>
     <div class="container-fluid">
         <div class="row">

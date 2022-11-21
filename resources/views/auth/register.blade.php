@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    <title>ID発行画面 AnimeScape</title>
+    <title>ID発行画面 AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('main')
