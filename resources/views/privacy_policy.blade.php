@@ -1,12 +1,7 @@
 @extends('layout')
 
 @section('title')
-    <title>AnimeScape</title>
-@endsection
-
-@section('adsense')
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1583558174306860"
-        crossorigin="anonymous"></script>
+    <title>AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('main')

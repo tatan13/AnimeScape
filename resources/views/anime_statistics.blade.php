@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    <title>アニメランキング AnimeScape</title>
+    <title>{{ !is_null($year) ? $year . '年' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }}アニメランキング AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('adsense')

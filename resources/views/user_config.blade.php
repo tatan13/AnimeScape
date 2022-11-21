@@ -1,7 +1,8 @@
 @extends('layout')
 
 @section('title')
-    <title>個人情報設定 AnimeScape</title>
+    <title>個人情報設定 AnimeScape -アニメ批評空間-</title>
+    <meta name="robots" content="noindex,nofollow">
 @endsection
 
 @section('main')

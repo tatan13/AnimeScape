@@ -1,7 +1,8 @@
 @extends('layout')
 
 @section('title')
-    <title>AnimeScape</title>
+    <title>AnimeScape -アニメ批評空間-</title>
+    <meta name="description" content="アニメの情報やアニメに付けたユーザーの得点や感想を集めた統計サイトです。視聴管理、アニメ探し等様々な用途でご利用ください。">
 @endsection
 
 @section('adsense')

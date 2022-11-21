@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    <title>パスワード再発行画面 AnimeScape</title>
+    <title>パスワード再発行画面 AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('main')

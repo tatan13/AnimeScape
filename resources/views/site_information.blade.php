@@ -1,19 +1,14 @@
 @extends('layout')
 
 @section('title')
-    <title>このサイトについて AnimeScape</title>
-@endsection
-
-@section('adsense')
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1583558174306860"
-        crossorigin="anonymous"></script>
+    <title>このサイトについて AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('main')
     <article class="site_information">
         <h2>このサイトについて</h2>
         <section class="information">
-            <h3>AnimeScape</h3>
+            <h3>AnimeScape -アニメ批評空間-</h3>
             IDを作成し、ログインすることで各アニメの点数や感想をつけることができる統計サイトです。
             また、他人のアカウントをお気に入りユーザーとして登録することができ、お気に入りユーザー内での点数評価の統計を取ることで、次に視聴するアニメを決定する情報として使用することができます。
         </section>

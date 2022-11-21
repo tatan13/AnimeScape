@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ $cast->name }} AnimeScape</title>
+    <title>{{ $cast->name }} AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('adsense')
