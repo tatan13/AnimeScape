@@ -9,6 +9,14 @@
         crossorigin="anonymous"></script>
 @endsection
 
+@section('title_adsense')
+    @include('layout.horizontal_adsense')
+@endsection
+
+@section('sidebar_adsense')
+    @include('layout.vertical_adsense')
+@endsection
+
 @section('main')
     <article class="anime_information">
         <h2>
@@ -441,6 +449,16 @@
                         DISNEY+(情報なし)
                     @endif
                 </li>
+                <a href="https://px.a8.net/svt/ejp?a8mat=3NNF9T+4D6GHE+4EKC+5ZU29" rel="nofollow">
+                    <img border="0" width="120" height="60" alt=""
+                        src="https://www23.a8.net/svt/bgt?aid=221122577264&wid=001&eno=01&mid=s00000020550001007000&mc=1"></a>
+                <img border="0" width="1" height="1"
+                    src="https://www17.a8.net/0.gif?a8mat=3NNF9T+4D6GHE+4EKC+5ZU29" alt="">
+                <a href="https://px.a8.net/svt/ejp?a8mat=3NNF9T+4BZL9U+3250+61Z81" rel="nofollow">
+                    <img border="0" width="120" height="60" alt=""
+                        src="https://www25.a8.net/svt/bgt?aid=221122577262&wid=001&eno=01&mid=s00000014274001017000&mc=1"></a>
+                <img border="0" width="1" height="1"
+                    src="https://www17.a8.net/0.gif?a8mat=3NNF9T+4BZL9U+3250+61Z81" alt="">
             </ul>
         </section>
         <section class="anime_twitter">

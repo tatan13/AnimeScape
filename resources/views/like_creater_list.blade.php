@@ -9,6 +9,14 @@
         crossorigin="anonymous"></script>
 @endsection
 
+@section('title_adsense')
+    @include('layout.horizontal_adsense')
+@endsection
+
+@section('sidebar_adsense')
+    @include('layout.vertical_adsense')
+@endsection
+
 @section('main')
     <article class="like_creater_list">
         <h2>{{ $user->name }}さんのお気に入りクリエイター</h2>

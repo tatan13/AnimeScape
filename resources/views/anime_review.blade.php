@@ -9,6 +9,14 @@
         crossorigin="anonymous"></script>
 @endsection
 
+@section('title_adsense')
+    @include('layout.horizontal_adsense')
+@endsection
+
+@section('sidebar_adsense')
+    @include('layout.vertical_adsense')
+@endsection
+
 @section('main')
     <article class="anime_review">
         <h2>{{ $anime->title }}のデータ入力画面</h2>
