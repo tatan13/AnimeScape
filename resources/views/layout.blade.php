@@ -33,13 +33,17 @@
             gtag('js', new Date());
             gtag('config', 'UA-227732808-1');
         </script>
+        @yield('adsense')
     @endif
-    @yield('adsense')
 </head>
 
 <body>
     <header>
-        <h1><a href="{{ route('index.show') }}">AnimeScape -アニメ批評空間-</a></h1>
+        <h1><a href="{{ route('index.show') }}">AnimeScape -アニメ批評空間-</a>
+            @if (env('APP_ENV') == 'production')
+                @yield('title_adsense')
+            @endif
+        </h1>
     </header>
     <div class="container-fluid">
         <div class="row">
@@ -125,6 +129,9 @@
                             value="{{ $search_word ?? '' }}" size="15" /><br>
                         <input type="submit" value="検索" />
                     </form>
+                    @if (env('APP_ENV') == 'production')
+                        @yield('sidebar_adsense')
+                    @endif
                 </section>
                 <section class="ranking_menu">
                     <h3>ランキングメニュー</h3>
