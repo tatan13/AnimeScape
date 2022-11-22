@@ -9,6 +9,14 @@
         crossorigin="anonymous"></script>
 @endsection
 
+@section('title_adsense')
+    @include('layout.horizontal_adsense')
+@endsection
+
+@section('sidebar_adsense')
+    @include('layout.vertical_adsense')
+@endsection
+
 @section('main')
     <article class="user_statistics">
         <h2>{{ $user->name }}さんのお気に入りユーザーの統計表</h2>

@@ -9,6 +9,14 @@
         crossorigin="anonymous"></script>
 @endsection
 
+@section('title_adsense')
+    @include('layout.horizontal_adsense')
+@endsection
+
+@section('sidebar_adsense')
+    @include('layout.vertical_adsense')
+@endsection
+
 @section('main')
     <article class="add_cast_log">
         <h2>声優の追加履歴</h2>
