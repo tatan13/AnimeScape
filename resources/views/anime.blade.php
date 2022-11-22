@@ -29,8 +29,8 @@
         @endif
         <section class="anime_information">
             <div class="title">{{ $anime->title }}</div>
-            <div class="row">
-                <div class="col-md-3">
+            <div class="d-flex flex-wrap justify-content-between">
+                <div>
                     <table class="anime_basic_information_table">
                         <tbody>
                             <tr>
@@ -96,7 +96,7 @@
                     @endcan
                 </div>
 
-                <div class="col-md-3">
+                <div>
                     <table class="anime_statistics_table">
                         <tbody>
                             <tr>
@@ -138,6 +138,8 @@
                         </tbody>
                     </table>
                 </div>
+                <div></div>
+                <div></div>
             </div>
             <div class="toContents d-grid gap-2">
                 @if (Auth::check())
@@ -460,7 +462,7 @@
         </section>
         <section class="anime_twitter">
             <h3>公式twitter</h3>
-            <div class="anime_twitter" style="width: 50%;">
+            <div class="anime_twitter">
                 <a class="twitter-timeline" href="https://twitter.com/{{ $anime->twitter }}?ref_src=twsrc%5Etfw">Tweets
                     by
                     {{ $anime->twitter }}</a>

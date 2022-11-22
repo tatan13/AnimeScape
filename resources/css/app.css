@@ -15,8 +15,7 @@ footer {
 }
 
 h1 {
-    font-size: 172%;
-    margin: 30px 0px;
+    font-size: 169%;
 }
 
 h2 {
@@ -66,8 +65,4 @@ input, select {
     font-size: 130%;
     font-weight: bold;
     padding: 10px 0px;
-}
-
-.sidebar_adsense {
-    margin-top: 15px;
 }
