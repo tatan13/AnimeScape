@@ -38,14 +38,18 @@
 </head>
 
 <body>
-    <header>
-        <h1><a href="{{ route('index.show') }}">AnimeScape -アニメ批評空間-</a>
-            @if (env('APP_ENV') == 'production')
-                @yield('title_adsense')
-            @endif
-        </h1>
-    </header>
-    <div class="container-fluid">
+    <div class="container">
+        <header>
+            <div class="row">
+                <div class="col-sm-4">
+                    <h1><a href="{{ route('index.show') }}">AnimeScape -アニメ批評空間-</a></h1>
+                </div>
+                @if (env('APP_ENV') == 'production')
+                    @yield('title_adsense')
+                @endif
+            </div>
+            </h1>
+        </header>
         <div class="row">
             <aside class="col-md-2">
                 <h2>メニュー</h2>
@@ -137,7 +141,8 @@
                     <h3>ランキングメニュー</h3>
                     <ul>
                         <li>
-                            <form action="{{ route('anime_statistics.show') }}" name="all_statistics" method="get">
+                            <form action="{{ route('anime_statistics.show') }}" name="all_statistics"
+                                method="get">
                                 @csrf
                                 <input type="hidden" name="category" value="median">
                                 <a href="javascript:all_statistics.submit()">すべて</a>
@@ -210,14 +215,14 @@
                 @yield('main')
             </main>
         </div>
+        <footer>
+            <hr>
+            <a href="{{ route('site_information.show') }}">このサイトについて</a>
+            <a href="{{ route('privacy_policy.show') }}">プライバシーポリシー</a>
+            @ 2022 animescape.link
+        </footer>
+        @yield('vue.js')
     </div>
-    <footer>
-        <hr>
-        <a href="{{ route('site_information.show') }}">このサイトについて</a>
-        <a href="{{ route('privacy_policy.show') }}">プライバシーポリシー</a>
-        @ 2022 animescape.link
-    </footer>
-    @yield('vue.js')
 </body>
 
 </html>

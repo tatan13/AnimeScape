@@ -29,117 +29,114 @@
         @endif
         <section class="anime_information">
             <div class="title">{{ $anime->title }}</div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-3">
-                        <table class="anime_basic_information_table">
-                            <tbody>
-                                <tr>
-                                    <th>制作会社</th>
-                                    <td>
-                                        @foreach ($anime->companies as $company)
-                                            <a
-                                                href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
-                                        @endforeach
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>放送時期</th>
-                                    <td>
-                                        {{ $anime->year }}年{{ $anime->coor_label }}クール
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>略称</th>
-                                    <td>
-                                        {{ $anime->title_short }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>話数</th>
-                                    <td>
-                                        {{ $anime->number_of_episode }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>放送カテゴリー</th>
-                                    <td>
-                                        {{ $anime->media_category_label }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>ツイッターアカウント</th>
-                                    <td>
-                                        <a href="https://twitter.com/{{ $anime->twitter }}" target="_blank"
-                                            rel="noopener noreferrer">{{ $anime->twitter }}</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>ツイッターハッシュタグ</th>
-                                    <td>
-                                        <a href="https://twitter.com/hashtag/{{ $anime->hash_tag }}" target="_blank"
-                                            rel="noopener noreferrer">{{ $anime->hash_tag }}</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>舞台</th>
-                                    <td>
-                                        {{ $anime->city_name }}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <a
-                            href="{{ route('modify_anime_request.show', ['anime_id' => $anime->id]) }}">アニメの基本情報の変更申請をする</a><br>
-                        <a href="{{ route('delete_anime_request.show', ['anime_id' => $anime->id]) }}">アニメの削除申請をする</a>
-                        @can('isAdmin')
-                            <br><a href="{{ route('anime.delete', ['anime_id' => $anime->id]) }}"
-                                onclick="return confirm('本当に削除しますか？')">このアニメを削除する</a>
-                        @endcan
-                    </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <table class="anime_basic_information_table">
+                        <tbody>
+                            <tr>
+                                <th>制作会社</th>
+                                <td>
+                                    @foreach ($anime->companies as $company)
+                                        <a
+                                            href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
+                                    @endforeach
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>放送時期</th>
+                                <td>
+                                    {{ $anime->year }}年{{ $anime->coor_label }}クール
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>略称</th>
+                                <td>
+                                    {{ $anime->title_short }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>話数</th>
+                                <td>
+                                    {{ $anime->number_of_episode }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>放送カテゴリー</th>
+                                <td>
+                                    {{ $anime->media_category_label }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>ツイッターアカウント</th>
+                                <td>
+                                    <a href="https://twitter.com/{{ $anime->twitter }}" target="_blank"
+                                        rel="noopener noreferrer">{{ $anime->twitter }}</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>ツイッターハッシュタグ</th>
+                                <td>
+                                    <a href="https://twitter.com/hashtag/{{ $anime->hash_tag }}" target="_blank"
+                                        rel="noopener noreferrer">{{ $anime->hash_tag }}</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>舞台</th>
+                                <td>
+                                    {{ $anime->city_name }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="{{ route('modify_anime_request.show', ['anime_id' => $anime->id]) }}">アニメの基本情報の変更申請をする</a><br>
+                    <a href="{{ route('delete_anime_request.show', ['anime_id' => $anime->id]) }}">アニメの削除申請をする</a>
+                    @can('isAdmin')
+                        <br><a href="{{ route('anime.delete', ['anime_id' => $anime->id]) }}"
+                            onclick="return confirm('本当に削除しますか？')">このアニメを削除する</a>
+                    @endcan
+                </div>
 
-                    <div class="col-md-3">
-                        <table class="anime_statistics_table">
-                            <tbody>
+                <div class="col-md-3">
+                    <table class="anime_statistics_table">
+                        <tbody>
+                            <tr>
+                                <th>中央値</th>
+                                <td>{{ $anime->median }}</td>
+                            </tr>
+                            <tr>
+                                <th>平均値</th>
+                                <td>{{ $anime->average }}</td>
+                            </tr>
+                            <tr>
+                                <th>得点数</th>
+                                <td><a
+                                        href="{{ route('anime_score_list.show', ['anime_id' => $anime->id]) }}">{{ $anime->count }}</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>標準偏差</th>
+                                <td>{{ $anime->stdev }}</td>
+                            </tr>
+                            <tr>
+                                <th>最高点</th>
+                                <td>{{ $anime->max }}</td>
+                            </tr>
+                            <tr>
+                                <th>最低点</th>
+                                <td>{{ $anime->min }}</td>
+                            </tr>
+                            <tr>
+                                <th>面白さがわかる話数</th>
+                                <td>{{ $anime->number_of_interesting_episode }}</td>
+                            </tr>
+                            @auth
                                 <tr>
-                                    <th>中央値</th>
-                                    <td>{{ $anime->median }}</td>
+                                    <th>つけた得点</th>
+                                    <td>{{ $anime->userReview->score ?? '' }}</td>
                                 </tr>
-                                <tr>
-                                    <th>平均値</th>
-                                    <td>{{ $anime->average }}</td>
-                                </tr>
-                                <tr>
-                                    <th>得点数</th>
-                                    <td><a
-                                            href="{{ route('anime_score_list.show', ['anime_id' => $anime->id]) }}">{{ $anime->count }}</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>標準偏差</th>
-                                    <td>{{ $anime->stdev }}</td>
-                                </tr>
-                                <tr>
-                                    <th>最高点</th>
-                                    <td>{{ $anime->max }}</td>
-                                </tr>
-                                <tr>
-                                    <th>最低点</th>
-                                    <td>{{ $anime->min }}</td>
-                                </tr>
-                                <tr>
-                                    <th>面白さがわかる話数</th>
-                                    <td>{{ $anime->number_of_interesting_episode }}</td>
-                                </tr>
-                                @auth
-                                    <tr>
-                                        <th>つけた得点</th>
-                                        <td>{{ $anime->userReview->score ?? '' }}</td>
-                                    </tr>
-                                @endauth
-                            </tbody>
-                        </table>
-                    </div>
+                            @endauth
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="toContents d-grid gap-2">
