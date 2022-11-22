@@ -38,20 +38,20 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container mt-4">
         <header>
-            <div class="row">
-                <div class="col-sm-4">
+            <div class="d-flex flex-wrap justify-content-between">
+                <div class="mb-2 align-self-center">
                     <h1><a href="{{ route('index.show') }}">AnimeScape -アニメ批評空間-</a></h1>
                 </div>
-                @if (env('APP_ENV') == 'production')
+                {{-- @if (env('APP_ENV') == 'production') --}}
                     @yield('title_adsense')
-                @endif
+                {{-- @endif --}}
             </div>
             </h1>
         </header>
         <div class="row">
-            <aside class="col-md-2">
+            <aside class="col-xl-2">
                 <h2>メニュー</h2>
                 <section class="login_menu">
                     <h3>ログインメニュー</h3>
@@ -133,9 +133,9 @@
                             value="{{ $search_word ?? '' }}" size="15" /><br>
                         <input type="submit" value="検索" />
                     </form>
-                    @if (env('APP_ENV') == 'production')
+                    {{-- @if (env('APP_ENV') == 'production') --}}
                         @yield('sidebar_adsense')
-                    @endif
+                    {{-- @endif --}}
                 </section>
                 <section class="ranking_menu">
                     <h3>ランキングメニュー</h3>
@@ -211,7 +211,7 @@
                     </ul>
                 </section>
             </aside>
-            <main class="col-md-10">
+            <main class="col-xl-10">
                 @yield('main')
             </main>
         </div>
