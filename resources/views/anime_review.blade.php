@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ $anime->title }}のデータ入力画面 AnimeScape -アニメ批評空間-</title>
+    <title>{{ $anime->title }}のデータ入力 AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('adsense')
@@ -19,7 +19,7 @@
 
 @section('main')
     <article class="anime_review">
-        <h2>{{ $anime->title }}のデータ入力画面</h2>
+        <h2>{{ $anime->title }}のデータ入力</h2>
         <h3><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a></h3>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -36,7 +36,7 @@
             <table class="anime_review_table">
                 <tbody>
                     <tr>
-                        <th>得点</th>
+                        <th>得点（0~100）</th>
                         <th>視聴済み</th>
                         <th>視聴予定</th>
                         <th>視聴中</th>
@@ -45,7 +45,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="number" name="score" class="score"
+                            <input type="text" name="score" class="score" size="3"
                                 value="{{ $anime->userReview->score ?? '' }}">
                         </td>
                         <td>
@@ -77,18 +77,18 @@
                                 {{ $anime->userReview->give_up ?? false == true ? 'checked' : '' }}>
                         </td>
                         <td>
-                            <input type="number" name="number_of_interesting_episode" class="number_of_interesting_episode"
+                            <input type="text" name="number_of_interesting_episode" class="number_of_interesting_episode" size="3"
                                 value="{{ $anime->userReview->number_of_interesting_episode ?? '' }}">
                         </td>
                     </tr>
                 </tbody>
             </table>
             <hr>
-            <label for="one_comment">一言感想</label><br>
+            <label for="one_comment">一言感想（400文字以内、ネタバレなし）</label><br>
             <input type="text" size="100" name="one_word_comment" class="one_comment_form"
                 value="{{ $anime->userReview->one_word_comment ?? '' }}"><br>
             <hr>
-            <label for="long_word_comment">長文感想</label><br>
+            <label for="long_word_comment">長文感想（文字数制限なし）</label><br>
             <textarea name="long_word_comment" class="long_word_comment" cols="80" rows="5">{{ $anime->userReview->long_word_comment ?? '' }}</textarea><br>
             <label for="netabare_check">ネタバレ？:</label>
             <input type="hidden" name="spoiler" class="spoiler" value="0">
@@ -100,12 +100,12 @@
             <table class="before_anime_review_table">
                 <tbody>
                     <tr>
-                        <th>視聴完了前得点</th>
-                        <th>視聴完了前一言感想</th>
+                        <th>視聴完了前得点（0~100）</th>
+                        <th>視聴完了前一言感想（400文字以内、ネタバレなし）</th>
                     </tr>
                     <tr>
                         <td>
-                            <input type="number" name="before_score" class="before_score"
+                            <input type="text" name="before_score" class="before_score" size="3"
                                 value="{{ $anime->userReview->before_score ?? '' }}">
                         </td>
                         <td><input type="text" size="100" name="before_comment" class="before_comment"
@@ -117,8 +117,10 @@
         </form>
         <h3>注意事項</h3>
         <ul class="list-inline">
-            <li>得点は0～100点で付けてください。</li>
-            <li>一言感想は400文字以内でお願いします。登録は任意です。</li>
+            <li>各欄の登録は任意です。ご自由にお使いください。</li>
+            <li>長文感想に文字数制限はありません。思いの丈を思う存分書いてください。</li>
+            <li>長文感想にネタバレを含む場合はネタバレ欄にチェックをお願いします。</li>
+            <li>視聴完了前入力欄はまだ最終回を迎えていない今期アニメの途中評価を入力する欄です。好きなタイミングでご自由にご入力ください。</li>
         </ul>
     </article>
 @endsection

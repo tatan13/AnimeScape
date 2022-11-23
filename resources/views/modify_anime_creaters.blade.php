@@ -178,7 +178,7 @@
             <h3>注意事項</h3>
             <a href="{{ route('creater_list.show') }}">クリエイターリスト</a>からIDを探して入力してください。<br>
             職種詳細には具体的な職種名を記入してください。<br>
-            クリエイターがデータベース未登録の場合、こちらから申請してください。→<a href="{{ route('add_creater_request.show') }}">クリエイターの追加申請</a>
+            クリエイターがデータベース未登録の場合、こちらから申請をお願いします。→<a href="{{ route('add_creater_request.show') }}">クリエイターの追加申請</a>　申請許可まで時間がかかりますがご了承ください。
         </article>
     </div>
 @endsection

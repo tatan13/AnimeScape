@@ -1,12 +1,12 @@
 @extends('layout')
 
 @section('title')
-    <title>ID発行画面 AnimeScape -アニメ批評空間-</title>
+    <title>ユーザー登録ページ AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('main')
     <article class="register">
-        <h2>ID発行画面</h2>
+        <h2>ユーザー登録ページ</h2>
         @if ($errors->any())
             <div class="alert alert-danger">
                 @foreach ($errors->all() as $message)

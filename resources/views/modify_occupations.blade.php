@@ -101,7 +101,7 @@
             <h3>注意事項</h3>
             <a href="{{ route('cast_list.show') }}">声優リスト</a>からIDを探して入力してください。<br>
             キャラクターを複数演じている場合は、A、Bのように入力してください。<br>
-            声優がデータベース未登録の場合、こちらから申請してください。→<a href="{{ route('add_cast_request.show') }}">声優の追加申請</a>
+            声優がデータベース未登録の場合、こちらから申請をお願いします→<a href="{{ route('add_cast_request.show') }}">声優の追加申請</a>　申請許可まで時間がかかりますがご了承ください。
         </article>
     </div>
 @endsection

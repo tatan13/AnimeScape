@@ -388,6 +388,10 @@ class AnimeRepository extends AbstractRepository
             'one_word_comment' => $submit_reviews->one_word_comment[$key],
             'watch_timestamp' => $submit_reviews->watch[$key] == true ? Carbon::now() : null,
             'comment_timestamp' => !is_null($submit_reviews->one_word_comment[$key]) ? Carbon::now() : null,
+            'before_score' => $submit_reviews->before_score[$key],
+            'before_comment' => $submit_reviews->before_comment[$key],
+            'before_score_timestamp' => !is_null($submit_reviews->before_score[$key]) ? Carbon::now() : null,
+            'before_comment_timestamp' => !is_null($submit_reviews->before_comment[$key]) ? Carbon::now() : null,
         ]);
     }
 
@@ -420,6 +424,12 @@ class AnimeRepository extends AbstractRepository
             'comment_timestamp' => is_null($my_review->one_word_comment) &&
             !is_null($submit_reviews->one_word_comment[$key]) ?
             Carbon::now() : $my_review->comment_timestamp,
+            'before_score' => $submit_reviews->before_score[$key],
+            'before_comment' => $submit_reviews->before_comment[$key],
+            'before_score_timestamp' => (($my_review->before_score ?? null) != $submit_reviews->before_score[$key])
+            ? Carbon::now() : $my_review->before_score_timestamp ?? null,
+           'before_comment_timestamp' => (($my_review->before_comment ?? null) != $submit_reviews->before_comment[$key])
+            ? Carbon::now() : $my_review->before_comment_timestamp ?? null,
         ]);
     }
 
