@@ -922,6 +922,7 @@ class UserTest extends TestCase
             $user_review->long_word_comment,
         ]);
     }
+
     /**
      * 存在しないユーザーのアニメコメントを表示
      *
@@ -932,5 +933,29 @@ class UserTest extends TestCase
     {
         $response = $this->get(route('user_anime_comment.show', ['user_review_id' => 3333333333333]));
         $response->assertStatus(404);
+    }
+
+    /**
+     * 新着一言感想一覧の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNewCommentListView()
+    {
+        $response = $this->get(route('new_comment_list.show'));
+        $response->assertStatus(200);
+    }
+
+    /**
+     * 新着視聴完了前一言感想一覧の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testNewBeforeCommentListView()
+    {
+        $response = $this->get(route('new_before_comment_list.show'));
+        $response->assertStatus(200);
     }
 }

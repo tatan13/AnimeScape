@@ -84,6 +84,10 @@ Route::get('/user_information/{user_id}/like_creater_list', [App\Http\Controller
 
 Route::get('/user_information/{user_id}/statistics', [App\Http\Controllers\UserController::class, 'showUserStatistics'])->name('user_statistics.show');
 
+Route::get('/new_comment_list', [App\Http\Controllers\UserController::class, 'showNewCommentList'])->name('new_comment_list.show');
+
+Route::get('/new_before_comment_list', [App\Http\Controllers\UserController::class, 'showNewBeforeCommentList'])->name('new_before_comment_list.show');
+
 Route::get('/search', [App\Http\Controllers\SearchController::class, 'show'])->name('search.show');
 
 Route::get('/contact', [App\Http\Controllers\ContactController::class, 'show'])->name('contact.show');
