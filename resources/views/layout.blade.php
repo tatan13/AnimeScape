@@ -44,9 +44,9 @@
                 <div class="mb-2 align-self-center">
                     <h1><a href="{{ route('index.show') }}">AnimeScape -アニメ批評空間-</a></h1>
                 </div>
-                {{-- @if (env('APP_ENV') == 'production') --}}
+                @if (env('APP_ENV') == 'production')
                     @yield('title_adsense')
-                {{-- @endif --}}
+                @endif
             </div>
             </h1>
         </header>
@@ -133,9 +133,9 @@
                             value="{{ $search_word ?? '' }}" size="15" /><br>
                         <input type="submit" value="検索" />
                     </form>
-                    {{-- @if (env('APP_ENV') == 'production') --}}
+                    @if (env('APP_ENV') == 'production')
                         @yield('sidebar_adsense')
-                    {{-- @endif --}}
+                    @endif
                 </section>
                 <section class="ranking_menu">
                     <h3>ランキングメニュー</h3>
