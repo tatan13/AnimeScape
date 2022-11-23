@@ -151,6 +151,10 @@
                 @endif
             </div>
         </section>
+        <section class="anime_summary">
+            <h3>あらすじ</h3>
+            {{ $anime->summary ?? '(あらすじ情報がありません。情報提供してくださると助かります。)' }}
+        </section>
         <section class="act_cast_information">
             <h3>声優の情報</h3>
             <table class="act_cast_information_table">
