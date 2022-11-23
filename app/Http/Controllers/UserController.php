@@ -332,4 +332,30 @@ class UserController extends Controller
             'user_review' => $user_review,
         ]);
     }
+
+    /**
+     * 新着一言感想一覧を表示
+     * @return \Illuminate\View\View
+     */
+    public function showNewCommentList()
+    {
+        $user_reviews_latest_comment = $this->userReviewService
+        ->getUserReviewListLatestCommentWithAnimeAndUser();
+        return view('new_comment_list', [
+            'user_reviews_latest_comment' => $user_reviews_latest_comment,
+        ]);
+    }
+
+    /**
+     * 新着視聴完了前一言感想一覧を表示
+     * @return \Illuminate\View\View
+     */
+    public function showNewBeforeCommentList()
+    {
+        $user_reviews_latest_before_comment = $this->userReviewService
+        ->getUserReviewListLatestBeforeCommentWithAnimeAndUser();
+        return view('new_before_comment_list', [
+            'user_reviews_latest_before_comment' => $user_reviews_latest_before_comment,
+        ]);
+    }
 }

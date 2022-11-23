@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\UserReview;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserReviewRepository extends AbstractRepository
 {
@@ -15,6 +16,50 @@ class UserReviewRepository extends AbstractRepository
     public function getModelClass(): string
     {
         return UserReview::class;
+    }
+
+    /**
+     * ユーザーレビューを感想タイムスタンプ降順に並び替えて取得
+     *
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function getUserReviewListLatestCommentWithAnimeAndUser()
+    {
+        return UserReview::with(['anime', 'user'])->whereNotNull('one_word_comment')
+        ->latest('comment_timestamp')->paginate(20);
+    }
+
+    /**
+     * ユーザーレビューを視聴完了前感想タイムスタンプ降順に並び替えて取得
+     *
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function getUserReviewListLatestBeforeCommentWithAnimeAndUser()
+    {
+        return UserReview::with(['anime', 'user'])->whereNotNull('before_comment')
+        ->latest('before_comment_timestamp')->paginate(20);
+    }
+
+    /**
+     * ユーザーレビューを感想タイムスタンプ降順に並び替えて7個まで取得
+     *
+     * @return Collection<int,UserReview> | Collection<null>
+     */
+    public function getUserReviewListLatestCommentLimitWithAnimeAndUser()
+    {
+        return UserReview::with(['anime', 'user'])->whereNotNull('one_word_comment')
+        ->latest('comment_timestamp')->take(7)->get();
+    }
+
+    /**
+     * ユーザーレビューを視聴完了前感想タイムスタンプ降順に並び替えて7個まで取得
+     *
+     * @return Collection<int,UserReview> | Collection<null>
+     */
+    public function getUserReviewListLatestBeforeCommentLimitWithAnimeAndUser()
+    {
+        return UserReview::with(['anime', 'user'])->whereNotNull('before_comment')
+        ->latest('before_comment_timestamp')->take(7)->get();
     }
 
     /**

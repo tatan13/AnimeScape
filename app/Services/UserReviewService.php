@@ -69,6 +69,46 @@ class UserReviewService
     }
 
     /**
+     * ユーザーレビューを感想タイムスタンプ降順に並び替えて取得
+     *
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function getUserReviewListLatestCommentWithAnimeAndUser()
+    {
+        return $this->userReviewRepository->getUserReviewListLatestCommentWithAnimeAndUser();
+    }
+
+    /**
+     * ユーザーレビューを視聴完了前感想タイムスタンプ降順に並び替えて取得
+     *
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function getUserReviewListLatestBeforeCommentWithAnimeAndUser()
+    {
+        return $this->userReviewRepository->getUserReviewListLatestBeforeCommentWithAnimeAndUser();
+    }
+
+    /**
+         * ユーザーレビューを感想タイムスタンプ降順に並び替えて7個まで取得
+         *
+         * @return Collection<int,UserReview> | Collection<null>
+         */
+    public function getUserReviewListLatestCommentLimitWithAnimeAndUser()
+    {
+        return $this->userReviewRepository->getUserReviewListLatestCommentLimitWithAnimeAndUser();
+    }
+
+    /**
+     * ユーザーレビューを視聴完了前感想タイムスタンプ降順に並び替えて7個まで取得
+     *
+     * @return Collection<int,UserReview> | Collection<null>
+     */
+    public function getUserReviewListLatestBeforeCommentLimitWithAnimeAndUser()
+    {
+        return $this->userReviewRepository->getUserReviewListLatestBeforeCommentLimitWithAnimeAndUser();
+    }
+
+    /**
      * ログインユーザーのアニメレビューを取得
      *
      * @param Anime $anime

@@ -56,15 +56,13 @@
                 <section class="login_menu">
                     <h3>ログインメニュー</h3>
                     @if (Auth::check())
-                        ログイン中 : {{ Auth::user()->name }}
+                        <form action="{{ route('logout') }}" name="logout" method="POST">
+                            @csrf
+                            ログイン中 : {{ Auth::user()->name }}
+                            <a href="javascript:logout.submit()">ログアウト</a>
+                        </form>
                         <ul>
                             <li><a href="{{ route('user.show', ['user_id' => auth()->user()->id]) }}">マイページ</a><br>
-                            </li>
-                            <li>
-                                <form action="{{ route('logout') }}" name="logout" method="POST">
-                                    @csrf
-                                    <a href="javascript:logout.submit()">ログアウト</a>
-                                </form>
                             </li>
                             <form action="{{ route('anime_review_list.show') }}" name="anime_review_list"
                                 method="get">
@@ -141,8 +139,7 @@
                     <h3>ランキングメニュー</h3>
                     <ul>
                         <li>
-                            <form action="{{ route('anime_statistics.show') }}" name="all_statistics"
-                                method="get">
+                            <form action="{{ route('anime_statistics.show') }}" name="all_statistics" method="get">
                                 @csrf
                                 <input type="hidden" name="category" value="median">
                                 <a href="javascript:all_statistics.submit()">すべて</a>
