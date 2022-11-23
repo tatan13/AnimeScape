@@ -1,13 +1,13 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ $company->name }}の削除申請画面 AnimeScape -アニメ批評空間-</title>
+    <title>{{ $company->name }}の削除申請 AnimeScape -アニメ批評空間-</title>
     <meta name="robots" content="noindex,nofollow">
 @endsection
 
 @section('main')
     <article class="delete_company_request">
-        <h2>{{ $company->name }}の削除申請画面</h2>
+        <h2>{{ $company->name }}の削除申請</h2>
         <h3><a href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a></h3>
         @if ($errors->any())
             <div class="alert alert-danger">

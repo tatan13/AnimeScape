@@ -1,13 +1,13 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ $cast->name }}の削除申請画面 AnimeScape -アニメ批評空間-</title>
+    <title>{{ $cast->name }}の削除申請 AnimeScape -アニメ批評空間-</title>
     <meta name="robots" content="noindex,nofollow">
 @endsection
 
 @section('main')
     <article class="delete_cast_request">
-        <h2>{{ $cast->name }}の削除申請画面</h2>
+        <h2>{{ $cast->name }}の削除申請</h2>
         <h3><a href="{{ route('cast.show', ['cast_id' => $cast->id]) }}">{{ $cast->name }}</a></h3>
         @if ($errors->any())
             <div class="alert alert-danger">

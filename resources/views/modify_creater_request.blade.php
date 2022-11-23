@@ -23,8 +23,8 @@
                 {{ session('flash_message') }}
             </div>
         @endif
-        <form action="{{ route('modify_creater_request.post', ['creater_id' => $creater->id]) }}" class="modify_creater_request_form"
-            method="POST">
+        <form action="{{ route('modify_creater_request.post', ['creater_id' => $creater->id]) }}"
+            class="modify_creater_request_form" method="POST">
             @csrf
             <input type="submit" value="送信">
             <table class="modify_creater_request_table">
@@ -111,14 +111,18 @@
                     <tr>
                         <th>事由</th>
                         <td></td>
-                        <td><input type="text" size="100" name="remark" class="remark"
-                                value="{{ old('remark') }}"></td>
+                        <td><input type="text" size="100" name="remark" class="remark" value="{{ old('remark') }}">
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </form>
         <h3>注意事項</h3>
-        事由は400文字以内で入力してください。<br>
-        生年月日は〇年〇月〇日で入力してください。生まれ年が不明の場合は〇月〇日で入力してください。
+        <ul class="list-inline">
+            <li>すべて入力する必要はありません。可能な限りでご協力お願いします。</li>
+            <li>生年月日は〇年〇月〇日で入力してください。生まれ年が不明の場合は〇月〇日で入力してください。</li>
+            <li>ふりがなはすべてひらがなでお願いします。</li>
+            <li>事由は400文字以内で入力してください。</li>
+        </ul>
     </article>
 @endsection

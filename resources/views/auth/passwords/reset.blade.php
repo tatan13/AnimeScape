@@ -1,12 +1,12 @@
 @extends('layout')
 
 @section('title')
-    <title>パスワード再発行画面 AnimeScape -アニメ批評空間-</title>
+    <title>パスワード再発行 AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('main')
     <article class="reset_password">
-        <h2>パスワード再発行画面</h2>
+        <h2>パスワード再発行</h2>
         @if ($errors->any())
             <div class="alert alert-danger">
                 @foreach ($errors->all() as $message)

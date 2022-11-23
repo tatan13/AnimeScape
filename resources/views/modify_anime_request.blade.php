@@ -147,8 +147,8 @@
                     </tr>
                     <tr>
                         <th>U-NEXTのID</th>
-                        <td>{{ $anime->unext_id }}</td>
-                        <td><input type="text" name="unext_id" value="{{ $anime->unext_id }}"></td>
+                        <td></td>
+                        <td><input type="text" name="unext_id" value=""></td>
                     </tr>
                     <tr>
                         <th>ABEMAプレミアムのID</th>
@@ -176,7 +176,20 @@
             </table>
         </form>
         <h3>注意事項</h3>
-        各種配信サイトにおいて配信されていない場合、'なし'と書いてください。<br>
-        事由は400文字以内で入力してください。
+        <ul class="list-inline">
+            <li>すべて入力する必要はありません。可能な限りでご協力お願いします。</li>
+            <li>アニメ名、放送年、クール欄は空欄で送信できません。</li>
+            <li>ふりがなはすべてひらがなでお願いします。</li>
+            <li>略称は複数ある場合○○、○○というように「、」で区切ってください。</li>
+            <li>1~3月が冬クール、4~6月が春クール、7~9月が夏クール、10月~12月が冬クールです。映画についても放映開始日をこのクールに従ってお願いします。</li>
+            <li>dアニメストアのIDはhttps://animestore.docomo.ne.jp/animestore/ci_pc?workId=○○の部分です。</li>
+            <li>AmazonプライムビデオのIDhttps://www.amazon.co.jp/gp/video/detail/○○の部分です。</li>
+            <li>FODのIDはhttps://fod.fujitv.co.jp/title/○○の部分です。</li>
+            <li>U-NEXTのIDはhttps://video.unext.jp/title/○○の部分です。</li>
+            <li>ABEMAプレミアムのIDはhttps://abema.tv/video/title/○○の部分です。</li>
+            <li>DISNEY+のIDはhttps://www.disneyplus.com/ja-jp/series/○○の部分です。</li>
+            <li>各種配信サイトにおいて配信されていない場合、'なし'と書いてください。レンタル作品の場合は'レンタル'と書いてください。</li>
+            <li>事由は400文字以内で入力してください。</li>
+        </ul>
     </article>
 @endsection
