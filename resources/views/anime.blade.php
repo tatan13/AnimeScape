@@ -403,65 +403,65 @@
             <h3>配信サイトのリンク</h3>
             <ul>
                 <li>
-                    @if (!is_null($anime->d_anime_store_id))
+                    @if (!is_null($anime->d_anime_store_id) && ($anime->d_anime_store_id != 'なし' && $anime->d_anime_store_id != 'レンタル'))
                         <a href="https://animestore.docomo.ne.jp/animestore/ci_pc?workId={{ $anime->d_anime_store_id }}"
                             target="_blank"
-                            rel="noopener noreferrer">dアニメストア</a>{{ $anime->d_anime_store_id == 'なし' ? '(配信なし)' : '' }}
+                            rel="noopener noreferrer">dアニメストア</a>
                     @else
-                        dアニメストア(情報なし)
+                        dアニメストア{{ $anime->d_anime_store_id == 'なし' ? '(配信なし)' : ($anime->d_anime_store_id == 'レンタル' ? '(レンタルあり)' : '(情報なし)') }}
                     @endif
                 </li>
                 <li>
-                    @if (!is_null($anime->amazon_prime_video_id))
+                    @if (!is_null($anime->amazon_prime_video_id) && ($anime->amazon_prime_video_id != 'なし' && $anime->amazon_prime_video_id != 'レンタル'))
                         <a href="https://www.amazon.co.jp/gp/video/detail/{{ $anime->amazon_prime_video_id }}"
                             target="_blank"
-                            rel="noopener noreferrer">Amazonプライムビデオ</a>{{ $anime->amazon_prime_video_id == 'なし' ? '(配信なし)' : '' }}
+                            rel="noopener noreferrer">Amazonプライムビデオ</a>
                     @else
-                        Amazonプライムビデオ(情報なし)
+                        Amazonプライムビデオ{{ $anime->amazon_prime_video_id == 'なし' ? '(配信なし)' : ($anime->amazon_prime_video_id == 'レンタル' ? '(レンタルあり)' : '(情報なし)') }}
                     @endif
                 </li>
                 <li>
-                    @if (!is_null($anime->fod_id))
+                    @if (!is_null($anime->fod_id) && ($anime->fod_id != 'なし' && $anime->fod_id != 'レンタル'))
                         <a href="https://fod.fujitv.co.jp/title/{{ $anime->fod_id }}" target="_blank"
-                            rel="noopener noreferrer">FOD</a>{{ $anime->fod_id == 'なし' ? '(配信なし)' : '' }}
+                            rel="noopener noreferrer">FOD</a>
                     @else
-                        FOD(情報なし)
+                        FOD{{ $anime->fod_id == 'なし' ? '(配信なし)' : ($anime->fod_id == 'レンタル' ? '(レンタルあり)' : '(情報なし)') }}
                     @endif
                 </li>
                 <li>
-                    @if (!is_null($anime->unext_id))
-                        <a href="https://video.unext.jp/title/{{ $anime->unext_id }}" target="_blank"
-                            rel="noopener noreferrer">U-NEXT</a>{{ $anime->unext_id == 'なし' ? '(配信なし)' : '' }}
+                    @if (!is_null($anime->unext_id) && ($anime->unext_id != 'なし' && $anime->unext_id != 'レンタル'))
+                        <a href="{{ $anime->unext_id }}" target="_blank"
+                            rel="noopener noreferrer">U-NEXT</a>
                     @else
-                        U-NEXT(情報なし)
+                        U-NEXT{{ $anime->unext_id == 'なし' ? '(配信なし)' : ($anime->unext_id == 'レンタル' ? '(レンタルあり)' : '(情報なし)') }}
                     @endif
                 </li>
                 <li>
-                    @if (!is_null($anime->abema_id))
+                    @if (!is_null($anime->abema_id) && ($anime->abema_id != 'なし' && $anime->abema_id != 'レンタル'))
                         <a href="https://abema.tv/video/title/{{ $anime->abema_id }}" target="_blank"
-                            rel="noopener noreferrer">ABEMAプレミアム</a>{{ $anime->abema_id == 'なし' ? '(配信なし)' : '' }}
+                            rel="noopener noreferrer">ABEMAプレミアム</a>
                     @else
-                        ABEMAプレミアム(情報なし)
+                        ABEMAプレミアム{{ $anime->abema_id == 'なし' ? '(配信なし)' : ($anime->abema_id == 'レンタル' ? '(レンタルあり)' : '(情報なし)') }}
                     @endif
                 </li>
                 <li>
-                    @if (!is_null($anime->disney_plus_id))
+                    @if (!is_null($anime->disney_plus_id) && ($anime->disney_plus_id != 'なし' && $anime->disney_plus_id != 'レンタル'))
                         <a href="https://www.disneyplus.com/ja-jp/series/{{ $anime->disney_plus_id }}" target="_blank"
-                            rel="noopener noreferrer">DISNEY+</a>{{ is_null($anime->disney_plus_id) ? '(情報なし)' : ($anime->disney_plus_id == 'なし' ? '(配信なし)' : '') }}
+                            rel="noopener noreferrer">DISNEY+</a>
                     @else
-                        DISNEY+(情報なし)
+                        DISNEY+{{ $anime->disney_plus_id == 'なし' ? '(配信なし)' : ($anime->disney_plus_id == 'レンタル' ? '(レンタルあり)' : '(情報なし)') }}
                     @endif
                 </li>
-                <a href="https://px.a8.net/svt/ejp?a8mat=3NNF9T+4D6GHE+4EKC+5ZU29" rel="nofollow">
-                    <img border="0" width="120" height="60" alt=""
-                        src="https://www23.a8.net/svt/bgt?aid=221122577264&wid=001&eno=01&mid=s00000020550001007000&mc=1"></a>
-                <img border="0" width="1" height="1"
-                    src="https://www17.a8.net/0.gif?a8mat=3NNF9T+4D6GHE+4EKC+5ZU29" alt="">
                 <a href="https://px.a8.net/svt/ejp?a8mat=3NNF9T+4BZL9U+3250+61Z81" rel="nofollow">
                     <img border="0" width="120" height="60" alt=""
                         src="https://www25.a8.net/svt/bgt?aid=221122577262&wid=001&eno=01&mid=s00000014274001017000&mc=1"></a>
                 <img border="0" width="1" height="1"
                     src="https://www17.a8.net/0.gif?a8mat=3NNF9T+4BZL9U+3250+61Z81" alt="">
+                <a href="https://px.a8.net/svt/ejp?a8mat=3NNF9T+4D6GHE+4EKC+5ZU29" rel="nofollow">
+                    <img border="0" width="120" height="60" alt=""
+                        src="https://www23.a8.net/svt/bgt?aid=221122577264&wid=001&eno=01&mid=s00000020550001007000&mc=1"></a>
+                <img border="0" width="1" height="1"
+                    src="https://www17.a8.net/0.gif?a8mat=3NNF9T+4D6GHE+4EKC+5ZU29" alt="">
             </ul>
         </section>
         <section class="anime_twitter">
