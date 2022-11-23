@@ -451,9 +451,6 @@ class AnimeTest extends TestCase
         $response->assertStatus(200);
         $response->assertSeeInOrder([
             $this->anime->title,
-            $this->anime->companies[0]->name,
-            $this->anime->year,
-            $this->anime->coor_label,
             0,
             $this->anime3->title,
             'not sad',
@@ -480,6 +477,8 @@ class AnimeTest extends TestCase
             'give_up[1]' => 1,
             'number_of_interesting_episode[1]' => 1,
             'one_word_comment[1]' => 'not sad',
+            'before_score[1]' => 40,
+            'before_comment[1]' => 'not sad',
             'anime_id[2]' => $this->anime1->id,
             'score[2]' => 35,
             'watch[2]' => 1,
@@ -488,6 +487,8 @@ class AnimeTest extends TestCase
             'give_up[2]' => 1,
             'number_of_interesting_episode[2]' => 1,
             'one_word_comment[2]' => 'not sad',
+            'before_score[2]' => 35,
+            'before_comment[2]' => 'not sad',
             'anime_id[3]' => $this->anime2->id,
             'score[3]' => '',
             'watch[3]' => 0,
@@ -496,6 +497,8 @@ class AnimeTest extends TestCase
             'give_up[3]' => 0,
             'number_of_interesting_episode[3]' => '',
             'one_word_comment[3]' => '',
+            'before_score[3]' => '',
+            'before_comment[3]' => '',
             'anime_id[4]' => $this->anime3->id,
             'score[4]' => '',
             'watch[4]' => 0,
@@ -504,6 +507,8 @@ class AnimeTest extends TestCase
             'give_up[4]' => 0,
             'number_of_interesting_episode[4]' => '',
             'one_word_comment[4]' => '',
+            'before_score[4]' => '',
+            'before_comment[4]' => '',
         ]));
         $response->assertRedirect(route('anime_review_list.show', [
             'year' => 2022,
@@ -523,6 +528,8 @@ class AnimeTest extends TestCase
             'number_of_interesting_episode' => 1,
             'now_watch' => true,
             'give_up' => true,
+            'before_score' => 40,
+            'before_comment' => 'not sad',
         ]);
         $this->assertDatabaseHas('user_reviews', [
             'anime_id' => $this->anime1->id,
@@ -534,6 +541,8 @@ class AnimeTest extends TestCase
             'number_of_interesting_episode' => 1,
             'now_watch' => true,
             'give_up' => true,
+            'before_score' => 35,
+            'before_comment' => 'not sad',
         ]);
         $this->assertDatabaseMissing('user_reviews', [
             'anime_id' => $this->anime2->id,
@@ -549,6 +558,8 @@ class AnimeTest extends TestCase
             'number_of_interesting_episode' => null,
             'now_watch' => false,
             'give_up' => false,
+            'before_score' => null,
+            'before_comment' => null,
         ]);
         $this->assertDatabaseHas('animes', [
             'id' => $this->anime->id,
@@ -557,6 +568,9 @@ class AnimeTest extends TestCase
             'count' => 2,
             'max' => 100,
             'min' => 40,
+            'before_median' => 70,
+            'before_average' => 70,
+            'before_count' => 2,
         ]);
         $this->assertDatabaseHas('animes', [
             'id' => $this->anime1->id,
@@ -565,6 +579,9 @@ class AnimeTest extends TestCase
             'count' => 1,
             'max' => 35,
             'min' => 35,
+            'before_median' => 35,
+            'before_average' => 35,
+            'before_count' => 1,
         ]);
         $this->assertDatabaseHas('animes', [
             'id' => $this->anime3->id,
@@ -573,6 +590,9 @@ class AnimeTest extends TestCase
             'count' => 0,
             'max' => null,
             'min' => null,
+            'before_median' => null,
+            'before_average' => null,
+            'before_count' => 0,
         ]);
     }
 
@@ -594,24 +614,32 @@ class AnimeTest extends TestCase
             'will_watch[1]' => 1,
             'spoiler[1]' => 1,
             'one_word_comment[1]' => 'not sad',
+            'before_score[1]' => 40,
+            'before_comment[1]' => 'not sad',
             'anime_id[2]' => $this->anime1->id,
             'score[2]' => 35,
             'watch[2]' => 1,
             'will_watch[2]' => 1,
             'spoiler[2]' => 1,
             'one_word_comment[2]' => 'not sad',
+            'before_score[2]' => 35,
+            'before_comment[2]' => 'not sad',
             'anime_id[3]' => $this->anime2->id,
             'score[3]' => '',
             'watch[3]' => 0,
             'will_watch[3]' => 0,
             'spoiler[3]' => 0,
             'one_word_comment[3]' => '',
+            'before_score[3]' => '',
+            'before_comment[3]' => '',
             'anime_id[4]' => $this->anime3->id,
             'score[4]' => '',
             'watch[4]' => 0,
             'will_watch[4]' => 0,
             'spoiler[4]' => 0,
             'one_word_comment[4]' => '',
+            'before_score[4]' => '',
+            'before_comment[4]' => '',
         ]));
         $response->assertStatus(404);
     }

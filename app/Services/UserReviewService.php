@@ -135,7 +135,9 @@ class UserReviewService
                 $submit_reviews->now_watch[$key] == true ||
                 $submit_reviews->give_up[$key] == true ||
                 !is_null($submit_reviews->number_of_interesting_episode[$key]) ||
-                !is_null($submit_reviews->one_word_comment[$key])
+                !is_null($submit_reviews->one_word_comment[$key]) ||
+                !is_null($submit_reviews->score[$key]) ||
+                !is_null($submit_reviews->before_comment[$key])
             ) {
                 if (is_null($anime->userReview)) {
                     DB::transaction(function () use ($anime, $submit_reviews, $key) {
