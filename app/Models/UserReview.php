@@ -84,4 +84,16 @@ class UserReview extends Model
         ->select('user_reviews.*', 'animes.*')
         ->orderByRaw('animes.year desc, animes.coor desc, animes.median desc');
     }
+
+    public function scopeLatestCountWithAnimeAndUser($query)
+    {
+        return $query->with(['anime', 'user'])->whereNotNull('one_word_comment')
+        ->latest('comment_timestamp');
+    }
+
+    public function scopeLatestBeforeCountWithAnimeAndUser($query)
+    {
+        return $query->with(['anime', 'user'])->whereNotNull('before_comment')
+        ->latest('before_comment_timestamp');
+    }
 }

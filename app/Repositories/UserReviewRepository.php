@@ -25,8 +25,7 @@ class UserReviewRepository extends AbstractRepository
      */
     public function getUserReviewListLatestCommentWithAnimeAndUser()
     {
-        return UserReview::with(['anime', 'user'])->whereNotNull('one_word_comment')
-        ->latest('comment_timestamp')->paginate(20);
+        return UserReview::LatestCountWithAnimeAndUser()->paginate(20);
     }
 
     /**
@@ -36,8 +35,7 @@ class UserReviewRepository extends AbstractRepository
      */
     public function getUserReviewListLatestBeforeCommentWithAnimeAndUser()
     {
-        return UserReview::with(['anime', 'user'])->whereNotNull('before_comment')
-        ->latest('before_comment_timestamp')->paginate(20);
+        return UserReview::LatestBeforeCountWithAnimeAndUser()->paginate(20);
     }
 
     /**
@@ -47,8 +45,7 @@ class UserReviewRepository extends AbstractRepository
      */
     public function getUserReviewListLatestCommentLimitWithAnimeAndUser()
     {
-        return UserReview::with(['anime', 'user'])->whereNotNull('one_word_comment')
-        ->latest('comment_timestamp')->take(7)->get();
+        return UserReview::LatestCountWithAnimeAndUser()->take(7)->get();
     }
 
     /**
@@ -58,8 +55,7 @@ class UserReviewRepository extends AbstractRepository
      */
     public function getUserReviewListLatestBeforeCommentLimitWithAnimeAndUser()
     {
-        return UserReview::with(['anime', 'user'])->whereNotNull('before_comment')
-        ->latest('before_comment_timestamp')->take(7)->get();
+        return UserReview::LatestBeforeCountWithAnimeAndUser()->take(7)->get();
     }
 
     /**
