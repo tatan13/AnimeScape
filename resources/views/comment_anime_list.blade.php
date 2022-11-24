@@ -20,7 +20,7 @@
 @section('main')
     <article class="comment_anime_list">
         <h2>{{ $user->name }}さんの感想リスト</h2>
-        <strong>{{ $user->name }}</strong>
+        <div class="title">{{ $user->name }}</div>
         <h3>感想リスト</h3>
         @foreach ($comment_anime_list as $comment_anime)
             @if (!is_null($comment_anime->userReview->score))

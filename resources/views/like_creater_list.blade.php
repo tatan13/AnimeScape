@@ -20,7 +20,7 @@
 @section('main')
     <article class="like_creater_list">
         <h2>{{ $user->name }}さんのお気に入りクリエイター</h2>
-        <strong>{{ $user->name }}</strong>
+        <div class="title">{{ $user->name }}</div>
         <h3>お気に入りクリエイター</h3>
         <ul>
             @foreach ($like_creater_list as $creater)
