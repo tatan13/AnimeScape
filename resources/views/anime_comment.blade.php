@@ -17,13 +17,16 @@
     @include('layout.vertical_adsense')
 @endsection
 
+@section('main_adsense_smartphone')
+    @include('layout.horizontal_adsense_smartphone')
+@endsection
+
 @section('main')
     <article class="anime_comment">
         <h2>
             <a href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a>
             さんの「
-            <a
-                href="{{ route('anime.show', ['anime_id' => $user_review->anime->id]) }}">{{ $user_review->anime->title }}</a>
+            <a href="{{ route('anime.show', ['anime_id' => $user_review->anime->id]) }}">{{ $user_review->anime->title }}</a>
             」の感想
         </h2>
         <section class="user_anime_comment">
@@ -37,6 +40,7 @@
             <p class="text-info">{{ $user_review->one_word_comment }}</p>
             <p>{{ $user_review->long_word_comment }}</p>
             <p>{{ $user_review->comment_timestamp }}</p>
+            <hr>
         </section>
     </article>
 @endsection

@@ -17,24 +17,26 @@
     @include('layout.vertical_adsense')
 @endsection
 
+@section('main_adsense_smartphone')
+    @include('layout.horizontal_adsense_smartphone')
+@endsection
+
 @section('main')
     <article class="user_statistics">
         <h2>{{ $user->name }}さんのお気に入りユーザーの統計表</h2>
-        <strong>{{ $user->name }}</strong>
+        <div class="title">{{ $user->name }}</div>
         <h3>表示設定</h3>
         <form action="{{ route('user_statistics.show', ['user_id' => $user->id]) }}" class="search_parameters_form"
             method="get">
             @csrf
             中央値
-            <input type="number" name="median" class="median" value="{{ $median ?? 70 }}"
-                style="width:50px;">以上<br>
+            <input type="number" name="median" class="median" value="{{ $median ?? 70 }}" style="width:50px;">以上<br>
             得点数
             <input type="number" name="count" class="count" value="{{ $count ?? 0 }}" style="width:60px;">以上<br>
             放送時期
             <input type="number" name="bottom_year" class="bottom_year" value="{{ $bottom_year ?? 1900 }}"
                 style="width:70px;">～
-            <input type="number" name="top_year" class="top_year" value="{{ $top_year ?? 2100 }}"
-                style="width:70px;"><br>
+            <input type="number" name="top_year" class="top_year" value="{{ $top_year ?? 2100 }}" style="width:70px;"><br>
             <input type="submit" value="絞り込み">
             <a href="{{ route('user_statistics.show', ['user_id' => $user->id]) }}">絞り込み解除</a>
         </form>

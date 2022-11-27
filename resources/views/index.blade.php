@@ -1,8 +1,8 @@
 @extends('layout')
 
 @section('title')
-    <title>AnimeScape -アニメ批評空間-</title>
     <meta name="description" content="アニメの情報やアニメに付けたユーザーの得点や感想を集めた統計サイトです。視聴管理、アニメ探し等様々な用途でご利用ください。">
+    <title>AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('adsense')
@@ -18,6 +18,10 @@
     @include('layout.vertical_adsense')
 @endsection
 
+@section('main_adsense_smartphone')
+    @include('layout.horizontal_adsense_smartphone')
+@endsection
+
 @section('main')
     <article class="index">
         <section class="information">
@@ -28,47 +32,6 @@
                 <li>視聴完了前得点、視聴完了前一言感想を得点一括入力欄に追加したことで一括入力できるようにしました。皆さま今期アニメのデータ入力のご協力をお願いします。</li>
                 <li>現在はアニメ作品のジャンル、傾向等を表せるタグ機能の実装を進めています。</li>
             </ul>
-        </section>
-        <section class="new_before_comment">
-            <h2>新着視聴完了前一言感想　<a href="{{ route('new_before_comment_list.show') }}">もっと見る</a></h2>
-            @foreach ($user_reviews_latest_before_comment as $user_review)
-                @if (!is_null($user_review->before_score))
-                    <strong>{{ $user_review->before_score }}点</strong>
-                @endif
-                <a
-                    href="{{ route('anime.show', ['anime_id' => $user_review->anime->id]) }}">{{ $user_review->anime->title }}</a>
-                <br>
-                {{ $user_review->before_comment }}
-                <p>
-                    {{ $user_review->before_comment_timestamp }} <a
-                        href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a>
-                </p>
-                <hr>
-            @endforeach
-        </section>
-        <section class="new_comment">
-            <h2>新着一言感想　<a href="{{ route('new_comment_list.show') }}">もっと見る</a></h2>
-            @foreach ($user_reviews_latest_comment as $user_review)
-                @if (!is_null($user_review->score))
-                    <strong>{{ $user_review->score }}点</strong>
-                @endif
-                <a
-                    href="{{ route('anime.show', ['anime_id' => $user_review->anime->id]) }}">{{ $user_review->anime->title }}</a>
-                <br>
-                {{ $user_review->one_word_comment }}
-                @if (!is_null($user_review->long_word_comment))
-                    <a href="{{ route('user_anime_comment.show', ['user_review_id' => $user_review->id]) }}">→長文感想({{ mb_strlen($user_review->long_word_comment) }}文字)
-                        @if ($user_review->spoiler == true)
-                            (ネタバレ注意)
-                        @endif
-                    </a>
-                @endif
-                <p>
-                    {{ $user_review->comment_timestamp }} <a
-                        href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a>
-                </p>
-                <hr>
-            @endforeach
         </section>
         <section class="anime_ranking">
             <h2>2022年{{ App\Models\Anime::getCoorLabel(\App\Models\Anime::NOW_COOR) }}クールアニメ視聴完了前ランキング</h2>
@@ -112,6 +75,47 @@
                     @endforeach
                 </tbody>
             </table>
+        </section>
+        <section class="new_before_comment">
+            <h2>新着視聴完了前一言感想　<a href="{{ route('new_before_comment_list.show') }}">もっと見る</a></h2>
+            @foreach ($user_reviews_latest_before_comment as $user_review)
+                @if (!is_null($user_review->before_score))
+                    <strong>{{ $user_review->before_score }}点</strong>
+                @endif
+                <a
+                    href="{{ route('anime.show', ['anime_id' => $user_review->anime->id]) }}">{{ $user_review->anime->title }}</a>
+                <br>
+                {{ $user_review->before_comment }}
+                <p>
+                    {{ $user_review->before_comment_timestamp }} <a
+                        href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a>
+                </p>
+                <hr>
+            @endforeach
+        </section>
+        <section class="new_comment">
+            <h2>新着一言感想　<a href="{{ route('new_comment_list.show') }}">もっと見る</a></h2>
+            @foreach ($user_reviews_latest_comment as $user_review)
+                @if (!is_null($user_review->score))
+                    <strong>{{ $user_review->score }}点</strong>
+                @endif
+                <a
+                    href="{{ route('anime.show', ['anime_id' => $user_review->anime->id]) }}">{{ $user_review->anime->title }}</a>
+                <br>
+                {{ $user_review->one_word_comment }}
+                @if (!is_null($user_review->long_word_comment))
+                    <a href="{{ route('user_anime_comment.show', ['user_review_id' => $user_review->id]) }}">→長文感想({{ mb_strlen($user_review->long_word_comment) }}文字)
+                        @if ($user_review->spoiler == true)
+                            (ネタバレ注意)
+                        @endif
+                    </a>
+                @endif
+                <p>
+                    {{ $user_review->comment_timestamp }} <a
+                        href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a>
+                </p>
+                <hr>
+            @endforeach
         </section>
     </article>
 @endsection

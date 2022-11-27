@@ -18,6 +18,10 @@
     @include('layout.vertical_adsense')
 @endsection
 
+@section('main_adsense_smartphone')
+    @include('layout.horizontal_adsense_smartphone')
+@endsection
+
 @section('main')
     <article class="index">
         <h2>新着一言感想一覧</h2>

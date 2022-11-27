@@ -17,16 +17,21 @@
     @include('layout.vertical_adsense')
 @endsection
 
+@section('main_adsense_smartphone')
+    @include('layout.horizontal_adsense_smartphone')
+@endsection
+
 @section('main')
     <article class="before_comment_anime_list">
         <h2>{{ $user->name }}さんの視聴完了前一言感想リスト</h2>
-        <strong>{{ $user->name }}</strong>
+        <div class="title">{{ $user->name }}</div>
         <h3>感想リスト</h3>
         @foreach ($before_comment_anime_list as $before_comment_anime)
             @if (!is_null($before_comment_anime->userReview->before_score))
                 <strong>{{ $before_comment_anime->userReview->before_score }}点</strong>
             @endif
-            <a href="{{ route('anime.show', ['anime_id' => $before_comment_anime->id]) }}">{{ $before_comment_anime->title }}</a><br>
+            <a
+                href="{{ route('anime.show', ['anime_id' => $before_comment_anime->id]) }}">{{ $before_comment_anime->title }}</a><br>
             {{ $before_comment_anime->userReview->before_comment }}
             <p>
                 {{ $before_comment_anime->userReview->before_comment_timestamp }} <a

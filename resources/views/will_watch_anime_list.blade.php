@@ -17,10 +17,14 @@
     @include('layout.vertical_adsense')
 @endsection
 
+@section('main_adsense_smartphone')
+    @include('layout.horizontal_adsense_smartphone')
+@endsection
+
 @section('main')
     <article class="will_watch_anime_list">
         <h2>{{ $user->name }}さんの視聴予定表</h2>
-        <strong>{{ $user->name }}</strong>
+        <div class="title">{{ $user->name }}</div>
         <h3>視聴予定表</h3>
         <table class="will_watch_anime_list_table">
             <tbody>

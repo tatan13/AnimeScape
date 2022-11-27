@@ -17,10 +17,14 @@
     @include('layout.vertical_adsense')
 @endsection
 
+@section('main_adsense_smartphone')
+    @include('layout.horizontal_adsense_smartphone')
+@endsection
+
 @section('main')
     <article class="like_user_list">
         <h2>{{ $user->name }}さんのお気に入りユーザー</h2>
-        <strong>{{ $user->name }}</strong><br>
+        <div class="title">{{ $user->name }}</div>
         <a href=" {{ route('user_statistics.show', ['user_id' => $user->id]) }} ">統計表</a>
         <h3>お気に入りユーザー</h3>
         <table class="like_user_list_table">
@@ -34,8 +38,7 @@
                 </tr>
                 @foreach ($like_user_list as $like_user)
                     <tr>
-                        <td><a
-                                href="{{ route('user.show', ['user_id' => $like_user->id]) }}">{{ $like_user->name }}</a>
+                        <td><a href="{{ route('user.show', ['user_id' => $like_user->id]) }}">{{ $like_user->name }}</a>
                         </td>
                         <td>{{ $like_user->twitter ?? '-' }}</td>
                         <td>{{ $like_user->birth ?? '-' }}</td>

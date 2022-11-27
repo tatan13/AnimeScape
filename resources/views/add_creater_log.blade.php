@@ -17,6 +17,10 @@
     @include('layout.vertical_adsense')
 @endsection
 
+@section('main_adsense_smartphone')
+    @include('layout.horizontal_adsense_smartphone')
+@endsection
+
 @section('main')
     <article class="add_creater_log">
         <h2>クリエイターの追加履歴</h2>
