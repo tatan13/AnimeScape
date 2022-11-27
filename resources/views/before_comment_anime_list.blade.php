@@ -17,6 +17,10 @@
     @include('layout.vertical_adsense')
 @endsection
 
+@section('main_adsense_smartphone')
+    @include('layout.horizontal_adsense_smartphone')
+@endsection
+
 @section('main')
     <article class="before_comment_anime_list">
         <h2>{{ $user->name }}さんの視聴完了前一言感想リスト</h2>

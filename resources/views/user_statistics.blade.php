@@ -17,6 +17,10 @@
     @include('layout.vertical_adsense')
 @endsection
 
+@section('main_adsense_smartphone')
+    @include('layout.horizontal_adsense_smartphone')
+@endsection
+
 @section('main')
     <article class="user_statistics">
         <h2>{{ $user->name }}さんのお気に入りユーザーの統計表</h2>

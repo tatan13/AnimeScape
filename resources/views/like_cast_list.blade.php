@@ -17,6 +17,10 @@
     @include('layout.vertical_adsense')
 @endsection
 
+@section('main_adsense_smartphone')
+    @include('layout.horizontal_adsense_smartphone')
+@endsection
+
 @section('main')
     <article class="like_cast_list">
         <h2>{{ $user->name }}さんのお気に入り声優</h2>

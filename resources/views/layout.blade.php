@@ -51,7 +51,7 @@
             </h1>
         </header>
         <div class="row">
-            <aside class="col-xl-2">
+            <aside class="col-xl-2 col-sm-3">
                 <h2>メニュー</h2>
                 <section class="login_menu">
                     <h3>ログインメニュー</h3>
@@ -131,10 +131,10 @@
                             value="{{ $search_word ?? '' }}" size="15" /><br>
                         <input type="submit" value="検索" />
                     </form>
-                    @if (env('APP_ENV') == 'production')
-                        @yield('sidebar_adsense')
-                    @endif
                 </section>
+                @if (env('APP_ENV') == 'production')
+                    @yield('sidebar_adsense')
+                @endif
                 <section class="ranking_menu">
                     <h3>ランキングメニュー</h3>
                     <ul>
@@ -208,7 +208,8 @@
                     </ul>
                 </section>
             </aside>
-            <main class="col-xl-10">
+            <main class="col-xl-10 col-sm-9">
+                @yield('main_adsense_smartphone')
                 @yield('main')
             </main>
         </div>

@@ -17,6 +17,10 @@
     @include('layout.vertical_adsense')
 @endsection
 
+@section('main_adsense_smartphone')
+    @include('layout.horizontal_adsense_smartphone')
+@endsection
+
 @section('main')
     <article class="anime_information">
         <h2>
@@ -95,7 +99,6 @@
                             onclick="return confirm('本当に削除しますか？')">このアニメを削除する</a>
                     @endcan
                 </div>
-
                 <div>
                     <table class="anime_statistics_table">
                         <tbody>
@@ -357,31 +360,38 @@
             @endforeach
         </section>
         <section class="before_anime_information">
-            <h3>視聴完了前統計情報</h3>
-            <table class="before_anime_statistics_table">
-                <tbody>
-                    <tr>
-                        <th>中央値</th>
-                        <th>平均値</th>
-                        <th>得点数</th>
-                        <th>標準偏差</th>
-                        @auth
-                            <th>つけた得点</th>
-                        @endauth
-                    </tr>
-                    <tr>
-                        <td>{{ $anime->before_median }}</td>
-                        <td>{{ $anime->before_average }}</td>
-                        <td><a
-                                href="{{ route('anime_before_score_list.show', ['anime_id' => $anime->id]) }}">{{ $anime->before_count }}</a>
-                        </td>
-                        <td>{{ $anime->before_stdev }}</td>
-                        @auth
-                            <td>{{ $anime->userReview->before_score ?? '' }}</td>
-                        @endauth
-                    </tr>
-                </tbody>
-            </table>
+            <div class="row">
+                <div class="col-sm-5">
+                    <h3>視聴完了前統計情報</h3>
+                    <table class="before_anime_statistics_table">
+                        <tbody>
+                            <tr>
+                                <th>中央値</th>
+                                <th>平均値</th>
+                                <th>得点数</th>
+                                <th>標準偏差</th>
+                                @auth
+                                    <th>つけた得点</th>
+                                @endauth
+                            </tr>
+                            <tr>
+                                <td>{{ $anime->before_median }}</td>
+                                <td>{{ $anime->before_average }}</td>
+                                <td><a
+                                        href="{{ route('anime_before_score_list.show', ['anime_id' => $anime->id]) }}">{{ $anime->before_count }}</a>
+                                </td>
+                                <td>{{ $anime->before_stdev }}</td>
+                                @auth
+                                    <td>{{ $anime->userReview->before_score ?? '' }}</td>
+                                @endauth
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-7">
+                    <h3>広告</h3>
+                    @include('layout.rakuten_adsense')
+                </div>
         </section>
         <section class="before_anime_comment">
             <h3>視聴完了前コメント（新着順）</h3>
@@ -403,19 +413,19 @@
             <h3>配信サイトのリンク</h3>
             <ul>
                 <li>
-                    @if (!is_null($anime->d_anime_store_id) && ($anime->d_anime_store_id != 'なし' && $anime->d_anime_store_id != 'レンタル'))
+                    @if (!is_null($anime->d_anime_store_id) &&
+                        ($anime->d_anime_store_id != 'なし' && $anime->d_anime_store_id != 'レンタル'))
                         <a href="https://animestore.docomo.ne.jp/animestore/ci_pc?workId={{ $anime->d_anime_store_id }}"
-                            target="_blank"
-                            rel="noopener noreferrer">dアニメストア</a>
+                            target="_blank" rel="noopener noreferrer">dアニメストア</a>
                     @else
                         dアニメストア{{ $anime->d_anime_store_id == 'なし' ? '(配信なし)' : ($anime->d_anime_store_id == 'レンタル' ? '(レンタルあり)' : '(情報なし)') }}
                     @endif
                 </li>
                 <li>
-                    @if (!is_null($anime->amazon_prime_video_id) && ($anime->amazon_prime_video_id != 'なし' && $anime->amazon_prime_video_id != 'レンタル'))
+                    @if (!is_null($anime->amazon_prime_video_id) &&
+                        ($anime->amazon_prime_video_id != 'なし' && $anime->amazon_prime_video_id != 'レンタル'))
                         <a href="https://www.amazon.co.jp/gp/video/detail/{{ $anime->amazon_prime_video_id }}"
-                            target="_blank"
-                            rel="noopener noreferrer">Amazonプライムビデオ</a>
+                            target="_blank" rel="noopener noreferrer">Amazonプライムビデオ</a>
                     @else
                         Amazonプライムビデオ{{ $anime->amazon_prime_video_id == 'なし' ? '(配信なし)' : ($anime->amazon_prime_video_id == 'レンタル' ? '(レンタルあり)' : '(情報なし)') }}
                     @endif
@@ -430,8 +440,7 @@
                 </li>
                 <li>
                     @if (!is_null($anime->unext_id) && ($anime->unext_id != 'なし' && $anime->unext_id != 'レンタル'))
-                        <a href="{{ $anime->unext_id }}" target="_blank"
-                            rel="noopener noreferrer">U-NEXT</a>
+                        <a href="{{ $anime->unext_id }}" target="_blank" rel="noopener noreferrer">U-NEXT</a>
                     @else
                         U-NEXT{{ $anime->unext_id == 'なし' ? '(配信なし)' : ($anime->unext_id == 'レンタル' ? '(レンタルあり)' : '(情報なし)') }}
                     @endif
@@ -445,24 +454,29 @@
                     @endif
                 </li>
                 <li>
-                    @if (!is_null($anime->disney_plus_id) && ($anime->disney_plus_id != 'なし' && $anime->disney_plus_id != 'レンタル'))
+                    @if (!is_null($anime->disney_plus_id) &&
+                        ($anime->disney_plus_id != 'なし' && $anime->disney_plus_id != 'レンタル'))
                         <a href="https://www.disneyplus.com/ja-jp/series/{{ $anime->disney_plus_id }}" target="_blank"
                             rel="noopener noreferrer">DISNEY+</a>
                     @else
                         DISNEY+{{ $anime->disney_plus_id == 'なし' ? '(配信なし)' : ($anime->disney_plus_id == 'レンタル' ? '(レンタルあり)' : '(情報なし)') }}
                     @endif
                 </li>
-                <a href="https://px.a8.net/svt/ejp?a8mat=3NNF9T+4BZL9U+3250+61Z81" rel="nofollow">
-                    <img border="0" width="120" height="60" alt=""
-                        src="https://www25.a8.net/svt/bgt?aid=221122577262&wid=001&eno=01&mid=s00000014274001017000&mc=1"></a>
+                <a href="https://px.a8.net/svt/ejp?a8mat=3NNF9T+4BZL9U+3250+5ZU29" rel="nofollow">
+                    <img border="0" width="100" height="60" alt=""
+                        src="https://www26.a8.net/svt/bgt?aid=221122577262&wid=001&eno=01&mid=s00000014274001007000&mc=1"></a>
                 <img border="0" width="1" height="1"
-                    src="https://www17.a8.net/0.gif?a8mat=3NNF9T+4BZL9U+3250+61Z81" alt="">
-                <a href="https://px.a8.net/svt/ejp?a8mat=3NNF9T+4D6GHE+4EKC+5ZU29" rel="nofollow">
-                    <img border="0" width="120" height="60" alt=""
-                        src="https://www23.a8.net/svt/bgt?aid=221122577264&wid=001&eno=01&mid=s00000020550001007000&mc=1"></a>
+                    src="https://www16.a8.net/0.gif?a8mat=3NNF9T+4BZL9U+3250+5ZU29" alt="">
+                <a href="https://px.a8.net/svt/ejp?a8mat=3NNF9T+4D6GHE+4EKC+61Z81" rel="nofollow">
+                    <img border="0" width="100" height="60" alt=""
+                        src="https://www21.a8.net/svt/bgt?aid=221122577264&wid=001&eno=01&mid=s00000020550001017000&mc=1"></a>
                 <img border="0" width="1" height="1"
-                    src="https://www17.a8.net/0.gif?a8mat=3NNF9T+4D6GHE+4EKC+5ZU29" alt="">
+                    src="https://www15.a8.net/0.gif?a8mat=3NNF9T+4D6GHE+4EKC+61Z81" alt="">
             </ul>
+        </section>
+        <section class="adsense">
+            <h3>広告</h3>
+            @include('layout.horizontal_multiplex_adsense')
         </section>
         <section class="anime_twitter">
             <h3>公式twitter</h3>

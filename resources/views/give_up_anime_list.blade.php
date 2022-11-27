@@ -17,6 +17,10 @@
     @include('layout.vertical_adsense')
 @endsection
 
+@section('main_adsense_smartphone')
+    @include('layout.horizontal_adsense_smartphone')
+@endsection
+
 @section('main')
     <article class="give_up_anime_list">
         <h2>{{ $user->name }}さんの視聴リタイアしたアニメリスト</h2>
