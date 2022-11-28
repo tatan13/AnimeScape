@@ -52,12 +52,14 @@
                                     {{ $anime->year }}年{{ $anime->coor_label }}クール
                                 </td>
                             </tr>
-                            <tr>
-                                <th>略称</th>
-                                <td>
-                                    {{ $anime->title_short }}
-                                </td>
-                            </tr>
+                            @if (!is_null($anime->title_short))
+                                <tr>
+                                    <th>略称</th>
+                                    <td>
+                                        {{ $anime->title_short }}
+                                    </td>
+                                </tr>
+                            @endif
                             <tr>
                                 <th>話数</th>
                                 <td>
@@ -73,23 +75,33 @@
                             <tr>
                                 <th>ツイッターアカウント</th>
                                 <td>
-                                    <a href="https://twitter.com/{{ $anime->twitter }}" target="_blank"
-                                        rel="noopener noreferrer">{{ $anime->twitter }}</a>
+                                    @if (!is_null($anime->twitter) && $anime->twitter != 'なし')
+                                        <a href="https://twitter.com/{{ $anime->twitter }}" target="_blank"
+                                            rel="noopener noreferrer">{{ $anime->twitter }}</a>
+                                    @else
+                                        {{ $anime->twitter == 'なし' ? '(なし)' : '' }}
+                                    @endif
                                 </td>
                             </tr>
                             <tr>
                                 <th>ツイッターハッシュタグ</th>
                                 <td>
-                                    <a href="https://twitter.com/hashtag/{{ $anime->hash_tag }}" target="_blank"
-                                        rel="noopener noreferrer">{{ $anime->hash_tag }}</a>
+                                    @if (!is_null($anime->hash_tag) && $anime->hash_tag != 'なし')
+                                        <a href="https://twitter.com/hashtag/{{ $anime->hash_tag }}" target="_blank"
+                                            rel="noopener noreferrer">{{ $anime->hash_tag }}</a>
+                                    @else
+                                        {{ $anime->hash_tag == 'なし' ? '(なし)' : '' }}
+                                    @endif
                                 </td>
                             </tr>
-                            <tr>
-                                <th>舞台</th>
-                                <td>
-                                    {{ $anime->city_name }}
-                                </td>
-                            </tr>
+                            @if (!is_null($anime->city_name))
+                                <tr>
+                                    <th>舞台</th>
+                                    <td>
+                                        {{ $anime->city_name }}
+                                    </td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
                     <a href="{{ route('modify_anime_request.show', ['anime_id' => $anime->id]) }}">アニメの基本情報の変更申請をする</a><br>
