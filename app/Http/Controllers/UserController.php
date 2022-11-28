@@ -327,7 +327,7 @@ class UserController extends Controller
      */
     public function showUserAnimeComment($user_review_id)
     {
-        $user_review = $this->userReviewService->getUserReviewWithAnimeAndUser($user_review_id);
+        $user_review = $this->userReviewService->getUserReviewWithAnimeAndUserNotNullOneWordComment($user_review_id);
         return view('anime_comment', [
             'user_review' => $user_review,
         ]);

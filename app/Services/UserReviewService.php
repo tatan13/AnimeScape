@@ -294,8 +294,8 @@ class UserReviewService
      * @param int $user_review_id
      * @return UserReview
      */
-    public function getUserReviewWithAnimeAndUser($user_review_id)
+    public function getUserReviewWithAnimeAndUserNotNullOneWordComment($user_review_id)
     {
-        return $this->userReviewRepository->getUserReviewWithAnimeAndUser($user_review_id);
+        return $this->userReviewRepository->getUserReviewWithAnimeAndUserNotNullOneWordComment($user_review_id);
     }
 }

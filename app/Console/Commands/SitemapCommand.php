@@ -57,23 +57,7 @@ class SitemapCommand extends Command
             \File::append($file, $content);
         }
 
-        foreach ($anime_list as $anime) {
-            $content = "<url>
-            <loc>" . route('anime_score_list.show', ['anime_id' => $anime->id]) . "</loc>
-            <lastmod>" . $anime->updated_at->format("Y-m-d") . "</lastmod>
-            </url>";
-            \File::append($file, $content);
-        }
-
-        foreach ($anime_list as $anime) {
-            $content = "<url>
-            <loc>" . route('anime_before_score_list.show', ['anime_id' => $anime->id]) . "</loc>
-            <lastmod>" . $anime->updated_at->format("Y-m-d") . "</lastmod>
-            </url>";
-            \File::append($file, $content);
-        }
-
-        $user_review_list = \App\Models\UserReview::whereNotNull('one_word_comment')
+        $user_review_list = \App\Models\UserReview::whereNotNull('long_word_comment')
         ->select(['id', 'updated_at'])->oldest('id')->get();
         foreach ($user_review_list as $user_review) {
             $content = "<url>
@@ -82,12 +66,6 @@ class SitemapCommand extends Command
             </url>";
             \File::append($file, $content);
         }
-
-        $content = "<url>
-            <loc>" . route('add_anime_request.show') . "</loc>
-            <lastmod>2022-05-10</lastmod>
-            </url>";
-        \File::append($file, $content);
 
         $cast_list = \App\Models\Cast::select(['id', 'updated_at'])->oldest('id')->get();
         foreach ($cast_list as $cast) {
@@ -119,18 +97,6 @@ class SitemapCommand extends Command
             </url>";
         \File::append($file, $content);
 
-        $content = "<url>
-            <loc>" . route('add_cast_request.show') . "</loc>
-            <lastmod>2022-05-10</lastmod>
-            </url>";
-        \File::append($file, $content);
-
-        $content = "<url>
-            <loc>" . route('add_creater_request.show') . "</loc>
-            <lastmod>2022-05-10</lastmod>
-            </url>";
-        \File::append($file, $content);
-
         $company_list = \App\Models\Company::select(['id', 'updated_at'])->oldest('id')->get();
         foreach ($company_list as $company) {
             $content = "<url>
@@ -144,110 +110,6 @@ class SitemapCommand extends Command
         foreach ($user_list as $user) {
             $content = "<url>
             <loc>" . route('user.show', ['user_id' => $user->id]) . "</loc>
-            <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
-            </url>";
-            \File::append($file, $content);
-        }
-
-        foreach ($user_list as $user) {
-            $content = "<url>
-            <loc>" . route('user_comment_anime_list.show', ['user_id' => $user->id]) . "</loc>
-            <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
-            </url>";
-            \File::append($file, $content);
-        }
-
-        foreach ($user_list as $user) {
-            $content = "<url>
-            <loc>" . route('user_score_anime_list.show', ['user_id' => $user->id]) . "</loc>
-            <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
-            </url>";
-            \File::append($file, $content);
-        }
-
-        foreach ($user_list as $user) {
-            $content = "<url>
-            <loc>" . route('user_will_watch_anime_list.show', ['user_id' => $user->id]) . "</loc>
-            <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
-            </url>";
-            \File::append($file, $content);
-        }
-
-        foreach ($user_list as $user) {
-            $content = "<url>
-            <loc>" . route('user_watch_anime_list.show', ['user_id' => $user->id]) . "</loc>
-            <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
-            </url>";
-            \File::append($file, $content);
-        }
-
-        foreach ($user_list as $user) {
-            $content = "<url>
-            <loc>" . route('user_now_watch_anime_list.show', ['user_id' => $user->id]) . "</loc>
-            <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
-            </url>";
-            \File::append($file, $content);
-        }
-
-        foreach ($user_list as $user) {
-            $content = "<url>
-            <loc>" . route('user_give_up_anime_list.show', ['user_id' => $user->id]) . "</loc>
-            <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
-            </url>";
-            \File::append($file, $content);
-        }
-
-        foreach ($user_list as $user) {
-            $content = "<url>
-            <loc>" . route('user_before_score_anime_list.show', ['user_id' => $user->id]) . "</loc>
-            <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
-            </url>";
-            \File::append($file, $content);
-        }
-
-        foreach ($user_list as $user) {
-            $content = "<url>
-            <loc>" . route('user_before_comment_anime_list.show', ['user_id' => $user->id]) . "</loc>
-            <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
-            </url>";
-            \File::append($file, $content);
-        }
-
-        foreach ($user_list as $user) {
-            $content = "<url>
-            <loc>" . route('user_like_user_list.show', ['user_id' => $user->id]) . "</loc>
-            <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
-            </url>";
-            \File::append($file, $content);
-        }
-
-        foreach ($user_list as $user) {
-            $content = "<url>
-            <loc>" . route('user_liked_user_list.show', ['user_id' => $user->id]) . "</loc>
-            <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
-            </url>";
-            \File::append($file, $content);
-        }
-
-        foreach ($user_list as $user) {
-            $content = "<url>
-            <loc>" . route('user_like_cast_list.show', ['user_id' => $user->id]) . "</loc>
-            <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
-            </url>";
-            \File::append($file, $content);
-        }
-
-        foreach ($user_list as $user) {
-            $content = "<url>
-            <loc>" . route('user_like_creater_list.show', ['user_id' => $user->id]) . "</loc>
-            <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
-            </url>";
-            \File::append($file, $content);
-        }
-
-        foreach ($user_list as $user) {
-            $content = "<url>
-            <loc>" . route('user_statistics.show', ['user_id' => $user->id]) . "</loc>
             <lastmod>" . $user->updated_at->format("Y-m-d") . "</lastmod>
             </url>";
             \File::append($file, $content);

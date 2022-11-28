@@ -2,6 +2,7 @@
 
 @section('title')
     <title>{{ $anime->title }}のデータ入力 AnimeScape -アニメ批評空間-</title>
+    <meta name="robots" content="noindex,nofollow">
 @endsection
 
 @section('main')
@@ -64,8 +65,8 @@
                                 {{ $anime->userReview->give_up ?? false == true ? 'checked' : '' }}>
                         </td>
                         <td>
-                            <input type="text" name="number_of_interesting_episode" class="number_of_interesting_episode" size="3"
-                                value="{{ $anime->userReview->number_of_interesting_episode ?? '' }}">
+                            <input type="text" name="number_of_interesting_episode" class="number_of_interesting_episode"
+                                size="3" value="{{ $anime->userReview->number_of_interesting_episode ?? '' }}">
                         </td>
                     </tr>
                 </tbody>
