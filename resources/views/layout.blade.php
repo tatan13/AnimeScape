@@ -42,19 +42,18 @@
         <header>
             <div class="d-flex flex-wrap justify-content-between">
                 <div class="mb-2 align-self-center">
-                    <h1><a href="{{ route('index.show') }}">AnimeScape -アニメ批評空間-</a></h1>
+                    <div class="animescape"><a href="{{ route('index.show') }}">AnimeScape -アニメ批評空間-</a></div>
                 </div>
                 @if (env('APP_ENV') == 'production')
                     @yield('title_adsense')
                 @endif
             </div>
-            </h1>
         </header>
         <div class="row">
             <aside class="col-xl-2 col-sm-3">
-                <h2>メニュー</h2>
+                <h1>メニュー</h1>
                 <section class="login_menu">
-                    <h3>ログインメニュー</h3>
+                    <h2>ログインメニュー</h2>
                     @if (Auth::check())
                         <form action="{{ route('logout') }}" name="logout" method="POST">
                             @csrf
@@ -105,7 +104,7 @@
                     @endif
                 </section>
                 <section class="search_menu">
-                    <h3>検索メニュー</h3>
+                    <h2>検索メニュー</h2>
                     <form action="{{ route('search.show') }}" method="get">
                         @csrf
                         <select name="category">
@@ -136,7 +135,7 @@
                     @yield('sidebar_adsense')
                 @endif
                 <section class="ranking_menu">
-                    <h3>ランキングメニュー</h3>
+                    <h2>ランキングメニュー</h2>
                     <ul>
                         <li>
                             <form action="{{ route('anime_statistics.show') }}" name="all_statistics" method="get">
@@ -189,7 +188,7 @@
                     </ul>
                 </section>
                 <section class="modify_menu">
-                    <h3>変更メニュー</h3>
+                    <h2>変更メニュー</h2>
                     <ul>
                         <li><a href="{{ route('add_anime_request.show') }}">アニメの追加申請</a></li>
                         <li><a href="{{ route('add_anime_log.show') }}">アニメの追加履歴</a></li>
@@ -201,7 +200,7 @@
                     </ul>
                 </section>
                 <section class="other_menu">
-                    <h3>その他</h3>
+                    <h2>その他</h2>
                     <ul>
                         <li><a href="{{ route('contact.show') }}">要望フォーム</a></li>
                         <li><a href="{{ route('update_log.show') }}">更新履歴</a></li>

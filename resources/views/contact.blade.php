@@ -23,7 +23,7 @@
 
 @section('main')
     <article class="contact">
-        <h2>要望フォーム</h2>
+        <h1>要望フォーム</h1>
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>

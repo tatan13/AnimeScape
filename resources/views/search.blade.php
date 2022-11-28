@@ -27,7 +27,7 @@
         @switch($category)
             @case('anime')
                 <section class="anime_search_result">
-                    <h2>検索結果 anime:{{ $search_word }}</h2>
+                    <h1>検索結果 anime:{{ $search_word }}</h1>
                     @if (!$search_results->isEmpty())
                         <table class="anime_search_result_table">
                             <tbody>
@@ -74,10 +74,10 @@
 
             @case('cast')
                 <section class="cast_search_result">
-                    <h2>検索結果 cast:{{ $search_word }}</h2>
+                    <h1>検索結果 cast:{{ $search_word }}</h1>
                     @if (!$search_results->isEmpty())
                         @foreach ($search_results as $cast)
-                            <h3><a href="{{ route('cast.show', ['cast_id' => $cast->id]) }}">{{ $cast->name }}</a></h3>
+                            <h2><a href="{{ route('cast.show', ['cast_id' => $cast->id]) }}">{{ $cast->name }}</a></h2>
                             <strong>出演アニメ</strong>
                             <table class="cast_search_result_table">
                                 <tbody>
@@ -123,10 +123,10 @@
 
             @case('creater')
                 <section class="creater_search_result">
-                    <h2>検索結果 creater:{{ $search_word }}</h2>
+                    <h1>検索結果 creater:{{ $search_word }}</h1>
                     @if (!$search_results->isEmpty())
                         @foreach ($search_results as $creater)
-                            <h3><a href="{{ route('creater.show', ['creater_id' => $creater->id]) }}">{{ $creater->name }}</a></h3>
+                            <h2><a href="{{ route('creater.show', ['creater_id' => $creater->id]) }}">{{ $creater->name }}</a></h2>
                             <strong>関わったアニメ</strong>
                             <table class="creater_search_result_table">
                                 <tbody>
@@ -172,11 +172,11 @@
 
             @case('company')
                 <section class="company_search_result">
-                    <h2>検索結果 company:{{ $search_word }}</h2>
+                    <h1>検索結果 company:{{ $search_word }}</h1>
                     @if (!$search_results->isEmpty())
                         @foreach ($search_results as $company)
-                            <h3><a href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
-                            </h3>
+                            <h2><a href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
+                            </h2>
                             <strong>制作アニメ</strong>
                             <table class="company_search_result_table">
                                 <tbody>
@@ -215,7 +215,7 @@
 
             @case('user')
                 <section class="user_search_result">
-                    <h2>検索結果 user:{{ $search_word }}</h2>
+                    <h1>検索結果 user:{{ $search_word }}</h1>
                     @if (!$search_results->isEmpty())
                         <ul>
                             @foreach ($search_results as $user)

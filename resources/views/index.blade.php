@@ -26,6 +26,7 @@
 @section('main')
     <article class="index">
         <section class="information">
+            <h1>AnimeScape -アニメ批評空間-</h1>
             <h2>お知らせ</h2>
             <ul class="list-inline">
                 <li>トップページに新着感想が表示されるように変更しました。同時に新着感想一覧ページを追加しました。</li>

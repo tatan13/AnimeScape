@@ -23,7 +23,7 @@
 
 @section('main')
     <article class="add_anime_log">
-        <h2>アニメの追加履歴</h2>
+        <h1>アニメの追加履歴</h1>
         @if (session('flash_add_anime_log_message'))
             <div class="alert alert-success">
                 {{ session('flash_add_anime_log_message') }}

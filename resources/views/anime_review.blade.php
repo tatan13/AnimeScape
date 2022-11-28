@@ -7,8 +7,8 @@
 
 @section('main')
     <article class="anime_review">
-        <h2>{{ $anime->title }}のデータ入力</h2>
-        <h3><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a></h3>
+        <h1>{{ $anime->title }}のデータ入力</h1>
+        <h2><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a></h2>
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -83,7 +83,7 @@
             <input type="checkbox" name="spoiler" class="spoiler" value="1" class="spoiler"
                 {{ $anime->userReview->spoiler ?? false == true ? 'checked' : '' }}><br>
             <input type="submit" value="送信"><br>
-            <h3>視聴完了前入力欄</h3>
+            <h2>視聴完了前入力欄</h2>
             <input type="submit" value="送信">
             <table class="before_anime_review_table">
                 <tbody>
@@ -103,7 +103,7 @@
                 </tbody>
             </table>
         </form>
-        <h3>注意事項</h3>
+        <h2>注意事項</h2>
         <ul class="list-inline">
             <li>各欄の登録は任意です。ご自由にお使いください。</li>
             <li>長文感想に文字数制限はありません。思いの丈を思う存分書いてください。</li>

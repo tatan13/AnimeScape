@@ -7,10 +7,10 @@
 
 @section('main')
     <article class="anime_score_list">
-        <h2>
+        <h1>
             <a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>の視聴完了前得点を付けたユーザーリスト
-        </h2>
-        <h3>視聴完了前得点を付けたユーザーリスト</h3>
+        </h1>
+        <h2>視聴完了前得点を付けたユーザーリスト</h2>
         <table class="anime_review_table">
             <tbody>
                 <tr>

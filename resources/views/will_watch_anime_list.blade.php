@@ -7,9 +7,9 @@
 
 @section('main')
     <article class="will_watch_anime_list">
-        <h2>{{ $user->name }}さんの視聴予定表</h2>
+        <h1>{{ $user->name }}さんの視聴予定表</h1>
         <div class="title">{{ $user->name }}</div>
-        <h3>視聴予定表</h3>
+        <h2>視聴予定表</h2>
         <table class="will_watch_anime_list_table">
             <tbody>
                 <tr>

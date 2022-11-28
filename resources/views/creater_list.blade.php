@@ -23,7 +23,7 @@
 
 @section('main')
     <article class=creater_list>
-        <h2>クリエイターリスト</h2>
+        <h1>クリエイターリスト</h1>
         <section class="anime_creater_list">
             <table class="creater_list_table">
                 <tbody>

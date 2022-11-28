@@ -7,8 +7,8 @@
 
 @section('main')
     <article class="modify_anime_request">
-        <h2>{{ $anime->title }}の基本情報変更申請</h2>
-        <h3><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a></h3>
+        <h1>{{ $anime->title }}の基本情報変更申請</h1>
+        <h2><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a></h2>
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -175,7 +175,7 @@
                 </tbody>
             </table>
         </form>
-        <h3>注意事項</h3>
+        <h2>注意事項</h2>
         <ul class="list-inline">
             <li>すべて入力する必要はありません。可能な限りでご協力お願いします。</li>
             <li>アニメ名、放送年、クール欄は空欄で送信できません。</li>

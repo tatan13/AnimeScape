@@ -7,8 +7,8 @@
 
 @section('main')
     <article class="add_anime_request">
-        <h2>アニメの追加申請</h2>
-        <h3>申請フォーム</h3>
+        <h1>アニメの追加申請</h1>
+        <h2>申請フォーム</h2>
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -152,7 +152,7 @@
                 </tbody>
             </table>
         </form>
-        <h3>注意事項</h3>
+        <h2>注意事項</h2>
         <ul class="list-inline">
             <li>アニメ名、放送年、クール欄は空欄で送信できません。</li>
             <li>ふりがなはすべてひらがなでお願いします。</li>

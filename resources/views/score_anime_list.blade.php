@@ -7,9 +7,9 @@
 
 @section('main')
     <article class="score_anime_list">
-        <h2>{{ $user->name }}さんの得点を付けたアニメリスト</h2>
+        <h1>{{ $user->name }}さんの得点を付けたアニメリスト</h1>
         <div class="title">{{ $user->name }}</div>
-        <h3>得点を付けたアニメリスト</h3>
+        <h2>得点を付けたアニメリスト</h2>
         <table class="score_anime_list_table">
             <tbody>
                 <tr>

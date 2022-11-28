@@ -7,8 +7,8 @@
 
 @section('main')
     <article class="delete_anime_request">
-        <h2>{{ $anime->title }}の削除申請</h2>
-        <h3><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a></h3>
+        <h1>{{ $anime->title }}の削除申請</h1>
+        <h2><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a></h2>
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -25,7 +25,7 @@
                 value=""><br>
             <input type="submit" value="送信"><br>
         </form>
-        <h3>注意事項</h3>
+        <h2>注意事項</h2>
         削除事由は400文字以内で入力してください。
     </article>
 @endsection

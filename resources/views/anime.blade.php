@@ -23,9 +23,9 @@
 
 @section('main')
     <article class="anime_information">
-        <h2>
+        <h1>
             <a href="{{ $anime->public_url }}" target="_blank" rel="noopener noreferrer">{{ $anime->title }}</a>
-        </h2>
+        </h1>
         @if (session('flash_message'))
             <div class="alert alert-success">
                 {{ session('flash_message') }}
@@ -167,11 +167,11 @@
             </div>
         </section>
         <section class="anime_summary">
-            <h3>あらすじ</h3>
+            <h2>あらすじ</h2>
             {{ $anime->summary ?? '(あらすじ情報がありません。情報提供してくださると助かります。)' }}
         </section>
         <section class="act_cast_information">
-            <h3>声優の情報</h3>
+            <h2>声優の情報</h2>
             <table class="act_cast_information_table">
                 <tbody>
                     <tr>
@@ -197,7 +197,7 @@
             <a href="{{ route('modify_occupations.show', ['anime_id' => $anime->id]) }}">アニメの出演声優情報の変更をする</a>
         </section>
         <section class="creater_information">
-            <h3>クリエイターの情報</h3>
+            <h2>クリエイターの情報</h2>
             <table class="creater_information_table">
                 <tbody>
                     <tr>
@@ -349,7 +349,7 @@
             <a href="{{ route('modify_anime_creaters.show', ['anime_id' => $anime->id]) }}">クリエイター情報の変更をする</a>
         </section>
         <section class="anime_comment">
-            <h3>コメント（新着順）</h3>
+            <h2>コメント（新着順）</h2>
             @foreach ($anime->userReviews as $user_review)
                 @if (!is_null($user_review->one_word_comment) || !is_null($user_review->long_word_comment))
                     @if (!is_null($user_review->score))
@@ -374,7 +374,7 @@
         <section class="before_anime_information">
             <div class="row">
                 <div class="col-sm-5">
-                    <h3>視聴完了前統計情報</h3>
+                    <h2>視聴完了前統計情報</h2>
                     <table class="before_anime_statistics_table">
                         <tbody>
                             <tr>
@@ -401,14 +401,14 @@
                     </table>
                 </div>
                 <div class="col-sm-7">
-                    <h3>広告</h3>
+                    <h2>広告</h2>
                     @if (env('APP_ENV') == 'production')
                         @include('layout.rakuten_adsense')
                     @endif
                 </div>
         </section>
         <section class="before_anime_comment">
-            <h3>視聴完了前コメント（新着順）</h3>
+            <h2>視聴完了前コメント（新着順）</h2>
             @foreach ($anime->userReviews as $user_review)
                 @if (!is_null($user_review->before_comment))
                     @if (!is_null($user_review->before_score))
@@ -424,7 +424,7 @@
             @endforeach
         </section>
         <section class="streaming_information">
-            <h3>配信サイトのリンク</h3>
+            <h2>配信サイトのリンク</h2>
             <ul>
                 <li>
                     @if (!is_null($anime->d_anime_store_id) &&
@@ -491,13 +491,13 @@
             </ul>
         </section>
         <section class="adsense">
-            <h3>広告</h3>
+            <h2>広告</h2>
             @if (env('APP_ENV') == 'production')
                 @include('layout.horizontal_multiplex_adsense')
             @endif
         </section>
         <section class="anime_twitter">
-            <h3>公式twitter</h3>
+            <h2>公式twitter</h2>
             <div class="anime_twitter">
                 <a class="twitter-timeline" href="https://twitter.com/{{ $anime->twitter }}?ref_src=twsrc%5Etfw">Tweets
                     by

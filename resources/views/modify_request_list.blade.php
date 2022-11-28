@@ -8,16 +8,16 @@
 @section('main')
     <article class="modify_list">
         <section class="modify_anime_request_list">
-            <h2>アニメの基本情報変更申請リスト</h2>
+            <h1>アニメの基本情報変更申請リスト</h1>
             @if (session('flash_modify_anime_request_message'))
                 <div class="alert alert-success">
                     {{ session('flash_modify_anime_request_message') }}
                 </div>
             @endif
             @foreach ($modify_anime_request_list as $modify_anime_request)
-                <h3>{{ $loop->iteration }}件目(<a
+                <h2>{{ $loop->iteration }}件目(<a
                         href="{{ route('anime.show', ['anime_id' => $modify_anime_request->anime->id]) }}">{{ $modify_anime_request->anime->title }}</a>)
-                </h3>
+                </h2>
                 <form class="modify_anime_request_list_form">
                     @csrf
                     @can('isAdmin')
@@ -201,14 +201,14 @@
             @endforeach
         </section>
         <section class="add_anime_request_list">
-            <h2>アニメの追加申請リスト</h2>
+            <h1>アニメの追加申請リスト</h1>
             @if (session('flash_add_anime_request_message'))
                 <div class="alert alert-success">
                     {{ session('flash_add_anime_request_message') }}
                 </div>
             @endif
             @foreach ($add_anime_request_list as $add_anime_request)
-                <h3>{{ $loop->iteration }}件目</h3>
+                <h2>{{ $loop->iteration }}件目</h2>
                 <form class="add_anime_request_list_form">
                     @csrf
                     @can('isAdmin')
@@ -363,16 +363,16 @@
             @endforeach
         </section>
         <section class="delete_anime_request_list">
-            <h2>アニメの削除申請リスト</h2>
+            <h1>アニメの削除申請リスト</h1>
             @if (session('flash_delete_anime_request_message'))
                 <div class="alert alert-success">
                     {{ session('flash_delete_anime_request_message') }}
                 </div>
             @endif
             @foreach ($delete_anime_request_list as $delete_anime_request)
-                <h3>{{ $loop->iteration }}件目(<a
+                <h2>{{ $loop->iteration }}件目(<a
                         href="{{ route('anime.show', ['anime_id' => $delete_anime_request->anime->id]) }}">{{ $delete_anime_request->anime->title }}</a>)
-                </h3>
+                </h2>
                 <form class="delete_anime_request_list_form">
                     @csrf
                     @can('isAdmin')
@@ -400,16 +400,16 @@
             @endforeach
         </section>
         <section class="modify_cast_request_list">
-            <h2>声優情報変更申請リスト</h2>
+            <h1>声優情報変更申請リスト</h1>
             @if (session('flash_modify_cast_request_message'))
                 <div class="alert alert-success">
                     {{ session('flash_modify_cast_request_message') }}
                 </div>
             @endif
             @foreach ($modify_cast_request_list as $modify_cast_request)
-                <h3>{{ $loop->iteration }}件目(<a
+                <h2>{{ $loop->iteration }}件目(<a
                         href="{{ route('cast.show', ['cast_id' => $modify_cast_request->cast->id]) }}">{{ $modify_cast_request->cast->name }}</a>)
-                </h3>
+                </h2>
                 <form class="modify_cast_request_list_form">
                     @csrf
                     @can('isAdmin')
@@ -525,15 +525,15 @@
             @endforeach
         </section>
         <section class="add_cast_request_list">
-            <h2>声優の追加申請リスト</h2>
+            <h1>声優の追加申請リスト</h1>
             @if (session('flash_add_cast_request_message'))
                 <div class="alert alert-success">
                     {{ session('flash_add_cast_request_message') }}
                 </div>
             @endif
             @foreach ($add_cast_request_list as $add_cast_request)
-                <h3>{{ $loop->iteration }}件目
-                </h3>
+                <h2>{{ $loop->iteration }}件目
+                </h2>
                 <form class="add_cast_request_list_form">
                     @csrf
                     @can('isAdmin')
@@ -631,16 +631,16 @@
             @endforeach
         </section>
         <section class="delete_cast_request_list">
-            <h2>声優の削除申請リスト</h2>
+            <h1>声優の削除申請リスト</h1>
             @if (session('flash_delete_cast_request_message'))
                 <div class="alert alert-success">
                     {{ session('flash_delete_cast_request_message') }}
                 </div>
             @endif
             @foreach ($delete_cast_request_list as $delete_cast_request)
-                <h3>{{ $loop->iteration }}件目(<a
+                <h2>{{ $loop->iteration }}件目(<a
                         href="{{ route('cast.show', ['cast_id' => $delete_cast_request->cast->id]) }}">{{ $delete_cast_request->cast->name }}</a>)
-                </h3>
+                </h2>
                 <form class="delete_cast_request_list_form">
                     @csrf
                     @can('isAdmin')
@@ -667,16 +667,16 @@
             @endforeach
         </section>
         <section class="modify_creater_request_list">
-            <h2>クリエイター情報変更申請リスト</h2>
+            <h1>クリエイター情報変更申請リスト</h1>
             @if (session('flash_modify_creater_request_message'))
                 <div class="alert alert-success">
                     {{ session('flash_modify_creater_request_message') }}
                 </div>
             @endif
             @foreach ($modify_creater_request_list as $modify_creater_request)
-                <h3>{{ $loop->iteration }}件目(<a
+                <h2>{{ $loop->iteration }}件目(<a
                         href="{{ route('creater.show', ['creater_id' => $modify_creater_request->creater->id]) }}">{{ $modify_creater_request->creater->name }}</a>)
-                </h3>
+                </h2>
                 <form class="modify_creater_request_list_form">
                     @csrf
                     @can('isAdmin')
@@ -786,15 +786,15 @@
             @endforeach
         </section>
         <section class="add_creater_request_list">
-            <h2>クリエイターの追加申請リスト</h2>
+            <h1>クリエイターの追加申請リスト</h1>
             @if (session('flash_add_creater_request_message'))
                 <div class="alert alert-success">
                     {{ session('flash_add_creater_request_message') }}
                 </div>
             @endif
             @foreach ($add_creater_request_list as $add_creater_request)
-                <h3>{{ $loop->iteration }}件目
-                </h3>
+                <h2>{{ $loop->iteration }}件目
+                </h2>
                 <form class="add_creater_request_list_form">
                     @csrf
                     @can('isAdmin')
@@ -892,16 +892,16 @@
             @endforeach
         </section>
         <section class="delete_creater_request_list">
-            <h2>クリエイターの削除申請リスト</h2>
+            <h1>クリエイターの削除申請リスト</h1>
             @if (session('flash_delete_creater_request_message'))
                 <div class="alert alert-success">
                     {{ session('flash_delete_creater_request_message') }}
                 </div>
             @endif
             @foreach ($delete_creater_request_list as $delete_creater_request)
-                <h3>{{ $loop->iteration }}件目(<a
+                <h2>{{ $loop->iteration }}件目(<a
                         href="{{ route('creater.show', ['creater_id' => $delete_creater_request->creater->id]) }}">{{ $delete_creater_request->creater->name }}</a>)
-                </h3>
+                </h2>
                 <form class="delete_creater_request_list_form">
                     @csrf
                     @can('isAdmin')
@@ -928,16 +928,16 @@
             @endforeach
         </section>
         <section class="delete_company_request_list">
-            <h2>会社の削除申請リスト</h2>
+            <h1>会社の削除申請リスト</h1>
             @if (session('flash_delete_company_request_message'))
                 <div class="alert alert-success">
                     {{ session('flash_delete_company_request_message') }}
                 </div>
             @endif
             @foreach ($delete_company_request_list as $delete_company_request)
-                <h3>{{ $loop->iteration }}件目(<a
+                <h2>{{ $loop->iteration }}件目(<a
                         href="{{ route('company.show', ['company_id' => $delete_company_request->company->id]) }}">{{ $delete_company_request->company->name }}</a>)
-                </h3>
+                </h2>
                 <form class="delete_company_request_list_form">
                     @csrf
                     @can('isAdmin')

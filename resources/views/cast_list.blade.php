@@ -23,7 +23,7 @@
 
 @section('main')
     <article class=cast_list>
-        <h2>声優リスト</h2>
+        <h1>声優リスト</h1>
         <section class="cast_act_anime_list">
             <table class="cast_list_table">
                 <tbody>

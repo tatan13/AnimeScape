@@ -8,8 +8,8 @@
 @section('main')
     <div id="addForm">
         <article class="modify_occupations">
-            <h2>{{ $anime->title }}の出演声優情報変更</h2>
-            <h3><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a></h3>
+            <h1>{{ $anime->title }}の出演声優情報変更</h1>
+            <h2><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a></h2>
             @if (session('flash_message'))
                 <div class="alert alert-success">
                     {{ session('flash_message') }}
@@ -98,7 +98,7 @@
                 </table>
                 <button type="button" @click="addInput">枠の追加</button>
             </form>
-            <h3>注意事項</h3>
+            <h2>注意事項</h2>
             <a href="{{ route('cast_list.show') }}">声優リスト</a>からIDを探して入力してください。<br>
             キャラクターを複数演じている場合は、A、Bのように入力してください。<br>
             声優がデータベース未登録の場合、こちらから申請をお願いします→<a href="{{ route('add_cast_request.show') }}">声優の追加申請</a>　申請許可まで時間がかかりますがご了承ください。

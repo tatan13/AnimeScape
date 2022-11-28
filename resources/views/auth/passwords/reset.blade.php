@@ -6,7 +6,7 @@
 
 @section('main')
     <article class="reset_password">
-        <h2>パスワード再発行</h2>
+        <h1>パスワード再発行</h1>
         @if ($errors->any())
             <div class="alert alert-danger">
                 @foreach ($errors->all() as $message)
@@ -30,7 +30,7 @@
             <input type="password" size="15" name="password_confirmation" class="password_confirmation" required><br>
             <input type="submit" value="送信">
         </form>
-        <h3>注意事項</h3>
+        <h2>注意事項</h2>
         パスワードは8文字以上にしてください。
     </article>
 @endsection

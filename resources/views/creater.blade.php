@@ -24,9 +24,9 @@
 @section('main')
     <div id="app">
         <article class=creater_information>
-            <h2>
+            <h1>
                 <a href="{{ $creater->url }}" target="_blank" rel="noopener noreferrer">{{ $creater->name }}</a>
-            </h2>
+            </h1>
             @if (session('flash_message'))
                 <div class="alert alert-success">
                     {{ session('flash_message') }}
@@ -39,7 +39,7 @@
                 </like-creater-component>
             @endauth
             <section class="creater_profile">
-                <h3>プロフィール</h3>
+                <h2>プロフィール</h2>
                 <table class="creater_profile_table">
                     <tr>
                         <th>ふりがな</th>
@@ -77,7 +77,7 @@
                 <a href="{{ route('delete_creater_request.show', ['creater_id' => $creater->id]) }}">クリエイターの削除申請をする</a>
             </section>
             <section class="creater_act_anime_list">
-                <h3>（計{{ $creater->animes->count() }}本）</h3>
+                <h2>（計{{ $creater->animes->count() }}本）</h2>
                 <table class="creater_anime_list_table">
                     <tbody>
                         <tr>

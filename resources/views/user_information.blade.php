@@ -25,7 +25,7 @@
 @section('main')
     <div id="likeUser">
         <article class="user_information">
-            <h2>{{ $user_information->name }}さんの情報</h2>
+            <h1>{{ $user_information->name }}さんの情報</h1>
             <div class="title">{{ $user_information->name }}</div>
             @auth
                 @if (Auth::id() == $user_information->id)
@@ -50,8 +50,8 @@
             <section class="user_statistics_information">
                 <div class="row">
                     <div class="col-md-6">
-                        <h3>統計情報{{ !is_null($year) ? '(' . $year . '年' : '(すべて' }}{{ $coor != 0 ? App\Models\Anime::getCoorLabel($coor) . 'クール)' : ')' }}
-                        </h3>
+                        <h2>統計情報{{ !is_null($year) ? '(' . $year . '年' : '(すべて' }}{{ $coor != 0 ? App\Models\Anime::getCoorLabel($coor) . 'クール)' : ')' }}
+                        </h2>
                         <table class="user_statistics_information">
                             <tbody>
                                 <tr>
@@ -143,7 +143,7 @@
                         </table>
                     </div>
                     <div class="col-md-6">
-                        <h3>得点分布</h3>
+                        <h2>得点分布</h2>
                         <table class="score_distribution_table">
                             <tbody>
                                 <tr>
@@ -166,8 +166,8 @@
                 </div>
             </section>
             <section class="anime_score_list">
-                <h3>得点とアニメの対応表{{ !is_null($year) ? '(' . $year . '年' : '(すべて' }}{{ $coor != 0 ? App\Models\Anime::getCoorLabel($coor) . 'クール)' : ')' }}
-                </h3>
+                <h2>得点とアニメの対応表{{ !is_null($year) ? '(' . $year . '年' : '(すべて' }}{{ $coor != 0 ? App\Models\Anime::getCoorLabel($coor) . 'クール)' : ')' }}
+                </h2>
                 <form action="{{ route('user.show', ['user_id' => $user_information->id]) }}"
                     class="search_parameters_form" name="coor_score_animelist" method="get">
                     @csrf

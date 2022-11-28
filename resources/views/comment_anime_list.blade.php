@@ -7,9 +7,9 @@
 
 @section('main')
     <article class="comment_anime_list">
-        <h2>{{ $user->name }}さんの感想リスト</h2>
+        <h1>{{ $user->name }}さんの感想リスト</h1>
         <div class="title">{{ $user->name }}</div>
-        <h3>感想リスト</h3>
+        <h2>感想リスト</h2>
         @foreach ($comment_anime_list as $comment_anime)
             @if (!is_null($comment_anime->userReview->score))
                 <strong>{{ $comment_anime->userReview->score }}点</strong>

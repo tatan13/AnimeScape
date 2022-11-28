@@ -26,9 +26,9 @@
 
 @section('main')
     <article class="anime_statistics">
-        <h2>{{ !is_null($year) ? $year . '年' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }}アニメランキング
-        </h2>
-        <h3>検索条件変更</h3>
+        <h1>{{ !is_null($year) ? $year . '年' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }}アニメランキング
+        </h1>
+        <h2>検索条件変更</h2>
         <form action="{{ route('anime_statistics.show') }}" class="search_parameters_form" method="GET">
             @csrf
             <input type="hidden" name="year" class="year" value="{{ $year }}">
@@ -43,7 +43,7 @@
             </select>
             順に<input type="submit" value="絞り込む">
         </form>
-        <h3>ランキング</h3>
+        <h2>ランキング</h2>
         <form action="{{ route('anime_statistics.show') }}" name="previous" class="d-inline" method="get">
             @csrf
             <input type="hidden" name="category" class="category" value="{{ $category ?? 'median' }}">

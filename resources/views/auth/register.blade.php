@@ -6,7 +6,7 @@
 
 @section('main')
     <article class="register">
-        <h2>ユーザー登録ページ</h2>
+        <h1>ユーザー登録ページ</h1>
         @if ($errors->any())
             <div class="alert alert-danger">
                 @foreach ($errors->all() as $message)
@@ -24,7 +24,7 @@
             <input type="password" size="15" name="password_confirmation" class="password-confirm" required><br>
             <input type="submit" value="新規登録">
         </form>
-        <h3>注意事項</h3>
+        <h2>注意事項</h2>
         パスワードは8文字以上にしてください。
     </article>
 @endsection
