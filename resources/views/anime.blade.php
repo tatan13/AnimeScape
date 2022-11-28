@@ -402,7 +402,9 @@
                 </div>
                 <div class="col-sm-7">
                     <h3>広告</h3>
-                    @include('layout.rakuten_adsense')
+                    @if (env('APP_ENV') == 'production')
+                        @include('layout.rakuten_adsense')
+                    @endif
                 </div>
         </section>
         <section class="before_anime_comment">
@@ -474,21 +476,25 @@
                         DISNEY+{{ $anime->disney_plus_id == 'なし' ? '(配信なし)' : ($anime->disney_plus_id == 'レンタル' ? '(レンタルあり)' : '(情報なし)') }}
                     @endif
                 </li>
-                <a href="https://px.a8.net/svt/ejp?a8mat=3NNF9T+4BZL9U+3250+5ZU29" rel="nofollow">
-                    <img border="0" width="100" height="60" alt=""
-                        src="https://www26.a8.net/svt/bgt?aid=221122577262&wid=001&eno=01&mid=s00000014274001007000&mc=1"></a>
-                <img border="0" width="1" height="1"
-                    src="https://www16.a8.net/0.gif?a8mat=3NNF9T+4BZL9U+3250+5ZU29" alt="">
-                <a href="https://px.a8.net/svt/ejp?a8mat=3NNF9T+4D6GHE+4EKC+61Z81" rel="nofollow">
-                    <img border="0" width="100" height="60" alt=""
-                        src="https://www21.a8.net/svt/bgt?aid=221122577264&wid=001&eno=01&mid=s00000020550001017000&mc=1"></a>
-                <img border="0" width="1" height="1"
-                    src="https://www15.a8.net/0.gif?a8mat=3NNF9T+4D6GHE+4EKC+61Z81" alt="">
+                @if (env('APP_ENV') == 'production')
+                    <a href="https://px.a8.net/svt/ejp?a8mat=3NNF9T+4BZL9U+3250+5ZU29" rel="nofollow">
+                        <img border="0" width="100" height="60" alt=""
+                            src="https://www26.a8.net/svt/bgt?aid=221122577262&wid=001&eno=01&mid=s00000014274001007000&mc=1"></a>
+                    <img border="0" width="1" height="1"
+                        src="https://www16.a8.net/0.gif?a8mat=3NNF9T+4BZL9U+3250+5ZU29" alt="">
+                    <a href="https://px.a8.net/svt/ejp?a8mat=3NNF9T+4D6GHE+4EKC+61Z81" rel="nofollow">
+                        <img border="0" width="100" height="60" alt=""
+                            src="https://www21.a8.net/svt/bgt?aid=221122577264&wid=001&eno=01&mid=s00000020550001017000&mc=1"></a>
+                    <img border="0" width="1" height="1"
+                        src="https://www15.a8.net/0.gif?a8mat=3NNF9T+4D6GHE+4EKC+61Z81" alt="">
+                    @endif
             </ul>
         </section>
         <section class="adsense">
             <h3>広告</h3>
-            @include('layout.horizontal_multiplex_adsense')
+            @if (env('APP_ENV') == 'production')
+                @include('layout.horizontal_multiplex_adsense')
+            @endif
         </section>
         <section class="anime_twitter">
             <h3>公式twitter</h3>
