@@ -2,23 +2,9 @@
 
 @section('title')
     <title>{{ $user_review->user->name }}さんの「{{ $user_review->anime->title }}」の感想 AnimeScape -アニメ批評空間-</title>
-@endsection
-
-@section('adsense')
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1583558174306860"
-        crossorigin="anonymous"></script>
-@endsection
-
-@section('title_adsense')
-    @include('layout.horizontal_adsense')
-@endsection
-
-@section('sidebar_adsense')
-    @include('layout.vertical_adsense')
-@endsection
-
-@section('main_adsense_smartphone')
-    @include('layout.horizontal_adsense_smartphone')
+    @if (is_null($user_review->long_word_comment))
+        <meta name="robots" content="noindex,nofollow">
+    @endif
 @endsection
 
 @section('main')

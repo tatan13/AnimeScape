@@ -2,6 +2,7 @@
 
 @section('title')
     <meta name="description" content="アニメの情報やアニメに付けたユーザーの得点や感想を集めた統計サイトです。視聴管理、アニメ探し等様々な用途でご利用ください。">
+    <link rel="canonical" href="https://www.animescape.link/">
     <title>AnimeScape -アニメ批評空間-</title>
 @endsection
 

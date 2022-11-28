@@ -2,6 +2,7 @@
 
 @section('title')
     <title>AnimeScape -アニメ批評空間-</title>
+    <meta name="robots" content="noindex,nofollow">
 @endsection
 
 @section('adsense')

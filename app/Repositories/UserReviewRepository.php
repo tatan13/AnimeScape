@@ -76,8 +76,8 @@ class UserReviewRepository extends AbstractRepository
      * @param int $user_review_id
      * @return UserReview
      */
-    public function getUserReviewWithAnimeAndUser($user_review_id)
+    public function getUserReviewWithAnimeAndUserNotNullOneWordComment($user_review_id)
     {
-        return UserReview::with(['anime', 'user'])->findOrFail($user_review_id);
+        return UserReview::whereNotNull('one_word_comment')->with(['anime', 'user'])->findOrFail($user_review_id);
     }
 }

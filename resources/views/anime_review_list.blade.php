@@ -2,6 +2,7 @@
 
 @section('title')
     <title>データ一括入力 AnimeScape -アニメ批評空間-</title>
+    <meta name="robots" content="noindex,nofollow">
 @endsection
 
 @section('main')
@@ -131,8 +132,8 @@
                                         class="before_score" size="3"
                                         value="{{ $anime->userReview->before_score ?? '' }}"></td>
                                 <td><input type="text" name="before_comment[{{ $loop->iteration }}]"
-                                        class="before_comment"
-                                        value="{{ $anime->userReview->before_comment ?? '' }}"></td>
+                                        class="before_comment" value="{{ $anime->userReview->before_comment ?? '' }}">
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
