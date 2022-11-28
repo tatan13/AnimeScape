@@ -2,6 +2,7 @@
 
 @section('title')
     <title>{{ $user_information->name }}さんの情報 AnimeScape -アニメ批評空間-</title>
+    <link rel="canonical" href="https://www.animescape.link/{{ $user_information->id }}">
 @endsection
 
 @section('adsense')
