@@ -7,9 +7,9 @@
 
 @section('main')
     <article class="give_up_anime_list">
-        <h2>{{ $user->name }}さんの視聴リタイアしたアニメリスト</h2>
+        <h1>{{ $user->name }}さんの視聴リタイアしたアニメリスト</h1>
         <div class="title">{{ $user->name }}</div>
-        <h3>視聴リタイアしたアニメリスト</h3>
+        <h2>視聴リタイアしたアニメリスト</h2>
         <table class="give_up_anime_list_table">
             <tbody>
                 <tr>

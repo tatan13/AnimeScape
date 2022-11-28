@@ -6,7 +6,7 @@
 
 @section('main')
     <article class="forget_password">
-        <h2>パスワード再発行申請</h2>
+        <h1>パスワード再発行申請</h1>
         @if ($errors->any())
             <div class="alert alert-danger">
                 @foreach ($errors->all() as $message)
@@ -25,7 +25,7 @@
             <input type="email" name="email" class="email" value="{{ old('email') }}" required><br>
             <input type="submit" value="送信">
         </form>
-        <h3>注意事項</h3>
+        <h2>注意事項</h2>
         個人情報設定で登録したメールアドレスを入力してください。
     </article>
 @endsection

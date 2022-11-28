@@ -7,9 +7,9 @@
 
 @section('main')
     <article class="user_statistics">
-        <h2>{{ $user->name }}さんのお気に入りユーザーの統計表</h2>
+        <h1>{{ $user->name }}さんのお気に入りユーザーの統計表</h1>
         <div class="title">{{ $user->name }}</div>
-        <h3>表示設定</h3>
+        <h2>表示設定</h2>
         <form action="{{ route('user_statistics.show', ['user_id' => $user->id]) }}" class="search_parameters_form"
             method="get">
             @csrf
@@ -24,7 +24,7 @@
             <input type="submit" value="絞り込み">
             <a href="{{ route('user_statistics.show', ['user_id' => $user->id]) }}">絞り込み解除</a>
         </form>
-        <h3>統計表</h3>
+        <h2>統計表</h2>
         <table class="user_statistics_table">
             <tbody>
                 <tr>

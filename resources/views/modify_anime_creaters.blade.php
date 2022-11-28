@@ -8,8 +8,8 @@
 @section('main')
     <div id="addForm">
         <article class="modify_anime_creaters">
-            <h2>{{ $anime->title }}の出演クリエイター情報変更</h2>
-            <h3><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a></h3>
+            <h1>{{ $anime->title }}の出演クリエイター情報変更</h1>
+            <h2><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a></h2>
             @if (session('flash_message'))
                 <div class="alert alert-success">
                     {{ session('flash_message') }}
@@ -175,7 +175,7 @@
                 </table>
                 <button type="button" @click="addInput">枠の追加</button>
             </form>
-            <h3>注意事項</h3>
+            <h2>注意事項</h2>
             <a href="{{ route('creater_list.show') }}">クリエイターリスト</a>からIDを探して入力してください。<br>
             職種詳細には具体的な職種名を記入してください。<br>
             クリエイターがデータベース未登録の場合、こちらから申請をお願いします。→<a href="{{ route('add_creater_request.show') }}">クリエイターの追加申請</a>　申請許可まで時間がかかりますがご了承ください。

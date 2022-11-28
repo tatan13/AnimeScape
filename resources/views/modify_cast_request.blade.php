@@ -7,8 +7,8 @@
 
 @section('main')
     <article class="modify_cast_request">
-        <h2>{{ $cast->name }}の情報変更申請</h2>
-        <h3><a href="{{ route('cast.show', ['cast_id' => $cast->id]) }}">{{ $cast->name }}</a></h3>
+        <h1>{{ $cast->name }}の情報変更申請</h1>
+        <h2><a href="{{ route('cast.show', ['cast_id' => $cast->id]) }}">{{ $cast->name }}</a></h2>
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -123,7 +123,7 @@
                 </tbody>
             </table>
         </form>
-        <h3>注意事項</h3>
+        <h2>注意事項</h2>
         <ul class="list-inline">
             <li>すべて入力する必要はありません。可能な限りでご協力お願いします。</li>
             <li>生年月日は〇年〇月〇日で入力してください。生まれ年が不明の場合は〇月〇日で入力してください。</li>

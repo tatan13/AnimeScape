@@ -23,9 +23,9 @@
 
 @section('main')
     <article class="index">
-        <h2>新着視聴完了前一言感想一覧</h2>
+        <h1>新着視聴完了前一言感想一覧</h1>
         <section class="new_before_comment">
-            <h3>新着視聴完了前一言感想</h3>
+            <h2>新着視聴完了前一言感想</h2>
             @foreach ($user_reviews_latest_before_comment as $user_review)
                 @if (!is_null($user_review->before_score))
                     <strong>{{ $user_review->before_score }}点</strong>

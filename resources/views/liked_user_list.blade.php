@@ -7,9 +7,9 @@
 
 @section('main')
     <article class="liked_user_list">
-        <h2>{{ $user->name }}さんの被お気に入りユーザー</h2>
+        <h1>{{ $user->name }}さんの被お気に入りユーザー</h1>
         <div class="title">{{ $user->name }}</div>
-        <h3>被お気に入りユーザー</h3>
+        <h2>被お気に入りユーザー</h2>
         <table class="liked_user_list_table">
             <tbody>
                 <tr>

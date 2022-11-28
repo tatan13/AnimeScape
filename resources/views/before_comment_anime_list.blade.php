@@ -6,9 +6,9 @@
 
 @section('main')
     <article class="before_comment_anime_list">
-        <h2>{{ $user->name }}さんの視聴完了前一言感想リスト</h2>
+        <h1>{{ $user->name }}さんの視聴完了前一言感想リスト</h1>
         <div class="title">{{ $user->name }}</div>
-        <h3>感想リスト</h3>
+        <h2>感想リスト</h2>
         @foreach ($before_comment_anime_list as $before_comment_anime)
             @if (!is_null($before_comment_anime->userReview->before_score))
                 <strong>{{ $before_comment_anime->userReview->before_score }}点</strong>

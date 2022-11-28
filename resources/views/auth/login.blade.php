@@ -6,7 +6,7 @@
 
 @section('main')
     <article class="login">
-        <h2>ログインページ</h2>
+        <h1>ログインページ</h1>
         @if ($errors->any())
             <div class="alert alert-danger">
                 @foreach ($errors->all() as $message)

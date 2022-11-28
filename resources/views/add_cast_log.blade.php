@@ -23,7 +23,7 @@
 
 @section('main')
     <article class="add_cast_log">
-        <h2>声優の追加履歴</h2>
+        <h1>声優の追加履歴</h1>
         @if (session('flash_add_cast_log_message'))
             <div class="alert alert-success">
                 {{ session('flash_add_cast_log_message') }}

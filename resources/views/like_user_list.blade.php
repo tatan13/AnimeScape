@@ -7,10 +7,10 @@
 
 @section('main')
     <article class="like_user_list">
-        <h2>{{ $user->name }}さんのお気に入りユーザー</h2>
+        <h1>{{ $user->name }}さんのお気に入りユーザー</h1>
         <div class="title">{{ $user->name }}</div>
         <a href=" {{ route('user_statistics.show', ['user_id' => $user->id]) }} ">統計表</a>
-        <h3>お気に入りユーザー</h3>
+        <h2>お気に入りユーザー</h2>
         <table class="like_user_list_table">
             <tbody>
                 <tr>

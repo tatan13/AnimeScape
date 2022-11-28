@@ -23,9 +23,9 @@
 
 @section('main')
     <article class=company_information>
-        <h2>
+        <h1>
             <a href="{{ $company->public_url }}" target="_blank" rel="noopener noreferrer">{{ $company->name }}</a>
-        </h2>
+        </h1>
         @if (session('flash_message'))
             <div class="alert alert-success">
                 {{ session('flash_message') }}
@@ -34,7 +34,7 @@
         <div class="title">{{ $company->name }}</div>
         <a href="{{ route('delete_company_request.show', ['company_id' => $company->id]) }}">制作会社の削除申請をする</a>
         <section class="company_anime_list">
-            <h3>制作アニメ一覧（計{{ $company->animes->count() }}本）</h3>
+            <h2>制作アニメ一覧（計{{ $company->animes->count() }}本）</h2>
             <table class="company_act_anime_list_table">
                 <tbody>
                     <tr>

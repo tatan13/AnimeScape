@@ -24,9 +24,9 @@
 @section('main')
     <div id="app">
         <article class=cast_information>
-            <h2>
+            <h1>
                 <a href="{{ $cast->url }}" target="_blank" rel="noopener noreferrer">{{ $cast->name }}</a>
-            </h2>
+            </h1>
             @if (session('flash_message'))
                 <div class="alert alert-success">
                     {{ session('flash_message') }}
@@ -39,7 +39,7 @@
                     </like-cast-component>
             @endauth
             <section class="cast_profile">
-                <h3>プロフィール</h3>
+                <h2>プロフィール</h2>
                 <table class="cast_profile_table">
                     <tr>
                         <th>ふりがな</th>
@@ -81,7 +81,7 @@
                 <a href="{{ route('delete_cast_request.show', ['cast_id' => $cast->id]) }}">声優の削除申請をする</a>
             </section>
             <section class="cast_act_anime_list">
-                <h3>出演アニメ（計{{ $cast->actAnimes->count() }}本）</h3>
+                <h2>出演アニメ（計{{ $cast->actAnimes->count() }}本）</h2>
                 <table class="cast_act_anime_list_table">
                     <tbody>
                         <tr>

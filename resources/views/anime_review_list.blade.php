@@ -7,14 +7,14 @@
 
 @section('main')
     <article class="anime_review_list">
-        <h2>データ一括入力</h2>
+        <h1>データ一括入力</h1>
         @if (session('flash_message'))
             <div class="alert alert-success">
                 {{ session('flash_message') }}
             </div>
         @endif
         <section class="search_parameters">
-            <h3>検索条件変更</h3>
+            <h2>検索条件変更</h2>
             <form action="{{ route('anime_review_list.show') }}" class="search_parameters_form" method="get">
                 @csrf
                 @include('layout/select_year')
@@ -29,14 +29,14 @@
             </form>
         </section>
         <section class="anime_review_list_information">
-            <h3>注意事項</h3>
+            <h2>注意事項</h2>
             <ul class="list-inline">
                 <li>各欄の登録は任意です。ご自由にお使いください。</li>
                 <li>得点は0～100点で付けてください。</li>
                 <li>一言感想は400文字以内でネタバレなしでお願いします。</li>
             </ul>
-            <h3>{{ !is_null($year) ? $year . '年' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }}アニメ一覧
-            </h3>
+            <h2>{{ !is_null($year) ? $year . '年' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }}アニメ一覧
+            </h2>
             <form action="{{ route('anime_review_list.show') }}" name="previous" class="d-inline" method="get">
                 @csrf
                 <input type="hidden" name="year" class="year"

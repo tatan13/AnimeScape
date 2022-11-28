@@ -7,9 +7,9 @@
 
 @section('main')
     <article class="like_cast_list">
-        <h2>{{ $user->name }}さんのお気に入り声優</h2>
+        <h1>{{ $user->name }}さんのお気に入り声優</h1>
         <div class="title">{{ $user->name }}</div>
-        <h3>お気に入り声優</h3>
+        <h2>お気に入り声優</h2>
         <ul>
             @foreach ($like_cast_list as $cast)
                 <li>

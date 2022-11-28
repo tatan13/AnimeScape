@@ -6,7 +6,7 @@
 
 @section('main')
     <article class="update_log">
-        <h2>更新履歴</h2>
+        <h1>更新履歴</h1>
         <ul class="list-inline">
             <li>2022年11月24日 新着感想一覧ページを追加</li>
             <li>2022年11月24日 トップページに新着感想一覧を追加</li>

@@ -7,8 +7,8 @@
 
 @section('main')
     <article class="user_config">
-        <h2>個人情報設定</h2>
-        <h3>設定一覧</h3>
+        <h1>個人情報設定</h1>
+        <h2>設定一覧</h2>
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>

@@ -15,10 +15,6 @@ footer {
 }
 
 h1 {
-    font-size: 169%;
-}
-
-h2 {
     background-color: #E0FFFF;
     border-width: 0px 0px 1px 5px;
     border-style: double;
@@ -26,7 +22,7 @@ h2 {
     font-size: 112%;
 }
 
-h3 {
+h2 {
     margin: 10px 0px 10px 0px;
     border-width: 0px 0px 2px;
     border-style: groove;
@@ -59,6 +55,14 @@ td {
 
 input, select {
     margin: 2px 0px;
+}
+
+.animescape {
+    font-size: 169%;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    line-height: 1.2;
 }
 
 .title {
