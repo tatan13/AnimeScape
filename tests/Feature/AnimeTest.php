@@ -164,13 +164,13 @@ class AnimeTest extends TestCase
     {
         $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
         $response->assertSeeInOrder([
-            'excellent',
-            $this->user2->name,
             '100点',
             'not sad',
             '長文感想',
             'ネタバレ注意',
             $this->user3->name,
+            'excellent',
+            $this->user2->name,
         ]);
         // コメントしていないユーザーのレビュー情報の非表示を確認
         $response->assertDontSee($this->user1->name);
