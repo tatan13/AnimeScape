@@ -35,7 +35,7 @@ class IndexTest extends TestCase
     {
         $response = $this->get(route('index.show'));
         $response->assertStatus(200);
-        $response->assertSee('新規ID作成');
+        $response->assertSee('新規作成');
         $response->assertDontSee('つけた得点');
     }
 
