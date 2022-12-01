@@ -9,37 +9,38 @@
         crossorigin="anonymous"></script>
 @endsection
 
-@section('title_adsense')
-    @include('layout.horizontal_adsense')
-@endsection
 
 @section('sidebar_adsense')
     @include('layout.vertical_adsense')
 @endsection
 
-@section('main_adsense_smartphone')
-    @include('layout.horizontal_adsense_smartphone')
-@endsection
+@if (env('APP_ENV') == 'production')
+    @section('main_adsense_smartphone')
+        @include('layout.horizontal_adsense_smartphone')
+    @endsection
+@endif
 
 @section('main')
     <article class=cast_list>
         <h1>声優リスト</h1>
-        <section class="cast_act_anime_list">
-            <table class="cast_list_table">
-                <tbody>
-                    <tr>
-                        <th>声優ID</th>
-                        <th>声優名</th>
-                    </tr>
-                    @foreach ($cast_all as $cast)
+        <div class="table-responsive">
+            <section class="cast_act_anime_list">
+                <table class="cast_list_table">
+                    <tbody>
                         <tr>
-                            <td>{{ $cast->id }}</td>
-                            <td><a href="{{ route('cast.show', ['cast_id' => $cast->id]) }}">{{ $cast->name }}</a>
-                            </td>
+                            <th>声優ID</th>
+                            <th>声優名</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                        @foreach ($cast_all as $cast)
+                            <tr>
+                                <td>{{ $cast->id }}</td>
+                                <td><a href="{{ route('cast.show', ['cast_id' => $cast->id]) }}">{{ $cast->name }}</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+        </div>
         </section>
     </article>
 @endsection

@@ -10,17 +10,16 @@
         crossorigin="anonymous"></script>
 @endsection
 
-@section('title_adsense')
-    @include('layout.horizontal_adsense')
-@endsection
 
 @section('sidebar_adsense')
     @include('layout.vertical_adsense')
 @endsection
 
-@section('main_adsense_smartphone')
-    @include('layout.horizontal_adsense_smartphone')
-@endsection
+@if (env('APP_ENV') == 'production')
+    @section('main_adsense_smartphone')
+        @include('layout.horizontal_adsense_smartphone')
+    @endsection
+@endif
 
 @section('main')
     <div id="likeUser">
@@ -52,116 +51,120 @@
                     <div class="col-md-6">
                         <h2>統計情報{{ !is_null($year) ? '(' . $year . '年' : '(すべて' }}{{ $coor != 0 ? App\Models\Anime::getCoorLabel($coor) . 'クール)' : ')' }}
                         </h2>
-                        <table class="user_statistics_information">
-                            <tbody>
-                                <tr>
-                                    <th>得点入力数</th>
-                                    <td><a
-                                            href="{{ route('user_score_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->score_count }}</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>得点の平均</th>
-                                    <td>{{ $user_information->score_average }}</td>
-                                </tr>
-                                <tr>
-                                    <th>得点の中央値</th>
-                                    <td>{{ $user_information->score_median }}</td>
-                                </tr>
-                                <tr>
-                                    <th>感想入力数</th>
-                                    <td><a
-                                            href="{{ route('user_comment_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->comments_count }}</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>視聴予定数</th>
-                                    <td><a
-                                            href="{{ route('user_will_watch_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->will_watches_count }}</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>視聴数</th>
-                                    <td>
-                                        <a
-                                            href="{{ route('user_watch_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->watches_count }}</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>視聴中数</th>
-                                    <td>
-                                        <a
-                                            href="{{ route('user_now_watch_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->now_watches_count }}</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>視聴リタイア数</th>
-                                    <td>
-                                        <a
-                                            href="{{ route('user_give_up_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->give_ups_count }}</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>視聴完了前得点入力数</th>
-                                    <td>
-                                        <a
-                                            href="{{ route('user_before_score_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->before_score_count }}</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>視聴完了前一言感想入力数</th>
-                                    <td>
-                                        <a
-                                            href="{{ route('user_before_comment_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->before_comments_count }}</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>お気に入りユーザー数</th>
-                                    <td><a
-                                            href="{{ route('user_like_user_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->userLikeUsers->count() }}</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>被お気に入りユーザー数</th>
-                                    <td><a
-                                            href="{{ route('user_liked_user_list.show', ['user_id' => $user_information->id]) }}">@{{ likedUserCount }}</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>お気に入り声優数</th>
-                                    <td><a
-                                            href="{{ route('user_like_cast_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->likeCasts->count() }}</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>お気に入りクリエイター数</th>
-                                    <td><a
-                                            href="{{ route('user_like_creater_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->likeCreaters->count() }}</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="user_statistics_information">
+                                <tbody>
+                                    <tr>
+                                        <th>得点入力数</th>
+                                        <td><a
+                                                href="{{ route('user_score_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->score_count }}</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>得点の平均</th>
+                                        <td>{{ $user_information->score_average }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>得点の中央値</th>
+                                        <td>{{ $user_information->score_median }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>感想入力数</th>
+                                        <td><a
+                                                href="{{ route('user_comment_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->comments_count }}</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>視聴予定数</th>
+                                        <td><a
+                                                href="{{ route('user_will_watch_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->will_watches_count }}</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>視聴数</th>
+                                        <td>
+                                            <a
+                                                href="{{ route('user_watch_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->watches_count }}</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>視聴中数</th>
+                                        <td>
+                                            <a
+                                                href="{{ route('user_now_watch_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->now_watches_count }}</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>視聴リタイア数</th>
+                                        <td>
+                                            <a
+                                                href="{{ route('user_give_up_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->give_ups_count }}</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>視聴完了前得点入力数</th>
+                                        <td>
+                                            <a
+                                                href="{{ route('user_before_score_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->before_score_count }}</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>視聴完了前一言感想入力数</th>
+                                        <td>
+                                            <a
+                                                href="{{ route('user_before_comment_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->before_comments_count }}</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>お気に入りユーザー数</th>
+                                        <td><a
+                                                href="{{ route('user_like_user_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->userLikeUsers->count() }}</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>被お気に入りユーザー数</th>
+                                        <td><a
+                                                href="{{ route('user_liked_user_list.show', ['user_id' => $user_information->id]) }}">@{{ likedUserCount }}</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>お気に入り声優数</th>
+                                        <td><a
+                                                href="{{ route('user_like_cast_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->likeCasts->count() }}</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>お気に入りクリエイター数</th>
+                                        <td><a
+                                                href="{{ route('user_like_creater_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->likeCreaters->count() }}</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <h2>得点分布</h2>
-                        <table class="score_distribution_table">
-                            <tbody>
-                                <tr>
-                                    <th>状況</th>
-                                    <th>度数</th>
-                                </tr>
-                                <tr>
-                                    <td>100</td>
-                                    <td>{{ $user_information['score_100_anime_reviews']->count() }}</td>
-                                </tr>
-                                @for ($i = 90; $i >= 0; $i = $i - 10)
+                        <div class="table-responsive">
+                            <table class="score_distribution_table">
+                                <tbody>
                                     <tr>
-                                        <td>{{ $i }}～{{ $i + 9 }}</td>
-                                        <td>{{ $user_information->{'score_' . $i . '_anime_reviews'}->count() + $user_information->{'score_' . $i + 5 . '_anime_reviews'}->count() }}
+                                        <th>状況</th>
+                                        <th>度数</th>
                                     </tr>
-                                @endfor
-                            </tbody>
-                        </table>
+                                    <tr>
+                                        <td>100</td>
+                                        <td>{{ $user_information['score_100_anime_reviews']->count() }}</td>
+                                    </tr>
+                                    @for ($i = 90; $i >= 0; $i = $i - 10)
+                                        <tr>
+                                            <td>{{ $i }}～{{ $i + 9 }}</td>
+                                            <td>{{ $user_information->{'score_' . $i . '_anime_reviews'}->count() + $user_information->{'score_' . $i + 5 . '_anime_reviews'}->count() }}
+                                        </tr>
+                                    @endfor
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -187,34 +190,36 @@
                     <input type="submit" value="絞り込み"> <a
                         href="{{ route('user.show', ['user_id' => $user_information->id]) }}">絞り込み解除</a>
                 </form>
-                <table class="anime_score_list_table">
-                    <thead>
-                        <tr>
-                            <th>得点</th>
-                            <th>アニメ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for ($i = 100; $i >= 0; $i = $i - 5)
+                <div class="table-responsive">
+                    <table class="anime_score_list_table">
+                        <thead>
                             <tr>
-                                <th>{{ $i }}</th>
-                                <td>
-                                    <ul class="list-inline d-inline">
-                                        @foreach ($user_information->{'score_' . $i . '_anime_reviews'} as ${'score_' . $i . '_anime_review'})
-                                            <li class="d-inline">
-                                                <span
-                                                    style="font-size: 50%;">{{ ${'score_' . $i . '_anime_review'}->score }}</span>
-                                                <a
-                                                    href="{{ route('anime.show', ['anime_id' => ${'score_' . $i . '_anime_review'}->anime->id]) }}">{{ ${'score_' . $i . '_anime_review'}->anime->title }}
-                                                </a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </td>
+                                <th>得点</th>
+                                <th>アニメ</th>
                             </tr>
-                        @endfor
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @for ($i = 100; $i >= 0; $i = $i - 5)
+                                <tr>
+                                    <th>{{ $i }}</th>
+                                    <td>
+                                        <ul class="list-inline d-inline">
+                                            @foreach ($user_information->{'score_' . $i . '_anime_reviews'} as ${'score_' . $i . '_anime_review'})
+                                                <li class="d-inline">
+                                                    <span
+                                                        style="font-size: 50%;">{{ ${'score_' . $i . '_anime_review'}->score }}</span>
+                                                    <a
+                                                        href="{{ route('anime.show', ['anime_id' => ${'score_' . $i . '_anime_review'}->anime->id]) }}">{{ ${'score_' . $i . '_anime_review'}->anime->title }}
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                </tr>
+                            @endfor
+                        </tbody>
+                    </table>
+                </div>
             </section>
         </article>
     </div>

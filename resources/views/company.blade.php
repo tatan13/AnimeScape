@@ -9,17 +9,16 @@
         crossorigin="anonymous"></script>
 @endsection
 
-@section('title_adsense')
-    @include('layout.horizontal_adsense')
-@endsection
 
 @section('sidebar_adsense')
     @include('layout.vertical_adsense')
 @endsection
 
-@section('main_adsense_smartphone')
-    @include('layout.horizontal_adsense_smartphone')
-@endsection
+@if (env('APP_ENV') == 'production')
+    @section('main_adsense_smartphone')
+        @include('layout.horizontal_adsense_smartphone')
+    @endsection
+@endif
 
 @section('main')
     <article class=company_information>
@@ -35,33 +34,35 @@
         <a href="{{ route('delete_company_request.show', ['company_id' => $company->id]) }}">制作会社の削除申請をする</a>
         <section class="company_anime_list">
             <h2>制作アニメ一覧（計{{ $company->animes->count() }}本）</h2>
-            <table class="company_act_anime_list_table">
-                <tbody>
-                    <tr>
-                        <th>アニメ名</th>
-                        <th>放送クール</th>
-                        <th>中央値</th>
-                        <th>得点数</th>
-                        @auth
-                            <th>つけた得点</th>
-                        @endauth
-                    </tr>
-                    @foreach ($company->animes as $anime)
+            <div class="table-responsive">
+                <table class="company_act_anime_list_table">
+                    <tbody>
                         <tr>
-                            <td><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
-                            </td>
-                            <td>
-                                {{ $anime->year }}年{{ $anime->coor_label }}クール
-                            </td>
-                            <td>{{ $anime->median }}</td>
-                            <td>{{ $anime->count }}</td>
+                            <th>アニメ名</th>
+                            <th>放送クール</th>
+                            <th>中央値</th>
+                            <th>得点数</th>
                             @auth
-                                <td>{{ $anime->userReview->score ?? '' }}</td>
+                                <th>つけた得点</th>
                             @endauth
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                        @foreach ($company->animes as $anime)
+                            <tr>
+                                <td><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
+                                </td>
+                                <td>
+                                    {{ $anime->year }}年{{ $anime->coor_label }}クール
+                                </td>
+                                <td>{{ $anime->median }}</td>
+                                <td>{{ $anime->count }}</td>
+                                @auth
+                                    <td>{{ $anime->userReview->score ?? '' }}</td>
+                                @endauth
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </section>
     </article>
 @endsection

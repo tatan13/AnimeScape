@@ -12,17 +12,15 @@
         crossorigin="anonymous"></script>
 @endsection
 
-@section('title_adsense')
-    @include('layout.horizontal_adsense')
-@endsection
-
 @section('sidebar_adsense')
     @include('layout.vertical_adsense')
 @endsection
 
-@section('main_adsense_smartphone')
-    @include('layout.horizontal_adsense_smartphone')
-@endsection
+@if (env('APP_ENV') == 'production')
+    @section('main_adsense_smartphone')
+        @include('layout.horizontal_adsense_smartphone')
+    @endsection
+@endif
 
 @section('main')
     <article class="anime_statistics">
@@ -31,8 +29,19 @@
         <h2>検索条件変更</h2>
         <form action="{{ route('anime_statistics.show') }}" class="search_parameters_form" method="GET">
             @csrf
-            <input type="hidden" name="year" class="year" value="{{ $year }}">
-            <input type="hidden" name="coor" class="coor" value="{{ $coor }}">
+            @include('layout/select_year')
+            年
+            <select name="coor" class="coor">
+                <option value="">-</option>
+                <option value="1" {{ is_null($coor ?? null) ? '' : ($coor == 1 ? 'selected' : '') }}>冬
+                </option>
+                <option value="2" {{ is_null($coor ?? null) ? '' : ($coor == 2 ? 'selected' : '') }}>春
+                </option>
+                <option value="3" {{ is_null($coor ?? null) ? '' : ($coor == 3 ? 'selected' : '') }}>夏
+                </option>
+                <option value="4" {{ is_null($coor ?? null) ? '' : ($coor == 4 ? 'selected' : '') }}>秋
+                </option>
+            </select>の
             得点数が
             <input type="number" name="count" class="count" value="{{ $count ?? 0 }}" style="width:60px;">
             以上のアニメで
@@ -66,48 +75,50 @@
             @endif
             <a href="javascript:next.submit()">{{ is_null($year) ? '' : (is_null($coor) ? '次の年へ' : '次クールへ') }}</a>
         </form>
-        <table class="anime_ranking_table">
-            <tbody>
-                <tr>
-                    <th>順位</th>
-                    <th>アニメ名</th>
-                    <th>制作会社</th>
-                    <th>放送カテゴリー</th>
-                    <th>@sortablelink('unionYearCoor', '放送クール')</th>
-                    <th>@sortablelink('number_of_episode', '話数')</th>
-                    <th>@sortablelink('median', '中央値')</th>
-                    <th>@sortablelink('average', '平均値')</th>
-                    <th>@sortablelink('stdev', '標準偏差')</th>
-                    <th>@sortablelink('count', '得点数')</th>
-                    @auth
-                        <th>つけた得点</th>
-                    @endauth
-                </tr>
-                @foreach ($animes as $anime)
+        <div class="table-responsive">
+            <table class="anime_ranking_table">
+                <tbody>
                     <tr>
-                        <td>{{ $animes->firstItem() + $loop->iteration - 1 }}</td>
-                        <td><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
-                        </td>
-                        <td>
-                            @foreach ($anime->companies as $company)
-                                <a
-                                    href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
-                            @endforeach
-                        </td>
-                        <td>{{ $anime->media_category_label }}</td>
-                        <td>{{ $anime->year }}年{{ $anime->coor_label }}クール</td>
-                        <td>{{ $anime->number_of_episode }}</td>
-                        <td>{{ $anime->median }}</td>
-                        <td>{{ $anime->average }}</td>
-                        <td>{{ $anime->stdev }}</td>
-                        <td>{{ $anime->count }}</td>
+                        <th>順位</th>
+                        <th>アニメ名</th>
+                        <th>制作会社</th>
+                        <th>放送媒体</th>
+                        <th>@sortablelink('unionYearCoor', 'クール')</th>
+                        <th>@sortablelink('number_of_episode', '話数')</th>
+                        <th>@sortablelink('median', '中央値')</th>
+                        <th>@sortablelink('average', '平均値')</th>
+                        <th>@sortablelink('stdev', '標準偏差')</th>
+                        <th>@sortablelink('count', '得点数')</th>
                         @auth
-                            <td>{{ $anime->userReview->score ?? '' }}</td>
+                            <th>つけた得点</th>
                         @endauth
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                    @foreach ($animes as $anime)
+                        <tr>
+                            <td>{{ $animes->firstItem() + $loop->iteration - 1 }}</td>
+                            <td><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
+                            </td>
+                            <td>
+                                @foreach ($anime->companies as $company)
+                                    <a
+                                        href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
+                                @endforeach
+                            </td>
+                            <td>{{ $anime->media_category_label }}</td>
+                            <td>{{ $anime->year }}年{{ $anime->coor_label }}</td>
+                            <td>{{ $anime->number_of_episode }}</td>
+                            <td>{{ $anime->median }}</td>
+                            <td>{{ $anime->average }}</td>
+                            <td>{{ $anime->stdev }}</td>
+                            <td>{{ $anime->count }}</td>
+                            @auth
+                                <td>{{ $anime->userReview->score ?? '' }}</td>
+                            @endauth
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
         @if (!$animes->onFirstPage())
             <a href="{{ $animes->appends(request()->query())->previousPageUrl() }}">前へ</a>
         @endif

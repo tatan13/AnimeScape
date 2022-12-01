@@ -25,42 +25,44 @@
             <a href="{{ route('user_statistics.show', ['user_id' => $user->id]) }}">絞り込み解除</a>
         </form>
         <h2>統計表</h2>
-        <table class="user_statistics_table">
-            <tbody>
-                <tr>
-                    <th>アニメ名</th>
-                    <th>放送クール</th>
-                    <th>中央値</th>
-                    <th>得点数</th>
-                    <th>入力済み</th>
-                    <th>入力ユーザー</th>
-                </tr>
-                @foreach ($user_anime_statistics as $anime)
+        <div class="table-responsive">
+            <table class="user_statistics_table">
+                <tbody>
                     <tr>
-                        <td><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
-                        </td>
-                        <td>{{ $anime->year }}年{{ $anime->coor_label }}クール</td>
-                        <td>{{ $anime->median }}</td>
-                        <td>
-                            {{ $anime->count }}
-                        </td>
-                        <td>
-                            {{ $anime->isContainMe == 1 ? '済' : '' }}
-                        </td>
-                        <td>
-                            <ul class="list-inline d-inline">
-                                @foreach ($anime->userReviews as $user_review)
-                                    <li class="d-inline">
-                                        <span style="font-size: 50%;">{{ $user_review->score }}</span>
-                                        <a href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </td>
+                        <th>アニメ名</th>
+                        <th>放送クール</th>
+                        <th>中央値</th>
+                        <th>得点数</th>
+                        <th>入力済み</th>
+                        <th>入力ユーザー</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                    @foreach ($user_anime_statistics as $anime)
+                        <tr>
+                            <td><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
+                            </td>
+                            <td>{{ $anime->year }}年{{ $anime->coor_label }}クール</td>
+                            <td>{{ $anime->median }}</td>
+                            <td>
+                                {{ $anime->count }}
+                            </td>
+                            <td>
+                                {{ $anime->isContainMe == 1 ? '済' : '' }}
+                            </td>
+                            <td>
+                                <ul class="list-inline d-inline">
+                                    @foreach ($anime->userReviews as $user_review)
+                                        <li class="d-inline">
+                                            <span style="font-size: 50%;">{{ $user_review->score }}</span>
+                                            <a href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </article>
 @endsection

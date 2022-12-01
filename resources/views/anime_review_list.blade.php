@@ -69,75 +69,82 @@
                 <input type="submit" value="送信">
                 <input type="hidden" name="year" class="year" value="{{ $year }}">
                 <input type="hidden" name="coor" class="coor" value="{{ $coor }}">
-                <table class="anime_review_list_table">
-                    <tbody>
-                        <tr>
-                            <th>アニメ名</th>
-                            <th>得点</th>
-                            <th>視聴済み</th>
-                            <th>視聴予定</th>
-                            <th>視聴中</th>
-                            <th>視聴リタイア</th>
-                            <th>面白さがわかる話数</th>
-                            <th>一言感想</th>
-                            <th>視聴完了前得点</th>
-                            <th>視聴完了前一言感想</th>
-                        </tr>
-                        @foreach ($anime_list as $anime)
+                <div class="table-responsive">
+                    <table class="anime_review_list_table">
+                        <tbody>
                             <tr>
-                                <td><a
-                                        href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
-                                </td>
-                                <input type="hidden" name="anime_id[{{ $loop->iteration }}]" class="anime_id"
-                                    value="{{ $anime->id }}">
-                                <td><input type="text" name="score[{{ $loop->iteration }}]" class="score"
-                                        size="3" value="{{ $anime->userReview->score ?? '' }}"></td>
-                                <input type="hidden" name="watch[{{ $loop->iteration }}]" class="watch" value="0">
-                                <td><input type="checkbox" name="watch[{{ $loop->iteration }}]" class="watch"
-                                        value="1" {{ $anime->userReview->watch ?? false == true ? 'checked' : '' }}>
-                                </td>
-                                <td><select name="will_watch[{{ $loop->iteration }}]" class="will_watch">
-                                        <option value="0"
-                                            {{ ($anime->userReview->will_watch ?? 0) == 0 ? 'selected' : '' }}>-
-                                        </option>
-                                        <option value="1"
-                                            {{ ($anime->userReview->will_watch ?? 0) == 1 ? 'selected' : '' }}>必ず視聴
-                                        </option>
-                                        <option value="2"
-                                            {{ ($anime->userReview->will_watch ?? 0) == 2 ? 'selected' : '' }}>多分視聴
-                                        </option>
-                                        <option value="3"
-                                            {{ ($anime->userReview->will_watch ?? 0) == 3 ? 'selected' : '' }}>様子見
-                                        </option>
-                                    </select>
-                                </td>
-                                <input type="hidden" name="now_watch[{{ $loop->iteration }}]" class="now_watch"
-                                    value="0">
-                                <td><input type="checkbox" name="now_watch[{{ $loop->iteration }}]" class="now_watch"
-                                        value="1"
-                                        {{ $anime->userReview->now_watch ?? false == true ? 'checked' : '' }}>
-                                </td>
-                                <input type="hidden" name="give_up[{{ $loop->iteration }}]" class="give_up"
-                                    value="0">
-                                <td><input type="checkbox" name="give_up[{{ $loop->iteration }}]" class="give_up"
-                                        value="1" {{ $anime->userReview->give_up ?? false == true ? 'checked' : '' }}>
-                                </td>
-                                <td><input type="text" name="number_of_interesting_episode[{{ $loop->iteration }}]"
-                                        class="number_of_interesting_episode" size="3"
-                                        value="{{ $anime->userReview->number_of_interesting_episode ?? '' }}"></td>
-                                <td><input type="text" name="one_word_comment[{{ $loop->iteration }}]"
-                                        class="one_word_comment"
-                                        value="{{ $anime->userReview->one_word_comment ?? '' }}"></td>
-                                <td><input type="text" name="before_score[{{ $loop->iteration }}]"
-                                        class="before_score" size="3"
-                                        value="{{ $anime->userReview->before_score ?? '' }}"></td>
-                                <td><input type="text" name="before_comment[{{ $loop->iteration }}]"
-                                        class="before_comment" value="{{ $anime->userReview->before_comment ?? '' }}">
-                                </td>
+                                <th>アニメ名</th>
+                                <th>得点</th>
+                                <th>視聴済み</th>
+                                <th>視聴予定</th>
+                                <th>視聴中</th>
+                                <th>視聴リタイア</th>
+                                <th>面白さがわかる話数</th>
+                                <th>一言感想</th>
+                                <th>視聴完了前得点</th>
+                                <th>視聴完了前一言感想</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                            @foreach ($anime_list as $anime)
+                                <tr>
+                                    <td><a
+                                            href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
+                                    </td>
+                                    <input type="hidden" name="anime_id[{{ $loop->iteration }}]" class="anime_id"
+                                        value="{{ $anime->id }}">
+                                    <td><input type="number" name="score[{{ $loop->iteration }}]" class="score"
+                                            value="{{ $anime->userReview->score ?? '' }}"></td>
+                                    <input type="hidden" name="watch[{{ $loop->iteration }}]" class="watch"
+                                        value="0">
+                                    <td><input type="checkbox" name="watch[{{ $loop->iteration }}]" class="watch"
+                                            value="1"
+                                            {{ $anime->userReview->watch ?? false == true ? 'checked' : '' }}>
+                                    </td>
+                                    <td><select name="will_watch[{{ $loop->iteration }}]" class="will_watch">
+                                            <option value="0"
+                                                {{ ($anime->userReview->will_watch ?? 0) == 0 ? 'selected' : '' }}>-
+                                            </option>
+                                            <option value="1"
+                                                {{ ($anime->userReview->will_watch ?? 0) == 1 ? 'selected' : '' }}>必ず視聴
+                                            </option>
+                                            <option value="2"
+                                                {{ ($anime->userReview->will_watch ?? 0) == 2 ? 'selected' : '' }}>多分視聴
+                                            </option>
+                                            <option value="3"
+                                                {{ ($anime->userReview->will_watch ?? 0) == 3 ? 'selected' : '' }}>様子見
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <input type="hidden" name="now_watch[{{ $loop->iteration }}]" class="now_watch"
+                                        value="0">
+                                    <td><input type="checkbox" name="now_watch[{{ $loop->iteration }}]" class="now_watch"
+                                            value="1"
+                                            {{ $anime->userReview->now_watch ?? false == true ? 'checked' : '' }}>
+                                    </td>
+                                    <input type="hidden" name="give_up[{{ $loop->iteration }}]" class="give_up"
+                                        value="0">
+                                    <td><input type="checkbox" name="give_up[{{ $loop->iteration }}]" class="give_up"
+                                            value="1"
+                                            {{ $anime->userReview->give_up ?? false == true ? 'checked' : '' }}>
+                                    </td>
+                                    <td><input type="number"
+                                            name="number_of_interesting_episode[{{ $loop->iteration }}]"
+                                            class="number_of_interesting_episode"
+                                            value="{{ $anime->userReview->number_of_interesting_episode ?? '' }}"></td>
+                                    <td><input type="text" name="one_word_comment[{{ $loop->iteration }}]"
+                                            class="one_word_comment"
+                                            value="{{ $anime->userReview->one_word_comment ?? '' }}"></td>
+                                    <td><input type="number" name="before_score[{{ $loop->iteration }}]"
+                                            class="before_score"
+                                            value="{{ $anime->userReview->before_score ?? '' }}"></td>
+                                    <td><input type="text" name="before_comment[{{ $loop->iteration }}]"
+                                            class="before_comment"
+                                            value="{{ $anime->userReview->before_comment ?? '' }}">
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </form>
         </section>
     </article>

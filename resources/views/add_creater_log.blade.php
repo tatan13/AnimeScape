@@ -9,17 +9,16 @@
         crossorigin="anonymous"></script>
 @endsection
 
-@section('title_adsense')
-    @include('layout.horizontal_adsense')
-@endsection
 
 @section('sidebar_adsense')
     @include('layout.vertical_adsense')
 @endsection
 
-@section('main_adsense_smartphone')
-    @include('layout.horizontal_adsense_smartphone')
-@endsection
+@if (env('APP_ENV') == 'production')
+    @section('main_adsense_smartphone')
+        @include('layout.horizontal_adsense_smartphone')
+    @endsection
+@endif
 
 @section('main')
     <article class="add_creater_log">
@@ -29,21 +28,23 @@
                 {{ session('flash_add_creater_log_message') }}
             </div>
         @endif
-        <table class="add_creater_log_table">
-            <tbody>
-                <tr>
-                    <th>クリエイター名</th>
-                    <th>追加日</th>
-                </tr>
-                @foreach ($add_creater_list as $add_creater)
+        <div class="table-responsive">
+            <table class="add_creater_log_table">
+                <tbody>
                     <tr>
-                        <td><a
-                                href="{{ route('creater.show', ['creater_id' => $add_creater->creater_id]) }}">{{ $add_creater->name }}</a>
-                        </td>
-                        <td>{{ $add_creater->updated_at }}</td>
+                        <th>クリエイター名</th>
+                        <th>追加日</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                    @foreach ($add_creater_list as $add_creater)
+                        <tr>
+                            <td><a
+                                    href="{{ route('creater.show', ['creater_id' => $add_creater->creater_id]) }}">{{ $add_creater->name }}</a>
+                            </td>
+                            <td>{{ $add_creater->updated_at }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </article>
 @endsection
