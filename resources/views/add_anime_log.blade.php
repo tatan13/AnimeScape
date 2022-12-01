@@ -9,17 +9,15 @@
         crossorigin="anonymous"></script>
 @endsection
 
-@section('title_adsense')
-    @include('layout.horizontal_adsense')
-@endsection
-
 @section('sidebar_adsense')
     @include('layout.vertical_adsense')
 @endsection
 
-@section('main_adsense_smartphone')
-    @include('layout.horizontal_adsense_smartphone')
-@endsection
+@if (env('APP_ENV') == 'production')
+    @section('main_adsense_smartphone')
+        @include('layout.horizontal_adsense_smartphone')
+    @endsection
+@endif
 
 @section('main')
     <article class="add_anime_log">
@@ -29,21 +27,23 @@
                 {{ session('flash_add_anime_log_message') }}
             </div>
         @endif
-        <table class="add_anime_log_table">
-            <tbody>
-                <tr>
-                    <th>アニメ名</th>
-                    <th>追加日</th>
-                </tr>
-                @foreach ($add_anime_list as $add_anime)
+        <div class="table-responsive">
+            <table class="add_anime_log_table">
+                <tbody>
                     <tr>
-                        <td><a
-                                href="{{ route('anime.show', ['anime_id' => $add_anime->anime_id]) }}">{{ $add_anime->title }}</a>
-                        </td>
-                        <td>{{ $add_anime->updated_at }}</td>
+                        <th>アニメ名</th>
+                        <th>追加日</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                    @foreach ($add_anime_list as $add_anime)
+                        <tr>
+                            <td><a
+                                    href="{{ route('anime.show', ['anime_id' => $add_anime->anime_id]) }}">{{ $add_anime->title }}</a>
+                            </td>
+                            <td>{{ $add_anime->updated_at }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </article>
 @endsection

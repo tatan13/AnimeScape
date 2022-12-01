@@ -7,11 +7,41 @@ body {
 }
 
 header {
-    margin: 20px 0px 0px 0px;
+    width: 100%;
+    height: 54px;
+}
+
+.animescape {
+    font-size: 180%;
+    display: flex;
+    align-items: center;
+    float: left;
+    height: 100%;
+    white-space: nowrap;
+}
+
+header .login_menu {
+    float: right;
+    white-space: nowrap;
+}
+
+header .login_menu ul {
+    display: flex;
+    height: 100%;
+}
+
+header .login_menu li {
+    flex: 1;
+    display: flex;
+    align-items: center;
 }
 
 footer {
-    text-align: right;
+    position: aboslute;
+    bottom: 0;
+    text-align: center;
+    margin-top: 48px;
+    width: 100%;
 }
 
 h1 {
@@ -53,20 +83,97 @@ td {
     background-color: #FFF0C0;
 }
 
-input, select {
-    margin: 2px 0px;
+textarea {
+    width: 100%;
 }
 
-.animescape {
-    font-size: 169%;
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    line-height: 1.2;
+main input[type="text"] {
+    width: 100%;
+}
+
+input[type="number"] {
+    width: 45px;
+}
+
+input, select {
+    margin: 2px 0px;
 }
 
 .title {
     font-size: 130%;
     font-weight: bold;
     padding: 10px 0px;
+}
+
+.footer_nav {
+    display: none;
+}
+
+#menu {
+    position: fixed;
+    left: -100vw;
+}
+
+.back {
+    display: none;
+}
+
+@media screen and (max-width: 576px) {
+
+    aside {
+        position: fixed;
+        left: -1000px;
+        width: 70% !important;
+        height: calc(100% - 54px);
+        transition: all 0.2s;
+        background: lightyellow;
+    }
+
+
+    #menu:checked ~ aside {
+        overflow-y: scroll;
+        z-index: 1;
+        left: 0;
+        top: 0;
+    }
+
+    #menu:checked ~ .back {
+        display: block;
+        position: absolute;
+        left: 0;
+        top: -95px;
+        width: 100%;
+        height: calc(100% + 159px);
+        background: rgba(0, 0, 0, 0.8) !important;
+    }
+
+    .footer_nav {
+        background-color: white;
+        display: block;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 54px;
+    }
+
+    .footer_nav ul {
+        display: flex;
+        height: 100%;
+    }
+
+    .footer_nav li {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .footer_nav a {
+        color: #212529;
+        text-decoration: none;
+    }
+
+    footer {
+        margin-bottom: 48px;
+    }
 }

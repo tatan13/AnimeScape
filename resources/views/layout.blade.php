@@ -38,156 +38,99 @@
 </head>
 
 <body>
-    <div class="container mt-4">
+    <div class="container">
         <header>
-            <div class="d-flex flex-wrap justify-content-between">
-                <div class="mb-2 align-self-center">
-                    <div class="animescape"><a href="{{ route('index.show') }}">AnimeScape -アニメ批評空間-</a></div>
+            <div class="d-flex justify-content-between" style="height: 100%;">
+                <div class="animescape"><a href="{{ route('index.show') }}">AnimeScape</a></div>
+                <div class="login_menu" style="height: 100%;">
+                    <ul class="list-inline">
+                        @if (Auth::check())
+                            <li class="me-3">
+                                <a href="{{ route('user.show', ['user_id' => auth()->user()->id]) }}">マイページ</a>
+                            </li>
+                            <li>
+                                <form action="{{ route('logout') }}" name="logout" method="POST">
+                                    @csrf
+                                    <a href="javascript:logout.submit()">ログアウト</a>
+                                </form>
+                            </li>
+                        @else
+                            <li class="me-2">
+                                <a href="{{ route('login') }}">ログイン</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('register') }}" target="_self">新規作成</a>
+                            </li>
+                        @endif
+                    </ul>
                 </div>
-                @if (env('APP_ENV') == 'production')
-                    @yield('title_adsense')
-                @endif
             </div>
         </header>
-        <div class="row">
+        <nav class="search_menu text-end mb-2">
+            <form action="{{ route('search.show') }}" method="get">
+                @csrf
+                <select name="category">
+                    <option value="anime"
+                        {{ is_null($category ?? null) ? '' : ($category == 'anime' ? 'selected' : '') }}>
+                        アニメ
+                    </option>
+                    <option value="cast"
+                        {{ is_null($category ?? null) ? '' : ($category == 'cast' ? 'selected' : '') }}>
+                        声優
+                    </option>
+                    <option value="creater"
+                        {{ is_null($category ?? null) ? '' : ($category == 'creater' ? 'selected' : '') }}>
+                        クリエイター
+                    </option>
+                    <option value="company"
+                        {{ is_null($category ?? null) ? '' : ($category == 'company' ? 'selected' : '') }}>
+                        制作会社
+                    </option>
+                    <option value="user"
+                        {{ is_null($category ?? null) ? '' : ($category == 'user' ? 'selected' : '') }}>
+                        ユーザー
+                    </option>
+                </select>
+                <input type="text" name="search_word" class="search_word" value="{{ $search_word ?? '' }}" />
+            </form>
+        </nav>
+        <div class="row" style="position: relative; min-height: 100vh;">
+            <input id="menu" type="checkbox" />
+            <label for="menu" class="back"></label>
             <aside class="col-xl-2 col-sm-3">
                 <h1>メニュー</h1>
-                <section class="login_menu">
+                <nav class="login_menu">
                     <h2>ログインメニュー</h2>
                     @if (Auth::check())
-                        <form action="{{ route('logout') }}" name="logout" method="POST">
-                            @csrf
-                            ログイン中 : {{ Auth::user()->name }}
-                            <a href="javascript:logout.submit()">ログアウト</a>
-                        </form>
+                        ログイン中 : {{ Auth::user()->name }}
                         <ul>
-                            <li><a href="{{ route('user.show', ['user_id' => auth()->user()->id]) }}">マイページ</a><br>
+                            <li>
+                                <a href="{{ route('anime_review_list.show') }}">得点一括入力</a>
                             </li>
-                            <form action="{{ route('anime_review_list.show') }}" name="anime_review_list"
-                                method="get">
-                                @csrf
-                                <li>
-                                    <a href="javascript:anime_review_list.submit()">得点一括入力</a>
-                                    <ul class="list-inline">
-                                        <li>
-                                            @include('layout.select_year')
-                                            年
-                                            <select name="coor" class="coor">
-                                                <option value="1"
-                                                    {{ is_null($coor ?? null) ? '' : ($coor == 1 ? 'selected' : '') }}>
-                                                    冬
-                                                </option>
-                                                <option value="2"
-                                                    {{ is_null($coor ?? null) ? '' : ($coor == 2 ? 'selected' : '') }}>
-                                                    春
-                                                </option>
-                                                <option value="3"
-                                                    {{ is_null($coor ?? null) ? '' : ($coor == 3 ? 'selected' : '') }}>
-                                                    夏
-                                                </option>
-                                                <option value="4"
-                                                    {{ is_null($coor ?? null) ? '' : ($coor == 4 ? 'selected' : '') }}>
-                                                    秋
-                                                </option>
-                                            </select>
-                                            <input type="submit" value="決定" />
-                                        </li>
-                                    </ul>
-                                </li>
-                            </form>
+                            <li>
+                                <a href=" {{ route('user_statistics.show', ['user_id' => Auth::id()]) }} ">統計表</a>
+                            </li>
                         </ul>
                     @else
                         <ul>
-                            <li><a href="{{ route('login') }}">ログイン</a><br></li>
-                            <li><a href="{{ route('register') }}" target="_self">新規ID作成</a><br></li>
+                            <li>
+                                <a href="{{ route('login') }}">ログイン</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('register') }}" target="_self">新規作成</a>
+                            </li>
                         </ul>
                     @endif
-                </section>
-                <section class="search_menu">
-                    <h2>検索メニュー</h2>
-                    <form action="{{ route('search.show') }}" method="get">
-                        @csrf
-                        <select name="category">
-                            <option value="anime"
-                                {{ is_null($category ?? null) ? '' : ($category == 'anime' ? 'selected' : '') }}>アニメ
-                            </option>
-                            <option value="cast"
-                                {{ is_null($category ?? null) ? '' : ($category == 'cast' ? 'selected' : '') }}>声優
-                            </option>
-                            <option value="creater"
-                                {{ is_null($category ?? null) ? '' : ($category == 'creater' ? 'selected' : '') }}>
-                                クリエイター
-                            </option>
-                            <option value="company"
-                                {{ is_null($category ?? null) ? '' : ($category == 'company' ? 'selected' : '') }}>
-                                制作会社
-                            </option>
-                            <option value="user"
-                                {{ is_null($category ?? null) ? '' : ($category == 'user' ? 'selected' : '') }}>ユーザー
-                            </option>
-                        </select>
-                        <input type="text" name="search_word" style="width: 90%;" class="search_word"
-                            value="{{ $search_word ?? '' }}" size="15" /><br>
-                        <input type="submit" value="検索" />
-                    </form>
-                </section>
-                @if (env('APP_ENV') == 'production')
-                    @yield('sidebar_adsense')
-                @endif
-                <section class="ranking_menu">
-                    <h2>ランキングメニュー</h2>
+                </nav>
+                <nav class="normal_menu">
+                    <h2>メニュー</h2>
                     <ul>
                         <li>
-                            <form action="{{ route('anime_statistics.show') }}" name="all_statistics" method="get">
-                                @csrf
-                                <input type="hidden" name="category" value="median">
-                                <a href="javascript:all_statistics.submit()">すべて</a>
-                            </form>
+                            <a href="{{ route('anime_statistics.show') }}">ランキング</a>
                         </li>
-                        <form action="{{ route('anime_statistics.show') }}" name="year_statistics" method="get">
-                            @csrf
-                            <input type="hidden" name="category" value="median">
-                            <li><a href="javascript:year_statistics.submit()">年度ごと</a>
-
-                                <ul class="list-inline">
-                                    <li>
-                                        @include('layout.select_year')
-                                        <input type="submit" value="決定" />
-                                    </li>
-                                </ul>
-                            </li>
-                        </form>
-                        <form action="{{ route('anime_statistics.show', ['category' => 'median']) }}"
-                            name="coor_statistics" method="get">
-                            @csrf
-                            <input type="hidden" name="category" value="median">
-                            <li><a href="javascript:coor_statistics.submit()">クールごと</a>
-                                <ul class="list-inline">
-                                    <li>
-                                        @include('layout.select_year')
-                                        年
-                                        <select name="coor" class="coor">
-                                            <option value="1"
-                                                {{ is_null($coor ?? null) ? '' : ($coor == 1 ? 'selected' : '') }}>冬
-                                            </option>
-                                            <option value="2"
-                                                {{ is_null($coor ?? null) ? '' : ($coor == 2 ? 'selected' : '') }}>春
-                                            </option>
-                                            <option value="3"
-                                                {{ is_null($coor ?? null) ? '' : ($coor == 3 ? 'selected' : '') }}>夏
-                                            </option>
-                                            <option value="4"
-                                                {{ is_null($coor ?? null) ? '' : ($coor == 4 ? 'selected' : '') }}>秋
-                                            </option>
-                                        </select>
-                                        <input type="submit" value="決定" />
-                                    </li>
-                                </ul>
-                            </li>
-                        </form>
                     </ul>
-                </section>
-                <section class="modify_menu">
+                </nav>
+                <nav class="modify_menu">
                     <h2>変更メニュー</h2>
                     <ul>
                         <li><a href="{{ route('add_anime_request.show') }}">アニメの追加申請</a></li>
@@ -198,28 +141,46 @@
                         <li><a href="{{ route('add_creater_log.show') }}">クリエイターの追加履歴</a></li>
                         <li><a href="{{ route('modify_request_list.show') }}">変更申請リスト</a></li>
                     </ul>
-                </section>
-                <section class="other_menu">
+                </nav>
+                <nav class="other_menu">
                     <h2>その他</h2>
                     <ul>
                         <li><a href="{{ route('contact.show') }}">要望フォーム</a></li>
                         <li><a href="{{ route('update_log.show') }}">更新履歴</a></li>
+                        <li><a href="{{ route('site_information.show') }}">このサイトについて</a></li>
+                        <li><a href="{{ route('privacy_policy.show') }}">プライバシーポリシー</a></li>
                     </ul>
-                </section>
+                </nav>
+                @if (env('APP_ENV') == 'production')
+                    @yield('sidebar_adsense')
+                @endif
             </aside>
             <main class="col-xl-10 col-sm-9">
                 @yield('main_adsense_smartphone')
                 @yield('main')
             </main>
         </div>
-        <footer>
-            <hr>
-            <a href="{{ route('site_information.show') }}">このサイトについて</a>
-            <a href="{{ route('privacy_policy.show') }}">プライバシーポリシー</a>
-            @ 2022 animescape.link
-        </footer>
-        @yield('vue.js')
     </div>
+    <footer>
+        @ 2022 animescape.link　<a href="https://twitter.com/tatan_tech" target="_blank" rel="noopener noreferrer">@tatan_tech</a>
+    </footer>
+    <nav class="footer_nav">
+        <ul class="list-inline">
+            <li class="border"><label for="menu" class="open">メニュー</label></li>
+            @if (Auth::check())
+                <li class="border"><a href="{{ route('user.show', ['user_id' => auth()->user()->id]) }}">マイページ</a>
+                </li>
+                <li class="border"><a href=" {{ route('user_statistics.show', ['user_id' => Auth::id()]) }} ">統計表</a>
+                </li>
+            @else
+                <li class="border"><a href="{{ route('login') }}">ログイン</a></li>
+                <li class="border"><a href="{{ route('register') }}" target="_self">新規作成</a></li>
+            @endif
+            <li class="border"><a href="{{ route('anime_statistics.show') }}">ランキング</a></li>
+        </ul>
+    </nav>
+
+    @yield('vue.js')
 </body>
 
 </html>

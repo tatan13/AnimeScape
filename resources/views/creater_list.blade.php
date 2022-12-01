@@ -9,37 +9,39 @@
         crossorigin="anonymous"></script>
 @endsection
 
-@section('title_adsense')
-    @include('layout.horizontal_adsense')
-@endsection
 
 @section('sidebar_adsense')
     @include('layout.vertical_adsense')
 @endsection
 
-@section('main_adsense_smartphone')
-    @include('layout.horizontal_adsense_smartphone')
-@endsection
+@if (env('APP_ENV') == 'production')
+    @section('main_adsense_smartphone')
+        @include('layout.horizontal_adsense_smartphone')
+    @endsection
+@endif
 
 @section('main')
     <article class=creater_list>
         <h1>クリエイターリスト</h1>
         <section class="anime_creater_list">
-            <table class="creater_list_table">
-                <tbody>
-                    <tr>
-                        <th>クリエイターID</th>
-                        <th>クリエイター名</th>
-                    </tr>
-                    @foreach ($creater_all as $creater)
+            <div class="table-responsive">
+                <table class="creater_list_table">
+                    <tbody>
                         <tr>
-                            <td>{{ $creater->id }}</td>
-                            <td><a href="{{ route('creater.show', ['creater_id' => $creater->id]) }}">{{ $creater->name }}</a>
-                            </td>
+                            <th>クリエイターID</th>
+                            <th>クリエイター名</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                        @foreach ($creater_all as $creater)
+                            <tr>
+                                <td>{{ $creater->id }}</td>
+                                <td><a
+                                        href="{{ route('creater.show', ['creater_id' => $creater->id]) }}">{{ $creater->name }}</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </section>
     </article>
 @endsection

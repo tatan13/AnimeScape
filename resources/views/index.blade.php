@@ -11,17 +11,16 @@
         crossorigin="anonymous"></script>
 @endsection
 
-@section('title_adsense')
-    @include('layout.horizontal_adsense')
-@endsection
 
 @section('sidebar_adsense')
     @include('layout.vertical_adsense')
 @endsection
 
-@section('main_adsense_smartphone')
-    @include('layout.horizontal_adsense_smartphone')
-@endsection
+@if (env('APP_ENV') == 'production')
+    @section('main_adsense_smartphone')
+        @include('layout.horizontal_adsense_smartphone')
+    @endsection
+@endif
 
 @section('main')
     <article class="index">
@@ -29,54 +28,52 @@
             <h1>AnimeScape -アニメ批評空間-</h1>
             <h2>お知らせ</h2>
             <ul class="list-inline">
-                <li>トップページに新着感想が表示されるように変更しました。同時に新着感想一覧ページを追加しました。</li>
-                <li>アニメのあらすじをアニメページに表示されるように変更しました。</li>
-                <li>視聴完了前得点、視聴完了前一言感想を得点一括入力欄に追加したことで一括入力できるようにしました。皆さま今期アニメのデータ入力のご協力をお願いします。</li>
-                <li>現在はアニメ作品のジャンル、傾向等を表せるタグ機能の実装を進めています。</li>
+                <li>ログイン関連のリンク、検索を上部に移動するなど、レイアウトを変更を、スマートフォンで見た時のフッターメニューを追加しました。</li>
+                <li>現在はアニメ作品のジャンル、傾向等を表せるタグ機能の実装、話数毎の視聴管理機能の実装、クリエイター情報の追加を進めています。</li>
             </ul>
         </section>
         <section class="anime_ranking">
             <h2>2022年{{ App\Models\Anime::getCoorLabel(\App\Models\Anime::NOW_COOR) }}クールアニメ視聴完了前ランキング</h2>
-            <table class="anime_ranking_table">
-                <tbody>
-                    <tr>
-                        <th>順位</th>
-                        <th>アニメ名</th>
-                        <th>制作会社</th>
-                        <th>放送カテゴリー</th>
-                        <th>@sortablelink('number_of_episode', '話数')</th>
-                        <th>@sortablelink('before_median', '中央値')</th>
-                        <th>@sortablelink('before_average', '平均値')</th>
-                        <th>@sortablelink('before_stdev', '標準偏差')</th>
-                        <th>@sortablelink('before_count', '得点数')</th>
-                        @auth
-                            <th>つけた得点</th>
-                        @endauth
-                    </tr>
-                    @foreach ($animes as $anime)
+            <div class="table-responsive">
+                <table class="anime_ranking_table">
+                    <tbody>
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
-                            </td>
-                            <td>
-                                @foreach ($anime->companies as $company)
-                                    <a
-                                        href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
-                                @endforeach
-                            </td>
-                            <td>{{ $anime->media_category_label }}</td>
-                            <td>{{ $anime->number_of_episode }}</td>
-                            <td>{{ $anime->before_median }}</td>
-                            <td>{{ $anime->before_average }}</td>
-                            <td>{{ $anime->before_stdev }}</td>
-                            <td>{{ $anime->before_count }}</td>
+                            <th>順位</th>
+                            <th>アニメ名</th>
+                            <th>制作会社</th>
+                            <th>放送媒体</th>
+                            <th>@sortablelink('before_median', '中央値')</th>
+                            <th>@sortablelink('before_average', '平均値')</th>
+                            <th>@sortablelink('before_stdev', '標準偏差')</th>
+                            <th>@sortablelink('before_count', '得点数')</th>
                             @auth
-                                <td>{{ $anime->userReview->before_score ?? '' }}</td>
+                                <th>つけた得点</th>
                             @endauth
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                        @foreach ($animes as $anime)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
+                                </td>
+                                <td>
+                                    @foreach ($anime->companies as $company)
+                                        <a
+                                            href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
+                                    @endforeach
+                                </td>
+                                <td>{{ $anime->media_category_label }}</td>
+                                <td>{{ $anime->before_median }}</td>
+                                <td>{{ $anime->before_average }}</td>
+                                <td>{{ $anime->before_stdev }}</td>
+                                <td>{{ $anime->before_count }}</td>
+                                @auth
+                                    <td>{{ $anime->userReview->before_score ?? '' }}</td>
+                                @endauth
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </section>
         <section class="new_before_comment">
             <h2>新着視聴完了前一言感想　<a href="{{ route('new_before_comment_list.show') }}">もっと見る</a></h2>

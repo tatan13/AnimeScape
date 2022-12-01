@@ -9,17 +9,16 @@
         crossorigin="anonymous"></script>
 @endsection
 
-@section('title_adsense')
-    @include('layout.horizontal_adsense')
-@endsection
 
 @section('sidebar_adsense')
     @include('layout.vertical_adsense')
 @endsection
 
-@section('main_adsense_smartphone')
-    @include('layout.horizontal_adsense_smartphone')
-@endsection
+@if (env('APP_ENV') == 'production')
+    @section('main_adsense_smartphone')
+        @include('layout.horizontal_adsense_smartphone')
+    @endsection
+@endif
 
 @section('main')
     <article class="anime_information">
@@ -35,75 +34,77 @@
             <div class="title">{{ $anime->title }}</div>
             <div class="d-flex flex-wrap justify-content-between">
                 <div>
-                    <table class="anime_basic_information_table">
-                        <tbody>
-                            <tr>
-                                <th>制作会社</th>
-                                <td>
-                                    @foreach ($anime->companies as $company)
-                                        <a
-                                            href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
-                                    @endforeach
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>放送時期</th>
-                                <td>
-                                    {{ $anime->year }}年{{ $anime->coor_label }}クール
-                                </td>
-                            </tr>
-                            @if (!is_null($anime->title_short))
+                    <div class="table-responsive">
+                        <table class="anime_basic_information_table">
+                            <tbody>
                                 <tr>
-                                    <th>略称</th>
+                                    <th>制作会社</th>
                                     <td>
-                                        {{ $anime->title_short }}
+                                        @foreach ($anime->companies as $company)
+                                            <a
+                                                href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
+                                        @endforeach
                                     </td>
                                 </tr>
-                            @endif
-                            <tr>
-                                <th>話数</th>
-                                <td>
-                                    {{ $anime->number_of_episode }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>放送カテゴリー</th>
-                                <td>
-                                    {{ $anime->media_category_label }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>ツイッターアカウント</th>
-                                <td>
-                                    @if (!is_null($anime->twitter) && $anime->twitter != 'なし')
-                                        <a href="https://twitter.com/{{ $anime->twitter }}" target="_blank"
-                                            rel="noopener noreferrer">{{ $anime->twitter }}</a>
-                                    @else
-                                        {{ $anime->twitter == 'なし' ? '(なし)' : '' }}
-                                    @endif
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>ツイッターハッシュタグ</th>
-                                <td>
-                                    @if (!is_null($anime->hash_tag) && $anime->hash_tag != 'なし')
-                                        <a href="https://twitter.com/hashtag/{{ $anime->hash_tag }}" target="_blank"
-                                            rel="noopener noreferrer">{{ $anime->hash_tag }}</a>
-                                    @else
-                                        {{ $anime->hash_tag == 'なし' ? '(なし)' : '' }}
-                                    @endif
-                                </td>
-                            </tr>
-                            @if (!is_null($anime->city_name))
                                 <tr>
-                                    <th>舞台</th>
+                                    <th>放送時期</th>
                                     <td>
-                                        {{ $anime->city_name }}
+                                        {{ $anime->year }}年{{ $anime->coor_label }}クール
                                     </td>
                                 </tr>
-                            @endif
-                        </tbody>
-                    </table>
+                                @if (!is_null($anime->title_short))
+                                    <tr>
+                                        <th>略称</th>
+                                        <td>
+                                            {{ $anime->title_short }}
+                                        </td>
+                                    </tr>
+                                @endif
+                                <tr>
+                                    <th>話数</th>
+                                    <td>
+                                        {{ $anime->number_of_episode }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>放送カテゴリー</th>
+                                    <td>
+                                        {{ $anime->media_category_label }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>ツイッターアカウント</th>
+                                    <td>
+                                        @if (!is_null($anime->twitter) && $anime->twitter != 'なし')
+                                            <a href="https://twitter.com/{{ $anime->twitter }}" target="_blank"
+                                                rel="noopener noreferrer">{{ $anime->twitter }}</a>
+                                        @else
+                                            {{ $anime->twitter == 'なし' ? '(なし)' : '' }}
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>ツイッターハッシュタグ</th>
+                                    <td>
+                                        @if (!is_null($anime->hash_tag) && $anime->hash_tag != 'なし')
+                                            <a href="https://twitter.com/hashtag/{{ $anime->hash_tag }}" target="_blank"
+                                                rel="noopener noreferrer">{{ $anime->hash_tag }}</a>
+                                        @else
+                                            {{ $anime->hash_tag == 'なし' ? '(なし)' : '' }}
+                                        @endif
+                                    </td>
+                                </tr>
+                                @if (!is_null($anime->city_name))
+                                    <tr>
+                                        <th>舞台</th>
+                                        <td>
+                                            {{ $anime->city_name }}
+                                        </td>
+                                    </tr>
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
                     <a href="{{ route('modify_anime_request.show', ['anime_id' => $anime->id]) }}">アニメの基本情報の変更申請をする</a><br>
                     <a href="{{ route('delete_anime_request.show', ['anime_id' => $anime->id]) }}">アニメの削除申請をする</a>
                     @can('isAdmin')
@@ -112,46 +113,48 @@
                     @endcan
                 </div>
                 <div>
-                    <table class="anime_statistics_table">
-                        <tbody>
-                            <tr>
-                                <th>中央値</th>
-                                <td>{{ $anime->median }}</td>
-                            </tr>
-                            <tr>
-                                <th>平均値</th>
-                                <td>{{ $anime->average }}</td>
-                            </tr>
-                            <tr>
-                                <th>得点数</th>
-                                <td><a
-                                        href="{{ route('anime_score_list.show', ['anime_id' => $anime->id]) }}">{{ $anime->count }}</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>標準偏差</th>
-                                <td>{{ $anime->stdev }}</td>
-                            </tr>
-                            <tr>
-                                <th>最高点</th>
-                                <td>{{ $anime->max }}</td>
-                            </tr>
-                            <tr>
-                                <th>最低点</th>
-                                <td>{{ $anime->min }}</td>
-                            </tr>
-                            <tr>
-                                <th>面白さがわかる話数</th>
-                                <td>{{ $anime->number_of_interesting_episode }}</td>
-                            </tr>
-                            @auth
+                    <div class="table-responsive">
+                        <table class="anime_statistics_table">
+                            <tbody>
                                 <tr>
-                                    <th>つけた得点</th>
-                                    <td>{{ $anime->userReview->score ?? '' }}</td>
+                                    <th>中央値</th>
+                                    <td>{{ $anime->median }}</td>
                                 </tr>
-                            @endauth
-                        </tbody>
-                    </table>
+                                <tr>
+                                    <th>平均値</th>
+                                    <td>{{ $anime->average }}</td>
+                                </tr>
+                                <tr>
+                                    <th>得点数</th>
+                                    <td><a
+                                            href="{{ route('anime_score_list.show', ['anime_id' => $anime->id]) }}">{{ $anime->count }}</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>標準偏差</th>
+                                    <td>{{ $anime->stdev }}</td>
+                                </tr>
+                                <tr>
+                                    <th>最高点</th>
+                                    <td>{{ $anime->max }}</td>
+                                </tr>
+                                <tr>
+                                    <th>最低点</th>
+                                    <td>{{ $anime->min }}</td>
+                                </tr>
+                                <tr>
+                                    <th>面白さがわかる話数</th>
+                                    <td>{{ $anime->number_of_interesting_episode }}</td>
+                                </tr>
+                                @auth
+                                    <tr>
+                                        <th>つけた得点</th>
+                                        <td>{{ $anime->userReview->score ?? '' }}</td>
+                                    </tr>
+                                @endauth
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div></div>
                 <div></div>
@@ -172,180 +175,184 @@
         </section>
         <section class="act_cast_information">
             <h2>声優の情報</h2>
-            <table class="act_cast_information_table">
-                <tbody>
-                    <tr>
-                        <th>声優</th>
-                        <td>
-                            @foreach ($anime->occupations as $occupation)
-                                <a
-                                    href="{{ route('cast.show', ['cast_id' => $occupation->cast->id]) }}">{{ $occupation->cast->name }}</a>
-                                @if ($occupation->main_sub == \App\Models\Occupation::TYPE_MAIN)
-                                    <b>{{ !is_null($occupation->character) ? '(' . $occupation->character . ')' : '' }}</b>
-                                @elseif ($occupation->main_sub == \App\Models\Occupation::TYPE_SUB)
-                                    {{ !is_null($occupation->character) ? '(' . $occupation->character . ')' : '' }}
-                                @elseif ($occupation->main_sub == \App\Models\Occupation::TYPE_OTHERS)
-                                    (その他)
-                                @else
-                                    {{ !is_null($occupation->character) ? '(' . $occupation->character . ')' : '' }}
-                                @endif
-                            @endforeach
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="act_cast_information_table">
+                    <tbody>
+                        <tr>
+                            <th>声優</th>
+                            <td>
+                                @foreach ($anime->occupations as $occupation)
+                                    <a
+                                        href="{{ route('cast.show', ['cast_id' => $occupation->cast->id]) }}">{{ $occupation->cast->name }}</a>
+                                    @if ($occupation->main_sub == \App\Models\Occupation::TYPE_MAIN)
+                                        <b>{{ !is_null($occupation->character) ? '(' . $occupation->character . ')' : '' }}</b>
+                                    @elseif ($occupation->main_sub == \App\Models\Occupation::TYPE_SUB)
+                                        {{ !is_null($occupation->character) ? '(' . $occupation->character . ')' : '' }}
+                                    @elseif ($occupation->main_sub == \App\Models\Occupation::TYPE_OTHERS)
+                                        (その他)
+                                    @else
+                                        {{ !is_null($occupation->character) ? '(' . $occupation->character . ')' : '' }}
+                                    @endif
+                                @endforeach
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <a href="{{ route('modify_occupations.show', ['anime_id' => $anime->id]) }}">アニメの出演声優情報の変更をする</a>
         </section>
         <section class="creater_information">
             <h2>クリエイターの情報</h2>
-            <table class="creater_information_table">
-                <tbody>
-                    <tr>
-                        <th>監督</th>
-                        <td>
-                            @foreach ($anime->animeCreaters->where('classification', \App\Models\AnimeCreater::TYPE_DIRECTOR) as $anime_creater)
-                                <a
-                                    href="{{ route('creater.show', ['creater_id' => $anime_creater->creater->id]) }}">{{ $anime_creater->creater->name }}</a>
-                                @if ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_MAIN)
-                                    <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
-                                @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
-                                    {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
-                                @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
-                                    (その他)
-                                @endif
-                            @endforeach
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>脚本</th>
-                        <td>
-                            @foreach ($anime->animeCreaters->where('classification', \App\Models\AnimeCreater::TYPE_SCRIPTWRITER) as $anime_creater)
-                                <a
-                                    href="{{ route('creater.show', ['creater_id' => $anime_creater->creater->id]) }}">{{ $anime_creater->creater->name }}</a>
-                                @if ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_MAIN)
-                                    <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
-                                @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
-                                    {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
-                                @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
-                                    (その他)
-                                @endif
-                            @endforeach
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>キャラクターデザイン</th>
-                        <td>
-                            @foreach ($anime->animeCreaters->where('classification', \App\Models\AnimeCreater::TYPE_CHARACTER_DESIGNER) as $anime_creater)
-                                <a
-                                    href="{{ route('creater.show', ['creater_id' => $anime_creater->creater->id]) }}">{{ $anime_creater->creater->name }}</a>
-                                @if ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_MAIN)
-                                    <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
-                                @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
-                                    {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
-                                @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
-                                    (その他)
-                                @endif
-                            @endforeach
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>シリーズ構成</th>
-                        <td>
-                            @foreach ($anime->animeCreaters->where('classification', \App\Models\AnimeCreater::TYPE_SERIES_CONSTRUCTION) as $anime_creater)
-                                <a
-                                    href="{{ route('creater.show', ['creater_id' => $anime_creater->creater->id]) }}">{{ $anime_creater->creater->name }}</a>
-                                @if ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_MAIN)
-                                    <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
-                                @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
-                                    {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
-                                @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
-                                    (その他)
-                                @endif
-                            @endforeach
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>作画監督</th>
-                        <td>
-                            @foreach ($anime->animeCreaters->where('classification', \App\Models\AnimeCreater::TYPE_ANIMATION_DIRECTOR) as $anime_creater)
-                                <a
-                                    href="{{ route('creater.show', ['creater_id' => $anime_creater->creater->id]) }}">{{ $anime_creater->creater->name }}</a>
-                                @if ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_MAIN)
-                                    <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
-                                @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
-                                    {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
-                                @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
-                                    (その他)
-                                @endif
-                            @endforeach
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>音楽</th>
-                        <td>
-                            @foreach ($anime->animeCreaters->where('classification', \App\Models\AnimeCreater::TYPE_MUSIC) as $anime_creater)
-                                <a
-                                    href="{{ route('creater.show', ['creater_id' => $anime_creater->creater->id]) }}">{{ $anime_creater->creater->name }}</a>
-                                @if ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_MAIN)
-                                    <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
-                                @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
-                                    {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
-                                @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
-                                    (その他)
-                                @endif
-                            @endforeach
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>歌手</th>
-                        <td>
-                            @foreach ($anime->animeCreaters->where('classification', \App\Models\AnimeCreater::TYPE_SINGER) as $anime_creater)
-                                <a
-                                    href="{{ route('creater.show', ['creater_id' => $anime_creater->creater->id]) }}">{{ $anime_creater->creater->name }}</a>
-                                @if ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_MAIN)
-                                    <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
-                                @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
-                                    {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
-                                @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
-                                    (その他)
-                                @endif
-                            @endforeach
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>原作</th>
-                        <td>
-                            @foreach ($anime->animeCreaters->where('classification', \App\Models\AnimeCreater::TYPE_ORIGINAL_AUTHOR) as $anime_creater)
-                                <a
-                                    href="{{ route('creater.show', ['creater_id' => $anime_creater->creater->id]) }}">{{ $anime_creater->creater->name }}</a>
-                                @if ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_MAIN)
-                                    <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
-                                @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
-                                    {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
-                                @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
-                                    (その他)
-                                @endif
-                            @endforeach
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>その他</th>
-                        <td>
-                            @foreach ($anime->animeCreaters->where('classification', \App\Models\AnimeCreater::TYPE_CLASSIFICATION_OTHERS) as $anime_creater)
-                                <a
-                                    href="{{ route('creater.show', ['creater_id' => $anime_creater->creater->id]) }}">{{ $anime_creater->creater->name }}</a>
-                                @if ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_MAIN)
-                                    <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
-                                @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
-                                    {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
-                                @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
-                                    (その他)
-                                @endif
-                            @endforeach
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="creater_information_table">
+                    <tbody>
+                        <tr>
+                            <th>監督</th>
+                            <td>
+                                @foreach ($anime->animeCreaters->where('classification', \App\Models\AnimeCreater::TYPE_DIRECTOR) as $anime_creater)
+                                    <a
+                                        href="{{ route('creater.show', ['creater_id' => $anime_creater->creater->id]) }}">{{ $anime_creater->creater->name }}</a>
+                                    @if ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_MAIN)
+                                        <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
+                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
+                                        {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
+                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
+                                        (その他)
+                                    @endif
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>脚本</th>
+                            <td>
+                                @foreach ($anime->animeCreaters->where('classification', \App\Models\AnimeCreater::TYPE_SCRIPTWRITER) as $anime_creater)
+                                    <a
+                                        href="{{ route('creater.show', ['creater_id' => $anime_creater->creater->id]) }}">{{ $anime_creater->creater->name }}</a>
+                                    @if ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_MAIN)
+                                        <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
+                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
+                                        {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
+                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
+                                        (その他)
+                                    @endif
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>キャラクターデザイン</th>
+                            <td>
+                                @foreach ($anime->animeCreaters->where('classification', \App\Models\AnimeCreater::TYPE_CHARACTER_DESIGNER) as $anime_creater)
+                                    <a
+                                        href="{{ route('creater.show', ['creater_id' => $anime_creater->creater->id]) }}">{{ $anime_creater->creater->name }}</a>
+                                    @if ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_MAIN)
+                                        <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
+                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
+                                        {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
+                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
+                                        (その他)
+                                    @endif
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>シリーズ構成</th>
+                            <td>
+                                @foreach ($anime->animeCreaters->where('classification', \App\Models\AnimeCreater::TYPE_SERIES_CONSTRUCTION) as $anime_creater)
+                                    <a
+                                        href="{{ route('creater.show', ['creater_id' => $anime_creater->creater->id]) }}">{{ $anime_creater->creater->name }}</a>
+                                    @if ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_MAIN)
+                                        <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
+                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
+                                        {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
+                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
+                                        (その他)
+                                    @endif
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>作画監督</th>
+                            <td>
+                                @foreach ($anime->animeCreaters->where('classification', \App\Models\AnimeCreater::TYPE_ANIMATION_DIRECTOR) as $anime_creater)
+                                    <a
+                                        href="{{ route('creater.show', ['creater_id' => $anime_creater->creater->id]) }}">{{ $anime_creater->creater->name }}</a>
+                                    @if ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_MAIN)
+                                        <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
+                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
+                                        {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
+                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
+                                        (その他)
+                                    @endif
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>音楽</th>
+                            <td>
+                                @foreach ($anime->animeCreaters->where('classification', \App\Models\AnimeCreater::TYPE_MUSIC) as $anime_creater)
+                                    <a
+                                        href="{{ route('creater.show', ['creater_id' => $anime_creater->creater->id]) }}">{{ $anime_creater->creater->name }}</a>
+                                    @if ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_MAIN)
+                                        <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
+                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
+                                        {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
+                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
+                                        (その他)
+                                    @endif
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>歌手</th>
+                            <td>
+                                @foreach ($anime->animeCreaters->where('classification', \App\Models\AnimeCreater::TYPE_SINGER) as $anime_creater)
+                                    <a
+                                        href="{{ route('creater.show', ['creater_id' => $anime_creater->creater->id]) }}">{{ $anime_creater->creater->name }}</a>
+                                    @if ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_MAIN)
+                                        <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
+                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
+                                        {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
+                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
+                                        (その他)
+                                    @endif
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>原作</th>
+                            <td>
+                                @foreach ($anime->animeCreaters->where('classification', \App\Models\AnimeCreater::TYPE_ORIGINAL_AUTHOR) as $anime_creater)
+                                    <a
+                                        href="{{ route('creater.show', ['creater_id' => $anime_creater->creater->id]) }}">{{ $anime_creater->creater->name }}</a>
+                                    @if ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_MAIN)
+                                        <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
+                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
+                                        {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
+                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
+                                        (その他)
+                                    @endif
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>その他</th>
+                            <td>
+                                @foreach ($anime->animeCreaters->where('classification', \App\Models\AnimeCreater::TYPE_CLASSIFICATION_OTHERS) as $anime_creater)
+                                    <a
+                                        href="{{ route('creater.show', ['creater_id' => $anime_creater->creater->id]) }}">{{ $anime_creater->creater->name }}</a>
+                                    @if ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_MAIN)
+                                        <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
+                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
+                                        {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
+                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
+                                        (その他)
+                                    @endif
+                                @endforeach
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <a href="{{ route('modify_anime_creaters.show', ['anime_id' => $anime->id]) }}">クリエイター情報の変更をする</a>
         </section>
         <section class="anime_comment">
@@ -375,30 +382,32 @@
             <div class="row">
                 <div class="col-sm-5">
                     <h2>視聴完了前統計情報</h2>
-                    <table class="before_anime_statistics_table">
-                        <tbody>
-                            <tr>
-                                <th>中央値</th>
-                                <th>平均値</th>
-                                <th>得点数</th>
-                                <th>標準偏差</th>
-                                @auth
-                                    <th>つけた得点</th>
-                                @endauth
-                            </tr>
-                            <tr>
-                                <td>{{ $anime->before_median }}</td>
-                                <td>{{ $anime->before_average }}</td>
-                                <td><a
-                                        href="{{ route('anime_before_score_list.show', ['anime_id' => $anime->id]) }}">{{ $anime->before_count }}</a>
-                                </td>
-                                <td>{{ $anime->before_stdev }}</td>
-                                @auth
-                                    <td>{{ $anime->userReview->before_score ?? '' }}</td>
-                                @endauth
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="before_anime_statistics_table">
+                            <tbody>
+                                <tr>
+                                    <th>中央値</th>
+                                    <th>平均値</th>
+                                    <th>得点数</th>
+                                    <th>標準偏差</th>
+                                    @auth
+                                        <th>つけた得点</th>
+                                    @endauth
+                                </tr>
+                                <tr>
+                                    <td>{{ $anime->before_median }}</td>
+                                    <td>{{ $anime->before_average }}</td>
+                                    <td><a
+                                            href="{{ route('anime_before_score_list.show', ['anime_id' => $anime->id]) }}">{{ $anime->before_count }}</a>
+                                    </td>
+                                    <td>{{ $anime->before_stdev }}</td>
+                                    @auth
+                                        <td>{{ $anime->userReview->before_score ?? '' }}</td>
+                                    @endauth
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="col-sm-7">
                     <h2>広告</h2>
@@ -487,7 +496,7 @@
                             src="https://www21.a8.net/svt/bgt?aid=221122577264&wid=001&eno=01&mid=s00000020550001017000&mc=1"></a>
                     <img border="0" width="1" height="1"
                         src="https://www15.a8.net/0.gif?a8mat=3NNF9T+4D6GHE+4EKC+61Z81" alt="">
-                    @endif
+                @endif
             </ul>
         </section>
         <section class="adsense">
