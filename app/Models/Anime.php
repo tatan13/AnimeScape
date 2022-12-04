@@ -357,12 +357,19 @@ class Anime extends Model
         return $query;
     }
 
+    public function scopeWithMyTagReviews($query)
+    {
+        if (Auth::check()) {
+            return $query->with('tagReviews', function ($q) {
+                $q->where('user_id', Auth::id());
+            });
+        }
+        return $query;
+    }
+
     public function scopeLatestCategory($query, $category)
     {
-        if (is_null($category)) {
-            return $query;
-        }
-        return $query->latest($category);
+        return $query->latest($category ?? 'median');
     }
 
     public function scopeLatestYearCoorMedian($query)
