@@ -91,7 +91,7 @@
                         ユーザー
                     </option>
                 </select>
-                <input type="text" name="search_word" class="search_word" value="{{ $search_word ?? '' }}" />
+                <input type="text" name="search_word" class="search_word" placeholder="検索" value="{{ $search_word ?? '' }}" />
             </form>
         </nav>
         <div class="row" style="position: relative; min-height: 100vh;">
@@ -105,7 +105,11 @@
                         ログイン中 : {{ Auth::user()->name }}
                         <ul>
                             <li>
-                                <a href="{{ route('anime_review_list.show') }}">得点一括入力</a>
+                                <a
+                                    href="{{ route('anime_review_list.show', [
+                                        'year' => \App\Models\Anime::NOW_YEAR,
+                                        'coor' => \App\Models\Anime::NOW_COOR,
+                                    ]) }}">得点一括入力</a>
                             </li>
                             <li>
                                 <a href=" {{ route('user_statistics.show', ['user_id' => Auth::id()]) }} ">統計表</a>
@@ -162,7 +166,8 @@
         </div>
     </div>
     <footer>
-        @ 2022 animescape.link　<a href="https://twitter.com/tatan_tech" target="_blank" rel="noopener noreferrer">@tatan_tech</a>
+        @ 2022 animescape.link　<a href="https://twitter.com/tatan_tech" target="_blank"
+            rel="noopener noreferrer">@tatan_tech</a>
     </footer>
     <nav class="footer_nav">
         <ul class="list-inline">

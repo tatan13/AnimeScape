@@ -35,7 +35,7 @@
         <section class="company_anime_list">
             <h2>制作アニメ一覧（計{{ $company->animes->count() }}本）</h2>
             <div class="table-responsive">
-                <table class="company_act_anime_list_table">
+                <table class="company_anime_list_table">
                     <tbody>
                         <tr>
                             <th>アニメ名</th>

@@ -174,7 +174,10 @@
                 <form action="{{ route('user.show', ['user_id' => $user_information->id]) }}"
                     class="search_parameters_form" name="coor_score_animelist" method="get">
                     @csrf
-                    @include('layout/select_year')
+                    <select name="year" class="year">
+                        <option value="">-</option>
+                        @include('layout/select_year')
+                    </select>
                     年
                     <select name="coor" class="coor">
                         <option value="">-</option>
