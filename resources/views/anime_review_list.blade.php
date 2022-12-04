@@ -17,7 +17,9 @@
             <h2>検索条件変更</h2>
             <form action="{{ route('anime_review_list.show') }}" class="search_parameters_form" method="get">
                 @csrf
-                @include('layout/select_year')
+                <select name="year" class="year">
+                    @include('layout/select_year')
+                </select>
                 年
                 <select name="coor" class="coor">
                     <option value="1" {{ $coor == 1 ? 'selected' : '' }}>冬</option>
@@ -35,7 +37,7 @@
                 <li>得点は0～100点で付けてください。</li>
                 <li>一言感想は400文字以内でネタバレなしでお願いします。</li>
             </ul>
-            <h2>{{ !is_null($year) ? $year . '年' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }}アニメ一覧
+            <h2>{{ !is_null($year) ? $year . '年' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }}アニメ一覧({{ $anime_list->count() }}作品)
             </h2>
             <form action="{{ route('anime_review_list.show') }}" name="previous" class="d-inline" method="get">
                 @csrf
@@ -134,8 +136,8 @@
                                             class="one_word_comment"
                                             value="{{ $anime->userReview->one_word_comment ?? '' }}"></td>
                                     <td><input type="number" name="before_score[{{ $loop->iteration }}]"
-                                            class="before_score"
-                                            value="{{ $anime->userReview->before_score ?? '' }}"></td>
+                                            class="before_score" value="{{ $anime->userReview->before_score ?? '' }}">
+                                    </td>
                                     <td><input type="text" name="before_comment[{{ $loop->iteration }}]"
                                             class="before_comment"
                                             value="{{ $anime->userReview->before_comment ?? '' }}">

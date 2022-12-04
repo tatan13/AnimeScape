@@ -29,7 +29,10 @@
         <h2>検索条件変更</h2>
         <form action="{{ route('anime_statistics.show') }}" class="search_parameters_form" method="GET">
             @csrf
-            @include('layout/select_year')
+            <select name="year" class="year">
+                <option value="">-</option>
+                @include('layout/select_year')
+            </select>
             年
             <select name="coor" class="coor">
                 <option value="">-</option>
@@ -46,7 +49,7 @@
             <input type="number" name="count" class="count" value="{{ $count ?? 0 }}" style="width:60px;">
             以上のアニメで
             <select name="category" class="category">
-                <option value="median" {{ $category == 'median' ? 'selected' : '' }}>中央値</option>
+                <option value="median">中央値</option>
                 <option value="average" {{ $category == 'average' ? 'selected' : '' }}>平均値</option>
                 <option value="count" {{ $category == 'count' ? 'selected' : '' }}>得点数</option>
             </select>

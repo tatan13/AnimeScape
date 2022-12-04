@@ -450,10 +450,10 @@ class AnimeTest extends TestCase
         ]));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
-            $this->anime->title,
-            0,
             $this->anime3->title,
             'not sad',
+            $this->anime->title,
+            0,
         ]);
     }
 
