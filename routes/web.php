@@ -56,6 +56,10 @@ Route::get('/company/{company_id}/delete_request', [App\Http\Controllers\ModifyC
 
 Route::post('/company/{company_id}/delete_request', [App\Http\Controllers\ModifyController::class, 'postDeleteCompanyRequest'])->name('delete_company_request.post');
 
+Route::get('/tag/{tag_id}', [App\Http\Controllers\TagController::class, 'show'])->name('tag.show');
+
+Route::get('/tag_list', [App\Http\Controllers\TagController::class, 'showList'])->name('tag_list.show');
+
 Route::get('/user_information/{user_id}', [App\Http\Controllers\UserController::class, 'show'])->name('user.show');
 
 Route::get('/user_information/{user_id}/comment_anime_list', [App\Http\Controllers\UserController::class, 'showCommentAnimeList'])->name('user_comment_anime_list.show');
@@ -158,6 +162,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/anime/{anime_id}/review', [App\Http\Controllers\AnimeController::class, 'showAnimeReview'])->name('anime_review.show');
     
     Route::post('/anime/{anime_id}/review', [App\Http\Controllers\AnimeController::class, 'postAnimeReview'])->name('anime_review.post');
+
+    Route::get('/anime/{anime_id}/tag_review', [App\Http\Controllers\AnimeController::class, 'showTagReview'])->name('tag_review.show');
+    
+    Route::post('/anime/{anime_id}/tag_review', [App\Http\Controllers\AnimeController::class, 'postTagReview'])->name('tag_review.post');
     
     Route::get('/anime_review_list', [App\Http\Controllers\AnimeController::class, 'showAnimeReviewList'])->name('anime_review_list.show');
     

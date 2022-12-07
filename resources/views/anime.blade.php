@@ -1,7 +1,8 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ $anime->title }} AnimeScape -アニメ批評空間-</title>
+    <title>
+        {{ $anime->title }} AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('adsense')
@@ -48,8 +49,9 @@
                                 </tr>
                                 <tr>
                                     <th>放送時期</th>
-                                    <td>
-                                        {{ $anime->year }}年{{ $anime->coor_label }}クール
+                                    <td><a
+                                            href="{{ route('anime_statistics.show', ['year' => $anime->year, 'coor' => $anime->coor]) }}">
+                                            {{ $anime->year }}年{{ $anime->coor_label }}クール</a>
                                     </td>
                                 </tr>
                                 @if (!is_null($anime->title_short))
@@ -355,9 +357,129 @@
             </div>
             <a href="{{ route('modify_anime_creaters.show', ['anime_id' => $anime->id]) }}">クリエイター情報の変更をする</a>
         </section>
+        <section class="tag_information">
+            <h2>タグ情報</h2>
+            <div class="table-responsive">
+                <table class="tag_information_table">
+                    <tbody>
+                        <tr>
+                            <th>ジャンル</th>
+                            <td>
+                                @foreach ($tags->where('tag_group_id', \App\Models\Tag::TYPE_GENRE) as $tag)
+                                    <a
+                                        href="{{ route('tag.show', ['tag_id' => $tag->id]) }}">{{ $tag->name }}</a>({{ $tag->tag_reviews_count }})
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>キャラクター</th>
+                            <td>
+                                @foreach ($tags->where('tag_group_id', \App\Models\Tag::TYPE_CHARACTER) as $tag)
+                                    <a
+                                        href="{{ route('tag.show', ['tag_id' => $tag->id]) }}">{{ $tag->name }}</a>({{ $tag->tag_reviews_count }})
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>ストーリー</th>
+                            <td>
+                                @foreach ($tags->where('tag_group_id', \App\Models\Tag::TYPE_STORY) as $tag)
+                                    <a
+                                        href="{{ route('tag.show', ['tag_id' => $tag->id]) }}">{{ $tag->name }}</a>({{ $tag->tag_reviews_count }})
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>音</th>
+                            <td>
+                                @foreach ($tags->where('tag_group_id', \App\Models\Tag::TYPE_MUSIC) as $tag)
+                                    <a
+                                        href="{{ route('tag.show', ['tag_id' => $tag->id]) }}">{{ $tag->name }}</a>({{ $tag->tag_reviews_count }})
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>作画</th>
+                            <td>
+                                @foreach ($tags->where('tag_group_id', \App\Models\Tag::TYPE_PICTURE) as $tag)
+                                    <a
+                                        href="{{ route('tag.show', ['tag_id' => $tag->id]) }}">{{ $tag->name }}</a>({{ $tag->tag_reviews_count }})
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>声優</th>
+                            <td>
+                                @foreach ($tags->where('tag_group_id', \App\Models\Tag::TYPE_CAST) as $tag)
+                                    <a
+                                        href="{{ route('tag.show', ['tag_id' => $tag->id]) }}">{{ $tag->name }}</a>({{ $tag->tag_reviews_count }})
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>その他</th>
+                            <td>
+                                @foreach ($tags->where('tag_group_id', \App\Models\Tag::TYPE_OTHER) as $tag)
+                                    <a
+                                        href="{{ route('tag.show', ['tag_id' => $tag->id]) }}">{{ $tag->name }}</a>({{ $tag->tag_reviews_count }})
+                                @endforeach
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="toContents d-grid gap-2">
+                @if (Auth::check())
+                    <button type="button" class="btn btn-primary"
+                        onclick="location.href='{{ route('tag_review.show', ['anime_id' => $anime->id]) }}'">タグ情報の登録をする</button>
+                @else
+                    <button type="button" class="btn btn-primary"
+                        onclick="location.href='{{ route('tag_review.show', ['anime_id' => $anime->id]) }}'">ログインしてタグ情報の登録をする</button>
+                @endif
+            </div>
+        </section>
+        <section class="top_tag_list">
+            <h2>タグ詳細</h2>
+            @foreach ($tags as $tag)
+                @if ($loop->iteration % 2 == 0)
+                    <div class="comment_even">
+                    @else
+                        <div class="comment_odd">
+                @endif
+                <a href="{{ route('tag.show', ['tag_id' => $tag->id]) }}">{{ $tag->name }}</a><br>
+                {{ $tag->tag_reviews_count }}件 中央値{{ $tag->tagReviews->median('score') }}点
+                </div>
+            @endforeach
+        </section>
+        <section class="top_tag_comment_list">
+            <h2>タグコメント</h2>
+            @foreach ($tags as $tag)
+                @if ($tag->tagReviews->whereNotNull('comment')->count() != 0)
+                    <a
+                        href="{{ route('tag.show', ['tag_id' => $tag->id]) }}">{{ $tag->name }}</a>({{ $tag->tag_reviews_count }}件、中央値{{ $tag->tagReviews->median('score') }}点)<br>
+                    @foreach ($tag->tagReviews->whereNotNull('comment') as $tag_review)
+                        @if ($loop->iteration % 2 == 0)
+                            <div class="comment_odd">
+                            @else
+                                <div class="comment_even">
+                        @endif
+                        <strong>{{ $tag_review->score }}点</strong><br>
+                        {{ $tag_review->comment }}<br>
+                        {{ $tag_review->created_at }} <a
+                            href="{{ route('user.show', ['user_id' => $tag_review->user->id]) }}">{{ $tag_review->user->name }}</a><br>
+                        </div>
+                    @endforeach
+                @endif
+            @endforeach
+        </section>
         <section class="anime_comment">
             <h2>コメント（新着順）</h2>
             @foreach ($anime->userReviews as $user_review)
+                @if ($loop->iteration % 2 == 0)
+                    <div class="comment_even">
+                    @else
+                        <div class="comment_odd">
+                @endif
                 @if (!is_null($user_review->one_word_comment) || !is_null($user_review->long_word_comment))
                     @if (!is_null($user_review->score))
                         <strong>{{ $user_review->score }}点</strong><br>
@@ -370,12 +492,11 @@
                             @endif
                         </a>
                     @endif
-                    <p>
-                        {{ $user_review->comment_timestamp }} <a
-                            href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a>
-                    </p>
-                    <hr>
+                    <br>
+                    {{ $user_review->comment_timestamp }} <a
+                        href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a><br>
                 @endif
+                </div>
             @endforeach
         </section>
         <section class="before_anime_information">
@@ -419,17 +540,20 @@
         <section class="before_anime_comment">
             <h2>視聴完了前コメント（新着順）</h2>
             @foreach ($anime->userReviews as $user_review)
+                @if ($loop->iteration % 2 == 0)
+                    <div class="comment_even">
+                    @else
+                        <div class="comment_odd">
+                @endif
                 @if (!is_null($user_review->before_comment))
                     @if (!is_null($user_review->before_score))
                         <strong>{{ $user_review->before_score }}点</strong><br>
                     @endif
-                    {{ $user_review->before_comment }}
-                    <p>
-                        {{ $user_review->before_comment_timestamp }} <a
-                            href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a>
-                    </p>
-                    <hr>
+                    {{ $user_review->before_comment }}<br>
+                    {{ $user_review->before_comment_timestamp }} <a
+                        href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a><br>
                 @endif
+                </div>
             @endforeach
         </section>
         <section class="streaming_information">

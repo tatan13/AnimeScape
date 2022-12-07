@@ -22,6 +22,7 @@
             </div>
         @endif
         名前を書かないと名無しさんになります。
+        <hr>
         <form action="{{ route('contact.post') }}" class="contact_form" method="POST">
             @csrf
             <label for="name">名前</label><br>

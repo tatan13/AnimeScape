@@ -28,8 +28,8 @@
             <h1>AnimeScape -アニメ批評空間-</h1>
             <h2>お知らせ</h2>
             <ul class="list-inline">
-                <li>ログイン関連のリンクや検索を上部に移動するなど、レイアウトを変更しました。また、画面幅を狭めたときに表示されるフッターメニューを追加しました。</li>
-                <li>現在はアニメ作品のジャンル、傾向等を表せるタグ機能の実装、話数毎の視聴管理機能の実装、クリエイター情報の追加を進めています。</li>
+                <li>タグ機能を追加しました。ログイン状態で各アニメページの"タグ情報の登録をする"から登録することができますのでご協力お願いします。</li>
+                <li>現在は話数毎の視聴管理機能の実装、ツイッターログイン機能の実装を進めています。</li>
             </ul>
         </section>
         <section class="anime_ranking">
@@ -78,23 +78,31 @@
         <section class="new_before_comment">
             <h2>新着視聴完了前一言感想　<a href="{{ route('new_before_comment_list.show') }}">もっと見る</a></h2>
             @foreach ($user_reviews_latest_before_comment as $user_review)
+                @if ($loop->iteration % 2 == 0)
+                    <div class="comment_even">
+                    @else
+                        <div class="comment_odd">
+                @endif
                 @if (!is_null($user_review->before_score))
                     <strong>{{ $user_review->before_score }}点</strong>
                 @endif
                 <a
                     href="{{ route('anime.show', ['anime_id' => $user_review->anime->id]) }}">{{ $user_review->anime->title }}</a>
                 <br>
-                {{ $user_review->before_comment }}
-                <p>
-                    {{ $user_review->before_comment_timestamp }} <a
-                        href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a>
-                </p>
-                <hr>
+                {{ $user_review->before_comment }}<br>
+                {{ $user_review->before_comment_timestamp }} <a
+                    href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a>
+                </div>
             @endforeach
         </section>
         <section class="new_comment">
             <h2>新着一言感想　<a href="{{ route('new_comment_list.show') }}">もっと見る</a></h2>
             @foreach ($user_reviews_latest_comment as $user_review)
+                @if ($loop->iteration % 2 == 0)
+                    <div class="comment_even">
+                    @else
+                        <div class="comment_odd">
+                @endif
                 @if (!is_null($user_review->score))
                     <strong>{{ $user_review->score }}点</strong>
                 @endif
@@ -109,11 +117,10 @@
                         @endif
                     </a>
                 @endif
-                <p>
-                    {{ $user_review->comment_timestamp }} <a
-                        href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a>
-                </p>
-                <hr>
+                <br>
+                {{ $user_review->comment_timestamp }} <a
+                    href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a>
+                </div>
             @endforeach
         </section>
     </article>

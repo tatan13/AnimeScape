@@ -21,7 +21,7 @@
 @endif
 
 @section('main')
-    <article class=cast_list>
+    <article class="cast_list">
         <h1>声優リスト</h1>
         <div class="table-responsive">
             <section class="cast_act_anime_list">

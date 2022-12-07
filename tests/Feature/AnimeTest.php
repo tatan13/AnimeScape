@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\Anime;
 use App\Models\Cast;
 use App\Models\Company;
+use App\Models\Tag;
 use App\Models\UserReview;
 use App\Models\User;
 use Tests\TestCase;
@@ -22,10 +23,15 @@ class AnimeTest extends TestCase
     private Cast $cast1;
     private Cast $cast2;
     private Company $company;
+    private Tag $tag;
+    private Tag $tag1;
     private User $user1;
     private User $user2;
     private User $user3;
     private User $user4;
+    private User $user5;
+    private User $user6;
+    private User $user7;
 
     protected function setUp(): void
     {
@@ -61,7 +67,11 @@ class AnimeTest extends TestCase
         $this->user1 = User::factory()->create(['name' => 'root']);
         $this->user2 = User::factory()->create();
         $this->user3 = User::factory()->create();
+
         $this->user4 = User::factory()->create();
+        $this->user5 = User::factory()->create();
+        $this->user6 = User::factory()->create();
+        $this->user7 = User::factory()->create();
 
         $this->anime->reviewUsers()->attach($this->user1->id, [
             'score' => 0,
@@ -97,6 +107,26 @@ class AnimeTest extends TestCase
             'number_of_interesting_episode' => 12,
             'before_score' => 100,
             'before_comment' => 'not sad',
+        ]);
+
+        $this->tag = Tag::factory()->create();
+        $this->tag1 = Tag::factory()->create();
+        $this->anime->tags()->attach($this->tag->id, [
+            'user_id' => $this->user4->id,
+            'score' => 0,
+            'comment' => 'this is tag comment',
+        ]);
+        $this->anime->tags()->attach($this->tag->id, [
+            'user_id' => $this->user5->id,
+            'score' => 30,
+        ]);
+        $this->anime->tags()->attach($this->tag->id, [
+            'user_id' => $this->user6->id,
+            'score' => 60,
+        ]);
+        $this->anime->tags()->attach($this->tag->id, [
+            'user_id' => $this->user7->id,
+            'score' => 100,
         ]);
     }
 
@@ -152,6 +182,274 @@ class AnimeTest extends TestCase
     {
         $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
         $response->assertSeeInOrder([$this->cast1->name, $this->cast2->name]);
+    }
+
+    /**
+     * アニメページのタグ情報の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAnimeTagInformationView()
+    {
+        $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
+        $response->assertSeeInOrder([
+            $this->tag->name,
+            '4件',
+            '中央値45点',
+            'this is tag comment',
+            $this->user4->name,
+        ]);
+        $response->assertDontSee($this->user5->name);
+    }
+
+    /**
+     * ゲスト時のタグレビューページのリダイレクトのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestAnimeTagReviewView()
+    {
+        $response = $this->get(route('tag_review.show', ['anime_id' => $this->anime->id]));
+        $response->assertRedirect(route('login'));
+    }
+
+    /**
+     * ログイン時のタグレビューページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser4LoginTagReviewView()
+    {
+        $this->actingAs($this->user4);
+        $response = $this->get(route('tag_review.show', ['anime_id' => $this->anime->id]));
+        $response->assertStatus(200);
+    }
+
+    /**
+     * ログイン時のタグレビューページの表示の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser4LoginNotExistTagReviewView()
+    {
+        $this->actingAs($this->user4);
+        $response = $this->get(route('tag_review.show', ['anime_id' => 333333333333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ユーザーのタグレビュー変更なしのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1TagReviewNoChangePost()
+    {
+        $this->actingAs($this->user4);
+        $response = $this->post(route('tag_review.post', ['anime_id' => $this->anime->id,
+            'tag_review_id[1]' => 1,
+            'modify_type[1]' => 'no_change',
+            'name[1]' => $this->tag->name,
+            'score[1]' => 35,
+            'comment[1]' => 'no change'
+        ]));
+        $this->assertDatabaseHas('tag_reviews', [
+            'anime_id' => $this->anime->id,
+            'user_id' => $this->user4->id,
+            'tag_id' => $this->tag->id,
+            'score' => 0,
+            'comment' => 'this is tag comment',
+        ]);
+        $response->assertRedirect(route('anime.show', ['anime_id' => $this->anime->id]));
+        $this->get(route('anime.show', ['anime_id' => $this->anime->id]))->assertSee('入力が完了しました。');
+    }
+
+    /**
+     * ユーザーのタグレビュー削除のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser4TagReviewDeletePost()
+    {
+        $this->actingAs($this->user4);
+        $response = $this->post(route('tag_review.post', ['anime_id' => $this->anime->id,
+            'tag_review_id[1]' => 1,
+            'modify_type[1]' => 'delete',
+            'name[1]' => $this->tag->name,
+            'score[1]' => 35,
+            'comment[1]' => 'delete'
+        ]));
+        $this->assertDatabaseMissing('tag_reviews', [
+            'anime_id' => $this->anime->id,
+            'user_id' => $this->user4->id,
+            'tag_id' => $this->tag->id,
+            'score' => 0,
+            'comment' => 'this is tag comment',
+        ]);
+        $response->assertRedirect(route('anime.show', ['anime_id' => $this->anime->id]));
+        $this->get(route('anime.show', ['anime_id' => $this->anime->id]))->assertSee('入力が完了しました。');
+    }
+
+    /**
+     * ユーザーのタグレビュー変更のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser4TagReviewChangePost()
+    {
+        $this->actingAs($this->user4);
+        $response = $this->post(route('tag_review.post', [
+            'anime_id' => $this->anime->id,
+            'tag_review_id[1]' => 1,
+            'modify_type[1]' => 'change',
+            'name[1]' => $this->tag->name,
+            'score[1]' => 35,
+            'comment[1]' => 'change'
+        ]));
+        $this->assertDatabaseHas('tag_reviews', [
+            'anime_id' => $this->anime->id,
+            'user_id' => $this->user4->id,
+            'tag_id' => $this->tag->id,
+            'score' => 35,
+            'comment' => 'change',
+        ]);
+        $response->assertRedirect(route('anime.show', ['anime_id' => $this->anime->id]));
+        $this->get(route('anime.show', ['anime_id' => $this->anime->id]))->assertSee('入力が完了しました。');
+    }
+
+    /**
+     * ユーザーのタグレビュー追加タグ作成のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser4TagReviewAddTagCreatePost()
+    {
+        $this->actingAs($this->user4);
+        $response = $this->post(route('tag_review.post', [
+            'anime_id' => $this->anime->id,
+            'tag_review_id[1]' => 1,
+            'modify_type[1]' => 'no_change',
+            'name[1]' => $this->tag->name,
+            'score[1]' => 35,
+            'comment[1]' => 'no change',
+            'modify_type[2]' => 'add',
+            'name[2]' => 'tag_name',
+            'tag_group_id[2]' => 3,
+            'score[2]' => 35,
+            'comment[2]' => 'add'
+        ]));
+        $this->assertDatabaseHas('tags', [
+            'name' => 'tag_name',
+            'id' => 3,
+            'tag_group_id' => 3,
+        ]);
+        $this->assertDatabaseHas('tag_reviews', [
+            'anime_id' => $this->anime->id,
+            'user_id' => $this->user4->id,
+            'tag_id' => 3,
+            'score' => 35,
+            'comment' => 'add',
+        ]);
+        $response->assertRedirect(route('anime.show', ['anime_id' => $this->anime->id]));
+        $this->get(route('anime.show', ['anime_id' => $this->anime->id]))->assertSee('入力が完了しました。');
+    }
+
+    /**
+     * ユーザーのタグレビュー追加のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser4TagReviewAddTagNoCreatePost()
+    {
+        $this->actingAs($this->user4);
+        $response = $this->post(route('tag_review.post', [
+            'anime_id' => $this->anime->id,
+            'tag_review_id[1]' => 1,
+            'modify_type[1]' => 'no_change',
+            'name[1]' => $this->tag->name,
+            'score[1]' => 35,
+            'comment[1]' => 'no change',
+            'modify_type[2]' => 'add',
+            'name[2]' => $this->tag1->name,
+            'tag_group_id[2]' => 3,
+            'score[2]' => 35,
+            'comment[2]' => 'add'
+        ]));
+        $this->assertDatabaseHas('tag_reviews', [
+            'anime_id' => $this->anime->id,
+            'user_id' => $this->user4->id,
+            'tag_id' => $this->tag1->id,
+            'score' => 35,
+            'comment' => 'add',
+        ]);
+        $response->assertRedirect(route('anime.show', ['anime_id' => $this->anime->id]));
+        $this->get(route('anime.show', ['anime_id' => $this->anime->id]))->assertSee('入力が完了しました。');
+    }
+
+    /**
+     * ユーザーの同一タグレビュー追加のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser4ExistTagReviewAddTagPost()
+    {
+        $this->actingAs($this->user4);
+        $response = $this->post(route('tag_review.post', [
+            'anime_id' => $this->anime->id,
+            'tag_review_id[1]' => 1,
+            'modify_type[1]' => 'no_change',
+            'name[1]' => $this->tag->name,
+            'score[1]' => 35,
+            'comment[1]' => 'no change',
+            'modify_type[2]' => 'add',
+            'name[2]' => $this->tag->name,
+            'tag_group_id[2]' => 3,
+            'score[2]' => 30,
+            'comment[2]' => 'add'
+        ]));
+        $this->assertDatabaseMissing('tag_reviews', [
+            'anime_id' => $this->anime->id,
+            'user_id' => $this->user4->id,
+            'tag_id' => $this->tag->id,
+            'score' => 35,
+            'comment' => 'add',
+        ]);
+        $response->assertRedirect(route('anime.show', ['anime_id' => $this->anime->id]));
+        $this->get(route('anime.show', ['anime_id' => $this->anime->id]))->assertSee('入力が完了しました。');
+    }
+
+    /**
+     * 存在しないアニメのタグレビュー入力のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser4NotExistTagReviewPost()
+    {
+        $this->actingAs($this->user4);
+        $response = $this->post(route('tag_review.post', [
+            'anime_id' => 333333333333333333333,
+            'tag_review_id[1]' => 1,
+            'modify_type[1]' => 'no_change',
+            'name[1]' => $this->tag->name,
+            'score[1]' => 35,
+            'comment[1]' => 'no change',
+            'modify_type[2]' => 'add',
+            'name[2]' => $this->tag1->name,
+            'tag_group_id[2]' => 3,
+            'score[2]' => 35,
+            'comment[2]' => 'add'
+        ]));
+        $response->assertStatus(404);
     }
 
     /**

@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    <title>クリエイターリスト AnimeScape -アニメ批評空間-</title>
+    <title>タグリスト AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('adsense')
@@ -21,22 +21,24 @@
 @endif
 
 @section('main')
-    <article class="creater_list">
-        <h1>クリエイターリスト</h1>
-        <section class="anime_creater_list">
+    <article class="tag_list">
+        <h1>タグリスト</h1>
+        <section class="anime_tag_list">
             <div class="table-responsive">
-                <table class="creater_list_table">
+                <table class="tag_list_table">
                     <tbody>
                         <tr>
-                            <th>クリエイターID</th>
-                            <th>クリエイター名</th>
+                            <th>タグID</th>
+                            <th>タグ名</th>
+                            <th>タググループ名</th>
                         </tr>
-                        @foreach ($creater_all as $creater)
+                        @foreach ($tag_all as $tag)
                             <tr>
-                                <td>{{ $creater->id }}</td>
+                                <td>{{ $tag->id }}</td>
                                 <td><a
-                                        href="{{ route('creater.show', ['creater_id' => $creater->id]) }}">{{ $creater->name }}</a>
+                                        href="{{ route('tag.show', ['tag_id' => $tag->id]) }}">{{ $tag->name }}</a>
                                 </td>
+                                <td>{{ $tag->tag_group_id_label }}</td>
                             </tr>
                         @endforeach
                     </tbody>
