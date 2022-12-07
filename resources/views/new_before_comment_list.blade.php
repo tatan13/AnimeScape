@@ -26,18 +26,21 @@
         <section class="new_before_comment">
             <h2>新着視聴完了前一言感想</h2>
             @foreach ($user_reviews_latest_before_comment as $user_review)
+                @if ($loop->iteration % 2 == 0)
+                    <div class="comment_even">
+                    @else
+                        <div class="comment_odd">
+                @endif
                 @if (!is_null($user_review->before_score))
                     <strong>{{ $user_review->before_score }}点</strong>
                 @endif
                 <a
                     href="{{ route('anime.show', ['anime_id' => $user_review->anime->id]) }}">{{ $user_review->anime->title }}</a>
                 <br>
-                {{ $user_review->before_comment }}
-                <p>
-                    {{ $user_review->before_comment_timestamp }} <a
-                        href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a>
-                </p>
-                <hr>
+                {{ $user_review->before_comment }}<br>
+                {{ $user_review->before_comment_timestamp }} <a
+                    href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a>
+                </div>
             @endforeach
             @if (!$user_reviews_latest_before_comment->onFirstPage())
                 <a href="{{ $user_reviews_latest_before_comment->appends(request()->query())->previousPageUrl() }}">前へ</a>

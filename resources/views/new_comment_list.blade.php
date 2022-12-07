@@ -1,7 +1,8 @@
 @extends('layout')
 
 @section('title')
-    <title>新着一言感想一覧AnimeScape -アニメ批評空間-</title>
+    <title>
+        新着一言感想一覧AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('adsense')
@@ -26,6 +27,11 @@
         <section class="new_comment">
             <h2>新着一言感想</h2>
             @foreach ($user_reviews_latest_comment as $user_review)
+                @if ($loop->iteration % 2 == 0)
+                    <div class="comment_even">
+                    @else
+                        <div class="comment_odd">
+                @endif
                 @if (!is_null($user_review->score))
                     <strong>{{ $user_review->score }}点</strong>
                 @endif
@@ -40,11 +46,10 @@
                         @endif
                     </a>
                 @endif
-                <p>
-                    {{ $user_review->comment_timestamp }} <a
-                        href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a>
-                </p>
-                <hr>
+                <br>
+                {{ $user_review->comment_timestamp }} <a
+                    href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a>
+                </div>
             @endforeach
             @if (!$user_reviews_latest_comment->onFirstPage())
                 <a href="{{ $user_reviews_latest_comment->appends(request()->query())->previousPageUrl() }}">前へ</a>

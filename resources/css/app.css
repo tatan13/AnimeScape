@@ -91,8 +91,12 @@ main input[type="text"] {
     width: 100%;
 }
 
+td input[type="text"] {
+    width: 100px;
+}
+
 input[type="number"] {
-    width: 45px;
+    width: 57px;
 }
 
 input, select {
@@ -116,6 +120,14 @@ input, select {
 
 .back {
     display: none;
+}
+
+.comment_even {
+    background-color: #FDFDAA;
+}
+
+.comment_odd {
+    background-color: #FFFFCC;
 }
 
 @media screen and (max-width: 576px) {
