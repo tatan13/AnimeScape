@@ -6,6 +6,8 @@ use App\Models\Anime;
 use App\Models\Cast;
 use App\Models\User;
 use App\Models\UserReview;
+use App\Models\Tag;
+use App\Models\TagReview;
 use App\Models\ModifyAnime;
 use App\Models\ModifyOccupation;
 use Illuminate\Http\Request;
@@ -60,7 +62,7 @@ class AnimeRepository extends AbstractRepository
      * @param int $anime_id
      * @return Anime
      */
-    public function getAnimeWithCompaniesMyReviewOccupationsAnimeCreatersLatestUserReviewsOfAnimeWithUserById($anime_id)
+    public function getAnimeWithCompaniesMyReviewOccupationsAnimeCreatersUserReviewsUserById($anime_id)
     {
         return Anime::withCompanies()->withMyReviews()->with(['occupations' => function ($query) {
             $query->latest('main_sub')->with('cast');
@@ -91,6 +93,17 @@ class AnimeRepository extends AbstractRepository
     public function getWithMyReviewById($anime_id)
     {
         return Anime::withMyReviews()->findOrFail($anime_id);
+    }
+
+    /**
+     * anime_idからアニメをログインユーザーのレビューとともに取得
+     *
+     * @param int $anime_id
+     * @return Anime
+     */
+    public function getWithMyTagReviewById($anime_id)
+    {
+        return Anime::withMyTagReviews()->findOrFail($anime_id);
     }
 
     /**
@@ -442,6 +455,23 @@ class AnimeRepository extends AbstractRepository
     public function update(Anime $anime)
     {
         $anime->save();
+    }
+
+    /**
+     * タグからアニメをタグレビューと制作会社とともに取得
+     *
+     * @param Tag $tag
+     * @return Collection<int,Anime>
+     */
+    public function getAnimesByTagWithCompaniesTagReviews($tag)
+    {
+        return Anime::whereHas('tagReviews', function ($query) use ($tag) {
+            $query->where('tag_id', $tag->id);
+        })->with('tagReviews', function ($query) use ($tag) {
+            $query->where('tag_id', $tag->id);
+        })->withCompanies()->withCount(['tagReviews' => function ($query) use ($tag) {
+            $query->where('tag_id', $tag->id);
+        }])->latest('tag_reviews_count')->get();
     }
 
     /**

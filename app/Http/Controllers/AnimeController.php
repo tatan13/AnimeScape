@@ -3,21 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReviewRequest;
+use App\Http\Requests\TagReviewRequest;
 use App\Http\Requests\ReviewsRequest;
 use App\Services\AnimeService;
+use App\Services\TagService;
 use App\Services\UserReviewService;
 use Illuminate\Http\Request;
 
 class AnimeController extends Controller
 {
     private AnimeService $animeService;
+    private TagService $tagService;
     private UserReviewService $userReviewService;
 
     public function __construct(
         AnimeService $animeService,
+        TagService $tagService,
         UserReviewService $userReviewService,
     ) {
         $this->animeService = $animeService;
+        $this->tagService = $tagService;
         $this->userReviewService = $userReviewService;
     }
 
@@ -30,9 +35,11 @@ class AnimeController extends Controller
     public function show($anime_id)
     {
         $anime = $this->animeService
-        ->getAnimeWithCompaniesMyReviewOccupationsAnimeCreatersLatestUserReviewsOfAnimeWithUser($anime_id);
+        ->getAnimeWithCompaniesMyReviewOccupationsAnimeCreatersUserReviewsUser($anime_id);
+        $tags = $this->tagService->getTagsByAnimeWithTagReviewsAndUser($anime);
         return view('anime', [
             'anime' => $anime,
+            'tags' => $tags,
         ]);
     }
 
@@ -51,7 +58,7 @@ class AnimeController extends Controller
     }
 
     /**
-     * アニメの入力された得点を処理し，得点画面にリダイレクト
+     * アニメの入力された得点を処理し，アニメページにリダイレクト
      *
      * @param int $anime_id
      * @param ReviewRequest $request
@@ -61,6 +68,36 @@ class AnimeController extends Controller
     {
         $anime = $this->animeService->getAnime($anime_id);
         $this->userReviewService->createOrUpdateMyReview($anime, $request);
+        return redirect()->route('anime.show', [
+            'anime_id' => $anime_id,
+        ])->with('flash_message', '入力が完了しました。');
+    }
+
+    /**
+     * アニメのタグ入力ページを表示
+     *
+     * @param int $anime_id
+     * @return \Illuminate\View\View
+     */
+    public function showTagReview($anime_id)
+    {
+        $anime = $this->animeService->getAnimeWithMyTagReview($anime_id);
+        return view('tag_review', [
+            'anime' => $anime,
+        ]);
+    }
+
+    /**
+     * アニメの入力されたタグを処理し，アニメページにリダイレクト
+     *
+     * @param int $anime_id
+     * @param TagReviewRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postTagReview($anime_id, TagReviewRequest $request)
+    {
+        $anime = $this->animeService->getAnime($anime_id);
+        $this->userReviewService->createOrUpdateMyTagReview($anime, $request);
         return redirect()->route('anime.show', [
             'anime_id' => $anime_id,
         ])->with('flash_message', '入力が完了しました。');

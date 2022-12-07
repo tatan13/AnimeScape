@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Anime;
 use App\Models\Cast;
 use App\Models\User;
+use App\Models\Tag;
 use App\Repositories\AnimeRepository;
 use App\Repositories\CastRepository;
 use App\Repositories\UserRepository;
@@ -54,10 +55,10 @@ class AnimeService
      * @param int $anime_id
      * @return Anime
      */
-    public function getAnimeWithCompaniesMyReviewOccupationsAnimeCreatersLatestUserReviewsOfAnimeWithUser($anime_id)
+    public function getAnimeWithCompaniesMyReviewOccupationsAnimeCreatersUserReviewsUser($anime_id)
     {
         return $this->animeRepository
-        ->getAnimeWithCompaniesMyReviewOccupationsAnimeCreatersLatestUserReviewsOfAnimeWithUserById($anime_id);
+        ->getAnimeWithCompaniesMyReviewOccupationsAnimeCreatersUserReviewsUserById($anime_id);
     }
 
     /**
@@ -72,6 +73,17 @@ class AnimeService
     }
 
     /**
+     * タグからアニメをタグレビューと制作会社ともに取得
+     *
+     * @param Tag $tag
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getAnimesByTagWithCompaniesTagReviews(Tag $tag)
+    {
+        return $this->animeRepository->getAnimesByTagWithCompaniesTagReviews($tag);
+    }
+
+    /**
      * anime_idからアニメをログインユーザーのレビューとともに取得
      *
      * @param int $anime_id
@@ -80,6 +92,17 @@ class AnimeService
     public function getAnimeWithMyReview($anime_id)
     {
         return $this->animeRepository->getWithMyReviewById($anime_id);
+    }
+
+    /**
+     * anime_idからアニメをログインユーザーのレビューとともに取得
+     *
+     * @param int $anime_id
+     * @return Anime
+     */
+    public function getAnimeWithMyTagReview($anime_id)
+    {
+        return $this->animeRepository->getWithMyTagReviewById($anime_id);
     }
 
     /**
@@ -187,7 +210,7 @@ class AnimeService
     public function getLatestCommentAnimeListWithUserReviewOf(User $user)
     {
         return $this->animeRepository->getCommentAnimeListWithUserReviewOf($user)
-        ->sortByDesc('userReview.created_at');
+        ->sortByDesc('userReview.comment_timestamp');
     }
 
     /**
@@ -199,7 +222,7 @@ class AnimeService
     public function getScoreAnimeListWithCompaniesWithUserReviewLatestOf(User $user)
     {
         return $this->animeRepository->getScoreAnimeListWithCompaniesWithUserReviewOf($user)
-        ->sortByDesc('userReview.created_at');
+        ->sortByDesc('userReview.watch_timestamp');
     }
 
     /**
@@ -222,7 +245,7 @@ class AnimeService
     public function getWatchAnimeListWithCompaniesWithUserReviewLatestOf(User $user)
     {
         return $this->animeRepository->getWatchAnimeListWithCompaniesWithUserReviewOf($user)
-        ->sortByDesc('userReview.created_at');
+        ->sortByDesc('userReview.watch_timestamp');
     }
 
     /**
@@ -257,7 +280,7 @@ class AnimeService
     public function getLatestBeforeCommentAnimeListWithUserReviewOf(User $user)
     {
         return $this->animeRepository->getBeforeCommentAnimeListWithUserReviewOf($user)
-        ->sortByDesc('userReview.created_at');
+        ->sortByDesc('userReview.before_comment_timestamp');
     }
 
     /**
@@ -269,7 +292,7 @@ class AnimeService
     public function getBeforeScoreAnimeListWithCompaniesWithUserReviewLatestOf(User $user)
     {
         return $this->animeRepository->getBeforeScoreAnimeListWithCompaniesWithUserReviewOf($user)
-        ->sortByDesc('userReview.created_at');
+        ->sortByDesc('userReview.before_score_timestamp');
     }
 
     /**

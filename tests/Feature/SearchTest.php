@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\Anime;
 use App\Models\Cast;
 use App\Models\Creater;
+use App\Models\Company;
+use App\Models\Tag;
 use Tests\TestCase;
 
 class SearchTest extends TestCase
@@ -23,6 +25,12 @@ class SearchTest extends TestCase
     private Creater $creater1;
     private Creater $creater2;
     private Creater $creater3;
+    private Company $company1;
+    private Company $company2;
+    private Company $company3;
+    private Tag $tag1;
+    private Tag $tag2;
+    private Tag $tag3;
     private User $user1;
     private User $user2;
     private User $user3;
@@ -39,6 +47,12 @@ class SearchTest extends TestCase
         $this->creater1 = Creater::factory()->create(['name' => 'createrName1']);
         $this->creater2 = Creater::factory()->create(['name' => 'createrName2']);
         $this->creater3 = Creater::factory()->create(['name' => 'cname']);
+        $this->company1 = Company::factory()->create(['name' => 'companyName1']);
+        $this->company2 = Company::factory()->create(['name' => 'companyName2']);
+        $this->company3 = Company::factory()->create(['name' => 'cname']);
+        $this->tag1 = Tag::factory()->create(['name' => 'tagName1']);
+        $this->tag2 = Tag::factory()->create(['name' => 'tagName2']);
+        $this->tag3 = Tag::factory()->create(['name' => 'tname']);
         $this->user1 = User::factory()->create(['name' => 'userName1']);
         $this->user2 = User::factory()->create(['name' => 'userName2']);
         $this->user3 = User::factory()->create(['name' => 'uname']);
@@ -122,21 +136,6 @@ class SearchTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('該当するアニメがありませんでした。');
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * ゲスト時の声優検索の表示のテスト
@@ -296,6 +295,134 @@ class SearchTest extends TestCase
         ]));
         $response->assertStatus(200);
         $response->assertSee('該当するクリエイターがいませんでした。');
+    }
+
+    /**
+     * ゲスト時の会社検索の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestSearchCompanyView()
+    {
+        $response = $this->get(route('search.show', [
+            'category' => 'company',
+            'search_word' => 'companyName',
+        ]));
+        $response->assertStatus(200);
+        $response->assertDontSee('つけた得点');
+    }
+
+    /**
+     * ログイン時の会社検索の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testLoginSearchCompanyView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('search.show', [
+            'category' => 'company',
+            'search_word' => 'companyName',
+        ]));
+        $response->assertSee('つけた得点');
+    }
+
+    /**
+     * 複数の会社検索のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testSearchSomeCompanyView()
+    {
+        $response = $this->get(route('search.show', [
+            'category' => 'company',
+            'search_word' => 'companyName',
+        ]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([$this->company2->name, $this->company1->name]);
+        $response->assertDontSee($this->company3->name);
+    }
+
+    /**
+     * 会社検索に空文字を入力した場合のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testSearchNullWordCompanyView()
+    {
+        $response = $this->get(route('search.show', [
+            'category' => 'company',
+            'search_word' => '',
+        ]));
+        $response->assertStatus(200);
+    }
+
+    /**
+     * 検索に該当する会社がない場合のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testSearchNoCompanyView()
+    {
+        $response = $this->get(route('search.show', [
+            'category' => 'company',
+            'search_word' => 'not found',
+        ]));
+        $response->assertStatus(200);
+        $response->assertSee('該当する会社がありませんでした。');
+    }
+
+    /**
+     * 複数のタグ検索のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testSearchSomeTagView()
+    {
+        $response = $this->get(route('search.show', [
+            'category' => 'tag',
+            'search_word' => 'tagName',
+        ]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([$this->tag1->name, $this->tag2->name]);
+        $response->assertDontSee($this->tag3->name);
+    }
+
+    /**
+     * タグ検索に空文字を入力した場合のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testSearchNullWordTagView()
+    {
+        $response = $this->get(route('search.show', [
+            'category' => 'tag',
+            'search_word' => '',
+        ]));
+        $response->assertStatus(200);
+    }
+
+    /**
+     * 検索に該当するタグがいない場合のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testSearchNoTagView()
+    {
+        $response = $this->get(route('search.show', [
+            'category' => 'tag',
+            'search_word' => 'not found',
+        ]));
+        $response->assertStatus(200);
+        $response->assertSee('該当するタグがありませんでした。');
     }
 
     /**

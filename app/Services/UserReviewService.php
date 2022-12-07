@@ -5,10 +5,14 @@ namespace App\Services;
 use App\Models\UserReview;
 use App\Models\User;
 use App\Models\Anime;
+use App\Models\Tag;
 use App\Repositories\UserReviewRepository;
 use App\Repositories\AnimeRepository;
+use App\Repositories\TagRepository;
+use App\Repositories\TagReviewRepository;
 use Illuminate\Http\Request;
 use App\Http\Requests\ReviewRequest;
+use App\Http\Requests\TagReviewRequest;
 use App\Http\Requests\ReviewsRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -19,20 +23,28 @@ class UserReviewService
 {
     private UserReviewRepository $userReviewRepository;
     private AnimeRepository $animeRepository;
+    private TagRepository $tagRepository;
+    private TagReviewRepository $tagReviewRepository;
 
     /**
      * コンストラクタ
      *
      * @param UserReviewRepository $userReviewRepository
      * @param AnimeRepository $animeRepository
+     * @param TagRepository $tagRepository
+     * @param TagReviewRepository $tagReviewRepository
      * @return void
      */
     public function __construct(
         UserReviewRepository $userReviewRepository,
-        AnimeRepository $animeRepository
+        AnimeRepository $animeRepository,
+        TagRepository $tagRepository,
+        TagReviewRepository $tagReviewRepository
     ) {
         $this->userReviewRepository = $userReviewRepository;
         $this->animeRepository = $animeRepository;
+        $this->tagRepository = $tagRepository;
+        $this->tagReviewRepository = $tagReviewRepository;
     }
 
     /**
@@ -154,6 +166,65 @@ class UserReviewService
             $this->userReviewRepository->createOrUpdateMyReview($my_review->id ?? null, $update_review);
             $this->updateScoreStatistics($anime);
         });
+    }
+
+    /**
+     * ログインユーザーのアニメに紐づくタグレビューを作成または更新
+     *
+     * @param Anime $anime
+     * @param TagReviewRequest $submit_tag_review
+     * @return void
+     */
+    public function createOrUpdateMyTagReview(Anime $anime, TagReviewRequest $submit_tag_review)
+    {
+        foreach ($submit_tag_review->modify_type as $key => $modify_type) {
+            if (is_null($submit_tag_review->name[$key]) || is_null($submit_tag_review->score[$key])) {
+                continue;
+            }
+            if ($modify_type == 'no_change') {
+                continue;
+            }
+            if ($modify_type == 'change') {
+                $my_tag_review = $this->tagReviewRepository->getById($submit_tag_review->tag_review_id[$key]);
+                $this->tagReviewRepository->updateTagReviewByScoreAndComment(
+                    $my_tag_review,
+                    $submit_tag_review->score[$key],
+                    $submit_tag_review->comment[$key],
+                );
+            }
+            if ($modify_type == 'delete') {
+                $this->tagReviewRepository->getById($submit_tag_review->tag_review_id[$key]);
+                $this->tagReviewRepository->deleteById($submit_tag_review->tag_review_id[$key]);
+            }
+            if ($modify_type == 'add') {
+                $tag = $this->tagRepository->firstOrCreateTagByNameAndTagGroupId(
+                    $submit_tag_review->name[$key],
+                    $submit_tag_review->tag_group_id[$key]
+                );
+                if ($this->isContainMyTagReviews($anime, $tag)) {
+                    continue;
+                }
+                $this->tagReviewRepository->createByTagReviewRequest([
+                    'anime_id' => $anime->id,
+                    'user_id' => Auth::user()->id,
+                    'tag_id' => $tag->id,
+                    'score' => $submit_tag_review->score[$key],
+                    'comment' => $submit_tag_review->comment[$key],
+                ]);
+            }
+        }
+    }
+
+    /**
+     * 同一タグが既に登録済みか判定
+     *
+     * @param Anime $anime
+     * @param Tag $tag
+     * @return bool
+     */
+    public function isContainMyTagReviews(Anime $anime, Tag $tag)
+    {
+        return $this->tagRepository->isContainMyTagReviews($anime, $tag);
     }
 
     /**

@@ -172,6 +172,17 @@ class Anime extends Model
     }
 
     /**
+     * タグを取得
+     *
+     * @return BelongsToMany
+     */
+    public function tags()
+    {
+        return $this->belongsToMany('App\Models\Tag', 'tag_reviews', 'anime_id', 'tag_id')
+                    ->withTimestamps();
+    }
+
+    /**
      * クリエイターを取得
      *
      * @return BelongsToMany
@@ -210,6 +221,16 @@ class Anime extends Model
     public function userReviews()
     {
         return $this->hasMany('App\Models\UserReview');
+    }
+
+    /**
+     * ユーザーのタグレビューを取得
+     *
+     * @return HasMany
+     */
+    public function tagReviews()
+    {
+        return $this->hasMany('App\Models\TagReview');
     }
 
     /**

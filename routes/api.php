@@ -23,3 +23,5 @@ Route::get('/anime', [App\Http\Controllers\AnimeController::class, 'showAllAnime
 Route::get('/cast/{cast_id}', [App\Http\Controllers\CastController::class, 'getCastNameById']);
 
 Route::get('/creater/{creater_id}', [App\Http\Controllers\CreaterController::class, 'getCreaterNameById']);
+
+Route::get('/tag/{tag_name}', [App\Http\Controllers\TagController::class, 'getTagIdByName']);

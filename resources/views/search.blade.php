@@ -221,6 +221,23 @@
                 </section>
             @break
 
+            @case('tag')
+                <section class="tag_search_result">
+                    <h1>検索結果 tag:{{ $search_word }}</h1>
+                    @if (!$search_results->isEmpty())
+                        <ul>
+                            @foreach ($search_results as $tag)
+                                <li>
+                                    <a href="{{ route('tag.show', ['tag_id' => $tag->id]) }}">{{ $tag->name }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        該当するタグがありませんでした。
+                    @endif
+                </section>
+            @break
+
             @case('user')
                 <section class="user_search_result">
                     <h1>検索結果 user:{{ $search_word }}</h1>
