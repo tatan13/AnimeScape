@@ -173,7 +173,7 @@
                         <tr>
                             <th>事由</th>
                             <td></td>
-                            <td><input type="text" size="100" name="remark" class="remark"
+                            <td><input type="text" size="100" name="remark" class="remark" style="width: 100%;"
                                     value="{{ old('remark') }}"></td>
                         </tr>
                     </tbody>
