@@ -106,6 +106,21 @@ class SitemapCommand extends Command
             \File::append($file, $content);
         }
 
+        $tag_list = \App\Models\Tag::select(['id', 'updated_at'])->oldest('id')->get();
+        foreach ($tag_list as $tag) {
+            $content = "<url>
+            <loc>" . route('tag.show', ['tag_id' => $tag->id]) . "</loc>
+            <lastmod>" . $tag->updated_at->format("Y-m-d") . "</lastmod>
+            </url>";
+            \File::append($file, $content);
+        }
+
+        $content = "<url>
+        <loc>" . route('tag_list.show') . "</loc>
+        <lastmod>2022-12-7</lastmod>
+        </url>";
+        \File::append($file, $content);
+
         $user_list = \App\Models\User::select(['id', 'updated_at'])->oldest('id')->get();
         foreach ($user_list as $user) {
             $content = "<url>
