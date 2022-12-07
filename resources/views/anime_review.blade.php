@@ -80,7 +80,7 @@
             </div>
             <hr>
             <label for="one_comment">一言感想（400文字以内、ネタバレなし）</label><br>
-            <input type="text" size="100" name="one_word_comment" class="one_comment_form"
+            <input type="text" size="100" name="one_word_comment" class="one_comment_form" style="width: 100%;"
                 value="{{ $anime->userReview->one_word_comment ?? '' }}"><br>
             <hr>
             <label for="long_word_comment">長文感想（文字数制限なし）</label><br>
@@ -96,7 +96,7 @@
             <input type="number" name="before_score" class="before_score"
                 value="{{ $anime->userReview->before_score ?? '' }}"><br>
             <label for="before_comment">視聴完了前一言感想（400文字以内、ネタバレなし）</label><br>
-            <input type="text" name="before_comment" class="before_comment"
+            <input type="text" name="before_comment" class="before_comment" style="width: 100%;"
                 value="{{ $anime->userReview->before_comment ?? '' }}">
         </form>
         <h2>注意事項</h2>

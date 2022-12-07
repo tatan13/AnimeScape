@@ -99,7 +99,7 @@
                         </tr>
                         <tr>
                             <th>事由</th>
-                            <td><input type="text" size="100" name="remark" class="remark"
+                            <td><input type="text" name="remark" size="100" class="remark" style="width: 100%"
                                     value="{{ old('remark') }}">
                             </td>
                         </tr>

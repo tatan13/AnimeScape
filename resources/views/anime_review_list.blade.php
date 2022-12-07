@@ -132,13 +132,13 @@
                                             name="number_of_interesting_episode[{{ $loop->iteration }}]"
                                             class="number_of_interesting_episode"
                                             value="{{ $anime->userReview->number_of_interesting_episode ?? '' }}"></td>
-                                    <td><input type="text" name="one_word_comment[{{ $loop->iteration }}]"
+                                    <td><input type="text" name="one_word_comment[{{ $loop->iteration }}]" size="14"
                                             class="one_word_comment"
                                             value="{{ $anime->userReview->one_word_comment ?? '' }}"></td>
                                     <td><input type="number" name="before_score[{{ $loop->iteration }}]"
                                             class="before_score" value="{{ $anime->userReview->before_score ?? '' }}">
                                     </td>
-                                    <td><input type="text" name="before_comment[{{ $loop->iteration }}]"
+                                    <td><input type="text" name="before_comment[{{ $loop->iteration }}]" size="14"
                                             class="before_comment"
                                             value="{{ $anime->userReview->before_comment ?? '' }}">
                                     </td>

@@ -58,7 +58,7 @@
                                         <input type="number" name="score[{{ $loop->iteration }}]" class="score"
                                             value="{{ $tag_review->score }}">
                                     </td>
-                                    <td><input type="text" size="100" name="comment[{{ $loop->iteration }}]"
+                                    <td><input type="text" size="26" name="comment[{{ $loop->iteration }}]"
                                             class="comment" value="{{ $tag_review->comment }}">
                                     </td>
                                 </tr>
@@ -73,7 +73,7 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="text" @change="getTagIdByName(index, $event)"
+                                    <input type="text" size="14" @change="getTagIdByName(index, $event)"
                                         :name="'name[' + (index + {{ $anime->tagReviews->count() }} + 1) + ']'">
                                 </td>
                                 <td>@{{ tag_id[index] }}</td>
@@ -108,7 +108,7 @@
                                         :name="'score[' + (index + {{ $anime->tagReviews->count() }} + 1) + ']'"
                                         class="score" value="">
                                 </td>
-                                <td><input type="text" size="100"
+                                <td><input type="text" size="26"
                                         :name="'comment[' + (index + {{ $anime->tagReviews->count() }} + 1) + ']'"
                                         class="comment" value="">
                                 </td>

@@ -87,14 +87,6 @@ textarea {
     width: 100%;
 }
 
-main input[type="text"] {
-    width: 100%;
-}
-
-td input[type="text"] {
-    width: 100px;
-}
-
 input[type="number"] {
     width: 57px;
 }

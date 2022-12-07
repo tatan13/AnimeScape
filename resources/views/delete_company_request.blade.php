@@ -21,7 +21,7 @@
         <form action="{{ route('delete_company_request.post', ['company_id' => $company->id]) }}" class="delete_company_request_form" method="POST">
             @csrf
             <label for="remark">削除事由</label><br>
-            <input type="text" size="100" name="remark" class="remark"
+            <input type="text" size="100" name="remark" class="remark" style="width: 100%;"
                 value=""><br>
             <input type="submit" value="送信"><br>
         </form>
