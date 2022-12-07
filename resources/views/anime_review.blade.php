@@ -91,26 +91,13 @@
                 {{ $anime->userReview->spoiler ?? false == true ? 'checked' : '' }}><br>
             <input type="submit" value="送信"><br>
             <h2>視聴完了前入力欄</h2>
-            <input type="submit" value="送信">
-            <div class="table-responsive">
-                <table class="before_anime_review_table">
-                    <tbody>
-                        <tr>
-                            <th>視聴完了前得点（0~100）</th>
-                            <th>視聴完了前一言感想（400文字以内、ネタバレなし）</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="number" name="before_score" class="before_score"
-                                    value="{{ $anime->userReview->before_score ?? '' }}">
-                            </td>
-                            <td><input type="text" name="before_comment" class="before_comment"
-                                    value="{{ $anime->userReview->before_comment ?? '' }}">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <input type="submit" value="送信"><br>
+            <label for="before_score">視聴完了前得点（0~100）</label><br>
+            <input type="number" name="before_score" class="before_score"
+                value="{{ $anime->userReview->before_score ?? '' }}"><br>
+            <label for="before_comment">視聴完了前一言感想（400文字以内、ネタバレなし）</label><br>
+            <input type="text" name="before_comment" class="before_comment"
+                value="{{ $anime->userReview->before_comment ?? '' }}">
         </form>
         <h2>注意事項</h2>
         <ul class="list-inline">

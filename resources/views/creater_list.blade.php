@@ -21,7 +21,7 @@
 @endif
 
 @section('main')
-    <article class=creater_list>
+    <article class="creater_list">
         <h1>クリエイターリスト</h1>
         <section class="anime_creater_list">
             <div class="table-responsive">
