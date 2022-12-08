@@ -610,6 +610,9 @@
                     @endif
                 </li>
                 @if (env('APP_ENV') == 'production')
+                    <a href="https://prf.hn/click/camref:1101lrEWa" rel="nofollow"><img
+                            src="https://s3-ap-northeast-1.amazonaws.com/affiliate-img.docomo.ne.jp/banner/danimestore_220720_1_120x60.png"
+                            style="width: 120px"></a>
                     <a href="https://px.a8.net/svt/ejp?a8mat=3NNF9T+4BZL9U+3250+5ZU29" rel="nofollow">
                         <img border="0" width="100" height="60" alt=""
                             src="https://www26.a8.net/svt/bgt?aid=221122577262&wid=001&eno=01&mid=s00000014274001007000&mc=1"></a>

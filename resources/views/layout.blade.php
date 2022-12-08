@@ -43,26 +43,15 @@
             <div class="d-flex justify-content-between" style="height: 100%;">
                 <div class="animescape"><a href="{{ route('index.show') }}">AnimeScape</a></div>
                 <div class="login_menu" style="height: 100%;">
-                    <ul class="list-inline">
-                        @if (Auth::check())
-                            <li class="me-3">
-                                <a href="{{ route('user.show', ['user_id' => auth()->user()->id]) }}">マイページ</a>
-                            </li>
-                            <li>
-                                <form action="{{ route('logout') }}" name="logout" method="POST">
-                                    @csrf
-                                    <a href="javascript:logout.submit()">ログアウト</a>
-                                </form>
-                            </li>
-                        @else
-                            <li class="me-2">
-                                <a href="{{ route('login') }}">ログイン</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('register') }}" target="_self">新規作成</a>
-                            </li>
-                        @endif
-                    </ul>
+                    @if (Auth::check())
+                        <form action="{{ route('logout') }}" name="logout" method="POST">
+                            @csrf
+                            <a href="javascript:logout.submit()" class="btn btn-primary">ログアウト</a>
+                        </form>
+                    @else
+                        <a href="{{ route('provider.redirect', ['provider' => 'twitter']) }}"
+                            class="btn btn-primary">Twitterログイン</a>
+                    @endif
                 </div>
             </div>
         </header>
@@ -95,7 +84,8 @@
                         ユーザー
                     </option>
                 </select>
-                <input type="text" name="search_word" class="search_word" placeholder="検索" value="{{ $search_word ?? '' }}" />
+                <input type="text" name="search_word" class="search_word" placeholder="検索"
+                    value="{{ $search_word ?? '' }}" />
             </form>
         </nav>
         <div class="row" style="position: relative; min-height: 100vh;">
@@ -109,6 +99,9 @@
                         ログイン中 : {{ Auth::user()->name }}
                         <ul>
                             <li>
+                                <a href="{{ route('user.show', ['user_id' => auth()->user()->id]) }}">マイページ</a>
+                            </li>
+                            <li>
                                 <a
                                     href="{{ route('anime_review_list.show', [
                                         'year' => \App\Models\Anime::NOW_YEAR,
@@ -121,6 +114,9 @@
                         </ul>
                     @else
                         <ul>
+                            <li>
+                                <a href="{{ route('provider.redirect', ['provider' => 'twitter']) }}">Twitterログイン</a>
+                            </li>
                             <li>
                                 <a href="{{ route('login') }}">ログイン</a>
                             </li>
@@ -175,17 +171,23 @@
     </footer>
     <nav class="footer_nav">
         <ul class="list-inline">
-            <li class="border"><label for="menu" class="open">メニュー</label></li>
+            <li class="border"><label for="menu" class="open footer_link">メニュー</label></li>
             @if (Auth::check())
-                <li class="border"><a href="{{ route('user.show', ['user_id' => auth()->user()->id]) }}">マイページ</a>
+                <li class="border"><a href="{{ route('user.show', ['user_id' => auth()->user()->id]) }}"
+                        class="footer_link">マイページ</a>
                 </li>
-                <li class="border"><a href=" {{ route('user_statistics.show', ['user_id' => Auth::id()]) }} ">統計表</a>
+                <li class="border">                                <a
+                    href="{{ route('anime_review_list.show', [
+                        'year' => \App\Models\Anime::NOW_YEAR,
+                        'coor' => \App\Models\Anime::NOW_COOR,
+                    ]) }} " class="footer_link">得点一括入力</a>
                 </li>
             @else
-                <li class="border"><a href="{{ route('login') }}">ログイン</a></li>
-                <li class="border"><a href="{{ route('register') }}" target="_self">新規作成</a></li>
+                <li class="border"><a href="{{ route('login') }}" class="footer_link">ログイン</a></li>
+                <li class="border"><a href="{{ route('register') }}" target="_self" class="footer_link">新規作成</a>
+                </li>
             @endif
-            <li class="border"><a href="{{ route('anime_statistics.show') }}">ランキング</a></li>
+            <li class="border"><a href="{{ route('anime_statistics.show') }}" class="footer_link">ランキング</a></li>
         </ul>
     </nav>
 

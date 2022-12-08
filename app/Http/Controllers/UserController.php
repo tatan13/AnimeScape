@@ -11,9 +11,11 @@ use App\Services\AnimeService;
 use App\Services\UserReviewService;
 use App\Services\CastService;
 use App\Services\CreaterService;
+use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\ConfigRequest;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -35,6 +37,72 @@ class UserController extends Controller
         $this->animeService = $animeService;
         $this->castService = $castService;
         $this->createrService = $createrService;
+    }
+
+    /**
+     * OAuth認証先にリダイレクト
+     *
+     * @param string $provider
+     * @return \Illuminate\Http\Response
+     */
+    public function redirectToProvider($provider)
+    {
+        return Socialite::driver($provider)->redirect();
+    }
+
+    /**
+     * OAuth認証の結果受け取り
+     *
+     * @param string $provider
+     * @return \Illuminate\Http\RedirectResponse.
+     */
+    public function handleProviderCallback($provider)
+    {
+        try {
+            $providerUser = Socialite::with($provider)->user();
+        } catch (\Exception $e) {
+            return redirect('/login')->with('oauth_error', '予期せぬエラーが発生しました');
+        }
+
+        $expires_in = $providerUser->expiresIn;
+        $expire_time = new Carbon('+' . $expires_in . ' seconds');
+        if (Auth::check()) {
+            User::where('id', Auth::id())->update([
+                'unique_id' => $providerUser->getId(),
+                'access_token' => $providerUser->token,
+                'refresh_token' => $providerUser->refreshToken,
+                'token_limit' => $expire_time,
+            ]);
+            return redirect('/user_config');
+        }
+
+        Auth::login(User::firstOrCreate([
+            'unique_id' => $providerUser->getId()
+        ], [
+            'unique_id' => $providerUser->getId(),
+            'name' => $providerUser->getNickName(),
+            'access_token' => $providerUser->token,
+            'refresh_token' => $providerUser->refreshToken,
+            'token_limit' => $expire_time,
+        ]), true);
+
+        return redirect()->intended('/');
+    }
+
+    /**
+     * ツイッター連携の解除
+     *
+     * @return \Illuminate\Http\RedirectResponse.
+     */
+    public function unlinkUserTwitter()
+    {
+        User::where('id', Auth::id())->update([
+                'unique_id' => null,
+                'access_token' => null,
+                'refresh_token' => null,
+                'token_limit' => null,
+        ]);
+        return redirect('/user_config')->with('twitter_unlink', 'ツイッター連携を解除しました。');
     }
 
     /**

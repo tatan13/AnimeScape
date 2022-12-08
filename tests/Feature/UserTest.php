@@ -859,6 +859,7 @@ class UserTest extends TestCase
     {
         $this->actingAs($this->user1);
         $response = $this->post(route('user_config.post'), [
+            'name' => $this->user1->name,
             'email' => null,
             'one_comment' => null,
             'twitter' => null,
@@ -886,6 +887,7 @@ class UserTest extends TestCase
     {
         $this->actingAs($this->user2);
         $response = $this->post(route('user_config.post'), [
+            'name' => 'modify_name',
             'email' => 'example@gmail.com',
             'one_comment' => 'excellent',
             'twitter' => 't_id',
@@ -894,7 +896,7 @@ class UserTest extends TestCase
         ]);
         $response->assertRedirect(route('user_config.show'));
         $this->assertDatabaseHas('users', [
-            'name' => $this->user2->name,
+            'name' => 'modify_name',
             'email' => 'example@gmail.com',
             'one_comment' => 'excellent',
             'twitter' => 't_id',

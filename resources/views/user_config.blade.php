@@ -23,6 +23,11 @@
                 {{ session('flash_message') }}
             </div>
         @endif
+        @if (session('twitter_unlink'))
+            <div class="alert alert-success">
+                {{ session('twitter_unlink') }}
+            </div>
+        @endif
         <form action="{{ route('user_config.post') }}" class="user_config_form" method="POST">
             @csrf
             <div class="table-responsive">
@@ -34,16 +39,18 @@
                             <th>説明</th>
                         </tr>
                         <tr>
-                            <td>ユーザーID</td>
-                            <td>{{ $user->name }}</td>
-                            <td>ユーザー名の変更はできません。</td>
+                            <td>ユーザー名</td>
+                            <td>
+                                <input type="text" name="name" class="name" value="{{ $user->name }}">
+                            </td>
+                            <td>他のユーザー名と被らないようにしてください。</td>
                         </tr>
                         <tr>
                             <td>メールアドレス</td>
                             <td>
                                 <input type="text" name="email" class="email" value="{{ $user->email }}">
                             </td>
-                            <td>パスワードを忘れた場合は、こちらのメールアドレス宛に新しいパスワードをお送りいたします。</td>
+                            <td>パスワード再設定やTwitter連携の方の通常ログイン用のパスワードはこちらのメールアドレス宛にパスワードをお送りいたします。</td>
                         </tr>
                         <tr>
                             <td>一言</td>
@@ -76,6 +83,23 @@
                                 </select>
                             </td>
                             <td></td>
+                        </tr>
+                        <tr>
+                            <td>Twitter連携</td>
+                            <td>
+                                @if (is_null($user->unique_id))
+                                    連携なし
+                                    <a href="{{ route('provider.redirect', ['provider' => 'twitter']) }}">
+                                        Twitter連携する
+                                    </a>
+                                @else
+                                    連携済み
+                                    <a href="{{ route('user_twitter.unlink') }}" onclick="return confirm('本当に解除しますか？')">
+                                        Twitter連携を解除する
+                                    </a>
+                                @endif
+                            </td>
+                            <td>Twitterアカウント一つにつき連携できるアカウントは一つです。</td>
                         </tr>
                     </tbody>
                 </table>

@@ -26,6 +26,7 @@ class ConfigRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => [Rule::unique('users')->ignore(Auth::id()), 'string','required'],
             'email' => [Rule::unique('users')->ignore(Auth::id()),'email','string','nullable'],
             'one_comment' => 'max:400|string|nullable',
             'twitter' => 'nullable|string',
@@ -42,6 +43,9 @@ class ConfigRequest extends FormRequest
     public function messages()
     {
         return [
+          'name.required' => 'ユーザー名を入力してください。',
+          'name.unique' => 'このユーザー名は既に登録されています。',
+          'name.string' => 'ユーザー名には文字列を入力してください。',
           'email.email' => '有効なメールアドレスを指定してください。',
           'email.unique' => 'このメールアドレスは既に登録されています。',
           'email.string' => 'メールアドレスには文字列を入力してください。',
