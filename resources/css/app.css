@@ -22,15 +22,9 @@ header {
 
 header .login_menu {
     float: right;
-    white-space: nowrap;
 }
 
-header .login_menu ul {
-    display: flex;
-    height: 100%;
-}
-
-header .login_menu li {
+header .login_menu div {
     flex: 1;
     display: flex;
     align-items: center;
@@ -168,8 +162,6 @@ input, select {
     .footer_nav li {
         flex: 1;
         display: flex;
-        justify-content: center;
-        align-items: center;
     }
 
     .footer_nav a {
@@ -179,5 +171,13 @@ input, select {
 
     footer {
         margin-bottom: 48px;
+    }
+
+    .footer_link {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
     }
 }
