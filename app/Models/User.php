@@ -53,6 +53,10 @@ class User extends Authenticatable
         'twitter',
         'birth',
         'sex',
+        'unique_id',
+        'access_token',
+        'refresh_token',
+        'token_limit',
     ];
 
     /**
