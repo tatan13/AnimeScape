@@ -13,6 +13,7 @@
         "laravel/breeze": "^1.9",
         "laravel/framework": "^9.0",
         "laravel/sanctum": "^2.14",
+        "laravel/socialite": "^5.5",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4",
         "staudenmeir/eloquent-eager-limit": "^1.0"

@@ -15,17 +15,11 @@ header {
     font-size: 180%;
     display: flex;
     align-items: center;
-    float: left;
     height: 100%;
     white-space: nowrap;
 }
 
 header .login_menu {
-    float: right;
-}
-
-header .login_menu div {
-    flex: 1;
     display: flex;
     align-items: center;
 }

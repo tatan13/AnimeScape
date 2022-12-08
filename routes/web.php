@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 
 Auth::routes();
+
+Route::get('/login/{provider}', [App\Http\Controllers\UserController::class, 'redirectToProvider'])->name('provider.redirect');
+
+Route::get('/login/{provider}/callback', [App\Http\Controllers\UserController::class, 'handleProviderCallback'])->name('provider.callback');
 
 Route::get('/', [App\Http\Controllers\IndexController::class, 'show'])->name('index.show');
 
@@ -158,6 +163,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/user_config', [App\Http\Controllers\UserController::class, 'showUserConfig'])->name('user_config.show');
     
     Route::post('/user_config', [App\Http\Controllers\UserController::class, 'postUserConfig'])->name('user_config.post');
+
+    Route::get('/user_config/twitter/unlink', [App\Http\Controllers\UserController::class, 'unlinkUserTwitter'])->name('user_twitter.unlink');
     
     Route::get('/anime/{anime_id}/review', [App\Http\Controllers\AnimeController::class, 'showAnimeReview'])->name('anime_review.show');
     
