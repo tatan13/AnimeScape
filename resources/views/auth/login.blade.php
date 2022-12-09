@@ -31,7 +31,7 @@
         ユーザー登録はこちらへ → <a href="{{ route('register') }}">ユーザー登録</a><br>
         パスワードを再設定はこちらへ → <a href="{{ route('password.request') }}">パスワード再設定申請</a>
         <p class="mt-2">
-            <a href="{{ route('provider.redirect', ['provider' => 'twitter']) }}" class="btn btn-primary">Twitterログイン</a>
+            <a href="{{ route('provider.redirect', ['provider' => 'twitter']) }}"><img src="twitter_icon.png" alt="Twitterログイン"></a>
         </p>
         <h2>注意事項</h2>
         <ul class="list-inline">
