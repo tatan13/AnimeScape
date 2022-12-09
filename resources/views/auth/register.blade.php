@@ -25,7 +25,7 @@
             <input type="submit" value="新規登録">
         </form>
         <p class="mt-2">
-            <a href="{{ route('provider.redirect', ['provider' => 'twitter']) }}" class="btn btn-primary">Twitterログイン</a>
+            <a href="{{ route('provider.redirect', ['provider' => 'twitter']) }}"><img src="twitter_icon.png" alt="Twitterログイン"></a>
         </p>
         <h2>注意事項</h2>
         <ul class="list-inline">

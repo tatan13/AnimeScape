@@ -49,8 +49,7 @@
                             <a href="javascript:logout.submit()" class="btn btn-primary">ログアウト</a>
                         </form>
                     @else
-                        <a href="{{ route('provider.redirect', ['provider' => 'twitter']) }}"
-                            class="btn btn-primary">Twitterログイン</a>
+                        <a href="{{ route('provider.redirect', ['provider' => 'twitter']) }}"><img src="twitter_icon.png" alt="Twitterログイン"></a>
                     @endif
                 </div>
             </div>
@@ -114,9 +113,6 @@
                         </ul>
                     @else
                         <ul>
-                            <li>
-                                <a href="{{ route('provider.redirect', ['provider' => 'twitter']) }}">Twitterログイン</a>
-                            </li>
                             <li>
                                 <a href="{{ route('login') }}">ログイン</a>
                             </li>
