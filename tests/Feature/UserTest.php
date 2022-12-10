@@ -145,6 +145,11 @@ class UserTest extends TestCase
         $this->anime2->companies()->attach($this->company1->id);
         $this->anime3->companies()->attach($this->company2->id);
         $this->anime5->companies()->attach($this->company3->id);
+
+        $this->anime1->actCasts()->attach($this->company1->id);
+        $this->anime2->actCasts()->attach($this->company1->id);
+        $this->anime3->actCasts()->attach($this->company2->id);
+        $this->anime5->actCasts()->attach($this->company3->id);
     }
 
     /**
@@ -483,7 +488,7 @@ class UserTest extends TestCase
     }
 
     /**
-     * ユーザーのアニメの統計情報が一つもない場合のテスト
+     * ユーザーの制作会社別視聴数の表示のテスト
      *
      * @test
      * @return void
@@ -503,6 +508,29 @@ class UserTest extends TestCase
             '95',
         ]);
         $response->assertDontSee($this->company3->name);
+    }
+
+    /**
+     * ユーザーの声優別視聴数の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1WatchReviewCastListView()
+    {
+        $response = $this->get(route('user_watch_review_cast_list.show', ['user_id' => $this->user1->id]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->cast1->name,
+            '2',
+            '99.5',
+            $this->anime1->title,
+            $this->anime2->title,
+            $this->cast2->name,
+            '1',
+            '95',
+        ]);
+        $response->assertDontSee($this->cast3->name);
     }
 
     /**

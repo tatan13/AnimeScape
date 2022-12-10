@@ -120,16 +120,18 @@ class UserController extends Controller
     {
         $user_information = $this->userService->getUserWithInformation($user_id, $request);
         $company_list = $this->companyService->getUserWatchReview10CompanyList($user_information);
+        $cast_list = $this->castService->getUserWatchReview10CastList($user_information);
         return view('user_information', [
             'user_information' => $user_information,
             'company_list' => $company_list,
+            'cast_list' => $cast_list,
             'year' => $request->year,
             'coor' => $request->coor,
         ]);
     }
 
     /**
-     * ユーザー情報を表示
+     * ユーザーの制作会社別視聴数を表示
      *
      * @param int $user_id
      * @return \Illuminate\View\View
@@ -141,6 +143,22 @@ class UserController extends Controller
         return view('watch_review_company_list', [
             'user' => $user,
             'company_list' => $company_list,
+        ]);
+    }
+
+    /**
+     * ユーザーの声優別視聴数を表示
+     *
+     * @param int $user_id
+     * @return \Illuminate\View\View
+     */
+    public function showWatchReviewCastList($user_id)
+    {
+        $user = $this->userService->getUserById($user_id);
+        $cast_list = $this->castService->getUserWatchReviewAllCastList($user);
+        return view('watch_review_cast_list', [
+            'user' => $user,
+            'cast_list' => $cast_list,
         ]);
     }
 

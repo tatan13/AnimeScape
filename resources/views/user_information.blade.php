@@ -260,6 +260,42 @@
                 →<a
                     href="{{ route('user_watch_review_company_list.show', ['user_id' => $user_information->id]) }}">すべて見る</a>
             </section>
+            <section class="watch_review_cast_list">
+                <h2>声優別視聴数</h2>
+                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="{{ $user_information->name }}さんの声優別視聴数 @foreach ($cast_list->take(5) as $cast){{ $cast->name }}({{ $cast->act_animes_count }}本) @endforeach..." data-url="{{ route('user.show', ['user_id' => $user_information->id]) }}" data-hashtags="AnimeScape" data-related="tatan_tech" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                <div class="table-responsive">
+                    <table class="watch_review_cast_list_table">
+                        <tr>
+                            <th>声優名</th>
+                            <th>視聴数</th>
+                            <th>得点平均</th>
+                            <th>アニメ</th>
+                        </tr>
+                        @foreach ($cast_list as $cast)
+                            <tr>
+                                <td><a
+                                        href="{{ route('cast.show', ['cast_id' => $cast->id]) }}">{{ $cast->name }}</a>
+                                </td>
+                                <td>{{ $cast->act_animes_count }}</td>
+                                <td>{{ $cast->actAnimes->average('userReview.score') }}</td>
+                                <td>
+                                    <ul class="list-inline d-inline">
+                                        @foreach ($cast->actAnimes->sortByDesc('userReview.score') as $anime)
+                                            <li class="d-inline">
+                                                <span style="font-size: 50%;">{{ $anime->userReview->score }}</span>
+                                                <a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+                →<a
+                    href="{{ route('user_watch_review_cast_list.show', ['user_id' => $user_information->id]) }}">すべて見る</a>
+            </section>
         </article>
     </div>
 @endsection
