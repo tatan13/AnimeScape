@@ -106,7 +106,7 @@ class CompanyRepository extends AbstractRepository
     }
 
     /**
-     * ユーザーのレビューしたアニメの制作会社をn個取得
+     * ユーザーのレビューしたアニメの制作会社を10個取得
      *
      * @param User $user
      * @return Collection<int,Company> | Collection<null>
