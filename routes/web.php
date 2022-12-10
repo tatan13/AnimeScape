@@ -67,6 +67,8 @@ Route::get('/tag_list', [App\Http\Controllers\TagController::class, 'showList'])
 
 Route::get('/user_information/{user_id}', [App\Http\Controllers\UserController::class, 'show'])->name('user.show');
 
+Route::get('/user_information/{user_id}/watch_review_company_list', [App\Http\Controllers\UserController::class, 'showWatchReviewCompanyList'])->name('user_watch_review_company_list.show');
+
 Route::get('/user_information/{user_id}/comment_anime_list', [App\Http\Controllers\UserController::class, 'showCommentAnimeList'])->name('user_comment_anime_list.show');
 
 Route::get('/user_information/{user_id}/score_anime_list', [App\Http\Controllers\UserController::class, 'showScoreAnimeList'])->name('user_score_anime_list.show');

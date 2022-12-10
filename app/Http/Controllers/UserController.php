@@ -11,6 +11,7 @@ use App\Services\AnimeService;
 use App\Services\UserReviewService;
 use App\Services\CastService;
 use App\Services\CreaterService;
+use App\Services\CompanyService;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -24,6 +25,7 @@ class UserController extends Controller
     private AnimeService $animeService;
     private CastService $castService;
     private CreaterService $createrService;
+    private CompanyService $companyService;
 
     public function __construct(
         UserService $userService,
@@ -31,12 +33,14 @@ class UserController extends Controller
         AnimeService $animeService,
         CastService $castService,
         CreaterService $createrService,
+        CompanyService $companyService,
     ) {
         $this->userService = $userService;
         $this->userReviewService = $userReviewService;
         $this->animeService = $animeService;
         $this->castService = $castService;
         $this->createrService = $createrService;
+        $this->companyService = $companyService;
     }
 
     /**
@@ -115,10 +119,28 @@ class UserController extends Controller
     public function show($user_id, Request $request)
     {
         $user_information = $this->userService->getUserWithInformation($user_id, $request);
+        $company_list = $this->companyService->getUserWatchReview10CompanyList($user_information);
         return view('user_information', [
             'user_information' => $user_information,
+            'company_list' => $company_list,
             'year' => $request->year,
             'coor' => $request->coor,
+        ]);
+    }
+
+    /**
+     * ユーザー情報を表示
+     *
+     * @param int $user_id
+     * @return \Illuminate\View\View
+     */
+    public function showWatchReviewCompanyList($user_id)
+    {
+        $user = $this->userService->getUserById($user_id);
+        $company_list = $this->companyService->getUserWatchReviewAllCompanyList($user);
+        return view('watch_review_company_list', [
+            'user' => $user,
+            'company_list' => $company_list,
         ]);
     }
 
