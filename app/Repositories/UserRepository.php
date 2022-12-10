@@ -46,40 +46,13 @@ class UserRepository extends AbstractRepository
     }
 
     /**
-     * idによってユーザーを全期間のユーザー統計情報と共に取得
-     *
-     * @param int $user_id
-     * @return User
-     */
-    public function getByIdWithUserReviewsAndAnimeForAll($user_id)
-    {
-        return User::whereId($user_id)->with('userReviews.anime')->firstOrFail();
-    }
-
-    /**
-     * nameによってユーザーを年別のユーザー統計情報と共に取得
+     * idによってユーザーをユーザー統計情報と共にリクエストに従って取得
      *
      * @param int $user_id
      * @param Request $request
      * @return User
      */
-    public function getByIdWithUserReviewsAndAnimeForEachYear($user_id, Request $request)
-    {
-        return User::whereId($user_id)->with('userReviews', function ($query) use ($request) {
-            $query->whereHas('anime', function ($query) use ($request) {
-                $query->whereYear($request->year);
-            })->with('anime');
-        })->firstOrFail();
-    }
-
-    /**
-     * idによってユーザーをクール別のユーザー統計情報と共に取得
-     *
-     * @param int $user_id
-     * @param Request $request
-     * @return User
-     */
-    public function getByIdWithUserReviewsAndAnimeForEachCoor($user_id, Request $request)
+    public function getByIdWithUserReviewsAndAnimeFor($user_id, Request $request)
     {
         return User::whereId($user_id)->with('userReviews', function ($query) use ($request) {
             $query->whereHas('anime', function ($query) use ($request) {

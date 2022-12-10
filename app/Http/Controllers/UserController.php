@@ -119,8 +119,8 @@ class UserController extends Controller
     public function show($user_id, Request $request)
     {
         $user_information = $this->userService->getUserWithInformation($user_id, $request);
-        $company_list = $this->companyService->getUserWatchReview10CompanyList($user_information);
-        $cast_list = $this->castService->getUserWatchReview10CastList($user_information);
+        $company_list = $this->companyService->getUserWatchReview10CompanyList($user_information, $request);
+        $cast_list = $this->castService->getUserWatchReview10CastList($user_information, $request);
         return view('user_information', [
             'user_information' => $user_information,
             'company_list' => $company_list,
@@ -134,15 +134,18 @@ class UserController extends Controller
      * ユーザーの制作会社別視聴数を表示
      *
      * @param int $user_id
+     * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function showWatchReviewCompanyList($user_id)
+    public function showWatchReviewCompanyList($user_id, Request $request)
     {
         $user = $this->userService->getUserById($user_id);
-        $company_list = $this->companyService->getUserWatchReviewAllCompanyList($user);
+        $company_list = $this->companyService->getUserWatchReviewAllCompanyList($user, $request);
         return view('watch_review_company_list', [
             'user' => $user,
             'company_list' => $company_list,
+            'year' => $request->year,
+            'coor' => $request->coor,
         ]);
     }
 
@@ -150,15 +153,18 @@ class UserController extends Controller
      * ユーザーの声優別視聴数を表示
      *
      * @param int $user_id
+     * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function showWatchReviewCastList($user_id)
+    public function showWatchReviewCastList($user_id, Request $request)
     {
         $user = $this->userService->getUserById($user_id);
-        $cast_list = $this->castService->getUserWatchReviewAllCastList($user);
+        $cast_list = $this->castService->getUserWatchReviewAllCastList($user, $request);
         return view('watch_review_cast_list', [
             'user' => $user,
             'cast_list' => $cast_list,
+            'year' => $request->year,
+            'coor' => $request->coor,
         ]);
     }
 
@@ -166,15 +172,18 @@ class UserController extends Controller
      * ユーザーの感想リストを表示
      *
      * @param int $user_id
+     * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function showCommentAnimeList($user_id)
+    public function showCommentAnimeList($user_id, Request $request)
     {
         $user = $this->userService->getUserById($user_id);
-        $comment_anime_list = $this->animeService->getLatestCommentAnimeListWithUserReviewOf($user);
+        $comment_anime_list = $this->animeService->getLatestCommentAnimeListWithUserReviewOf($user, $request);
         return view('comment_anime_list', [
             'user' => $user,
             'comment_anime_list' => $comment_anime_list,
+            'year' => $request->year,
+            'coor' => $request->coor,
         ]);
     }
 
@@ -182,15 +191,19 @@ class UserController extends Controller
      * ユーザーの視聴予定アニメリストを表示
      *
      * @param int $user_id
+     * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function showWillWatchAnimeList($user_id)
+    public function showWillWatchAnimeList($user_id, Request $request)
     {
         $user = $this->userService->getUserById($user_id);
-        $will_watch_anime_list = $this->animeService->getLatestWillWatchAnimeListWithCompaniesWithUserReviewOf($user);
+        $will_watch_anime_list = $this->animeService
+        ->getLatestWillWatchAnimeListWithCompaniesWithUserReviewOf($user, $request);
         return view('will_watch_anime_list', [
             'user' => $user,
             'will_watch_anime_list' => $will_watch_anime_list,
+            'year' => $request->year,
+            'coor' => $request->coor,
         ]);
     }
 
@@ -198,15 +211,19 @@ class UserController extends Controller
      * ユーザーの視聴済みアニメリストを表示
      *
      * @param int $user_id
+     * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function showWatchAnimeList($user_id)
+    public function showWatchAnimeList($user_id, Request $request)
     {
         $user = $this->userService->getUserById($user_id);
-        $watch_anime_list = $this->animeService->getWatchAnimeListWithCompaniesWithUserReviewLatestOf($user);
+        $watch_anime_list = $this->animeService
+        ->getWatchAnimeListWithCompaniesWithUserReviewLatestOf($user, $request);
         return view('watch_anime_list', [
             'user' => $user,
             'watch_anime_list' => $watch_anime_list,
+            'year' => $request->year,
+            'coor' => $request->coor,
         ]);
     }
 
@@ -214,15 +231,18 @@ class UserController extends Controller
      * ユーザーの視聴中アニメリストを表示
      *
      * @param int $user_id
+     * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function showNowWatchAnimeList($user_id)
+    public function showNowWatchAnimeList($user_id, Request $request)
     {
         $user = $this->userService->getUserById($user_id);
-        $now_watch_anime_list = $this->animeService->getLatestNowWatchAnimeListWithCompaniesOf($user);
+        $now_watch_anime_list = $this->animeService->getLatestNowWatchAnimeListWithCompaniesOf($user, $request);
         return view('now_watch_anime_list', [
             'user' => $user,
             'now_watch_anime_list' => $now_watch_anime_list,
+            'year' => $request->year,
+            'coor' => $request->coor,
         ]);
     }
 
@@ -230,15 +250,18 @@ class UserController extends Controller
      * ユーザーのギブアップしたアニメリストを表示
      *
      * @param int $user_id
+     * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function showGiveUpAnimeList($user_id)
+    public function showGiveUpAnimeList($user_id, Request $request)
     {
         $user = $this->userService->getUserById($user_id);
-        $give_up_anime_list = $this->animeService->getLatestGiveUpAnimeListWithCompaniesOf($user);
+        $give_up_anime_list = $this->animeService->getLatestGiveUpAnimeListWithCompaniesOf($user, $request);
         return view('give_up_anime_list', [
             'user' => $user,
             'give_up_anime_list' => $give_up_anime_list,
+            'year' => $request->year,
+            'coor' => $request->coor,
         ]);
     }
 
@@ -246,15 +269,18 @@ class UserController extends Controller
      * ユーザーの得点を付けたアニメリストを表示
      *
      * @param int $user_id
+     * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function showScoreAnimeList($user_id)
+    public function showScoreAnimeList($user_id, Request $request)
     {
         $user = $this->userService->getUserById($user_id);
-        $score_anime_list = $this->animeService->getScoreAnimeListWithCompaniesWithUserReviewLatestOf($user);
+        $score_anime_list = $this->animeService->getScoreAnimeListWithCompaniesWithUserReviewLatestOf($user, $request);
         return view('score_anime_list', [
             'user' => $user,
             'score_anime_list' => $score_anime_list,
+            'year' => $request->year,
+            'coor' => $request->coor,
         ]);
     }
 
@@ -262,16 +288,19 @@ class UserController extends Controller
      * ユーザーの視聴完了前得点を付けたアニメリストを表示
      *
      * @param int $user_id
+     * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function showBeforeScoreAnimeList($user_id)
+    public function showBeforeScoreAnimeList($user_id, Request $request)
     {
         $user = $this->userService->getUserById($user_id);
         $before_score_anime_list = $this->animeService
-        ->getBeforeScoreAnimeListWithCompaniesWithUserReviewLatestOf($user);
+        ->getBeforeScoreAnimeListWithCompaniesWithUserReviewLatestOf($user, $request);
         return view('before_score_anime_list', [
             'user' => $user,
             'before_score_anime_list' => $before_score_anime_list,
+            'year' => $request->year,
+            'coor' => $request->coor,
         ]);
     }
 
@@ -279,15 +308,19 @@ class UserController extends Controller
      * ユーザーの視聴完了前一言感想を付けたアニメを表示
      *
      * @param int $user_id
+     * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function showBeforeCommentAnimeList($user_id)
+    public function showBeforeCommentAnimeList($user_id, Request $request)
     {
         $user = $this->userService->getUserById($user_id);
-        $before_comment_anime_list = $this->animeService->getLatestBeforeCommentAnimeListWithUserReviewOf($user);
+        $before_comment_anime_list = $this->animeService
+        ->getLatestBeforeCommentAnimeListWithUserReviewOf($user, $request);
         return view('before_comment_anime_list', [
             'user' => $user,
             'before_comment_anime_list' => $before_comment_anime_list,
+            'year' => $request->year,
+            'coor' => $request->coor,
         ]);
     }
 

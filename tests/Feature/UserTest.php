@@ -312,7 +312,7 @@ class UserTest extends TestCase
         $response = $this->get(route('user.show', ['user_id' => $this->user1->id]));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
-            '統計情報(すべて)',
+            '統計情報(全期間)',
             '得点入力数',
             5,
             '得点の平均',
@@ -454,21 +454,6 @@ class UserTest extends TestCase
             $this->anime3->title,
         ]);
         $response->assertDontSee($this->anime4->title);
-    }
-
-    /**
-     * ユーザーのアニメの統計情報リクエスト時にクールのみ入力した場合のテスト
-     *
-     * @test
-     * @return void
-     */
-    public function testUser1CoorNullYearStatisticView()
-    {
-        $response = $this->get(route('user.show', [
-            'user_id' => $this->user1->id,
-            'coor' => 1,
-        ]));
-        $response->assertStatus(404);
     }
 
     /**

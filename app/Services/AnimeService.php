@@ -202,96 +202,104 @@ class AnimeService
     }
 
     /**
-     * ユーザーの感想をつけたアニメリストを降順のユーザーレビューとともに取得
+     * ユーザーの感想をつけたアニメリストを降順のユーザーレビューとともにリクエストに従って取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getLatestCommentAnimeListWithUserReviewOf(User $user)
+    public function getLatestCommentAnimeListWithUserReviewOf(User $user, Request $request)
     {
-        return $this->animeRepository->getCommentAnimeListWithUserReviewOf($user)
+        return $this->animeRepository->getCommentAnimeListWithUserReviewOf($user, $request)
         ->sortByDesc('userReview.comment_timestamp');
     }
 
     /**
-     * ユーザーの点数をつけたアニメリストを制作会社と降順のユーザーレビューとともに取得
+     * ユーザーの点数をつけたアニメリストを制作会社と降順のユーザーレビューとともにリクエストに従って取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getScoreAnimeListWithCompaniesWithUserReviewLatestOf(User $user)
+    public function getScoreAnimeListWithCompaniesWithUserReviewLatestOf(User $user, Request $request)
     {
-        return $this->animeRepository->getScoreAnimeListWithCompaniesWithUserReviewOf($user)
+        return $this->animeRepository->getScoreAnimeListWithCompaniesWithUserReviewOf($user, $request)
         ->sortByDesc('userReview.watch_timestamp');
     }
 
     /**
-     * ユーザーの視聴予定アニメリストを放送順に制作会社とユーザーレビューとともに取得
+     * ユーザーの視聴予定アニメリストを放送順に制作会社とユーザーレビューとともにリクエストに従って取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getLatestWillWatchAnimeListWithCompaniesWithUserReviewOf(User $user)
+    public function getLatestWillWatchAnimeListWithCompaniesWithUserReviewOf(User $user, Request $request)
     {
-        return $this->animeRepository->getLatestWillWatchAnimeListWithCompaniesWithUserReviewOf($user);
+        return $this->animeRepository->getLatestWillWatchAnimeListWithCompaniesWithUserReviewOf($user, $request);
     }
 
     /**
-     * ユーザーの視聴済みアニメリストを制作会社と降順のユーザーレビューとともに取得
+     * ユーザーの視聴済みアニメリストを制作会社と降順のユーザーレビューとともにリクエストに従って取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getWatchAnimeListWithCompaniesWithUserReviewLatestOf(User $user)
+    public function getWatchAnimeListWithCompaniesWithUserReviewLatestOf(User $user, Request $request)
     {
-        return $this->animeRepository->getWatchAnimeListWithCompaniesWithUserReviewOf($user)
+        return $this->animeRepository->getWatchAnimeListWithCompaniesWithUserReviewOf($user, $request)
         ->sortByDesc('userReview.watch_timestamp');
     }
 
     /**
-     * ユーザーの視聴中アニメリストを放送順に制作会社とユーザーレビューとともに取得
+     * ユーザーの視聴中アニメリストを放送順に制作会社とユーザーレビューとともにリクエストに従って取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getLatestNowWatchAnimeListWithCompaniesOf(User $user)
+    public function getLatestNowWatchAnimeListWithCompaniesOf(User $user, Request $request)
     {
-        return $this->animeRepository->getLatestNowWatchAnimeListWithCompaniesOf($user);
+        return $this->animeRepository->getLatestNowWatchAnimeListWithCompaniesOf($user, $request);
     }
 
     /**
-     * ユーザーのギブアップしたアニメリストを放送順に制作会社とユーザーレビューとともに取得
+     * ユーザーのギブアップしたアニメリストを放送順に制作会社とユーザーレビューとともにリクエストに従って取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getLatestGiveUpAnimeListWithCompaniesOf(User $user)
+    public function getLatestGiveUpAnimeListWithCompaniesOf(User $user, Request $request)
     {
-        return $this->animeRepository->getLatestGiveUpAnimeListWithCompaniesOf($user);
+        return $this->animeRepository->getLatestGiveUpAnimeListWithCompaniesOf($user, $request);
     }
 
 
     /**
-     * ユーザーの視聴完了前一言感想をつけたアニメリストを降順のユーザーレビューとともに取得
+     * ユーザーの視聴完了前一言感想をつけたアニメリストを降順のユーザーレビューとともにリクエストに従って取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getLatestBeforeCommentAnimeListWithUserReviewOf(User $user)
+    public function getLatestBeforeCommentAnimeListWithUserReviewOf(User $user, Request $request)
     {
-        return $this->animeRepository->getBeforeCommentAnimeListWithUserReviewOf($user)
+        return $this->animeRepository->getBeforeCommentAnimeListWithUserReviewOf($user, $request)
         ->sortByDesc('userReview.before_comment_timestamp');
     }
 
     /**
-     * ユーザーの視聴完了前点数をつけたアニメリストを制作会社と降順のユーザーレビューとともに取得
+     * ユーザーの視聴完了前点数をつけたアニメリストを制作会社と降順のユーザーレビューとともにリクエストに従って取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getBeforeScoreAnimeListWithCompaniesWithUserReviewLatestOf(User $user)
+    public function getBeforeScoreAnimeListWithCompaniesWithUserReviewLatestOf(User $user, Request $request)
     {
-        return $this->animeRepository->getBeforeScoreAnimeListWithCompaniesWithUserReviewOf($user)
+        return $this->animeRepository->getBeforeScoreAnimeListWithCompaniesWithUserReviewOf($user, $request)
         ->sortByDesc('userReview.before_score_timestamp');
     }
 
