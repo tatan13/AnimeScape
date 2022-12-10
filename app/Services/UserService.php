@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Cast;
 use App\Models\Creater;
 use App\Repositories\UserRepository;
+use App\Repositories\CastRepository;
 use Illuminate\Http\Request;
 use App\Http\Requests\ConfigRequest;
 use Illuminate\Support\Facades\Auth;
@@ -14,16 +15,21 @@ use Illuminate\Database\Eloquent\Collection;
 class UserService
 {
     private UserRepository $userRepository;
+    private CastRepository $castRepository;
 
     /**
      * コンストラクタ
      *
      * @param UserRepository $userRepository
+     * @param CastRepository $castRepository
      * @return void
      */
-    public function __construct(UserRepository $userRepository)
-    {
+    public function __construct(
+        UserRepository $userRepository,
+        CastRepository $castRepository,
+    ) {
         $this->userRepository = $userRepository;
+        $this->castRepository = $castRepository;
     }
 
     /**
@@ -90,7 +96,7 @@ class UserService
     }
 
     /**
-     * ユーザーの被お気に入りユーザーリストを最新のユーザーレビューと共に取得
+     * ユーザーの被お気に入りユーザーリストを最新のユーザーレビューとともに取得
      *
      * @param User $user
      * @return Collection<int,User> | Collection<null>
@@ -98,6 +104,17 @@ class UserService
     public function getLikedUserListWithLatestUserReview(User $user)
     {
         return $this->userRepository->getLikedUserListWithLatestUserReview($user);
+    }
+
+    /**
+     * 声優の被お気に入りユーザーリストを声優の出演するアニメのレビューの数とともに取得
+     *
+     * @param Cast $cast
+     * @return Collection<int,User> | Collection<null>
+     */
+    public function getLikedUsersOfCastForRanking(Cast $cast)
+    {
+        return $this->castRepository->getLikedUsersOfCastForRanking($cast);
     }
 
     /**

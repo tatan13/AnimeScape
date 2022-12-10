@@ -18,6 +18,7 @@ class CastTest extends TestCase
     private Cast $cast;
     private User $user1;
     private User $user2;
+    private User $user3;
     private Anime $anime1;
     private Anime $anime2;
     private company $company;
@@ -38,14 +39,20 @@ class CastTest extends TestCase
 
         $this->user1 = User::factory()->create();
         $this->user2 = User::factory()->create();
+        $this->user3 = User::factory()->create();
 
         $this->user2->likeCasts()->attach($this->cast->id);
+        $this->user3->likeCasts()->attach($this->cast->id);
 
         $this->anime1->actCasts()->attach($this->cast->id);
         $this->anime2->actCasts()->attach($this->cast->id);
 
         $this->company = Company::factory()->create();
         $this->anime1->companies()->attach($this->company->id);
+
+        $this->anime1->reviewUsers()->attach($this->user2->id, ['watch' => 1]);
+        $this->anime2->reviewUsers()->attach($this->user2->id, ['watch' => 1]);
+        $this->anime1->reviewUsers()->attach($this->user3->id, ['watch' => 1]);
     }
 
     /**
@@ -109,6 +116,25 @@ class CastTest extends TestCase
     }
 
     /**
+     * 声優ページのお気に入りユーザーしているユーザーの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCastLikedUsersView()
+    {
+        $response = $this->get(route('cast.show', ['cast_id' => $this->cast->id]));
+        $response->assertSeeInOrder([
+            $this->user2->name,
+            '2本',
+            '100%',
+            $this->user3->name,
+            '1本',
+            '50%',
+        ]);
+    }
+
+    /**
      * ゲスト時の声優ページの表示のテスト
      *
      * @test
@@ -117,7 +143,7 @@ class CastTest extends TestCase
     public function testGuestCastView()
     {
         $response = $this->get(route('cast.show', ['cast_id' => $this->cast->id]));
-        $response->assertDontSee('お気に入り');
+        $response->assertDontSee('お気に入り声優として登録する');
         $response->assertDontSee('つけた得点');
     }
 
@@ -157,7 +183,7 @@ class CastTest extends TestCase
         $this->actingAs($this->user1);
         $this->get(route('cast.like', ['cast_id' => $this->cast->id]));
         $this->assertDatabaseHas('user_like_casts', [
-            'id' => 2,
+            'id' => 3,
             'user_id' => $this->user1->id,
             'cast_id' => $this->cast->id,
         ]);

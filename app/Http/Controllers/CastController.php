@@ -28,8 +28,10 @@ class CastController extends Controller
     public function show($cast_id)
     {
         $cast = $this->castService->getCastWithActAnimesWithCompaniesAndWithMyReviews($cast_id);
+        $liked_users = $this->userService->getLikedUsersOfCastForRanking($cast);
         return view('cast', [
             'cast' => $cast,
+            'liked_users' => $liked_users,
         ]);
     }
 

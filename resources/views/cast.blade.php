@@ -124,6 +124,14 @@
             @if (env('APP_ENV') == 'production')
                 @include('layout.horizontal_multiplex_adsense')
             @endif
+            <section class="liked_users_ranking">
+                <h2>{{ $cast->name }}さんをお気に入り登録しているユーザー一覧</h2>
+                <ul class="list-inline">
+                    @foreach ($liked_users as $liked_user)
+                        <li>{{ $loop->iteration }}.　<a href="{{ route('user.show', ['user_id' => $liked_user->id]) }}">{{ $liked_user->name }}</a>　{{ $liked_user->user_reviews_count }}本　{{ ($cast->actAnimes->count() != 0) ? ($liked_user->user_reviews_count /  $cast->actAnimes->count() * 100) : '0' }}%</li>
+                    @endforeach
+                </ul>
+            </section>
         </article>
     </div>
 @endsection
