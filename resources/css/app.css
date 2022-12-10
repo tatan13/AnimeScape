@@ -110,6 +110,11 @@ input, select {
     background-color: #FFFFCC;
 }
 
+.table-responsive {
+    overflow: auto;
+    height: 65vh;
+}
+
 @media screen and (max-width: 576px) {
 
     aside {
