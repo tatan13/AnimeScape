@@ -50,5 +50,8 @@
                 <a href="{{ $user_reviews_latest_before_comment->appends(request()->query())->nextPageUrl() }}">次へ</a>
             @endif
         </section>
+        @if (env('APP_ENV') == 'production')
+            @include('layout.horizontal_multiplex_adsense')
+        @endif
     </article>
 @endsection

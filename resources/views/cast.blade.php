@@ -121,6 +121,9 @@
                     </table>
                 </div>
             </section>
+            @if (env('APP_ENV') == 'production')
+                @include('layout.horizontal_multiplex_adsense')
+            @endif
         </article>
     </div>
 @endsection

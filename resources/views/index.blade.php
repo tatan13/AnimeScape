@@ -16,12 +16,6 @@
     @include('layout.vertical_adsense')
 @endsection
 
-@if (env('APP_ENV') == 'production')
-    @section('main_adsense_smartphone')
-        @include('layout.horizontal_adsense_smartphone')
-    @endsection
-@endif
-
 @section('main')
     <article class="index">
         <section class="information">
@@ -78,6 +72,9 @@
                 </table>
             </div>
         </section>
+        @if (env('APP_ENV') == 'production')
+            @include('layout.horizontal_adsense_smartphone')
+        @endif
         <section class="new_before_comment">
             <h2>新着視聴完了前一言感想　<a href="{{ route('new_before_comment_list.show') }}">もっと見る</a></h2>
             @foreach ($user_reviews_latest_before_comment as $user_review)
@@ -126,5 +123,8 @@
                 </div>
             @endforeach
         </section>
+        @if (env('APP_ENV') == 'production')
+            @include('layout.horizontal_multiplex_adsense')
+        @endif
     </article>
 @endsection
