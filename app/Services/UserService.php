@@ -35,21 +35,7 @@ class UserService
      */
     public function getUserWithInformation($user_id, Request $request)
     {
-        $user_information = null;
-        if (is_null($request->year) && is_null($request->coor)) {
-            $user_information = $this->userRepository->getByIdWithUserReviewsAndAnimeForAll($user_id);
-        }
-        if (!is_null($request->year) && is_null($request->coor)) {
-            $user_information = $this->userRepository
-            ->getByIdWithUserReviewsAndAnimeForEachYear($user_id, $request);
-        }
-        if (!is_null($request->year) && !is_null($request->coor)) {
-            $user_information = $this->userRepository
-            ->getByIdWithUserReviewsAndAnimeForEachCoor($user_id, $request);
-        }
-        if (is_null($request->year) && !is_null($request->coor)) {
-            abort(404);
-        }
+        $user_information = $this->userRepository->getByIdWithUserReviewsAndAnimeFor($user_id, $request);
         $user_information['score_count'] = $user_information->userReviews->whereNotNull('score')->count();
         $user_information['score_average'] = (int)$user_information->userReviews->avg('score');
         $user_information['score_median'] = $user_information->userReviews->median('score');

@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\Anime;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use App\Http\Requests\AnimeRequest;
 
 class CompanyRepository extends AbstractRepository
@@ -109,22 +110,26 @@ class CompanyRepository extends AbstractRepository
      * ユーザーのレビューしたアニメの制作会社を10個取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Company> | Collection<null>
      */
-    public function getUserWatchReview10CompanyList(User $user)
+    public function getUserWatchReview10CompanyList(User $user, Request $request)
     {
-        return Company::whereHas('animes', function ($query) use ($user) {
-            $query->whereHas('userReview', function ($q) use ($user) {
+        return Company::whereHas('animes', function ($query) use ($user, $request) {
+            $query->whereYear($request->year)->whereCoor($request->coor)
+            ->whereHas('userReview', function ($q) use ($user) {
                 $q->where('user_id', $user->id)->where('watch', 1);
             });
-        })->with('animes', function ($query) use ($user) {
-            $query->whereHas('userReview', function ($q) use ($user) {
+        })->with('animes', function ($query) use ($user, $request) {
+            $query->whereYear($request->year)->whereCoor($request->coor)
+            ->whereHas('userReview', function ($q) use ($user) {
                 $q->where('user_id', $user->id)->where('watch', 1);
             })->with('userReview', function ($q) use ($user) {
-                $q->where('user_id', $user->id)->where('watch', 1);
+                $q->where('user_id', $user->id)->where('watch', 1)->orderBy('score');
             });
-        })->withCount(['animes' => function ($query) use ($user) {
-            $query->whereHas('userReview', function ($q) use ($user) {
+        })->withCount(['animes' => function ($query) use ($user, $request) {
+            $query->whereYear($request->year)->whereCoor($request->coor)
+            ->whereHas('userReview', function ($q) use ($user) {
                 $q->where('user_id', $user->id)->where('watch', 1);
             });
         }])->latest('animes_count')->take(10)->get();
@@ -134,22 +139,26 @@ class CompanyRepository extends AbstractRepository
      * ユーザーのレビューしたアニメの制作会社をすべて取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Company> | Collection<null>
      */
-    public function getUserWatchReviewAllCompanyList(User $user)
+    public function getUserWatchReviewAllCompanyList(User $user, Request $request)
     {
-        return Company::whereHas('animes', function ($query) use ($user) {
-            $query->whereHas('userReview', function ($q) use ($user) {
+        return Company::whereHas('animes', function ($query) use ($user, $request) {
+            $query->whereYear($request->year)->whereCoor($request->coor)
+            ->whereHas('userReview', function ($q) use ($user) {
                 $q->where('user_id', $user->id)->where('watch', 1);
             });
-        })->with('animes', function ($query) use ($user) {
-            $query->whereHas('userReview', function ($q) use ($user) {
+        })->with('animes', function ($query) use ($user, $request) {
+            $query->whereYear($request->year)->whereCoor($request->coor)
+            ->whereHas('userReview', function ($q) use ($user) {
                 $q->where('user_id', $user->id)->where('watch', 1);
             })->with('userReview', function ($q) use ($user) {
                 $q->where('user_id', $user->id)->where('watch', 1)->orderBy('score');
             });
-        })->withCount(['animes' => function ($query) use ($user) {
-            $query->whereHas('userReview', function ($q) use ($user) {
+        })->withCount(['animes' => function ($query) use ($user, $request) {
+            $query->whereYear($request->year)->whereCoor($request->coor)
+            ->whereHas('userReview', function ($q) use ($user) {
                 $q->where('user_id', $user->id)->where('watch', 1);
             });
         }])->latest('animes_count')->get();

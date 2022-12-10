@@ -6,6 +6,7 @@ use App\Models\Cast;
 use App\Models\User;
 use App\Models\ModifyCast;
 use App\Models\Anime;
+use Illuminate\Http\Request;
 use App\Http\Requests\CastRequest;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -169,22 +170,26 @@ class CastRepository extends AbstractRepository
      * ユーザーのレビューしたアニメの声優を10個取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Cast> | Collection<null>
      */
-    public function getUserWatchReview10CastList(User $user)
+    public function getUserWatchReview10CastList(User $user, Request $request)
     {
-        return Cast::whereHas('actAnimes', function ($query) use ($user) {
-            $query->whereHas('userReview', function ($q) use ($user) {
+        return Cast::whereHas('actAnimes', function ($query) use ($user, $request) {
+            $query->whereYear($request->year)->whereCoor($request->coor)
+            ->whereHas('userReview', function ($q) use ($user) {
                 $q->where('user_id', $user->id)->where('watch', 1);
             });
-        })->with('actAnimes', function ($query) use ($user) {
-            $query->whereHas('userReview', function ($q) use ($user) {
+        })->with('actAnimes', function ($query) use ($user, $request) {
+            $query->whereYear($request->year)->whereCoor($request->coor)
+            ->whereHas('userReview', function ($q) use ($user) {
                 $q->where('user_id', $user->id)->where('watch', 1);
             })->with('userReview', function ($q) use ($user) {
-                $q->where('user_id', $user->id)->where('watch', 1);
+                $q->where('user_id', $user->id)->where('watch', 1)->orderBy('score');
             });
-        })->withCount(['actAnimes' => function ($query) use ($user) {
-            $query->whereHas('userReview', function ($q) use ($user) {
+        })->withCount(['actAnimes' => function ($query) use ($user, $request) {
+            $query->whereYear($request->year)->whereCoor($request->coor)
+            ->whereHas('userReview', function ($q) use ($user) {
                 $q->where('user_id', $user->id)->where('watch', 1);
             });
         }])->latest('act_animes_count')->take(10)->get();
@@ -194,22 +199,26 @@ class CastRepository extends AbstractRepository
      * ユーザーのレビューしたアニメの声優をすべて取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Cast> | Collection<null>
      */
-    public function getUserWatchReviewAllCastList(User $user)
+    public function getUserWatchReviewAllCastList(User $user, Request $request)
     {
-        return Cast::whereHas('actAnimes', function ($query) use ($user) {
-            $query->whereHas('userReview', function ($q) use ($user) {
+        return Cast::whereHas('actAnimes', function ($query) use ($user, $request) {
+            $query->whereYear($request->year)->whereCoor($request->coor)
+            ->whereHas('userReview', function ($q) use ($user) {
                 $q->where('user_id', $user->id)->where('watch', 1);
             });
-        })->with('actAnimes', function ($query) use ($user) {
-            $query->whereHas('userReview', function ($q) use ($user) {
+        })->with('actAnimes', function ($query) use ($user, $request) {
+            $query->whereYear($request->year)->whereCoor($request->coor)
+            ->whereHas('userReview', function ($q) use ($user) {
                 $q->where('user_id', $user->id)->where('watch', 1);
             })->with('userReview', function ($q) use ($user) {
                 $q->where('user_id', $user->id)->where('watch', 1)->orderBy('score');
             });
-        })->withCount(['actAnimes' => function ($query) use ($user) {
-            $query->whereHas('userReview', function ($q) use ($user) {
+        })->withCount(['actAnimes' => function ($query) use ($user, $request) {
+            $query->whereYear($request->year)->whereCoor($request->coor)
+            ->whereHas('userReview', function ($q) use ($user) {
                 $q->where('user_id', $user->id)->where('watch', 1);
             });
         }])->latest('act_animes_count')->get();

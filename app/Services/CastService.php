@@ -9,6 +9,7 @@ use App\Repositories\CastRepository;
 use App\Repositories\AnimeRepository;
 use App\Repositories\UserRepository;
 use App\Http\Requests\ReviewRequest;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 
 class CastService
@@ -104,21 +105,23 @@ class CastService
      * ユーザーのレビューしたアニメの声優を10個取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Cast> | Collection<null>
      */
-    public function getUserWatchReview10CastList($user)
+    public function getUserWatchReview10CastList($user, Request $request)
     {
-        return $this->castRepository->getUserWatchReview10CastList($user);
+        return $this->castRepository->getUserWatchReview10CastList($user, $request);
     }
 
     /**
      * ユーザーのレビューしたアニメの声優をすべて取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Cast> | Collection<null>
      */
-    public function getUserWatchReviewAllCastList($user)
+    public function getUserWatchReviewAllCastList($user, Request $request)
     {
-        return $this->castRepository->getUserWatchReviewAllCastList($user);
+        return $this->castRepository->getUserWatchReviewAllCastList($user, $request);
     }
 }

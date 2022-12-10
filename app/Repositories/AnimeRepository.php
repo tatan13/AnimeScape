@@ -157,14 +157,16 @@ class AnimeRepository extends AbstractRepository
     }
 
     /**
-     * ユーザーの感想をつけたアニメリストをユーザーレビューとともに取得
+     * ユーザーの感想をつけたアニメリストをユーザーレビューとともにリクエストに従って取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getCommentAnimeListWithUserReviewOf(User $user)
+    public function getCommentAnimeListWithUserReviewOf(User $user, Request $request)
     {
-        return Anime::whereHas('userReview', function ($query) use ($user) {
+        return Anime::whereYear($request->year)->whereCoor($request->coor)
+        ->whereHas('userReview', function ($query) use ($user) {
             $query->where('user_id', $user->id)->where(function ($query) {
                 $query->whereNotNull('one_word_comment')->orWhereNotNull('long_word_comment');
             });
@@ -176,14 +178,16 @@ class AnimeRepository extends AbstractRepository
     }
 
     /**
-     * ユーザーの得点の付いたアニメリストをユーザーレビューと制作会社とともに取得
+     * ユーザーの得点の付いたアニメリストをユーザーレビューと制作会社とともにリクエストに従って取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getScoreAnimeListWithCompaniesWithUserReviewOf(User $user)
+    public function getScoreAnimeListWithCompaniesWithUserReviewOf(User $user, Request $request)
     {
-        return Anime::whereHas('userReview', function ($query) use ($user) {
+        return Anime::whereYear($request->year)->whereCoor($request->coor)
+        ->whereHas('userReview', function ($query) use ($user) {
             $query->where('user_id', $user->id)->whereNotNull('score');
         })->with('userReview', function ($query) use ($user) {
             $query->where('user_id', $user->id);
@@ -191,14 +195,16 @@ class AnimeRepository extends AbstractRepository
     }
 
     /**
-     * ユーザーの視聴予定アニメリストをユーザーレビューと制作会社とともに取得
+     * ユーザーの視聴予定アニメリストをユーザーレビューと制作会社とともにリクエストに従って取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getWatchAnimeListWithCompaniesWithUserReviewOf(User $user)
+    public function getWatchAnimeListWithCompaniesWithUserReviewOf(User $user, Request $request)
     {
-        return Anime::whereHas('userReview', function ($query) use ($user) {
+        return Anime::whereYear($request->year)->whereCoor($request->coor)
+        ->whereHas('userReview', function ($query) use ($user) {
             $query->where('user_id', $user->id)->where('watch', 1);
         })->with('userReview', function ($query) use ($user) {
             $query->where('user_id', $user->id);
@@ -206,14 +212,16 @@ class AnimeRepository extends AbstractRepository
     }
 
     /**
-     * ユーザーの視聴済みアニメリストを放送順にユーザーレビューと制作会社とともに取得
+     * ユーザーの視聴済みアニメリストを放送順にユーザーレビューと制作会社とともにリクエストに従って取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getLatestWillWatchAnimeListWithCompaniesWithUserReviewOf(User $user)
+    public function getLatestWillWatchAnimeListWithCompaniesWithUserReviewOf(User $user, Request $request)
     {
-        return Anime::whereHas('userReview', function ($query) use ($user) {
+        return Anime::whereYear($request->year)->whereCoor($request->coor)
+        ->whereHas('userReview', function ($query) use ($user) {
             $query->where('user_id', $user->id)->whereNotIn('will_watch', [0]);
         })->with('userReview', function ($query) use ($user) {
             $query->where('user_id', $user->id);
@@ -221,41 +229,47 @@ class AnimeRepository extends AbstractRepository
     }
 
     /**
-     * ユーザーの視聴中アニメリストを放送順にユーザーレビューと制作会社とともに取得
+     * ユーザーの視聴中アニメリストを放送順にユーザーレビューと制作会社とともにリクエストに従って取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getLatestNowWatchAnimeListWithCompaniesOf(User $user)
+    public function getLatestNowWatchAnimeListWithCompaniesOf(User $user, Request $request)
     {
-        return Anime::whereHas('userReview', function ($query) use ($user) {
+        return Anime::whereYear($request->year)->whereCoor($request->coor)
+        ->whereHas('userReview', function ($query) use ($user) {
             $query->where('user_id', $user->id)->where('now_watch', 1);
         })->sortable()->latestYearCoorMedian()->withCompanies()->get();
     }
 
     /**
-     * ユーザーのギブアップしたアニメリストを放送順にユーザーレビューと制作会社とともに取得
+     * ユーザーのギブアップしたアニメリストを放送順にユーザーレビューと制作会社とともにリクエストに従って取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getLatestGiveUpAnimeListWithCompaniesOf(User $user)
+    public function getLatestGiveUpAnimeListWithCompaniesOf(User $user, Request $request)
     {
-        return Anime::whereHas('userReview', function ($query) use ($user) {
+        return Anime::whereYear($request->year)->whereCoor($request->coor)
+        ->whereHas('userReview', function ($query) use ($user) {
             $query->where('user_id', $user->id)->where('give_up', 1);
         })->sortable()->latestYearCoorMedian()->withCompanies()->get();
     }
 
 
     /**
-     * ユーザーの視聴完了前感想をつけたアニメリストをユーザーレビューとともに取得
+     * ユーザーの視聴完了前感想をつけたアニメリストをユーザーレビューとともにリクエストに従って取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getBeforeCommentAnimeListWithUserReviewOf(User $user)
+    public function getBeforeCommentAnimeListWithUserReviewOf(User $user, Request $request)
     {
-        return Anime::whereHas('userReview', function ($query) use ($user) {
+        return Anime::whereYear($request->year)->whereCoor($request->coor)
+        ->whereHas('userReview', function ($query) use ($user) {
             $query->where('user_id', $user->id)->whereNotNull('before_comment');
         })->with('userReview', function ($query) use ($user) {
             $query->where('user_id', $user->id)->whereNotNull('before_comment');
@@ -263,14 +277,16 @@ class AnimeRepository extends AbstractRepository
     }
 
     /**
-     * ユーザーの得点の付いたアニメリストをユーザーレビューと制作会社とともに取得
+     * ユーザーの得点の付いたアニメリストをユーザーレビューと制作会社とともにリクエストに従って取得
      *
      * @param User $user
+     * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getBeforeScoreAnimeListWithCompaniesWithUserReviewOf(User $user)
+    public function getBeforeScoreAnimeListWithCompaniesWithUserReviewOf(User $user, Request $request)
     {
-        return Anime::whereHas('userReview', function ($query) use ($user) {
+        return Anime::whereYear($request->year)->whereCoor($request->coor)
+        ->whereHas('userReview', function ($query) use ($user) {
             $query->where('user_id', $user->id)->whereNotNull('before_score');
         })->with('userReview', function ($query) use ($user) {
             $query->where('user_id', $user->id);

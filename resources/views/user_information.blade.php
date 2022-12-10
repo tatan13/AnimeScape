@@ -49,7 +49,7 @@
             <section class="user_statistics_information">
                 <div class="row">
                     <div class="col-md-6">
-                        <h2>統計情報{{ !is_null($year) ? '(' . $year . '年' : '(すべて' }}{{ $coor != 0 ? App\Models\Anime::getCoorLabel($coor) . 'クール)' : ')' }}
+                        <h2>統計情報({{ !is_null($year) ? $year . '年' : '' }}{{ (is_null($year) && is_null($coor) ? '全期間' : '') }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }})
                         </h2>
                         <div class="table-responsive">
                             <table class="user_statistics_information">
@@ -57,7 +57,7 @@
                                     <tr>
                                         <th>得点入力数</th>
                                         <td><a
-                                                href="{{ route('user_score_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->score_count }}</a>
+                                                href="{{ route('user_score_anime_list.show', ['user_id' => $user_information->id, 'year' => $year, 'coor' => $coor]) }}">{{ $user_information->score_count }}</a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -71,48 +71,48 @@
                                     <tr>
                                         <th>感想入力数</th>
                                         <td><a
-                                                href="{{ route('user_comment_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->comments_count }}</a>
+                                                href="{{ route('user_comment_anime_list.show', ['user_id' => $user_information->id, 'year' => $year, 'coor' => $coor]) }}">{{ $user_information->comments_count }}</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>視聴予定数</th>
                                         <td><a
-                                                href="{{ route('user_will_watch_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->will_watches_count }}</a>
+                                                href="{{ route('user_will_watch_anime_list.show', ['user_id' => $user_information->id, 'year' => $year, 'coor' => $coor]) }}">{{ $user_information->will_watches_count }}</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>視聴数</th>
                                         <td>
                                             <a
-                                                href="{{ route('user_watch_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->watches_count }}</a>
+                                                href="{{ route('user_watch_anime_list.show', ['user_id' => $user_information->id, 'year' => $year, 'coor' => $coor]) }}">{{ $user_information->watches_count }}</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>視聴中数</th>
                                         <td>
                                             <a
-                                                href="{{ route('user_now_watch_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->now_watches_count }}</a>
+                                                href="{{ route('user_now_watch_anime_list.show', ['user_id' => $user_information->id, 'year' => $year, 'coor' => $coor]) }}">{{ $user_information->now_watches_count }}</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>視聴リタイア数</th>
                                         <td>
                                             <a
-                                                href="{{ route('user_give_up_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->give_ups_count }}</a>
+                                                href="{{ route('user_give_up_anime_list.show', ['user_id' => $user_information->id, 'year' => $year, 'coor' => $coor]) }}">{{ $user_information->give_ups_count }}</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>視聴完了前得点入力数</th>
                                         <td>
                                             <a
-                                                href="{{ route('user_before_score_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->before_score_count }}</a>
+                                                href="{{ route('user_before_score_anime_list.show', ['user_id' => $user_information->id, 'year' => $year, 'coor' => $coor]) }}">{{ $user_information->before_score_count }}</a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>視聴完了前一言感想入力数</th>
                                         <td>
                                             <a
-                                                href="{{ route('user_before_comment_anime_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->before_comments_count }}</a>
+                                                href="{{ route('user_before_comment_anime_list.show', ['user_id' => $user_information->id, 'year' => $year, 'coor' => $coor]) }}">{{ $user_information->before_comments_count }}</a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -169,7 +169,7 @@
                 </div>
             </section>
             <section class="anime_score_list">
-                <h2>得点とアニメの対応表{{ !is_null($year) ? '(' . $year . '年' : '(すべて' }}{{ $coor != 0 ? App\Models\Anime::getCoorLabel($coor) . 'クール)' : ')' }}
+                <h2>得点とアニメの対応表({{ !is_null($year) ? $year . '年' : '' }}{{ (is_null($year) && is_null($coor) ? '全期間' : '') }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }})
                 </h2>
                 <form action="{{ route('user.show', ['user_id' => $user_information->id]) }}"
                     class="search_parameters_form" name="coor_score_animelist" method="get">
@@ -225,8 +225,35 @@
                 </div>
             </section>
             <section class="watch_review_company_list">
-                <h2>制作会社別視聴数</h2>
-                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="{{ $user_information->name }}さんの制作会社別視聴数 @foreach ($company_list->take(5) as $company){{ $company->name }}({{ $company->animes_count }}本) @endforeach..." data-url="{{ route('user.show', ['user_id' => $user_information->id]) }}" data-hashtags="AnimeScape" data-related="tatan_tech" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                <h2>制作会社別視聴数({{ !is_null($year) ? $year . '年' : '' }}{{ (is_null($year) && is_null($coor) ? '全期間' : '') }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }})
+                </h2>
+                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
+                    data-text="{{ $user_information->name }}さんの{{ !is_null($year) ? $year . '年' : '' }}{{ (is_null($year) && is_null($coor) ? '全期間' : '') }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }}の制作会社別視聴数 @foreach ($company_list->take(5) as $company){{ $company->name }}({{ $company->animes_count }}本) @endforeach..."
+                    data-url="{{ route('user.show', ['user_id' => $user_information->id]) }}" data-hashtags="AnimeScape"
+                    data-related="tatan_tech" data-show-count="false">Tweet</a>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                <form action="{{ route('user.show', ['user_id' => $user_information->id]) }}"
+                    class="search_parameters_form" name="coor_score_animelist" method="get">
+                    @csrf
+                    <select name="year" class="year">
+                        <option value="">-</option>
+                        @include('layout/select_year')
+                    </select>
+                    年
+                    <select name="coor" class="coor">
+                        <option value="">-</option>
+                        <option value="1" {{ is_null($coor ?? null) ? '' : ($coor == 1 ? 'selected' : '') }}>冬
+                        </option>
+                        <option value="2" {{ is_null($coor ?? null) ? '' : ($coor == 2 ? 'selected' : '') }}>春
+                        </option>
+                        <option value="3" {{ is_null($coor ?? null) ? '' : ($coor == 3 ? 'selected' : '') }}>夏
+                        </option>
+                        <option value="4" {{ is_null($coor ?? null) ? '' : ($coor == 4 ? 'selected' : '') }}>秋
+                        </option>
+                    </select>
+                    <input type="submit" value="絞り込み"> <a
+                        href="{{ route('user.show', ['user_id' => $user_information->id]) }}">絞り込み解除</a>
+                </form>
                 <div class="table-responsive">
                     <table class="watch_review_company_list_table">
                         <tr>
@@ -258,11 +285,38 @@
                     </table>
                 </div>
                 →<a
-                    href="{{ route('user_watch_review_company_list.show', ['user_id' => $user_information->id]) }}">すべて見る</a>
+                    href="{{ route('user_watch_review_company_list.show', ['user_id' => $user_information->id, 'year' => $year, 'coor' => $coor]) }}">すべて見る</a>
             </section>
             <section class="watch_review_cast_list">
-                <h2>声優別視聴数</h2>
-                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="{{ $user_information->name }}さんの声優別視聴数 @foreach ($cast_list->take(5) as $cast){{ $cast->name }}({{ $cast->act_animes_count }}本) @endforeach..." data-url="{{ route('user.show', ['user_id' => $user_information->id]) }}" data-hashtags="AnimeScape" data-related="tatan_tech" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                <h2>声優別視聴数({{ !is_null($year) ? $year . '年' : '' }}{{ (is_null($year) && is_null($coor) ? '全期間' : '') }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }})
+                </h2>
+                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
+                    data-text="{{ $user_information->name }}さんの{{ !is_null($year) ? $year . '年' : '' }}{{ (is_null($year) && is_null($coor) ? '全期間' : '') }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }}の声優別視聴数 @foreach ($cast_list->take(5) as $cast){{ $cast->name }}({{ $cast->act_animes_count }}本) @endforeach..."
+                    data-url="{{ route('user.show', ['user_id' => $user_information->id]) }}" data-hashtags="AnimeScape"
+                    data-related="tatan_tech" data-show-count="false">Tweet</a>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                <form action="{{ route('user.show', ['user_id' => $user_information->id]) }}"
+                    class="search_parameters_form" name="coor_score_animelist" method="get">
+                    @csrf
+                    <select name="year" class="year">
+                        <option value="">-</option>
+                        @include('layout/select_year')
+                    </select>
+                    年
+                    <select name="coor" class="coor">
+                        <option value="">-</option>
+                        <option value="1" {{ is_null($coor ?? null) ? '' : ($coor == 1 ? 'selected' : '') }}>冬
+                        </option>
+                        <option value="2" {{ is_null($coor ?? null) ? '' : ($coor == 2 ? 'selected' : '') }}>春
+                        </option>
+                        <option value="3" {{ is_null($coor ?? null) ? '' : ($coor == 3 ? 'selected' : '') }}>夏
+                        </option>
+                        <option value="4" {{ is_null($coor ?? null) ? '' : ($coor == 4 ? 'selected' : '') }}>秋
+                        </option>
+                    </select>
+                    <input type="submit" value="絞り込み"> <a
+                        href="{{ route('user.show', ['user_id' => $user_information->id]) }}">絞り込み解除</a>
+                </form>
                 <div class="table-responsive">
                     <table class="watch_review_cast_list_table">
                         <tr>
@@ -273,8 +327,7 @@
                         </tr>
                         @foreach ($cast_list as $cast)
                             <tr>
-                                <td><a
-                                        href="{{ route('cast.show', ['cast_id' => $cast->id]) }}">{{ $cast->name }}</a>
+                                <td><a href="{{ route('cast.show', ['cast_id' => $cast->id]) }}">{{ $cast->name }}</a>
                                 </td>
                                 <td>{{ $cast->act_animes_count }}</td>
                                 <td>{{ $cast->actAnimes->average('userReview.score') }}</td>
@@ -293,8 +346,7 @@
                         @endforeach
                     </table>
                 </div>
-                →<a
-                    href="{{ route('user_watch_review_cast_list.show', ['user_id' => $user_information->id]) }}">すべて見る</a>
+                →<a href="{{ route('user_watch_review_cast_list.show', ['user_id' => $user_information->id, 'year' => $year, 'coor' => $coor]) }}">すべて見る</a>
             </section>
         </article>
     </div>
