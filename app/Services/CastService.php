@@ -99,4 +99,26 @@ class CastService
     {
         return $this->castRepository->getAll();
     }
+
+    /**
+     * ユーザーのレビューしたアニメの声優を10個取得
+     *
+     * @param User $user
+     * @return Collection<int,Cast> | Collection<null>
+     */
+    public function getUserWatchReview10CastList($user)
+    {
+        return $this->castRepository->getUserWatchReview10CastList($user);
+    }
+
+    /**
+     * ユーザーのレビューしたアニメの声優をすべて取得
+     *
+     * @param User $user
+     * @return Collection<int,Cast> | Collection<null>
+     */
+    public function getUserWatchReviewAllCastList($user)
+    {
+        return $this->castRepository->getUserWatchReviewAllCastList($user);
+    }
 }

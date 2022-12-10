@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Company;
 use App\Models\Anime;
+use App\Models\User;
 use App\Repositories\CompanyRepository;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -43,5 +44,27 @@ class CompanyService
     public function getCompanyWithAnimesWithMyReviews($company_id)
     {
         return $this->companyRepository->getCompanyWithAnimesWithMyReviewsById($company_id);
+    }
+
+    /**
+     * ユーザーのレビューしたアニメの制作会社を10個取得
+     *
+     * @param User $user
+     * @return Collection<int,Company> | Collection<null>
+     */
+    public function getUserWatchReview10CompanyList($user)
+    {
+        return $this->companyRepository->getUserWatchReview10CompanyList($user);
+    }
+
+    /**
+     * ユーザーのレビューしたアニメの制作会社をすべて取得
+     *
+     * @param User $user
+     * @return Collection<int,Company> | Collection<null>
+     */
+    public function getUserWatchReviewAllCompanyList($user)
+    {
+        return $this->companyRepository->getUserWatchReviewAllCompanyList($user);
     }
 }
