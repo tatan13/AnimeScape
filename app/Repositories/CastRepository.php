@@ -36,6 +36,23 @@ class CastRepository extends AbstractRepository
     }
 
     /**
+     * 声優の被お気に入りユーザーリストを声優の出演するアニメのレビューの数とともに取得
+     *
+     * @param Cast $cast
+     * @return Collection<int,User> | Collection<null>
+     */
+    public function getLikedUsersOfCastForRanking(Cast $cast)
+    {
+        return $cast->likedUsers()->withCount(['userReviews' => function ($query) use ($cast) {
+            $query->where('watch', 1)->whereHas('anime', function ($query) use ($cast) {
+                $query->whereHas('occupations', function ($query) use ($cast) {
+                    $query->where('cast_id', $cast->id);
+                });
+            });
+        }])->latest('user_reviews_count')->get();
+    }
+
+    /**
      * 声優が出演するアニメリストを取得
      *
      * @param Cast $cast

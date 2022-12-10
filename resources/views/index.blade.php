@@ -16,12 +16,6 @@
     @include('layout.vertical_adsense')
 @endsection
 
-@if (env('APP_ENV') == 'production')
-    @section('main_adsense_smartphone')
-        @include('layout.horizontal_adsense_smartphone')
-    @endsection
-@endif
-
 @section('main')
     <article class="index">
         <section class="information">
@@ -32,6 +26,7 @@
             <h2>お知らせ</h2>
             <ul class="list-inline">
                 <li>ユーザーページに制作会社別視聴数、声優別視聴数を追加しました。</li>
+                <li>声優ページにお気に入り登録しているユーザー一覧を追加しました。</li>
                 <li>現在は話数毎の視聴管理機能の実装を進めています。</li>
             </ul>
         </section>
@@ -78,6 +73,9 @@
                 </table>
             </div>
         </section>
+        @if (env('APP_ENV') == 'production')
+            @include('layout.horizontal_adsense_smartphone')
+        @endif
         <section class="new_before_comment">
             <h2>新着視聴完了前一言感想　<a href="{{ route('new_before_comment_list.show') }}">もっと見る</a></h2>
             @foreach ($user_reviews_latest_before_comment as $user_review)
@@ -126,5 +124,8 @@
                 </div>
             @endforeach
         </section>
+        @if (env('APP_ENV') == 'production')
+            @include('layout.horizontal_multiplex_adsense')
+        @endif
     </article>
 @endsection
