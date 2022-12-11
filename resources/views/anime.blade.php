@@ -171,6 +171,29 @@
                 @endif
             </div>
         </section>
+        @if (Auth::check() && $like_users->count() != 0)
+            <section class="watch_like_users_review">
+                <h2>視聴済みお気に入りユーザーのレビュー</h2>
+                <div class="table-responsive">
+                    <table class="watch_like_users_review_table">
+                        <tbody>
+                            <tr>
+                                <th>ユーザー名</th>
+                                <th>得点</th>
+                                <th>コメント</th>
+                            </tr>
+                            @foreach ($like_users as $like_user)
+                                <tr>
+                                    <td>{{ $like_user->name }}</td>
+                                    <td>{{ $like_user->userReview->score }}</td>
+                                    <td>{{ is_null($like_user->one_word_comment) ? '' : 'あり' }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        @endif
         <section class="anime_summary">
             <h2>あらすじ</h2>
             {{ $anime->summary ?? '(あらすじ情報がありません。情報提供してくださると助かります。)' }}

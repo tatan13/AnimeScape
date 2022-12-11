@@ -62,6 +62,21 @@ class UserRepository extends AbstractRepository
     }
 
     /**
+     * アニメを視聴済みのログインユーザーのお気に入りユーザーを取得
+     *
+     * @param Anime $anime
+     * @return Collection<int,User> | Collection<null>
+     */
+    public function getWatchAnimeLikeUsersOfLoginUser(Anime $anime)
+    {
+        return Auth::user()->userLikeUsers()->whereHas('userReview', function ($query) use ($anime) {
+            $query->where('watch', 1)->where('anime_id', $anime->id);
+        })->with('userReview', function ($query) use ($anime) {
+            $query->where('watch', 1)->where('anime_id', $anime->id);
+        })->get();
+    }
+
+    /**
      * ユーザーのお気に入りユーザーリストを最新のユーザーレビューと共に取得
      *
      * @param User $user

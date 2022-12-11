@@ -8,6 +8,7 @@ use App\Http\Requests\ReviewsRequest;
 use App\Services\AnimeService;
 use App\Services\TagService;
 use App\Services\UserReviewService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class AnimeController extends Controller
@@ -15,15 +16,18 @@ class AnimeController extends Controller
     private AnimeService $animeService;
     private TagService $tagService;
     private UserReviewService $userReviewService;
+    private UserService $userService;
 
     public function __construct(
         AnimeService $animeService,
         TagService $tagService,
         UserReviewService $userReviewService,
+        UserService $userService,
     ) {
         $this->animeService = $animeService;
         $this->tagService = $tagService;
         $this->userReviewService = $userReviewService;
+        $this->userService = $userService;
     }
 
     /**
@@ -37,9 +41,11 @@ class AnimeController extends Controller
         $anime = $this->animeService
         ->getAnimeWithCompaniesMyReviewOccupationsAnimeCreatersUserReviewsUser($anime_id);
         $tags = $this->tagService->getTagsByAnimeWithTagReviewsAndUser($anime);
+        $like_users = $this->userService->getWatchAnimeLikeUsersOfLoginUser($anime);
         return view('anime', [
             'anime' => $anime,
             'tags' => $tags,
+            'like_users' => $like_users,
         ]);
     }
 

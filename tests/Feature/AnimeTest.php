@@ -32,6 +32,7 @@ class AnimeTest extends TestCase
     private User $user5;
     private User $user6;
     private User $user7;
+    private User $user8;
 
     protected function setUp(): void
     {
@@ -72,6 +73,7 @@ class AnimeTest extends TestCase
         $this->user5 = User::factory()->create();
         $this->user6 = User::factory()->create();
         $this->user7 = User::factory()->create();
+        $this->user8 = User::factory()->create();
 
         $this->anime->reviewUsers()->attach($this->user1->id, [
             'score' => 0,
@@ -108,6 +110,9 @@ class AnimeTest extends TestCase
             'before_score' => 100,
             'before_comment' => 'not sad',
         ]);
+        $this->anime->reviewUsers()->attach($this->user8->id, [
+            'watch' => false,
+        ]);
 
         $this->tag = Tag::factory()->create();
         $this->tag1 = Tag::factory()->create();
@@ -128,6 +133,9 @@ class AnimeTest extends TestCase
             'user_id' => $this->user7->id,
             'score' => 100,
         ]);
+
+        $this->user1->userLikeUsers()->attach($this->user8->id);
+        $this->user1->userLikeUsers()->attach($this->user3->id);
     }
 
     /**
@@ -170,6 +178,48 @@ class AnimeTest extends TestCase
             $this->anime->min,
             $this->anime->number_of_interesting_episode,
         ]);
+    }
+
+    /**
+     * アニメページのゲスト時のお気に入りユーザーの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestAnimeWatchLikeUsersReviewView()
+    {
+        $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
+        $response->assertDontSee('視聴済みお気に入りユーザーのレビュー');
+    }
+
+    /**
+     * アニメページのログイン時のお気に入りユーザー0の場合のお気に入りユーザーの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2AnimeWatchLikeUsersReviewView()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
+        $response->assertDontSee('視聴済みお気に入りユーザーのレビュー');
+    }
+
+    /**
+     * アニメページのログイン時のお気に入りユーザーがいる場合のお気に入りユーザーの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1AnimeWatchLikeUsersReviewView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
+        $response->assertSeeInOrder([
+            '視聴済みお気に入りユーザーのレビュー',
+            $this->user3->name,
+        ]);
+        $response->assertDontSee($this->user8->name);
     }
 
     /**

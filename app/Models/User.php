@@ -111,6 +111,16 @@ class User extends Authenticatable
     }
 
     /**
+     * ユーザーのレビューを取得
+     *
+     * @return HasOne
+     */
+    public function userReview()
+    {
+        return $this->hasOne('App\Models\UserReview');
+    }
+
+    /**
      * ユーザーのおすすめアニメのデータを取得
      *
      * @return HasMany
