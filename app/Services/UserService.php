@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\User;
 use App\Models\Cast;
 use App\Models\Creater;
+use App\Models\Anime;
 use App\Repositories\UserRepository;
 use App\Repositories\CastRepository;
 use Illuminate\Http\Request;
@@ -82,6 +83,20 @@ class UserService
     public function getAuthUser()
     {
         return $this->userRepository->getAuthUser();
+    }
+
+    /**
+     * アニメを視聴済みのログインユーザーのお気に入りユーザーを取得
+     *
+     * @param Anime $anime
+     * @return Collection<int,User> | Collection<null> | null
+     */
+    public function getWatchAnimeLikeUsersOfLoginUser(Anime $anime)
+    {
+        if (Auth::check()) {
+            return $this->userRepository->getWatchAnimeLikeUsersOfLoginUser($anime);
+        }
+        return null;
     }
 
     /**
