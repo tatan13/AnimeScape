@@ -183,6 +183,8 @@ class ModifyTest extends TestCase
         $this->anime->companies()->attach($this->company2->id);
         $this->anime->companies()->attach($this->company3->id);
         $this->deleteCompany = DeleteCompany::create(['company_id' => $this->company1->id, 'remark' => 'remark2']);
+
+        $this->anime->reviewUsers()->attach($this->user1->id);
     }
 
     /**
@@ -3389,5 +3391,43 @@ class ModifyTest extends TestCase
         $this->actingAs($this->user2);
         $response = $this->get((route('anime.delete', ['anime_id' => $this->anime->id])));
         $response->assertStatus(403);
+    }
+
+    /**
+     * ゲスト時のユーザー削除のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUserDelete()
+    {
+        $response = $this->get((route('zero_review_user.delete')));
+        $response->assertRedirect(route('login'));
+    }
+
+    /**
+     * レビュー数が0のユーザー削除のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser2Delete()
+    {
+        $this->actingAs($this->user2);
+        $response = $this->get((route('zero_review_user.delete')));
+        $response->assertRedirect(route('index.show'));
+    }
+
+    /**
+     * レビュー数が0ではないユーザー削除のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1Delete()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get((route('zero_review_user.delete')));
+        $response->assertStatus(404);
     }
 }
