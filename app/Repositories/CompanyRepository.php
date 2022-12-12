@@ -91,6 +91,7 @@ class CompanyRepository extends AbstractRepository
             return Company::withAnimesWithMyReviewsLatestLimit()->latest('name')->paginate(50);
         }
         return Company::where(Company::SEARCH_COLUMN, 'like', "%$search_word%")
+        ->orWhere('furigana', 'like', "%$search_word%")
         ->withAnimesWithMyReviewsLatestLimit()->latest('name')->paginate(50);
     }
 

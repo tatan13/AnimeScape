@@ -108,6 +108,7 @@ class CastRepository extends AbstractRepository
             return Cast::withActAnimesWithCompaniesAndWithMyReviewsLatestLimit()->paginate(50);
         }
         return Cast::where(Cast::SEARCH_COLUMN, 'like', "%$search_word%")
+        ->orWhere('furigana', 'like', "%$search_word%")
         ->withActAnimesWithCompaniesAndWithMyReviewsLatestLimit()->paginate(50);
     }
 

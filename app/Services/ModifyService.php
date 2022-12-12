@@ -31,6 +31,7 @@ use App\Repositories\CompanyRepository;
 use App\Repositories\DeleteCompanyRepository;
 use App\Repositories\OccupationRepository;
 use App\Repositories\AnimeCreaterRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use App\Http\Requests\AnimeRequest;
 use App\Http\Requests\CastRequest;
@@ -39,6 +40,7 @@ use App\Http\Requests\DeleteRequest;
 use App\Http\Requests\ReviewRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Mail;
 use Gate;
 
@@ -60,6 +62,7 @@ class ModifyService
     private DeleteCompanyRepository $deleteCompanyRepository;
     private OccupationRepository $occupationRepository;
     private AnimeCreaterRepository $animeCreaterRepository;
+    private UserRepository $userRepository;
 
     /**
      * コンストラクタ
@@ -79,6 +82,7 @@ class ModifyService
      * @param DeleteCompanyRepository $deleteCompanyRepository
      * @param OccupationRepository $occupationRepository
      * @param AnimeCreaterRepository $animeCreaterRepository
+     * @param UserRepository $userRepository
      * @return void
      */
     public function __construct(
@@ -98,6 +102,7 @@ class ModifyService
         DeleteCompanyRepository $deleteCompanyRepository,
         OccupationRepository $occupationRepository,
         AnimeCreaterRepository $animeCreaterRepository,
+        UserRepository $userRepository,
     ) {
         $this->animeRepository = $animeRepository;
         $this->modifyAnimeRepository = $modifyAnimeRepository;
@@ -115,6 +120,7 @@ class ModifyService
         $this->deleteCompanyRepository = $deleteCompanyRepository;
         $this->occupationRepository = $occupationRepository;
         $this->animeCreaterRepository = $animeCreaterRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -757,19 +763,33 @@ class ModifyService
     }
 
     /**
+     * レビュー数が0ならばユーザーを削除
+     *
+     * @return void
+     */
+    public function deleteZeroReviewUser()
+    {
+        $user_id = Auth::id();
+        if ($this->userRepository->isReviewUser($user_id)) {
+            abort(404);
+        }
+        $this->userRepository->deleteById($user_id);
+    }
+
+    /**
      * 変更申請時管理者にメールで通知
      *
      * @return void
      */
     public function sendMailWhenModifyRequest()
     {
-        if (env('APP_ENV') == 'production' && Gate::denies('isAdmin')) {
-            $data = [];
+        // if (env('APP_ENV') == 'production' && Gate::denies('isAdmin')) {
+        //     $data = [];
 
-            Mail::send('emails.modify_email', $data, function ($message) {
-                $message->to(config('mail.from.address'), config('app.name'))
-                ->subject('変更申請');
-            });
-        }
+        //     Mail::send('emails.modify_email', $data, function ($message) {
+        //         $message->to(config('mail.from.address'), config('app.name'))
+        //         ->subject('変更申請');
+        //     });
+        // }
     }
 }

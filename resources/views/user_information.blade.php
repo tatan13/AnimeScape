@@ -3,6 +3,7 @@
 @section('title')
     <title>{{ $user_information->name }}さんの情報 AnimeScape -アニメ批評空間-</title>
     <link rel="canonical" href="https://www.animescape.link/{{ $user_information->id }}">
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 @endsection
 
 @section('adsense')
@@ -22,7 +23,7 @@
 @endif
 
 @section('main')
-    <div id="likeUser">
+    <div id="app">
         <article class="user_information">
             <h1>{{ $user_information->name }}さんの情報</h1>
             <div class="title">{{ $user_information->name }}</div>
@@ -30,12 +31,10 @@
                 @if (Auth::id() == $user_information->id)
                     <a href="{{ route('user_config.show') }}">個人情報設定</a>
                 @else
-                    <div v-if="isLikedUser">
-                        <a href="#" @click="unlike(user_id)">お気に入りユーザーを解除する</a>
-                    </div>
-                    <div v-else>
-                        <a href="#" @click="like(user_id)">お気に入りユーザーとして登録する</a>
-                    </div>
+                    <like-user-component :props-id="{{ json_encode($user_information->id) }}"
+                        :default-liked-user-count="{{ json_encode($user_information->userLikedUsers->count()) }}"
+                        :default-is-like-user="{{ json_encode(Auth::user()->isLikeUser($user_information->id)) }}">
+                    </like-user-component>
                 @endif
             @endauth
             @if (!is_null($user_information->one_comment))
@@ -45,11 +44,10 @@
                 <p>Twitter : <a href="https://twitter.com/{{ $user_information->twitter }}" target="_blank"
                         rel="noopener noreferrer">{{ $user_information->twitter }}</a></p>
             @endif
-
             <section class="user_statistics_information">
                 <div class="row">
                     <div class="col-md-6">
-                        <h2>統計情報({{ !is_null($year) ? $year . '年' : '' }}{{ (is_null($year) && is_null($coor) ? '全期間' : '') }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }})
+                        <h2>統計情報({{ !is_null($year) ? $year . '年' : '' }}{{ is_null($year) && is_null($coor) ? '全期間' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }})
                         </h2>
                         <div class="table-responsive">
                             <table class="user_statistics_information">
@@ -124,7 +122,7 @@
                                     <tr>
                                         <th>被お気に入りユーザー数</th>
                                         <td><a
-                                                href="{{ route('user_liked_user_list.show', ['user_id' => $user_information->id]) }}">@{{ likedUserCount }}</a>
+                                                href="{{ route('user_liked_user_list.show', ['user_id' => $user_information->id]) }}">{{ $user_information->userLikedUsers->count() }}</a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -169,7 +167,7 @@
                 </div>
             </section>
             <section class="anime_score_list">
-                <h2>得点とアニメの対応表({{ !is_null($year) ? $year . '年' : '' }}{{ (is_null($year) && is_null($coor) ? '全期間' : '') }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }})
+                <h2>得点とアニメの対応表({{ !is_null($year) ? $year . '年' : '' }}{{ is_null($year) && is_null($coor) ? '全期間' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }})
                 </h2>
                 <form action="{{ route('user.show', ['user_id' => $user_information->id]) }}"
                     class="search_parameters_form" name="coor_score_animelist" method="get">
@@ -225,13 +223,12 @@
                 </div>
             </section>
             <section class="watch_review_company_list">
-                <h2>制作会社別視聴数({{ !is_null($year) ? $year . '年' : '' }}{{ (is_null($year) && is_null($coor) ? '全期間' : '') }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }})
+                <h2>制作会社別視聴数({{ !is_null($year) ? $year . '年' : '' }}{{ is_null($year) && is_null($coor) ? '全期間' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }})
                 </h2>
                 <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
-                    data-text="{{ $user_information->name }}さんの{{ !is_null($year) ? $year . '年' : '' }}{{ (is_null($year) && is_null($coor) ? '全期間' : '') }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }}の制作会社別視聴数 @foreach ($company_list->take(5) as $company){{ $company->name }}({{ $company->animes_count }}本) @endforeach..."
+                    data-text="{{ $user_information->name }}さんの{{ !is_null($year) ? $year . '年' : '' }}{{ is_null($year) && is_null($coor) ? '全期間' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }}の制作会社別視聴数 @foreach ($company_list->take(5) as $company){{ $company->name }}({{ $company->animes_count }}本) @endforeach..."
                     data-url="{{ route('user.show', ['user_id' => $user_information->id]) }}" data-hashtags="AnimeScape"
                     data-related="tatan_tech" data-show-count="false">Tweet</a>
-                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                 <form action="{{ route('user.show', ['user_id' => $user_information->id]) }}"
                     class="search_parameters_form" name="coor_score_animelist" method="get">
                     @csrf
@@ -288,13 +285,12 @@
                     href="{{ route('user_watch_review_company_list.show', ['user_id' => $user_information->id, 'year' => $year, 'coor' => $coor]) }}">すべて見る</a>
             </section>
             <section class="watch_review_cast_list">
-                <h2>声優別視聴数({{ !is_null($year) ? $year . '年' : '' }}{{ (is_null($year) && is_null($coor) ? '全期間' : '') }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }})
+                <h2>声優別視聴数({{ !is_null($year) ? $year . '年' : '' }}{{ is_null($year) && is_null($coor) ? '全期間' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }})
                 </h2>
                 <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
-                    data-text="{{ $user_information->name }}さんの{{ !is_null($year) ? $year . '年' : '' }}{{ (is_null($year) && is_null($coor) ? '全期間' : '') }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }}の声優別視聴数 @foreach ($cast_list->take(5) as $cast){{ $cast->name }}({{ $cast->act_animes_count }}本) @endforeach..."
+                    data-text="{{ $user_information->name }}さんの{{ !is_null($year) ? $year . '年' : '' }}{{ is_null($year) && is_null($coor) ? '全期間' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }}の声優別視聴数 @foreach ($cast_list->take(5) as $cast){{ $cast->name }}({{ $cast->act_animes_count }}本) @endforeach..."
                     data-url="{{ route('user.show', ['user_id' => $user_information->id]) }}" data-hashtags="AnimeScape"
                     data-related="tatan_tech" data-show-count="false">Tweet</a>
-                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                 <form action="{{ route('user.show', ['user_id' => $user_information->id]) }}"
                     class="search_parameters_form" name="coor_score_animelist" method="get">
                     @csrf
@@ -346,49 +342,12 @@
                         @endforeach
                     </table>
                 </div>
-                →<a href="{{ route('user_watch_review_cast_list.show', ['user_id' => $user_information->id, 'year' => $year, 'coor' => $coor]) }}">すべて見る</a>
+                →<a
+                    href="{{ route('user_watch_review_cast_list.show', ['user_id' => $user_information->id, 'year' => $year, 'coor' => $coor]) }}">すべて見る</a>
             </section>
         </article>
     </div>
 @endsection
 @section('vue.js')
     <script src="{{ asset('js/app.js') }}"></script>
-    <script>
-        const vue = new Vue({
-            el: '#likeUser',
-            data() {
-                return {
-                    user_id: '{{ $user_information->id }}',
-                    likedUserCount: '{{ $user_information->userLikedUsers->count() }}',
-                    @auth
-                    isLikedUser: '{{ Auth::user()->isLikeUser($user_information->id) }}',
-                @endauth
-            };
-        },
-        methods: {
-            like(user_id) {
-                let url = `/user_information/${user_id}/like`
-                axios.get(url)
-                    .then(response => {
-                        this.likedUserCount = response.data.likedUserCount
-                        this.isLikedUser = true
-                    })
-                    .catch(error => {
-                        alert(error)
-                    });
-            },
-            unlike(user_id) {
-                let url = `/user_information/${user_id}/unlike`
-                axios.get(url)
-                    .then(response => {
-                        this.likedUserCount = response.data.likedUserCount
-                        this.isLikedUser = false
-                    })
-                    .catch(error => {
-                        alert(error)
-                    });
-            },
-        },
-        });
-    </script>
 @endsection

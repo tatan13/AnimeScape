@@ -196,4 +196,15 @@ class UserRepository extends AbstractRepository
     {
         Auth::user()->update($request->validated());
     }
+
+    /**
+     * ユーザーのレビューが存在するか判定
+     *
+     * @param int $user_id
+     * @return bool
+     */
+    public function isReviewUser($user_id)
+    {
+        return User::findOrFail($user_id)->userReviews()->exists();
+    }
 }

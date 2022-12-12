@@ -337,6 +337,7 @@ class AnimeRepository extends AbstractRepository
             return Anime::withCompanies()->withMyReviews()->sortable()->LatestYearCoorMedian()->paginate(500);
         }
         return Anime::where(Anime::SEARCH_COLUMN, 'like', "%$search_word%")
+        ->orWhere('furigana', 'like', "%$search_word%")
         ->withCompanies()->withMyReviews()->sortable()->LatestYearCoorMedian()->paginate(500);
     }
 

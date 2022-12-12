@@ -742,4 +742,15 @@ class ModifyController extends Controller
         $this->modifyService->deleteAnime($anime_id);
         return redirect()->route('index.show');
     }
+
+    /**
+     * レビュー数が0ならばユーザーを削除
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteZeroReviewUser()
+    {
+        $this->modifyService->deleteZeroReviewUser();
+        return redirect()->route('index.show');
+    }
 }

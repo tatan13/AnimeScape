@@ -153,15 +153,15 @@ Route::post('/creater/{creater_id}/delete_request', [App\Http\Controllers\Modify
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/cast/{cast_id}/like', [App\Http\Controllers\CastController::class, 'like'])->name('cast.like');
-    
+
     Route::get('/cast/{cast_id}/unlike', [App\Http\Controllers\CastController::class, 'unlike'])->name('cast.unlike');
 
     Route::get('/creater/{creater_id}/like', [App\Http\Controllers\CreaterController::class, 'like'])->name('creater.like');
-    
+
     Route::get('/creater/{creater_id}/unlike', [App\Http\Controllers\CreaterController::class, 'unlike'])->name('creater.unlike');
-    
+
     Route::get('/user_information/{user_id}/like', [App\Http\Controllers\UserController::class, 'like'])->name('user.like');
-    
+
     Route::get('/user_information/{user_id}/unlike', [App\Http\Controllers\UserController::class, 'unlike'])->name('user.unlike');
     
     Route::get('/user_config', [App\Http\Controllers\UserController::class, 'showUserConfig'])->name('user_config.show');
@@ -169,17 +169,19 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/user_config', [App\Http\Controllers\UserController::class, 'postUserConfig'])->name('user_config.post');
 
     Route::get('/user_config/twitter/unlink', [App\Http\Controllers\UserController::class, 'unlinkUserTwitter'])->name('user_twitter.unlink');
-    
+
+    Route::get('/user_config/deleteUser', [App\Http\Controllers\ModifyController::class, 'deleteZeroReviewUser'])->name('zero_review_user.delete');
+
     Route::get('/anime/{anime_id}/review', [App\Http\Controllers\AnimeController::class, 'showAnimeReview'])->name('anime_review.show');
-    
+
     Route::post('/anime/{anime_id}/review', [App\Http\Controllers\AnimeController::class, 'postAnimeReview'])->name('anime_review.post');
 
     Route::get('/anime/{anime_id}/tag_review', [App\Http\Controllers\AnimeController::class, 'showTagReview'])->name('tag_review.show');
-    
+
     Route::post('/anime/{anime_id}/tag_review', [App\Http\Controllers\AnimeController::class, 'postTagReview'])->name('tag_review.post');
-    
+
     Route::get('/anime_review_list', [App\Http\Controllers\AnimeController::class, 'showAnimeReviewList'])->name('anime_review_list.show');
-    
+
     Route::post('/anime_review_list', [App\Http\Controllers\AnimeController::class, 'postAnimeReviewList'])->name('anime_review_list.post');
 });
 

@@ -28,6 +28,8 @@
                 {{ session('twitter_unlink') }}
             </div>
         @endif
+        <a href="{{ route('zero_review_user.delete')}}"
+            onclick="return confirm('本当に削除しますか？')">ユーザーを削除する</a>
         <form action="{{ route('user_config.post') }}" class="user_config_form" method="POST">
             @csrf
             <div class="table-responsive">
@@ -105,5 +107,9 @@
                 </table>
             </div>
             <input type="submit" value="更新">
+            <h2>注意事項</h2>
+            <ul class="list-inline">
+                <li>ユーザーの削除はレビュー数が0の時のみ可能です。間違えて作成してしまった場合にご利用ください。</li>
+            </ul>
     </article>
 @endsection

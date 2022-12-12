@@ -10,8 +10,8 @@
 <script>
     export default {
         props:{
-            propsName: {
-                type: String,
+            propsId: {
+                type: Number,
                 required: true,
             },
             defaultLikedUserCount: {

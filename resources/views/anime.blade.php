@@ -184,7 +184,9 @@
                             </tr>
                             @foreach ($like_users as $like_user)
                                 <tr>
-                                    <td>{{ $like_user->name }}</td>
+                                    <td><a
+                                            href="{{ route('user.show', ['user_id' => $like_user->id]) }}">{{ $like_user->name }}</a>
+                                    </td>
                                     <td>{{ $like_user->userReview->score }}</td>
                                     <td>{{ is_null($like_user->one_word_comment) ? '' : 'あり' }}</td>
                                 </tr>
