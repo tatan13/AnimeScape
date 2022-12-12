@@ -77,6 +77,7 @@ class CreaterRepository extends AbstractRepository
             return Creater::withAnimesWithCompaniesAndWithMyReviewsLatestLimit()->paginate(50);
         }
         return Creater::where(Creater::SEARCH_COLUMN, 'like', "%$search_word%")
+        ->orWhere('furigana', 'like', "%$search_word%")
         ->withAnimesWithCompaniesAndWithMyReviewsLatestLimit()->paginate(50);
     }
 
