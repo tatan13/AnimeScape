@@ -763,13 +763,13 @@ class ModifyService
      */
     public function sendMailWhenModifyRequest()
     {
-        if (env('APP_ENV') == 'production' && Gate::denies('isAdmin')) {
-            $data = [];
+        // if (env('APP_ENV') == 'production' && Gate::denies('isAdmin')) {
+        //     $data = [];
 
-            Mail::send('emails.modify_email', $data, function ($message) {
-                $message->to(config('mail.from.address'), config('app.name'))
-                ->subject('変更申請');
-            });
-        }
+        //     Mail::send('emails.modify_email', $data, function ($message) {
+        //         $message->to(config('mail.from.address'), config('app.name'))
+        //         ->subject('変更申請');
+        //     });
+        // }
     }
 }
