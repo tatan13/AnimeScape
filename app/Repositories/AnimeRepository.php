@@ -268,11 +268,13 @@ class AnimeRepository extends AbstractRepository
      * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getLatestNowWatchAnimeListWithCompaniesOf(User $user, Request $request)
+    public function getLatestNowWatchAnimeList(User $user, Request $request)
     {
         return Anime::whereYear($request->year)->whereCoor($request->coor)
         ->whereHas('userReview', function ($query) use ($user) {
             $query->where('user_id', $user->id)->where('now_watch', 1);
+        })->with('userReview', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
         })->sortable()->latestYearCoorMedian()->withCompanies()->get();
     }
 
@@ -283,11 +285,13 @@ class AnimeRepository extends AbstractRepository
      * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getLatestGiveUpAnimeListWithCompaniesOf(User $user, Request $request)
+    public function getLatestGiveUpAnimeList(User $user, Request $request)
     {
         return Anime::whereYear($request->year)->whereCoor($request->coor)
         ->whereHas('userReview', function ($query) use ($user) {
             $query->where('user_id', $user->id)->where('give_up', 1);
+        })->with('userReview', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
         })->sortable()->latestYearCoorMedian()->withCompanies()->get();
     }
 

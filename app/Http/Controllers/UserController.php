@@ -237,7 +237,7 @@ class UserController extends Controller
     public function showNowWatchAnimeList($user_id, Request $request)
     {
         $user = $this->userService->getUserById($user_id);
-        $now_watch_anime_list = $this->animeService->getLatestNowWatchAnimeListWithCompaniesOf($user, $request);
+        $now_watch_anime_list = $this->animeService->getLatestNowWatchAnimeList($user, $request);
         return view('now_watch_anime_list', [
             'user' => $user,
             'now_watch_anime_list' => $now_watch_anime_list,
@@ -256,7 +256,7 @@ class UserController extends Controller
     public function showGiveUpAnimeList($user_id, Request $request)
     {
         $user = $this->userService->getUserById($user_id);
-        $give_up_anime_list = $this->animeService->getLatestGiveUpAnimeListWithCompaniesOf($user, $request);
+        $give_up_anime_list = $this->animeService->getLatestGiveUpAnimeList($user, $request);
         return view('give_up_anime_list', [
             'user' => $user,
             'give_up_anime_list' => $give_up_anime_list,
