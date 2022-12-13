@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Tag;
 use App\Models\Anime;
-use App\Http\Requests\TagReviewRequest;
+use App\Http\Requests\AnimeTagReviewRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -21,19 +21,55 @@ class TagRepository extends AbstractRepository
     }
 
     /**
-     * 名前からタグを取得
+     * タグをnameによって取得
+     *
+     * @param string $tag_name
+     * @return Tag
+     */
+    public function getByName($tag_name)
+    {
+        return Tag::where('name', $tag_name)->firstOrFail();
+    }
+
+    /**
+     * タグをtag_idによって取得
+     *
+     * @param int $tag_id
+     * @return Tag | null
+     */
+    public function getByIdAllowNull($tag_id)
+    {
+        return Tag::find($tag_id);
+    }
+
+    /**
+     * タグをnameによって取得
      *
      * @param string $tag_name
      * @return Tag | null
      */
-    public function getByName($tag_name)
+    public function getByNameAllowNull($tag_name)
     {
         return Tag::where('name', $tag_name)->first();
     }
 
     /**
+     * タグをIdによってログインユーザーのタグレビューとともに取得
+     *
+     * @param int $tag_id
+     * @return Tag
+     */
+    public function getTagWithMyTagReviewWithAnime($tag_id)
+    {
+        return Tag::where('id', $tag_id)->with('tagReviews', function ($query) {
+            $query->where('user_id', Auth::id())->with('anime');
+        })->firstOrFail();
+    }
+
+    /**
      * タグをアニメによってタグレビューとユーザーとともに取得
      *
+     * @param Anime $anime
      * @return Collection<int,Tag>
      */
     public function getTagsByAnimeWithTagReviewsAndUser($anime)
@@ -83,16 +119,5 @@ class TagRepository extends AbstractRepository
     public function isContainMyTagReviews(Anime $anime, Tag $tag)
     {
         return $tag->tagReviews()->where('anime_id', $anime->id)->where('user_id', Auth::user()->id)->exists();
-    }
-
-    /**
-     * tag_nameからタグIDをapiのために取得
-     *
-     * @param string $tag_name
-     * @return Tag | null
-     */
-    public function getIdForApiByName($tag_name)
-    {
-        return Tag::where('name', $tag_name)->first();
     }
 }

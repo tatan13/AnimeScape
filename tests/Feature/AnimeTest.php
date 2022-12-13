@@ -261,7 +261,7 @@ class AnimeTest extends TestCase
      */
     public function testGuestAnimeTagReviewView()
     {
-        $response = $this->get(route('tag_review.show', ['anime_id' => $this->anime->id]));
+        $response = $this->get(route('anime_tag_review.show', ['anime_id' => $this->anime->id]));
         $response->assertRedirect(route('login'));
     }
 
@@ -274,7 +274,7 @@ class AnimeTest extends TestCase
     public function testUser4LoginTagReviewView()
     {
         $this->actingAs($this->user4);
-        $response = $this->get(route('tag_review.show', ['anime_id' => $this->anime->id]));
+        $response = $this->get(route('anime_tag_review.show', ['anime_id' => $this->anime->id]));
         $response->assertStatus(200);
     }
 
@@ -287,7 +287,7 @@ class AnimeTest extends TestCase
     public function testUser4LoginNotExistTagReviewView()
     {
         $this->actingAs($this->user4);
-        $response = $this->get(route('tag_review.show', ['anime_id' => 333333333333333333333]));
+        $response = $this->get(route('anime_tag_review.show', ['anime_id' => 333333333333333333333]));
         $response->assertStatus(404);
     }
 
@@ -300,7 +300,7 @@ class AnimeTest extends TestCase
     public function testUser1TagReviewNoChangePost()
     {
         $this->actingAs($this->user4);
-        $response = $this->post(route('tag_review.post', ['anime_id' => $this->anime->id,
+        $response = $this->post(route('anime_tag_review.post', ['anime_id' => $this->anime->id,
             'tag_review_id[1]' => 1,
             'modify_type[1]' => 'no_change',
             'name[1]' => $this->tag->name,
@@ -327,7 +327,7 @@ class AnimeTest extends TestCase
     public function testUser4TagReviewDeletePost()
     {
         $this->actingAs($this->user4);
-        $response = $this->post(route('tag_review.post', ['anime_id' => $this->anime->id,
+        $response = $this->post(route('anime_tag_review.post', ['anime_id' => $this->anime->id,
             'tag_review_id[1]' => 1,
             'modify_type[1]' => 'delete',
             'name[1]' => $this->tag->name,
@@ -354,7 +354,7 @@ class AnimeTest extends TestCase
     public function testUser4TagReviewChangePost()
     {
         $this->actingAs($this->user4);
-        $response = $this->post(route('tag_review.post', [
+        $response = $this->post(route('anime_tag_review.post', [
             'anime_id' => $this->anime->id,
             'tag_review_id[1]' => 1,
             'modify_type[1]' => 'change',
@@ -382,7 +382,7 @@ class AnimeTest extends TestCase
     public function testUser4TagReviewAddTagCreatePost()
     {
         $this->actingAs($this->user4);
-        $response = $this->post(route('tag_review.post', [
+        $response = $this->post(route('anime_tag_review.post', [
             'anime_id' => $this->anime->id,
             'tag_review_id[1]' => 1,
             'modify_type[1]' => 'no_change',
@@ -420,7 +420,7 @@ class AnimeTest extends TestCase
     public function testUser4TagReviewAddTagNoCreatePost()
     {
         $this->actingAs($this->user4);
-        $response = $this->post(route('tag_review.post', [
+        $response = $this->post(route('anime_tag_review.post', [
             'anime_id' => $this->anime->id,
             'tag_review_id[1]' => 1,
             'modify_type[1]' => 'no_change',
@@ -453,7 +453,7 @@ class AnimeTest extends TestCase
     public function testUser4ExistTagReviewAddTagPost()
     {
         $this->actingAs($this->user4);
-        $response = $this->post(route('tag_review.post', [
+        $response = $this->post(route('anime_tag_review.post', [
             'anime_id' => $this->anime->id,
             'tag_review_id[1]' => 1,
             'modify_type[1]' => 'no_change',
@@ -486,7 +486,7 @@ class AnimeTest extends TestCase
     public function testUser4NotExistTagReviewPost()
     {
         $this->actingAs($this->user4);
-        $response = $this->post(route('tag_review.post', [
+        $response = $this->post(route('anime_tag_review.post', [
             'anime_id' => 333333333333333333333,
             'tag_review_id[1]' => 1,
             'modify_type[1]' => 'no_change',
@@ -1041,5 +1041,17 @@ class AnimeTest extends TestCase
             $this->user1->name,
             $this->user3->name,
         ]);
+    }
+
+    /**
+     * アニメリストの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAnimeListView()
+    {
+        $response = $this->get(route('anime_list.show'));
+        $response->assertStatus(200);
     }
 }

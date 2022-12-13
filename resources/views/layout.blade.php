@@ -49,7 +49,8 @@
                             <a href="javascript:logout.submit()" class="btn btn-primary">ログアウト</a>
                         </form>
                     @else
-                        <a href="{{ route('provider.redirect', ['provider' => 'twitter']) }}"><img src="twitter_icon.png" alt="Twitterログイン"></a>
+                        <a href="{{ route('provider.redirect', ['provider' => 'twitter']) }}"><img
+                                src="twitter_icon.png" alt="Twitterログイン"></a>
                     @endif
                 </div>
             </div>
@@ -128,6 +129,9 @@
                         <li>
                             <a href="{{ route('anime_statistics.show') }}">ランキング</a>
                         </li>
+                        <li>
+                            <a href="{{ route('tag_list.show') }}">タグリスト</a>
+                        </li>
                     </ul>
                 </nav>
                 <nav class="modify_menu">
@@ -172,11 +176,12 @@
                 <li class="border"><a href="{{ route('user.show', ['user_id' => auth()->user()->id]) }}"
                         class="footer_link">マイページ</a>
                 </li>
-                <li class="border">                                <a
-                    href="{{ route('anime_review_list.show', [
-                        'year' => \App\Models\Anime::NOW_YEAR,
-                        'coor' => \App\Models\Anime::NOW_COOR,
-                    ]) }} " class="footer_link">得点一括入力</a>
+                <li class="border"> <a
+                        href="{{ route('anime_review_list.show', [
+                            'year' => \App\Models\Anime::NOW_YEAR,
+                            'coor' => \App\Models\Anime::NOW_COOR,
+                        ]) }} "
+                        class="footer_link">得点一括入力</a>
                 </li>
             @else
                 <li class="border"><a href="{{ route('login') }}" class="footer_link">ログイン</a></li>

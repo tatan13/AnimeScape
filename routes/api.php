@@ -24,4 +24,10 @@ Route::get('/cast/{cast_id}', [App\Http\Controllers\CastController::class, 'getC
 
 Route::get('/creater/{creater_id}', [App\Http\Controllers\CreaterController::class, 'getCreaterNameById']);
 
-Route::get('/tag/{tag_name}', [App\Http\Controllers\TagController::class, 'getTagIdByName']);
+Route::get('/tag/name/{tag_name}', [App\Http\Controllers\TagController::class, 'getTagIdByNameForApi']);
+
+Route::get('/tag/id/{tag_id}', [App\Http\Controllers\TagController::class, 'getTagNameByIdForApi']);
+
+Route::get('/anime/title/{anime_title}', [App\Http\Controllers\AnimeController::class, 'getAnimeIdByTitleForApi']);
+
+Route::get('/anime/id/{anime_id}', [App\Http\Controllers\AnimeController::class, 'getAnimeTitleByIdForApi']);
