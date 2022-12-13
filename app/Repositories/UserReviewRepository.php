@@ -80,4 +80,15 @@ class UserReviewRepository extends AbstractRepository
     {
         return UserReview::whereNotNull('one_word_comment')->with(['anime', 'user'])->findOrFail($user_review_id);
     }
+
+    /**
+     *　アニメ視聴完了前感想表示のために取得
+     *
+     * @param int $user_review_id
+     * @return UserReview
+     */
+    public function getForAnimeBeforeComment($user_review_id)
+    {
+        return UserReview::whereNotNull('before_long_comment')->with(['anime', 'user'])->findOrFail($user_review_id);
+    }
 }

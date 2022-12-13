@@ -30,6 +30,7 @@
                             <th>視聴予定</th>
                             <th>視聴中</th>
                             <th>視聴リタイア</th>
+                            <th>視聴話数</th>
                             <th>面白さがわかる話数</th>
                         </tr>
                         <tr>
@@ -70,6 +71,10 @@
                                     {{ $anime->userReview->give_up ?? false == true ? 'checked' : '' }}>
                             </td>
                             <td>
+                                <input type="number" name="number_of_watched_episode" class="number_of_watched_episode"
+                                    value="{{ $anime->userReview->number_of_watched_episode ?? '' }}">
+                            </td>
+                            <td>
                                 <input type="number" name="number_of_interesting_episode"
                                     class="number_of_interesting_episode"
                                     value="{{ $anime->userReview->number_of_interesting_episode ?? '' }}">
@@ -85,7 +90,7 @@
             <hr>
             <label for="long_word_comment">長文感想（文字数制限なし）</label><br>
             <textarea name="long_word_comment" class="long_word_comment" rows="3" cols="100">{{ $anime->userReview->long_word_comment ?? '' }}</textarea><br>
-            <label for="netabare_check">ネタバレ？:</label>
+            <label for="spoiler">ネタバレ？:</label>
             <input type="hidden" name="spoiler" class="spoiler" value="0">
             <input type="checkbox" name="spoiler" class="spoiler" value="1" class="spoiler"
                 {{ $anime->userReview->spoiler ?? false == true ? 'checked' : '' }}><br>
@@ -98,6 +103,12 @@
             <label for="before_comment">視聴完了前一言感想（400文字以内、ネタバレなし）</label><br>
             <input type="text" name="before_comment" class="before_comment" style="width: 100%;"
                 value="{{ $anime->userReview->before_comment ?? '' }}">
+            <label for="before_long_comment">視聴完了前長文感想（文字数制限なし）</label><br>
+            <textarea name="before_long_comment" class="before_long_comment" rows="3" cols="100">{{ $anime->userReview->before_long_comment ?? '' }}</textarea><br>
+            <label for="before_comment_spoiler">ネタバレ？:</label>
+            <input type="hidden" name="before_comment_spoiler" class="spoiler" value="0">
+            <input type="checkbox" name="before_comment_spoiler" class="spoiler" value="1" class="spoiler"
+                {{ $anime->userReview->before_comment_spoiler ?? false == true ? 'checked' : '' }}><br>
         </form>
         <h2>注意事項</h2>
         <ul class="list-inline">

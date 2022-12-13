@@ -149,7 +149,8 @@ class UserReviewService
              ? Carbon::now() : $my_review->comment_timestamp ?? null,
             'before_score_timestamp' => (($my_review->before_score ?? null) != $submit_review->before_score)
              ? Carbon::now() : $my_review->before_score_timestamp ?? null,
-            'before_comment_timestamp' => (($my_review->before_comment ?? null) != $submit_review->before_comment)
+            'before_comment_timestamp' => ((($my_review->before_comment ?? null) != $submit_review->before_comment) ||
+            (($my_review->before_long_comment ?? null) != $submit_review->before_long_comment))
              ? Carbon::now() : $my_review->before_comment_timestamp ?? null,
         ]);
         DB::transaction(function () use ($anime, $my_review, $update_review) {
@@ -179,7 +180,8 @@ class UserReviewService
                 !is_null($submit_reviews->number_of_interesting_episode[$key]) ||
                 !is_null($submit_reviews->one_word_comment[$key]) ||
                 !is_null($submit_reviews->score[$key]) ||
-                !is_null($submit_reviews->before_comment[$key])
+                !is_null($submit_reviews->before_comment[$key]) ||
+                !is_null($submit_reviews->number_of_watched_episode[$key])
             ) {
                 if (is_null($anime->userReview)) {
                     DB::transaction(function () use ($anime, $submit_reviews, $key) {
@@ -291,7 +293,7 @@ class UserReviewService
     }
 
     /**
-     * ユーザーのアニメのユーザーレビューをアニメ、ユーザーとともに取得
+     * ユーザーのアニメのユーザーレビューをアニメ感想表示のために取得
      *
      * @param int $user_review_id
      * @return UserReview
@@ -299,5 +301,16 @@ class UserReviewService
     public function getUserReviewWithAnimeAndUserNotNullOneWordComment($user_review_id)
     {
         return $this->userReviewRepository->getUserReviewWithAnimeAndUserNotNullOneWordComment($user_review_id);
+    }
+
+    /**
+     * ユーザーのアニメのユーザーレビューをアニメ視聴完了前感想表示のために取得
+     *
+     * @param int $user_review_id
+     * @return UserReview
+     */
+    public function getUserReviewForAnimeBeforeComment($user_review_id)
+    {
+        return $this->userReviewRepository->getForAnimeBeforeComment($user_review_id);
     }
 }

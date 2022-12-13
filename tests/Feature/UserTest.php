@@ -89,6 +89,7 @@ class UserTest extends TestCase
             'give_up' => true,
             'before_score' => 100,
             'before_comment' => 'excellent',
+            'before_long_comment' => 'before_long_comment_exellent',
         ]);
         $this->anime2->reviewUsers()->attach($this->user1->id, [
             'score' => 99,
@@ -983,6 +984,38 @@ class UserTest extends TestCase
     public function testNotExistUserAnimeCommentView()
     {
         $response = $this->get(route('user_anime_comment.show', ['user_review_id' => 3333333333333]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ユーザーの視聴完了前アニメコメントを表示
+     *
+     * @test
+     * @return void
+     */
+    public function testUserAnimeBeforeCommentView()
+    {
+        $response = $this->get(route('user_anime_before_comment.show', ['user_review_id' => 1]));
+        $response->assertStatus(200);
+        $user_review = $this->user1->userReviews()->where('anime_id', $this->anime1->id)->first();
+        $response->assertSeeInOrder([
+            $this->user1->name,
+            $this->anime1->title,
+            $user_review->before_score,
+            $user_review->before_comment,
+            $user_review->before_long_comment,
+        ]);
+    }
+
+    /**
+     * 存在しないユーザーの視聴完了前アニメコメントを表示
+     *
+     * @test
+     * @return void
+     */
+    public function testNotExistUserAnimeBeforeCommentView()
+    {
+        $response = $this->get(route('user_anime_before_comment.show', ['user_review_id' => 3333333333333]));
         $response->assertStatus(404);
     }
 

@@ -3,7 +3,6 @@
 @section('title')
     <title>{{ $user_information->name }}さんの情報 AnimeScape -アニメ批評空間-</title>
     <link rel="canonical" href="https://www.animescape.link/{{ $user_information->id }}">
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 @endsection
 
 @section('adsense')
@@ -21,6 +20,10 @@
         @include('layout.horizontal_adsense_smartphone')
     @endsection
 @endif
+
+@section('tweet_button')
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+@endsection
 
 @section('main')
     <div id="app">

@@ -46,6 +46,7 @@
                         <th>@sortablelink('average', '平均値')</th>
                         <th>@sortablelink('stdev', '標準偏差')</th>
                         <th>@sortablelink('count', '得点数')</th>
+                        <th>視聴話数</th>
                     </tr>
                     @foreach ($give_up_anime_list as $give_up_anime)
                         <tr>
@@ -66,6 +67,7 @@
                             <td>{{ $give_up_anime->average }}</td>
                             <td>{{ $give_up_anime->stdev }}</td>
                             <td>{{ $give_up_anime->count }}</td>
+                            <td>{{ $give_up_anime->number_of_watched_episode }}</td>
                         </tr>
                     @endforeach
                 </tbody>
