@@ -1,15 +1,15 @@
 @extends('layout')
 
 @section('title')
-    <title>{{ $tag->name }}のアニメへの一括入力 AnimeScape -アニメ批評空間-</title>
+    <title>{{ $anime->title }}のタグ入力 AnimeScape -アニメ批評空間-</title>
     <meta name="robots" content="noindex,nofollow">
 @endsection
 
 @section('main')
     <div id="addForm">
         <article class="tag_review">
-            <h1>{{ $tag->name }}のアニメへの一括入力</h1>
-            <h2><a href="{{ route('tag.show', ['tag_id' => $tag->id]) }}">{{ $tag->name }}</a></h2>
+            <h1>{{ $anime->title }}のタグ入力</h1>
+            <h2><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a></h2>
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -19,7 +19,7 @@
                     </ul>
                 </div>
             @endif
-            <form action="{{ route('tag_review.post', ['tag_id' => $tag->id]) }}" class="tag_review_form" method="POST">
+            <form action="{{ route('anime_tag_review.post', ['anime_id' => $anime->id]) }}" class="tag_review_form" method="POST">
                 @csrf
                 <input type="submit" value="送信">
                 <div class="table-responsive">
@@ -27,12 +27,13 @@
                         <tbody>
                             <tr>
                                 <th>種別</th>
-                                <th>アニメID</th>
-                                <th>アニメ名</th>
+                                <th>タグ名（30文字以内）</th>
+                                <th>タグID</th>
+                                <th>タググループ</th>
                                 <th>合致度（0~100）</th>
                                 <th>コメント（400文字以内）</th>
                             </tr>
-                            @foreach ($tag->tagReviews as $tag_review)
+                            @foreach ($anime->tagReviews as $tag_review)
                                 <tr>
                                     <input type="hidden" name="tag_review_id[{{ $loop->iteration }}]"
                                         value="{{ $tag_review->id }}">
@@ -46,12 +47,13 @@
                                             </option>
                                         </select>
                                     </td>
-                                    <input type="hidden" name="anime_id[{{ $loop->iteration }}]"
-                                        value="{{ $tag_review->anime->id }}">
+                                    <input type="hidden" name="name[{{ $loop->iteration }}]"
+                                        value="{{ $tag_review->tag->name }}">
+                                    <td>{{ $tag_review->tag->name }}</td>
                                     <td>
-                                        {{ $tag_review->anime->id }}
+                                        {{ $tag_review->tag->id }}
                                     </td>
-                                    <td>{{ $tag_review->anime->title }}</td>
+                                    <td>{{ $tag_review->tag->tag_group_id_label }}</td>
                                     <td>
                                         <input type="number" name="score[{{ $loop->iteration }}]" class="score"
                                             value="{{ $tag_review->score }}">
@@ -63,23 +65,51 @@
                             @endforeach
                             <tr v-for="(text,index) in texts">
                                 <td>
-                                    <select :name="'modify_type[' + (index + {{ $tag->tagReviews->count() }} + 1) + ']'">
+                                    <select :name="'modify_type[' + (index + {{ $anime->tagReviews->count() }} + 1) + ']'">
                                         <option value="add">追加
                                         </option>
                                         <option value="no_change">変更なし
                                         </option>
                                     </select>
                                 </td>
-                                <td> <input type="number" @change="getAnimeTitleById(index, $event)"
-                                        :name="'anime_id[' + (index + {{ $tag->tagReviews->count() }} + 1) + ']'"></td>
-                                <td>@{{ animeTitle[index] }}</td>
+                                <td>
+                                    <input type="text" size="14" @change="getTagIdByName(index, $event)"
+                                        :name="'name[' + (index + {{ $anime->tagReviews->count() }} + 1) + ']'">
+                                </td>
+                                <td>@{{ tag_id[index] }}</td>
+                                <td>
+                                    <select :name="'tag_group_id[' + (index + {{ $anime->tagReviews->count() }} + 1) + ']'"
+                                        class="tag_group_id">
+                                        <option value="{{ \App\Models\Tag::TYPE_GENRE }}">
+                                            ジャンル
+                                        </option>
+                                        <option value="{{ \App\Models\Tag::TYPE_CHARACTER }}">
+                                            キャラクター
+                                        </option>
+                                        <option value="{{ \App\Models\Tag::TYPE_STORY }}">
+                                            ストーリー
+                                        </option>
+                                        <option value="{{ \App\Models\Tag::TYPE_MUSIC }}">
+                                            音
+                                        </option>
+                                        <option value="{{ \App\Models\Tag::TYPE_PICTURE }}">
+                                            作画
+                                        </option>
+                                        <option value="{{ \App\Models\Tag::TYPE_CAST }}">
+                                            声優
+                                        </option>
+                                        <option value="{{ \App\Models\Tag::TYPE_OTHER }}">
+                                            その他
+                                        </option>
+                                    </select>
+                                </td>
                                 <td>
                                     <input type="number"
-                                        :name="'score[' + (index + {{ $tag->tagReviews->count() }} + 1) + ']'"
+                                        :name="'score[' + (index + {{ $anime->tagReviews->count() }} + 1) + ']'"
                                         class="score" value="">
                                 </td>
                                 <td><input type="text" size="26"
-                                        :name="'comment[' + (index + {{ $tag->tagReviews->count() }} + 1) + ']'"
+                                        :name="'comment[' + (index + {{ $anime->tagReviews->count() }} + 1) + ']'"
                                         class="comment" value="">
                                 </td>
                             </tr>
@@ -90,8 +120,8 @@
             </form>
             <h2>注意事項</h2>
             <ul class="list-inline">
-                <li><a href="{{ route('anime_list.show') }}">アニメリスト</a>からIDを探して入力してください。</li>
-                <li>アニメ名、合致度は空欄のまま送信すると結果が反映されません。</li>
+                <li>登録されていないタグはタグIDに"登録なし"と表示され、送信すると新規登録となります。<a href="{{ route('tag_list.show') }}">タグリスト</a>を確認していただき、表記揺れがないようにお願いします。</li>
+                <li>タグ名、合致度は空欄のまま送信すると結果が反映されません。必ずご入力ください。</li>
             </ul>
         </article>
     </div>
@@ -104,22 +134,22 @@
             data() {
                 return {
                     texts: [],
-                    animeTitle: [],
+                    tag_id: [],
                 };
             },
             methods: {
                 addInput() {
                     this.texts.push('');
-                    this.animeTitle.push('');
+                    this.tag_id.push('');
                 },
-                getAnimeTitleById(index, event) {
+                getTagIdByName(index, event) {
                     if (event.target.value == '') {
-                        this.animeTitle.splice(index, 1, '');
+                        this.tag_id.splice(index, 1, '');
                     } else {
-                        let url = `/api/anime/id/${event.target.value}`
+                        let url = `/api/tag/name/${event.target.value}`
                         axios.get(url)
                             .then(response => {
-                                this.animeTitle.splice(index, 1, response.data);
+                                this.tag_id.splice(index, 1, response.data);
                             })
                             .catch(error => {
                                 alert(error)

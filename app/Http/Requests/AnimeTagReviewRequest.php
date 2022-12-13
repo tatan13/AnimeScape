@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TagReviewRequest extends FormRequest
+class AnimeTagReviewRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,10 @@ class TagReviewRequest extends FormRequest
     public function rules()
     {
         return [
-            'anime_id.*' => 'integer|nullable',
+            'name.*' => 'string|nullable',
             'score.*' => 'integer|between:0,100|nullable',
             'comment.*' => 'max:400|string|nullable',
+            'tag_group_id.*' => 'required|integer'
         ];
     }
 
@@ -38,11 +39,13 @@ class TagReviewRequest extends FormRequest
     public function messages()
     {
         return [
-            'anime_id.*.integer' => 'アニメIDは自然数を入力してください。',
+            'name.*.string' => 'タグ名は文字列を入力してください。',
             'score.*.integer' => '得点は整数で入力してください。',
             'score.*.between' => '得点は0～100点で入力してください。',
             'comment.*.max' => 'コメントは400文字以下で入力してください。',
             'comment.*.string' => 'コメントは文字列を入力してください。',
+            'tag_group_id.*.required' => 'タググループの入力が不正です。',
+            'tag_group_id.*.integer' => 'タググループの入力が不正です。',
         ];
     }
 }

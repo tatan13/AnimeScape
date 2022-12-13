@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\TagReview;
+use App\Http\Requests\AnimeTagReviewRequest;
 use App\Http\Requests\TagReviewRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
@@ -41,7 +42,7 @@ class TagReviewRepository extends AbstractRepository
      * @param array $tag_review_request
      * @return void
      */
-    public function createByTagReviewRequest(array $tag_review_request)
+    public function createByAnimeTagReviewRequest(array $tag_review_request)
     {
         TagReview::create($tag_review_request);
     }

@@ -456,10 +456,10 @@
             <div class="toContents d-grid gap-2">
                 @if (Auth::check())
                     <button type="button" class="btn btn-primary"
-                        onclick="location.href='{{ route('tag_review.show', ['anime_id' => $anime->id]) }}'">タグ情報の登録をする</button>
+                        onclick="location.href='{{ route('anime_tag_review.show', ['anime_id' => $anime->id]) }}'">タグ情報の登録をする</button>
                 @else
                     <button type="button" class="btn btn-primary"
-                        onclick="location.href='{{ route('tag_review.show', ['anime_id' => $anime->id]) }}'">ログインしてタグ情報の登録をする</button>
+                        onclick="location.href='{{ route('anime_tag_review.show', ['anime_id' => $anime->id]) }}'">ログインしてタグ情報の登録をする</button>
                 @endif
             </div>
         </section>

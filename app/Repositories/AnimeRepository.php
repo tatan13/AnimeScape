@@ -31,6 +31,39 @@ class AnimeRepository extends AbstractRepository
     }
 
     /**
+     * アニメをanime_titleによって取得
+     *
+     * @param string $anime_title
+     * @return Anime
+     */
+    public function getByTitle($anime_title)
+    {
+        return Anime::where('title', $anime_title)->firstOrFail();
+    }
+
+    /**
+     * アニメをanime_idによって取得
+     *
+     * @param int $anime_id
+     * @return Anime | null
+     */
+    public function getByIdAllowNull($anime_id)
+    {
+        return Anime::find($anime_id);
+    }
+
+    /**
+     * アニメをanime_titleによって取得
+     *
+     * @param string $anime_title
+     * @return Anime | null
+     */
+    public function getByTitleAllowNull($anime_title)
+    {
+        return Anime::where('title', $anime_title)->first();
+    }
+
+    /**
      * アニメに紐づく得点の付いたユーザーレビューを取得
      *
      * @param int $anime_id

@@ -25,6 +25,8 @@ Route::get('/', [App\Http\Controllers\IndexController::class, 'show'])->name('in
 
 Route::get('/anime/{anime_id}', [App\Http\Controllers\AnimeController::class, 'show'])->name('anime.show');
 
+Route::get('/anime_list', [App\Http\Controllers\AnimeController::class, 'showList'])->name('anime_list.show');
+
 Route::get('/anime/{anime_id}/score_list', [App\Http\Controllers\AnimeController::class, 'showAnimeScoreList'])->name('anime_score_list.show');
 
 Route::get('/anime/{anime_id}/before_score_list', [App\Http\Controllers\AnimeController::class, 'showAnimeBeforeScoreList'])->name('anime_before_score_list.show');
@@ -176,13 +178,17 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/anime/{anime_id}/review', [App\Http\Controllers\AnimeController::class, 'postAnimeReview'])->name('anime_review.post');
 
-    Route::get('/anime/{anime_id}/tag_review', [App\Http\Controllers\AnimeController::class, 'showTagReview'])->name('tag_review.show');
+    Route::get('/anime/{anime_id}/tag_review', [App\Http\Controllers\AnimeController::class, 'showAnimeTagReview'])->name('anime_tag_review.show');
 
-    Route::post('/anime/{anime_id}/tag_review', [App\Http\Controllers\AnimeController::class, 'postTagReview'])->name('tag_review.post');
-
+    Route::post('/anime/{anime_id}/tag_review', [App\Http\Controllers\AnimeController::class, 'postAnimeTagReview'])->name('anime_tag_review.post');
+    
     Route::get('/anime_review_list', [App\Http\Controllers\AnimeController::class, 'showAnimeReviewList'])->name('anime_review_list.show');
-
+    
     Route::post('/anime_review_list', [App\Http\Controllers\AnimeController::class, 'postAnimeReviewList'])->name('anime_review_list.post');
+
+    Route::get('/tag/{tag_id}/review', [App\Http\Controllers\TagController::class, 'showTagReview'])->name('tag_review.show');
+    
+    Route::post('/tag/{tag_id}/review', [App\Http\Controllers\TagController::class, 'postTagReview'])->name('tag_review.post');
 });
 
 Route::group(['middleware' => 'admin_auth'], function () {

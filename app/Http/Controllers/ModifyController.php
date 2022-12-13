@@ -180,7 +180,7 @@ class ModifyController extends Controller
      */
     public function showDeleteAnimeRequest($anime_id)
     {
-        $anime = $this->animeService->getAnime($anime_id);
+        $anime = $this->animeService->getAnimeById($anime_id);
         return view('delete_anime_request', [
             'anime' => $anime,
         ]);

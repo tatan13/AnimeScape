@@ -3,19 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\TagReviewRequest;
 use App\Services\TagService;
+use App\Services\TagReviewService;
 use App\Services\AnimeService;
 
 class TagController extends Controller
 {
     private TagService $tagService;
+    private TagReviewService $tagReviewService;
     private AnimeService $animeService;
 
     public function __construct(
         TagService $tagService,
+        TagReviewService $tagReviewService,
         AnimeService $animeService,
     ) {
         $this->tagService = $tagService;
+        $this->tagReviewService = $tagReviewService;
         $this->animeService = $animeService;
     }
 
@@ -48,14 +53,54 @@ class TagController extends Controller
     }
 
     /**
-     * タグを取得し、REST API形式で出力
+     * タグをアニメに一括入力するページを表示
+     *
+     * @param int $tag_id
+     * @return \Illuminate\View\View
+     */
+    public function showTagReview($tag_id)
+    {
+        $tag = $this->tagService->getTagWithMyTagReviewWithAnime($tag_id);
+        return view('tag_review', [
+            'tag' => $tag,
+        ]);
+    }
+
+    /**
+     * タグのアニメへの一括入力を処理し，タグページにリダイレクト
+     *
+     * @param int $tag_id
+     * @param TagReviewRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postTagReview($tag_id, TagReviewRequest $request)
+    {
+        $tag = $this->tagService->getTagById($tag_id);
+        $this->tagReviewService->createOrUpdateMyTagReview($tag, $request);
+        return redirect()->route('tag.show', [
+            'tag_id' => $tag_id,
+        ])->with('flash_message', '入力が完了しました。');
+    }
+
+    /**
+     * タグIDを名前によって取得し、REST API形式で出力
      *
      * @param string $tag_name
-     * @return int
+     * @return int | string
      */
-    public function getTagIdByName($tag_name)
+    public function getTagIdByNameForApi($tag_name)
     {
-        $tag_name = $this->tagService->getTagIdForApiByName($tag_name);
-        return $tag_name;
+        return $this->tagService->getTagByNameAllowNull($tag_name)->id ?? '登録なし';
+    }
+
+    /**
+     * タグ名をタグIDによって取得し、REST API形式で出力
+     *
+     * @param int $tag_id
+     * @return string
+     */
+    public function getTagNameByIdForApi($tag_id)
+    {
+        return $this->tagService->getTagByIdAllowNull($tag_id)->name ?? '登録なし';
     }
 }

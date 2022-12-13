@@ -265,7 +265,7 @@
                                         href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
                                 </td>
                                 <td>{{ $company->animes_count }}</td>
-                                <td>{{ $company->animes->average('userReview.score') }}</td>
+                                <td>{{ (int) $company->animes->average('userReview.score') }}</td>
                                 <td>
                                     <ul class="list-inline d-inline">
                                         @foreach ($company->animes->sortByDesc('userReview.score') as $anime)
@@ -326,7 +326,7 @@
                                 <td><a href="{{ route('cast.show', ['cast_id' => $cast->id]) }}">{{ $cast->name }}</a>
                                 </td>
                                 <td>{{ $cast->act_animes_count }}</td>
-                                <td>{{ $cast->actAnimes->average('userReview.score') }}</td>
+                                <td>{{ (int) $cast->actAnimes->average('userReview.score') }}</td>
                                 <td>
                                     <ul class="list-inline d-inline">
                                         @foreach ($cast->actAnimes->sortByDesc('userReview.score') as $anime)

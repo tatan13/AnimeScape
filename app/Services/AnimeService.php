@@ -44,9 +44,42 @@ class AnimeService
      * @param int $anime_id
      * @return Anime
      */
-    public function getAnime($anime_id)
+    public function getAnimeById($anime_id)
     {
         return $this->animeRepository->getById($anime_id);
+    }
+
+    /**
+     * anime_titleからアニメIDを取得
+     *
+     * @param string $anime_title
+     * @return Anime
+     */
+    public function getAnimeByTitle($anime_title)
+    {
+        return $this->animeRepository->getByTitle($anime_title);
+    }
+
+    /**
+     * anime_idからアニメをに取得
+     *
+     * @param int $anime_id
+     * @return Anime | null
+     */
+    public function getAnimeByIdAllowNull($anime_id)
+    {
+        return $this->animeRepository->getByIdAllowNull($anime_id);
+    }
+
+    /**
+     * anime_titleからアニメIDを取得
+     *
+     * @param string $anime_title
+     * @return Anime | null
+     */
+    public function getAnimeByTitleAllowNull($anime_title)
+    {
+        return $this->animeRepository->getByTitleAllowNull($anime_title);
     }
 
     /**
@@ -358,5 +391,15 @@ class AnimeService
     public function getAllAnimeListByJson()
     {
         return $this->animeRepository->getAll()->toJson(JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * すべてのアニメを取得
+     *
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getAnimeAll()
+    {
+        return $this->animeRepository->getAll();
     }
 }
