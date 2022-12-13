@@ -67,7 +67,7 @@
                             <td>{{ $now_watch_anime->average }}</td>
                             <td>{{ $now_watch_anime->stdev }}</td>
                             <td>{{ $now_watch_anime->count }}</td>
-                            <td>{{ $now_watch_anime->number_of_watched_episode }}</td>
+                            <td>{{ $now_watch_anime->userReview->number_of_watched_episode }}</td>
                         </tr>
                     @endforeach
                 </tbody>

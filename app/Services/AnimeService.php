@@ -292,9 +292,9 @@ class AnimeService
      * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getLatestNowWatchAnimeListWithCompaniesOf(User $user, Request $request)
+    public function getLatestNowWatchAnimeList(User $user, Request $request)
     {
-        return $this->animeRepository->getLatestNowWatchAnimeListWithCompaniesOf($user, $request);
+        return $this->animeRepository->getLatestNowWatchAnimeList($user, $request);
     }
 
     /**
@@ -304,9 +304,9 @@ class AnimeService
      * @param Request $request
      * @return Collection<int,Anime> | Collection<null>
      */
-    public function getLatestGiveUpAnimeListWithCompaniesOf(User $user, Request $request)
+    public function getLatestGiveUpAnimeList(User $user, Request $request)
     {
-        return $this->animeRepository->getLatestGiveUpAnimeListWithCompaniesOf($user, $request);
+        return $this->animeRepository->getLatestGiveUpAnimeList($user, $request);
     }
 
 
