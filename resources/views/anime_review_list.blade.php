@@ -81,6 +81,7 @@
                                 <th>視聴予定</th>
                                 <th>視聴中</th>
                                 <th>視聴リタイア</th>
+                                <th>視聴話数</th>
                                 <th>面白さがわかる話数</th>
                                 <th>一言感想</th>
                                 <th>視聴完了前得点</th>
@@ -128,6 +129,10 @@
                                             value="1"
                                             {{ $anime->userReview->give_up ?? false == true ? 'checked' : '' }}>
                                     </td>
+                                    <td><input type="number"
+                                            name="number_of_watched_episode[{{ $loop->iteration }}]"
+                                            class="number_of_watched_episode"
+                                            value="{{ $anime->userReview->number_of_watched_episode ?? '' }}"></td>
                                     <td><input type="number"
                                             name="number_of_interesting_episode[{{ $loop->iteration }}]"
                                             class="number_of_interesting_episode"

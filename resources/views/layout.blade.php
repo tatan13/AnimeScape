@@ -35,6 +35,7 @@
         </script>
         @yield('adsense')
     @endif
+    @yield('tweet_button')
 </head>
 
 <body>

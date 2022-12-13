@@ -31,13 +31,21 @@
                     @else
                         <div class="comment_odd">
                 @endif
-                @if (!is_null($user_review->before_score))
-                    <strong>{{ $user_review->before_score }}点</strong>
+                @if (!is_null($user_review->beforescore))
+                    <strong>{{ $user_review->beforescore }}点</strong>
                 @endif
                 <a
                     href="{{ route('anime.show', ['anime_id' => $user_review->anime->id]) }}">{{ $user_review->anime->title }}</a>
                 <br>
-                {{ $user_review->before_comment }}<br>
+                {{ $user_review->before_comment }}
+                @if (!is_null($user_review->before_long_comment))
+                    <a href="{{ route('user_anime_before_comment.show', ['user_review_id' => $user_review->id]) }}">→長文感想({{ mb_strlen($user_review->before_long_comment) }}文字)
+                        @if ($user_review->before_comment_spoiler == true)
+                            (ネタバレ注意)
+                        @endif
+                    </a>
+                @endif
+                <br>
                 {{ $user_review->before_comment_timestamp }} <a
                     href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a>
                 </div>

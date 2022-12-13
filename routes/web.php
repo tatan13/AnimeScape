@@ -33,6 +33,8 @@ Route::get('/anime/{anime_id}/before_score_list', [App\Http\Controllers\AnimeCon
 
 Route::get('/user_anime_comment/{user_review_id}', [App\Http\Controllers\UserController::class, 'showUserAnimeComment'])->name('user_anime_comment.show');
 
+Route::get('/user_anime_before_comment/{user_review_id}', [App\Http\Controllers\UserController::class, 'showUserAnimeBeforeComment'])->name('user_anime_before_comment.show');
+
 Route::get('/anime/{anime_id}/delete_request', [App\Http\Controllers\ModifyController::class, 'showDeleteAnimeRequest'])->name('delete_anime_request.show');
 
 Route::post('/anime/{anime_id}/delete_request', [App\Http\Controllers\ModifyController::class, 'postDeleteAnimeRequest'])->name('delete_anime_request.post');

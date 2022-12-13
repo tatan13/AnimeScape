@@ -25,8 +25,7 @@
                 href="{{ route('site_information.show') }}">このサイトについて</a>を一読ください。
             <h2>お知らせ</h2>
             <ul class="list-inline">
-                <li>タグページからタグをアニメに一括で括り付けられる機能を追加しました</li>
-                <li>現在は話数毎の視聴管理機能の実装を進めています。</li>
+                <li>ユーザーのアニメレビューに視聴話数欄、視聴完了前長文感想欄を追加しました。視聴話数はユーザーの視聴中アニメリスト、視聴リタイアしたアニメリストに表示されるようになります。</li>
             </ul>
         </section>
         <section class="anime_ranking">
@@ -89,7 +88,15 @@
                 <a
                     href="{{ route('anime.show', ['anime_id' => $user_review->anime->id]) }}">{{ $user_review->anime->title }}</a>
                 <br>
-                {{ $user_review->before_comment }}<br>
+                {{ $user_review->before_comment }}
+                @if (!is_null($user_review->before_long_comment))
+                    <a href="{{ route('user_anime_before_comment.show', ['user_review_id' => $user_review->id]) }}">→長文感想({{ mb_strlen($user_review->before_long_comment) }}文字)
+                        @if ($user_review->before_comment_spoiler == true)
+                            (ネタバレ注意)
+                        @endif
+                    </a>
+                @endif
+                <br>
                 {{ $user_review->before_comment_timestamp }} <a
                     href="{{ route('user.show', ['user_id' => $user_review->user->id]) }}">{{ $user_review->user->name }}</a>
                 </div>

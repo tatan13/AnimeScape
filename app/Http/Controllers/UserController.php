@@ -475,6 +475,19 @@ class UserController extends Controller
     }
 
     /**
+     * ユーザーのアニメの視聴完了前コメントを表示
+     * @param int $user_review_id
+     * @return \Illuminate\View\View
+     */
+    public function showUserAnimeBeforeComment($user_review_id)
+    {
+        $user_review = $this->userReviewService->getUserReviewForAnimeBeforeComment($user_review_id);
+        return view('anime_before_comment', [
+            'user_review' => $user_review,
+        ]);
+    }
+
+    /**
      * 新着一言感想一覧を表示
      * @return \Illuminate\View\View
      */
