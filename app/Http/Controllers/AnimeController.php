@@ -114,15 +114,25 @@ class AnimeController extends Controller
     }
 
     /**
-     * アニメの一括得点入力ページを表示
+     * アニメのデータ一括入力のインデックスページを表示
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showAnimeBulkReviewIndex()
+    {
+        return view('anime_bulk_review_index');
+    }
+
+    /**
+     * クール毎のアニメの一括得点入力ページを表示
      *
      * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function showAnimeReviewList(Request $request)
+    public function showCoorAnimeBulkReview(Request $request)
     {
-        $anime_list = $this->animeService->getAnimeListWithCompaniesAndWithMyReviewsFor($request);
-        return view('anime_review_list', [
+        $anime_list = $this->animeService->getCoorAnimeListWithMyReviewsFor($request);
+        return view('coor_anime_bulk_review', [
             'anime_list' => $anime_list,
             'year' => $request->year,
             'coor' => $request->coor,
@@ -130,15 +140,170 @@ class AnimeController extends Controller
     }
 
     /**
-     * アニメの一括入力された得点を処理
+     * クール毎のアニメの一括入力された得点を処理
      *
      * @param ReviewsRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postAnimeReviewList(ReviewsRequest $request)
+    public function postCoorAnimeBulkReview(ReviewsRequest $request)
     {
         $this->userReviewService->createOrUpdateMyMultipleReview($request);
-        return redirect()->route('anime_review_list.show', [
+        return redirect()->route('coor_anime_bulk_review.show', [
+            'year' => $request->year,
+            'coor' => $request->coor,
+            ])->with('flash_message', '入力が完了しました。');
+    }
+
+    /**
+     * ログインユーザーの視聴中のアニメの一括得点入力ページを表示
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function showNowWatchAnimeBulkReview(Request $request)
+    {
+        $anime_list = $this->animeService->getNowWatchAnimeListWithMyReviewsFor($request);
+        return view('now_watch_anime_bulk_review', [
+            'anime_list' => $anime_list,
+            'year' => $request->year,
+            'coor' => $request->coor,
+        ]);
+    }
+
+    /**
+     * ログインユーザーの視聴中のアニメの一括入力された得点を処理
+     *
+     * @param ReviewsRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postNowWatchAnimeBulkReview(ReviewsRequest $request)
+    {
+        $this->userReviewService->createOrUpdateMyMultipleReview($request);
+        return redirect()->route('now_watch_anime_bulk_review.show', [
+            'year' => $request->year,
+            'coor' => $request->coor,
+            ])->with('flash_message', '入力が完了しました。');
+    }
+
+    /**
+     * ログインユーザーの得点入力済みのアニメの一括得点入力ページを表示
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function showScoreAnimeBulkReview(Request $request)
+    {
+        $anime_list = $this->animeService->getScoreAnimeListWithMyReviewsFor($request);
+        return view('score_anime_bulk_review', [
+            'anime_list' => $anime_list,
+            'year' => $request->year,
+            'coor' => $request->coor,
+        ]);
+    }
+
+    /**
+     * ログインユーザーの得点入力済みのアニメの一括入力された得点を処理
+     *
+     * @param ReviewsRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postScoreAnimeBulkReview(ReviewsRequest $request)
+    {
+        $this->userReviewService->createOrUpdateMyMultipleReview($request);
+        return redirect()->route('score_anime_bulk_review.show', [
+            'year' => $request->year,
+            'coor' => $request->coor,
+            ])->with('flash_message', '入力が完了しました。');
+    }
+
+    /**
+     * クール毎のアニメの視聴完了前一括得点入力ページを表示
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function showCoorAnimeBulkBeforeReview(Request $request)
+    {
+        $anime_list = $this->animeService->getCoorAnimeListWithMyReviewsFor($request);
+        return view('coor_anime_bulk_before_review', [
+            'anime_list' => $anime_list,
+            'year' => $request->year,
+            'coor' => $request->coor,
+        ]);
+    }
+
+    /**
+     * クール毎のアニメの視聴完了前一括入力された得点を処理
+     *
+     * @param ReviewsRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postCoorAnimeBulkBeforeReview(ReviewsRequest $request)
+    {
+        $this->userReviewService->createOrUpdateMyMultipleReview($request);
+        return redirect()->route('coor_anime_bulk_before_review.show', [
+            'year' => $request->year,
+            'coor' => $request->coor,
+            ])->with('flash_message', '入力が完了しました。');
+    }
+
+    /**
+     * ログインユーザーの視聴中のアニメの視聴完了前一括得点入力ページを表示
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function showNowWatchAnimeBulkBeforeReview(Request $request)
+    {
+        $anime_list = $this->animeService->getNowWatchAnimeListWithMyReviewsFor($request);
+        return view('now_watch_anime_bulk_before_review', [
+            'anime_list' => $anime_list,
+            'year' => $request->year,
+            'coor' => $request->coor,
+        ]);
+    }
+
+    /**
+     * ログインユーザーの視聴中のアニメの視聴完了前一括入力された得点を処理
+     *
+     * @param ReviewsRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postNowWatchAnimeBulkBeforeReview(ReviewsRequest $request)
+    {
+        $this->userReviewService->createOrUpdateMyMultipleReview($request);
+        return redirect()->route('now_watch_anime_bulk_before_review.show', [
+            'year' => $request->year,
+            'coor' => $request->coor,
+            ])->with('flash_message', '入力が完了しました。');
+    }
+
+    /**
+     * ログインユーザーの視聴完了前得点入力済みのアニメの一括得点入力ページを表示
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function showBeforeScoreAnimeBulkBeforeReview(Request $request)
+    {
+        $anime_list = $this->animeService->getBeforeScoreAnimeListWithMyReviewsFor($request);
+        return view('before_score_anime_bulk_before_review', [
+            'anime_list' => $anime_list,
+            'year' => $request->year,
+            'coor' => $request->coor,
+        ]);
+    }
+
+    /**
+     * ログインユーザーの視聴完了前得点入力済みのアニメの一括入力された得点を処理
+     *
+     * @param ReviewsRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postBeforeScoreAnimeBulkBeforeReview(ReviewsRequest $request)
+    {
+        $this->userReviewService->createOrUpdateMyMultipleReview($request);
+        return redirect()->route('before_score_anime_bulk_before_review.show', [
             'year' => $request->year,
             'coor' => $request->coor,
             ])->with('flash_message', '入力が完了しました。');

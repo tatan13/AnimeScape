@@ -1,13 +1,22 @@
 @extends('layout')
 
 @section('title')
-    <title>データ一括入力 AnimeScape -アニメ批評空間-</title>
+    <title>クール毎の視聴完了前データ一括入力 AnimeScape -アニメ批評空間-</title>
     <meta name="robots" content="noindex,nofollow">
 @endsection
 
 @section('main')
-    <article class="anime_review_list">
-        <h1>データ一括入力</h1>
+    <article class="coor_anime_bulk_before_review">
+        <h1>クール毎の視聴完了前データ一括入力</h1>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $message)
+                        <li>{{ $message }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         @if (session('flash_message'))
             <div class="alert alert-success">
                 {{ session('flash_message') }}
@@ -15,7 +24,7 @@
         @endif
         <section class="search_parameters">
             <h2>検索条件変更</h2>
-            <form action="{{ route('anime_review_list.show') }}" class="search_parameters_form" method="get">
+            <form action="{{ route('coor_anime_bulk_before_review.show') }}" class="search_parameters_form" method="get">
                 @csrf
                 <select name="year" class="year">
                     @include('layout/select_year')
@@ -30,7 +39,7 @@
                 <input type="submit" value="絞りこむ">
             </form>
         </section>
-        <section class="anime_review_list_information">
+        <section class="coor_anime_bulk_before_review_information">
             <h2>注意事項</h2>
             <ul class="list-inline">
                 <li>各欄の登録は任意です。ご自由にお使いください。</li>
@@ -39,7 +48,7 @@
             </ul>
             <h2>{{ !is_null($year) ? $year . '年' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }}アニメ一覧({{ $anime_list->count() }}作品)
             </h2>
-            <form action="{{ route('anime_review_list.show') }}" name="previous" class="d-inline" method="get">
+            <form action="{{ route('coor_anime_bulk_before_review.show') }}" name="previous" class="d-inline" method="get">
                 @csrf
                 <input type="hidden" name="year" class="year"
                     value="{{ $coor == 1 || is_null($coor) ? $year - 1 : $year }}">
@@ -48,7 +57,7 @@
                 @endif
                 <a href="javascript:previous.submit()">{{ is_null($year) ? '' : (is_null($coor) ? '前の年へ' : '前クールへ') }}</a>
             </form>
-            <form action="{{ route('anime_review_list.show') }}" name="next" class="d-inline" method="get">
+            <form action="{{ route('coor_anime_bulk_before_review.show') }}" name="next" class="d-inline" method="get">
                 @csrf
                 <input type="hidden" name="year" class="year"
                     value="{{ $coor == 4 || is_null($coor) ? $year + 1 : $year }}">
@@ -66,25 +75,23 @@
                     </ul>
                 </div>
             @endif
-            <form action="{{ route('anime_review_list.post') }}" class="anime_review_list_form" method="POST">
+            <form action="{{ route('coor_anime_bulk_before_review.post') }}" class="coor_anime_bulk_before_review_form" method="POST">
                 @csrf
                 <input type="submit" value="送信">
                 <input type="hidden" name="year" class="year" value="{{ $year }}">
                 <input type="hidden" name="coor" class="coor" value="{{ $coor }}">
                 <div class="table-responsive">
-                    <table class="anime_review_list_table">
+                    <table class="coor_anime_bulk_before_review_table">
                         <tbody>
                             <tr>
                                 <th>アニメ名</th>
-                                <th>得点</th>
+                                <th>視聴完了前得点</th>
                                 <th>視聴済み</th>
                                 <th>視聴予定</th>
                                 <th>視聴中</th>
                                 <th>視聴リタイア</th>
                                 <th>視聴話数</th>
                                 <th>面白さがわかる話数</th>
-                                <th>一言感想</th>
-                                <th>視聴完了前得点</th>
                                 <th>視聴完了前一言感想</th>
                             </tr>
                             @foreach ($anime_list as $anime)
@@ -94,8 +101,8 @@
                                     </td>
                                     <input type="hidden" name="anime_id[{{ $loop->iteration }}]" class="anime_id"
                                         value="{{ $anime->id }}">
-                                    <td><input type="number" name="score[{{ $loop->iteration }}]" class="score"
-                                            value="{{ $anime->userReview->score ?? '' }}"></td>
+                                    <td><input type="number" name="before_score[{{ $loop->iteration }}]" class="before_score"
+                                            value="{{ $anime->userReview->before_score ?? '' }}"></td>
                                     <input type="hidden" name="watch[{{ $loop->iteration }}]" class="watch"
                                         value="0">
                                     <td><input type="checkbox" name="watch[{{ $loop->iteration }}]" class="watch"
@@ -129,24 +136,16 @@
                                             value="1"
                                             {{ $anime->userReview->give_up ?? false == true ? 'checked' : '' }}>
                                     </td>
-                                    <td><input type="number"
-                                            name="number_of_watched_episode[{{ $loop->iteration }}]"
+                                    <td><input type="number" name="number_of_watched_episode[{{ $loop->iteration }}]"
                                             class="number_of_watched_episode"
                                             value="{{ $anime->userReview->number_of_watched_episode ?? '' }}"></td>
                                     <td><input type="number"
                                             name="number_of_interesting_episode[{{ $loop->iteration }}]"
                                             class="number_of_interesting_episode"
                                             value="{{ $anime->userReview->number_of_interesting_episode ?? '' }}"></td>
-                                    <td><input type="text" name="one_word_comment[{{ $loop->iteration }}]" size="14"
-                                            class="one_word_comment"
-                                            value="{{ $anime->userReview->one_word_comment ?? '' }}"></td>
-                                    <td><input type="number" name="before_score[{{ $loop->iteration }}]"
-                                            class="before_score" value="{{ $anime->userReview->before_score ?? '' }}">
-                                    </td>
-                                    <td><input type="text" name="before_comment[{{ $loop->iteration }}]" size="14"
-                                            class="before_comment"
-                                            value="{{ $anime->userReview->before_comment ?? '' }}">
-                                    </td>
+                                    <td><input type="text" name="before_comment[{{ $loop->iteration }}]"
+                                            size="14" class="before_comment"
+                                            value="{{ $anime->userReview->before_comment ?? '' }}"></td>
                                 </tr>
                             @endforeach
                         </tbody>

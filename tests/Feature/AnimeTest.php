@@ -787,9 +787,34 @@ class AnimeTest extends TestCase
      * @test
      * @return void
      */
-    public function testGuestAnimeReviewListView()
+    public function testGuestAnimeBulkReviewIndexView()
     {
-        $response = $this->get(route('anime_review_list.show', [
+        $response = $this->get(route('anime_bulk_review_index.show'));
+        $response->assertRedirect(route('login'));
+    }
+
+    /**
+     * ログイン時のアニメ得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginAnimeBulkReviewIndexView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('anime_bulk_review_index.show'));
+        $response->assertStatus(200);
+    }
+
+    /**
+     * ゲストのアニメ得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestCoorAnimeBulkReviewView()
+    {
+        $response = $this->get(route('coor_anime_bulk_review.show', [
             'year' => 2022,
             'coor' => 1,
         ]));
@@ -802,19 +827,19 @@ class AnimeTest extends TestCase
      * @test
      * @return void
      */
-    public function testUser1LoginAnimeReviewListView()
+    public function testUser1LoginCoorAnimeBulkReviewView()
     {
         $this->actingAs($this->user1);
-        $response = $this->get(route('anime_review_list.show', [
+        $response = $this->get(route('coor_anime_bulk_review.show', [
             'year' => 2022,
             'coor' => 1,
         ]));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
-            $this->anime3->title,
-            'not sad',
             $this->anime->title,
             0,
+            $this->anime3->title,
+            'not sad',
         ]);
     }
 
@@ -824,10 +849,10 @@ class AnimeTest extends TestCase
      * @test
      * @return void
      */
-    public function testUser1LoginAnimeReviewListPost()
+    public function testUser1LoginCoorAnimeBulkReviewPost()
     {
         $this->actingAs($this->user1);
-        $response = $this->post(route('anime_review_list.post', [
+        $response = $this->post(route('coor_anime_bulk_review.post', [
             'year' => 2022,
             'coor' => 1,
             'anime_id[1]' => $this->anime->id,
@@ -875,11 +900,11 @@ class AnimeTest extends TestCase
             'before_comment[4]' => '',
             'number_of_watched_episode[4]' => '',
         ]));
-        $response->assertRedirect(route('anime_review_list.show', [
+        $response->assertRedirect(route('coor_anime_bulk_review.show', [
             'year' => 2022,
             'coor' => 1,
         ]));
-        $this->get(route('anime_review_list.show', [
+        $this->get(route('coor_anime_bulk_review.show', [
             'year' => 2022,
             'coor' => 1,
         ]))->assertSee('入力が完了しました。');
@@ -970,10 +995,10 @@ class AnimeTest extends TestCase
      * @test
      * @return void
      */
-    public function testUser1LoginNotExistAnimeReviewListPost()
+    public function testUser1LoginNotExistCoorAnimeBulkReviewPost()
     {
         $this->actingAs($this->user1);
-        $response = $this->post(route('anime_review_list.post', [
+        $response = $this->post(route('coor_anime_bulk_review.post', [
             'year' => 2022,
             'coor' => 1,
             'anime_id[1]' => 33333333,
@@ -1010,6 +1035,131 @@ class AnimeTest extends TestCase
             'before_comment[4]' => '',
         ]));
         $response->assertStatus(404);
+    }
+
+    /**
+     * ゲストの視聴中アニメ得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestNowWatchAnimeBulkReviewView()
+    {
+        $response = $this->get(route('now_watch_anime_bulk_review.show'));
+        $response->assertRedirect(route('login'));
+    }
+
+    /**
+     * ログイン時の視聴中アニメ得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginNowWatchAnimeBulkReviewView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('now_watch_anime_bulk_review.show'));
+        $response->assertStatus(200);
+    }
+
+    /**
+     * ゲストの得点入力済みアニメ得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestScoreAnimeBulkReviewView()
+    {
+        $response = $this->get(route('score_anime_bulk_review.show'));
+        $response->assertRedirect(route('login'));
+    }
+
+    /**
+     * ログイン時の得点入力済みアニメ得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginScoreAnimeBulkReviewView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('score_anime_bulk_review.show'));
+        $response->assertStatus(200);
+    }
+
+    /**
+     * ゲストのクール毎のアニメ視聴完了前得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestCoorAnimeBulkBeforeReviewView()
+    {
+        $response = $this->get(route('coor_anime_bulk_before_review.show'));
+        $response->assertRedirect(route('login'));
+    }
+
+    /**
+     * ログイン時のクール毎のアニメ視聴完了前得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginCoorAnimeBulkBeforeReviewView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('coor_anime_bulk_before_review.show'));
+        $response->assertStatus(200);
+    }
+
+    /**
+     * ゲストの視聴中アニメ視聴完了前得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestNowWatchAnimeBulkBeforeReviewView()
+    {
+        $response = $this->get(route('now_watch_anime_bulk_before_review.show'));
+        $response->assertRedirect(route('login'));
+    }
+
+    /**
+     * ログイン時の視聴中アニメ視聴完了前得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginNowWatchAnimeBulkBeforeReviewView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('now_watch_anime_bulk_before_review.show'));
+        $response->assertStatus(200);
+    }
+
+    /**
+     * ゲストの視聴完了前得点入力済アニメ視聴完了前得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestBeforeScoreAnimeBulkBeforeReviewView()
+    {
+        $response = $this->get(route('before_score_anime_bulk_before_review.show'));
+        $response->assertRedirect(route('login'));
+    }
+
+    /**
+     * ログイン時の視聴完了前得点入力済アニメ視聴完了前得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginBeforeScoreAnimeBulkBeforeReviewView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('before_score_anime_bulk_before_review.show'));
+        $response->assertStatus(200);
     }
 
     /**
