@@ -787,9 +787,34 @@ class AnimeTest extends TestCase
      * @test
      * @return void
      */
-    public function testGuestAnimeReviewListView()
+    public function testGuestAnimeBulkReviewIndexView()
     {
-        $response = $this->get(route('anime_review_list.show', [
+        $response = $this->get(route('anime_bulk_review_index.show'));
+        $response->assertRedirect(route('login'));
+    }
+
+    /**
+     * ログイン時のアニメ得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginAnimeBulkReviewIndexView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('anime_bulk_review_index.show'));
+        $response->assertStatus(200);
+    }
+
+    /**
+     * ゲストのアニメ得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestCoorAnimeBulkReviewView()
+    {
+        $response = $this->get(route('coor_anime_bulk_review.show', [
             'year' => 2022,
             'coor' => 1,
         ]));
@@ -802,19 +827,19 @@ class AnimeTest extends TestCase
      * @test
      * @return void
      */
-    public function testUser1LoginAnimeReviewListView()
+    public function testUser1LoginCoorAnimeBulkReviewView()
     {
         $this->actingAs($this->user1);
-        $response = $this->get(route('anime_review_list.show', [
+        $response = $this->get(route('coor_anime_bulk_review.show', [
             'year' => 2022,
             'coor' => 1,
         ]));
         $response->assertStatus(200);
         $response->assertSeeInOrder([
-            $this->anime3->title,
-            'not sad',
             $this->anime->title,
             0,
+            $this->anime3->title,
+            'not sad',
         ]);
     }
 
@@ -824,12 +849,13 @@ class AnimeTest extends TestCase
      * @test
      * @return void
      */
-    public function testUser1LoginAnimeReviewListPost()
+    public function testUser1LoginCoorAnimeBulkReviewPost()
     {
         $this->actingAs($this->user1);
-        $response = $this->post(route('anime_review_list.post', [
+        $response = $this->post(route('coor_anime_bulk_review.post', [
             'year' => 2022,
             'coor' => 1,
+            'type' => 'after',
             'anime_id[1]' => $this->anime->id,
             'score[1]' => 40,
             'watch[1]' => 1,
@@ -838,8 +864,6 @@ class AnimeTest extends TestCase
             'give_up[1]' => 1,
             'number_of_interesting_episode[1]' => 1,
             'one_word_comment[1]' => 'not sad',
-            'before_score[1]' => 40,
-            'before_comment[1]' => 'not sad',
             'number_of_watched_episode[1]' => 1,
             'anime_id[2]' => $this->anime1->id,
             'score[2]' => 35,
@@ -849,8 +873,6 @@ class AnimeTest extends TestCase
             'give_up[2]' => 1,
             'number_of_interesting_episode[2]' => 1,
             'one_word_comment[2]' => 'not sad',
-            'before_score[2]' => 35,
-            'before_comment[2]' => 'not sad',
             'number_of_watched_episode[2]' => 1,
             'anime_id[3]' => $this->anime2->id,
             'score[3]' => '',
@@ -860,8 +882,6 @@ class AnimeTest extends TestCase
             'give_up[3]' => 0,
             'number_of_interesting_episode[3]' => '',
             'one_word_comment[3]' => '',
-            'before_score[3]' => '',
-            'before_comment[3]' => '',
             'number_of_watched_episode[3]' => '',
             'anime_id[4]' => $this->anime3->id,
             'score[4]' => '',
@@ -871,15 +891,13 @@ class AnimeTest extends TestCase
             'give_up[4]' => 0,
             'number_of_interesting_episode[4]' => '',
             'one_word_comment[4]' => '',
-            'before_score[4]' => '',
-            'before_comment[4]' => '',
             'number_of_watched_episode[4]' => '',
         ]));
-        $response->assertRedirect(route('anime_review_list.show', [
+        $response->assertRedirect(route('coor_anime_bulk_review.show', [
             'year' => 2022,
             'coor' => 1,
         ]));
-        $this->get(route('anime_review_list.show', [
+        $this->get(route('coor_anime_bulk_review.show', [
             'year' => 2022,
             'coor' => 1,
         ]))->assertSee('入力が完了しました。');
@@ -893,8 +911,8 @@ class AnimeTest extends TestCase
             'number_of_interesting_episode' => 1,
             'now_watch' => true,
             'give_up' => true,
-            'before_score' => 40,
-            'before_comment' => 'not sad',
+            'before_score' => 0,
+            'before_comment' => null,
             'number_of_watched_episode' => 1,
         ]);
         $this->assertDatabaseHas('user_reviews', [
@@ -907,8 +925,8 @@ class AnimeTest extends TestCase
             'number_of_interesting_episode' => 1,
             'now_watch' => true,
             'give_up' => true,
-            'before_score' => 35,
-            'before_comment' => 'not sad',
+            'before_score' => null,
+            'before_comment' => null,
             'number_of_watched_episode' => 1,
         ]);
         $this->assertDatabaseMissing('user_reviews', [
@@ -925,8 +943,8 @@ class AnimeTest extends TestCase
             'number_of_interesting_episode' => null,
             'now_watch' => false,
             'give_up' => false,
-            'before_score' => null,
-            'before_comment' => null,
+            'before_score' => 100,
+            'before_comment' => 'not sad',
             'number_of_watched_episode' => null,
         ]);
         $this->assertDatabaseHas('animes', [
@@ -936,8 +954,8 @@ class AnimeTest extends TestCase
             'count' => 2,
             'max' => 100,
             'min' => 40,
-            'before_median' => 70,
-            'before_average' => 70,
+            'before_median' => 50,
+            'before_average' => 50,
             'before_count' => 2,
         ]);
         $this->assertDatabaseHas('animes', [
@@ -947,9 +965,9 @@ class AnimeTest extends TestCase
             'count' => 1,
             'max' => 35,
             'min' => 35,
-            'before_median' => 35,
-            'before_average' => 35,
-            'before_count' => 1,
+            'before_median' => null,
+            'before_average' => null,
+            'before_count' => 0,
         ]);
         $this->assertDatabaseHas('animes', [
             'id' => $this->anime3->id,
@@ -958,9 +976,9 @@ class AnimeTest extends TestCase
             'count' => 0,
             'max' => null,
             'min' => null,
-            'before_median' => null,
-            'before_average' => null,
-            'before_count' => 0,
+            'before_median' => 100,
+            'before_average' => 100,
+            'before_count' => 1,
         ]);
     }
 
@@ -970,43 +988,1079 @@ class AnimeTest extends TestCase
      * @test
      * @return void
      */
-    public function testUser1LoginNotExistAnimeReviewListPost()
+    public function testUser1LoginNotExistCoorAnimeBulkReviewPost()
     {
         $this->actingAs($this->user1);
-        $response = $this->post(route('anime_review_list.post', [
+        $response = $this->post(route('coor_anime_bulk_review.post', [
             'year' => 2022,
             'coor' => 1,
+            'type' => 'after',
             'anime_id[1]' => 33333333,
             'score[1]' => 40,
             'watch[1]' => 1,
             'will_watch[1]' => 1,
             'spoiler[1]' => 1,
             'one_word_comment[1]' => 'not sad',
-            'before_score[1]' => 40,
-            'before_comment[1]' => 'not sad',
             'anime_id[2]' => $this->anime1->id,
             'score[2]' => 35,
             'watch[2]' => 1,
             'will_watch[2]' => 1,
             'spoiler[2]' => 1,
             'one_word_comment[2]' => 'not sad',
-            'before_score[2]' => 35,
-            'before_comment[2]' => 'not sad',
             'anime_id[3]' => $this->anime2->id,
             'score[3]' => '',
             'watch[3]' => 0,
             'will_watch[3]' => 0,
             'spoiler[3]' => 0,
             'one_word_comment[3]' => '',
-            'before_score[3]' => '',
-            'before_comment[3]' => '',
             'anime_id[4]' => $this->anime3->id,
             'score[4]' => '',
             'watch[4]' => 0,
             'will_watch[4]' => 0,
             'spoiler[4]' => 0,
             'one_word_comment[4]' => '',
+        ]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲストの視聴中アニメ得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestNowWatchAnimeBulkReviewView()
+    {
+        $response = $this->get(route('now_watch_anime_bulk_review.show'));
+        $response->assertRedirect(route('login'));
+    }
+
+    /**
+     * ログイン時の視聴中アニメ得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginNowWatchAnimeBulkReviewView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('now_watch_anime_bulk_review.show'));
+        $response->assertStatus(200);
+    }
+
+    /**
+     * ログイン時の視聴中アニメ得点一括入力のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginNowWatchAnimeBulkReviewPost()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('now_watch_anime_bulk_review.post', [
+            'year' => 2022,
+            'coor' => 1,
+            'type' => 'after',
+            'anime_id[1]' => $this->anime->id,
+            'score[1]' => 40,
+            'watch[1]' => 1,
+            'will_watch[1]' => 1,
+            'now_watch[1]' => 1,
+            'give_up[1]' => 1,
+            'number_of_interesting_episode[1]' => 1,
+            'one_word_comment[1]' => 'not sad',
+            'number_of_watched_episode[1]' => 1,
+            'anime_id[2]' => $this->anime1->id,
+            'score[2]' => 35,
+            'watch[2]' => 1,
+            'will_watch[2]' => 1,
+            'now_watch[2]' => 1,
+            'give_up[2]' => 1,
+            'number_of_interesting_episode[2]' => 1,
+            'one_word_comment[2]' => 'not sad',
+            'number_of_watched_episode[2]' => 1,
+            'anime_id[3]' => $this->anime2->id,
+            'score[3]' => '',
+            'watch[3]' => 0,
+            'will_watch[3]' => 0,
+            'now_watch[3]' => 0,
+            'give_up[3]' => 0,
+            'number_of_interesting_episode[3]' => '',
+            'one_word_comment[3]' => '',
+            'number_of_watched_episode[3]' => '',
+            'anime_id[4]' => $this->anime3->id,
+            'score[4]' => '',
+            'watch[4]' => 0,
+            'will_watch[4]' => 0,
+            'now_watch[4]' => 0,
+            'give_up[4]' => 0,
+            'number_of_interesting_episode[4]' => '',
+            'one_word_comment[4]' => '',
+            'number_of_watched_episode[4]' => '',
+        ]));
+        $response->assertRedirect(route('now_watch_anime_bulk_review.show', [
+            'year' => 2022,
+            'coor' => 1,
+        ]));
+        $this->get(route('now_watch_anime_bulk_review.show', [
+            'year' => 2022,
+            'coor' => 1,
+        ]))->assertSee('入力が完了しました。');
+        $this->assertDatabaseHas('user_reviews', [
+            'anime_id' => $this->anime->id,
+            'user_id' => $this->user1->id,
+            'score' => 40,
+            'one_word_comment' => 'not sad',
+            'watch' => true,
+            'will_watch' => 1,
+            'number_of_interesting_episode' => 1,
+            'now_watch' => true,
+            'give_up' => true,
+            'before_score' => 0,
+            'before_comment' => null,
+            'number_of_watched_episode' => 1,
+        ]);
+        $this->assertDatabaseHas('user_reviews', [
+            'anime_id' => $this->anime1->id,
+            'user_id' => $this->user1->id,
+            'score' => 35,
+            'one_word_comment' => 'not sad',
+            'watch' => true,
+            'will_watch' => 1,
+            'number_of_interesting_episode' => 1,
+            'now_watch' => true,
+            'give_up' => true,
+            'before_score' => null,
+            'before_comment' => null,
+            'number_of_watched_episode' => 1,
+        ]);
+        $this->assertDatabaseMissing('user_reviews', [
+            'anime_id' => $this->anime2->id,
+            'user_id' => $this->user1->id,
+        ]);
+        $this->assertDatabaseHas('user_reviews', [
+            'anime_id' => $this->anime3->id,
+            'user_id' => $this->user1->id,
+            'score' => null,
+            'one_word_comment' => null,
+            'watch' => false,
+            'will_watch' => 0,
+            'number_of_interesting_episode' => null,
+            'now_watch' => false,
+            'give_up' => false,
+            'before_score' => 100,
+            'before_comment' => 'not sad',
+            'number_of_watched_episode' => null,
+        ]);
+        $this->assertDatabaseHas('animes', [
+            'id' => $this->anime->id,
+            'median' => 70,
+            'average' => 70,
+            'count' => 2,
+            'max' => 100,
+            'min' => 40,
+            'before_median' => 50,
+            'before_average' => 50,
+            'before_count' => 2,
+        ]);
+        $this->assertDatabaseHas('animes', [
+            'id' => $this->anime1->id,
+            'median' => 35,
+            'average' => 35,
+            'count' => 1,
+            'max' => 35,
+            'min' => 35,
+            'before_median' => null,
+            'before_average' => null,
+            'before_count' => 0,
+        ]);
+        $this->assertDatabaseHas('animes', [
+            'id' => $this->anime3->id,
+            'median' => null,
+            'average' => null,
+            'count' => 0,
+            'max' => null,
+            'min' => null,
+            'before_median' => 100,
+            'before_average' => 100,
+            'before_count' => 1,
+        ]);
+    }
+
+    /**
+     * ログイン時の視聴中アニメ得点一括入力の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginNotExistNowWatchAnimeBulkReviewPost()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('now_watch_anime_bulk_review.post', [
+            'year' => 2022,
+            'coor' => 1,
+            'type' => 'after',
+            'anime_id[1]' => 33333333,
+            'score[1]' => 40,
+            'watch[1]' => 1,
+            'will_watch[1]' => 1,
+            'spoiler[1]' => 1,
+            'one_word_comment[1]' => 'not sad',
+            'anime_id[2]' => $this->anime1->id,
+            'score[2]' => 35,
+            'watch[2]' => 1,
+            'will_watch[2]' => 1,
+            'spoiler[2]' => 1,
+            'one_word_comment[2]' => 'not sad',
+            'anime_id[3]' => $this->anime2->id,
+            'score[3]' => '',
+            'watch[3]' => 0,
+            'will_watch[3]' => 0,
+            'spoiler[3]' => 0,
+            'one_word_comment[3]' => '',
+            'anime_id[4]' => $this->anime3->id,
+            'score[4]' => '',
+            'watch[4]' => 0,
+            'will_watch[4]' => 0,
+            'spoiler[4]' => 0,
+            'one_word_comment[4]' => '',
+        ]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲストの得点入力済みアニメ得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestScoreAnimeBulkReviewView()
+    {
+        $response = $this->get(route('score_anime_bulk_review.show'));
+        $response->assertRedirect(route('login'));
+    }
+
+    /**
+     * ログイン時の得点入力済みアニメ得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginScoreAnimeBulkReviewView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('score_anime_bulk_review.show'));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->anime->title,
+            0,
+            $this->anime3->title,
+            'not sad',
+        ]);
+    }
+
+    /**
+     * ログイン時の得点入力済みアニメ得点一括入力のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginScoreAnimeBulkReviewPost()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('score_anime_bulk_review.post', [
+            'year' => 2022,
+            'coor' => 1,
+            'type' => 'after',
+            'anime_id[1]' => $this->anime->id,
+            'score[1]' => 40,
+            'watch[1]' => 1,
+            'will_watch[1]' => 1,
+            'now_watch[1]' => 1,
+            'give_up[1]' => 1,
+            'number_of_interesting_episode[1]' => 1,
+            'one_word_comment[1]' => 'not sad',
+            'number_of_watched_episode[1]' => 1,
+            'anime_id[2]' => $this->anime1->id,
+            'score[2]' => 35,
+            'watch[2]' => 1,
+            'will_watch[2]' => 1,
+            'now_watch[2]' => 1,
+            'give_up[2]' => 1,
+            'number_of_interesting_episode[2]' => 1,
+            'one_word_comment[2]' => 'not sad',
+            'number_of_watched_episode[2]' => 1,
+            'anime_id[3]' => $this->anime2->id,
+            'score[3]' => '',
+            'watch[3]' => 0,
+            'will_watch[3]' => 0,
+            'now_watch[3]' => 0,
+            'give_up[3]' => 0,
+            'number_of_interesting_episode[3]' => '',
+            'one_word_comment[3]' => '',
+            'number_of_watched_episode[3]' => '',
+            'anime_id[4]' => $this->anime3->id,
+            'score[4]' => '',
+            'watch[4]' => 0,
+            'will_watch[4]' => 0,
+            'now_watch[4]' => 0,
+            'give_up[4]' => 0,
+            'number_of_interesting_episode[4]' => '',
+            'one_word_comment[4]' => '',
+            'number_of_watched_episode[4]' => '',
+        ]));
+        $response->assertRedirect(route('score_anime_bulk_review.show', [
+            'year' => 2022,
+            'coor' => 1,
+        ]));
+        $this->get(route('score_anime_bulk_review.show', [
+            'year' => 2022,
+            'coor' => 1,
+        ]))->assertSee('入力が完了しました。');
+        $this->assertDatabaseHas('user_reviews', [
+            'anime_id' => $this->anime->id,
+            'user_id' => $this->user1->id,
+            'score' => 40,
+            'one_word_comment' => 'not sad',
+            'watch' => true,
+            'will_watch' => 1,
+            'number_of_interesting_episode' => 1,
+            'now_watch' => true,
+            'give_up' => true,
+            'before_score' => 0,
+            'before_comment' => null,
+            'number_of_watched_episode' => 1,
+        ]);
+        $this->assertDatabaseHas('user_reviews', [
+            'anime_id' => $this->anime1->id,
+            'user_id' => $this->user1->id,
+            'score' => 35,
+            'one_word_comment' => 'not sad',
+            'watch' => true,
+            'will_watch' => 1,
+            'number_of_interesting_episode' => 1,
+            'now_watch' => true,
+            'give_up' => true,
+            'before_score' => null,
+            'before_comment' => null,
+            'number_of_watched_episode' => 1,
+        ]);
+        $this->assertDatabaseMissing('user_reviews', [
+            'anime_id' => $this->anime2->id,
+            'user_id' => $this->user1->id,
+        ]);
+        $this->assertDatabaseHas('user_reviews', [
+            'anime_id' => $this->anime3->id,
+            'user_id' => $this->user1->id,
+            'score' => null,
+            'one_word_comment' => null,
+            'watch' => false,
+            'will_watch' => 0,
+            'number_of_interesting_episode' => null,
+            'now_watch' => false,
+            'give_up' => false,
+            'before_score' => 100,
+            'before_comment' => 'not sad',
+            'number_of_watched_episode' => null,
+        ]);
+        $this->assertDatabaseHas('animes', [
+            'id' => $this->anime->id,
+            'median' => 70,
+            'average' => 70,
+            'count' => 2,
+            'max' => 100,
+            'min' => 40,
+            'before_median' => 50,
+            'before_average' => 50,
+            'before_count' => 2,
+        ]);
+        $this->assertDatabaseHas('animes', [
+            'id' => $this->anime1->id,
+            'median' => 35,
+            'average' => 35,
+            'count' => 1,
+            'max' => 35,
+            'min' => 35,
+            'before_median' => null,
+            'before_average' => null,
+            'before_count' => 0,
+        ]);
+        $this->assertDatabaseHas('animes', [
+            'id' => $this->anime3->id,
+            'median' => null,
+            'average' => null,
+            'count' => 0,
+            'max' => null,
+            'min' => null,
+            'before_median' => 100,
+            'before_average' => 100,
+            'before_count' => 1,
+        ]);
+    }
+
+    /**
+     * ログイン時の得点入力済みアニメ得点一括入力の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginNotExistScoreAnimeBulkReviewPost()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('score_anime_bulk_review.post', [
+            'year' => 2022,
+            'coor' => 1,
+            'type' => 'after',
+            'anime_id[1]' => 33333333,
+            'score[1]' => 40,
+            'watch[1]' => 1,
+            'will_watch[1]' => 1,
+            'spoiler[1]' => 1,
+            'one_word_comment[1]' => 'not sad',
+            'anime_id[2]' => $this->anime1->id,
+            'score[2]' => 35,
+            'watch[2]' => 1,
+            'will_watch[2]' => 1,
+            'spoiler[2]' => 1,
+            'one_word_comment[2]' => 'not sad',
+            'anime_id[3]' => $this->anime2->id,
+            'score[3]' => '',
+            'watch[3]' => 0,
+            'will_watch[3]' => 0,
+            'spoiler[3]' => 0,
+            'one_word_comment[3]' => '',
+            'anime_id[4]' => $this->anime3->id,
+            'score[4]' => '',
+            'watch[4]' => 0,
+            'will_watch[4]' => 0,
+            'spoiler[4]' => 0,
+            'one_word_comment[4]' => '',
+        ]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲストのクール毎のアニメ視聴完了前得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestCoorAnimeBulkBeforeReviewView()
+    {
+        $response = $this->get(route('coor_anime_bulk_before_review.show'));
+        $response->assertRedirect(route('login'));
+    }
+
+    /**
+     * ログイン時のクール毎のアニメ視聴完了前得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginCoorAnimeBulkBeforeReviewView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('coor_anime_bulk_before_review.show'));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->anime->title,
+            0,
+            $this->anime3->title,
+            'not sad',
+        ]);
+    }
+
+    /**
+     * ログイン時のクール毎のアニメ視聴完了前得点一括入力のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginCoorAnimeBulkBeforeReviewPost()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('coor_anime_bulk_before_review.post', [
+            'year' => 2022,
+            'coor' => 1,
+            'type' => 'before',
+            'anime_id[1]' => $this->anime->id,
+            'before_score[1]' => 40,
+            'watch[1]' => 1,
+            'will_watch[1]' => 1,
+            'now_watch[1]' => 1,
+            'give_up[1]' => 1,
+            'number_of_interesting_episode[1]' => 1,
+            'before_comment[1]' => 'not sad',
+            'number_of_watched_episode[1]' => 1,
+            'anime_id[2]' => $this->anime1->id,
+            'before_score[2]' => 35,
+            'watch[2]' => 1,
+            'will_watch[2]' => 1,
+            'now_watch[2]' => 1,
+            'give_up[2]' => 1,
+            'number_of_interesting_episode[2]' => 1,
+            'before_comment[2]' => 'not sad',
+            'number_of_watched_episode[2]' => 1,
+            'anime_id[3]' => $this->anime2->id,
+            'before_score[3]' => '',
+            'watch[3]' => 0,
+            'will_watch[3]' => 0,
+            'now_watch[3]' => 0,
+            'give_up[3]' => 0,
+            'number_of_interesting_episode[3]' => '',
+            'before_comment[3]' => '',
+            'number_of_watched_episode[3]' => '',
+            'anime_id[4]' => $this->anime3->id,
             'before_score[4]' => '',
+            'watch[4]' => 0,
+            'will_watch[4]' => 0,
+            'now_watch[4]' => 0,
+            'give_up[4]' => 0,
+            'number_of_interesting_episode[4]' => '',
+            'before_comment[4]' => '',
+            'number_of_watched_episode[4]' => '',
+        ]));
+        $response->assertRedirect(route('coor_anime_bulk_before_review.show', [
+            'year' => 2022,
+            'coor' => 1,
+        ]));
+        $this->get(route('coor_anime_bulk_before_review.show', [
+            'year' => 2022,
+            'coor' => 1,
+        ]))->assertSee('入力が完了しました。');
+        $this->assertDatabaseHas('user_reviews', [
+            'anime_id' => $this->anime->id,
+            'user_id' => $this->user1->id,
+            'score' => 0,
+            'one_word_comment' => null,
+            'watch' => true,
+            'will_watch' => 1,
+            'number_of_interesting_episode' => 1,
+            'now_watch' => true,
+            'give_up' => true,
+            'before_score' => 40,
+            'before_comment' => 'not sad',
+            'number_of_watched_episode' => 1,
+        ]);
+        $this->assertDatabaseHas('user_reviews', [
+            'anime_id' => $this->anime1->id,
+            'user_id' => $this->user1->id,
+            'score' => null,
+            'one_word_comment' => null,
+            'watch' => true,
+            'will_watch' => 1,
+            'number_of_interesting_episode' => 1,
+            'now_watch' => true,
+            'give_up' => true,
+            'before_score' => 35,
+            'before_comment' => 'not sad',
+            'number_of_watched_episode' => 1,
+        ]);
+        $this->assertDatabaseMissing('user_reviews', [
+            'anime_id' => $this->anime2->id,
+            'user_id' => $this->user1->id,
+        ]);
+        $this->assertDatabaseHas('user_reviews', [
+            'anime_id' => $this->anime3->id,
+            'user_id' => $this->user1->id,
+            'score' => 100,
+            'one_word_comment' => 'not sad',
+            'watch' => false,
+            'will_watch' => 0,
+            'number_of_interesting_episode' => null,
+            'now_watch' => false,
+            'give_up' => false,
+            'before_score' => null,
+            'before_comment' => null,
+            'number_of_watched_episode' => null,
+        ]);
+        $this->assertDatabaseHas('animes', [
+            'id' => $this->anime->id,
+            'median' => 50,
+            'average' => 50,
+            'count' => 2,
+            'max' => 100,
+            'min' => 0,
+            'before_median' => 70,
+            'before_average' => 70,
+            'before_count' => 2,
+        ]);
+        $this->assertDatabaseHas('animes', [
+            'id' => $this->anime1->id,
+            'median' => null,
+            'average' => null,
+            'count' => 0,
+            'max' => null,
+            'min' => null,
+            'before_median' => 35,
+            'before_average' => 35,
+            'before_count' => 1,
+        ]);
+        $this->assertDatabaseHas('animes', [
+            'id' => $this->anime3->id,
+            'median' => 100,
+            'average' => 100,
+            'count' => 1,
+            'max' => 100,
+            'min' => 100,
+            'before_median' => null,
+            'before_average' => null,
+            'before_count' => 0,
+        ]);
+    }
+
+    /**
+     * ログイン時のクール毎のアニメ視聴完了前得点一括入力の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginNotExistCoorAnimeBulkBeforeReviewPost()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('coor_anime_bulk_before_review.post', [
+            'year' => 2022,
+            'coor' => 1,
+            'type' => 'before',
+            'anime_id[1]' => 33333333,
+            'before_score[1]' => 40,
+            'watch[1]' => 1,
+            'will_watch[1]' => 1,
+            'spoiler[1]' => 1,
+            'before_comment[1]' => 'not sad',
+            'anime_id[2]' => $this->anime1->id,
+            'before_score[2]' => 35,
+            'watch[2]' => 1,
+            'will_watch[2]' => 1,
+            'spoiler[2]' => 1,
+            'before_comment[2]' => 'not sad',
+            'anime_id[3]' => $this->anime2->id,
+            'before_score[3]' => '',
+            'watch[3]' => 0,
+            'will_watch[3]' => 0,
+            'spoiler[3]' => 0,
+            'before_comment[3]' => '',
+            'anime_id[4]' => $this->anime3->id,
+            'before_score[4]' => '',
+            'watch[4]' => 0,
+            'will_watch[4]' => 0,
+            'spoiler[4]' => 0,
+            'before_comment[4]' => '',
+        ]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲストの視聴中アニメ視聴完了前得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestNowWatchAnimeBulkBeforeReviewView()
+    {
+        $response = $this->get(route('now_watch_anime_bulk_before_review.show'));
+        $response->assertRedirect(route('login'));
+    }
+
+    /**
+     * ログイン時の視聴中アニメ視聴完了前得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginNowWatchAnimeBulkBeforeReviewView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('now_watch_anime_bulk_before_review.show'));
+        $response->assertStatus(200);
+    }
+
+    /**
+     * ログイン時の視聴中アニメ視聴完了前得点一括入力のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginNowWatchAnimeBulkBeforeReviewPost()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('now_watch_anime_bulk_before_review.post', [
+            'year' => 2022,
+            'coor' => 1,
+            'type' => 'before',
+            'anime_id[1]' => $this->anime->id,
+            'before_score[1]' => 40,
+            'watch[1]' => 1,
+            'will_watch[1]' => 1,
+            'now_watch[1]' => 1,
+            'give_up[1]' => 1,
+            'number_of_interesting_episode[1]' => 1,
+            'before_comment[1]' => 'not sad',
+            'number_of_watched_episode[1]' => 1,
+            'anime_id[2]' => $this->anime1->id,
+            'before_score[2]' => 35,
+            'watch[2]' => 1,
+            'will_watch[2]' => 1,
+            'now_watch[2]' => 1,
+            'give_up[2]' => 1,
+            'number_of_interesting_episode[2]' => 1,
+            'before_comment[2]' => 'not sad',
+            'number_of_watched_episode[2]' => 1,
+            'anime_id[3]' => $this->anime2->id,
+            'before_score[3]' => '',
+            'watch[3]' => 0,
+            'will_watch[3]' => 0,
+            'now_watch[3]' => 0,
+            'give_up[3]' => 0,
+            'number_of_interesting_episode[3]' => '',
+            'before_comment[3]' => '',
+            'number_of_watched_episode[3]' => '',
+            'anime_id[4]' => $this->anime3->id,
+            'before_score[4]' => '',
+            'watch[4]' => 0,
+            'will_watch[4]' => 0,
+            'now_watch[4]' => 0,
+            'give_up[4]' => 0,
+            'number_of_interesting_episode[4]' => '',
+            'before_comment[4]' => '',
+            'number_of_watched_episode[4]' => '',
+        ]));
+        $response->assertRedirect(route('now_watch_anime_bulk_before_review.show', [
+            'year' => 2022,
+            'coor' => 1,
+        ]));
+        $this->get(route('now_watch_anime_bulk_before_review.show', [
+            'year' => 2022,
+            'coor' => 1,
+        ]))->assertSee('入力が完了しました。');
+        $this->assertDatabaseHas('user_reviews', [
+            'anime_id' => $this->anime->id,
+            'user_id' => $this->user1->id,
+            'score' => 0,
+            'one_word_comment' => null,
+            'watch' => true,
+            'will_watch' => 1,
+            'number_of_interesting_episode' => 1,
+            'now_watch' => true,
+            'give_up' => true,
+            'before_score' => 40,
+            'before_comment' => 'not sad',
+            'number_of_watched_episode' => 1,
+        ]);
+        $this->assertDatabaseHas('user_reviews', [
+            'anime_id' => $this->anime1->id,
+            'user_id' => $this->user1->id,
+            'score' => null,
+            'one_word_comment' => null,
+            'watch' => true,
+            'will_watch' => 1,
+            'number_of_interesting_episode' => 1,
+            'now_watch' => true,
+            'give_up' => true,
+            'before_score' => 35,
+            'before_comment' => 'not sad',
+            'number_of_watched_episode' => 1,
+        ]);
+        $this->assertDatabaseMissing('user_reviews', [
+            'anime_id' => $this->anime2->id,
+            'user_id' => $this->user1->id,
+        ]);
+        $this->assertDatabaseHas('user_reviews', [
+            'anime_id' => $this->anime3->id,
+            'user_id' => $this->user1->id,
+            'score' => 100,
+            'one_word_comment' => 'not sad',
+            'watch' => false,
+            'will_watch' => 0,
+            'number_of_interesting_episode' => null,
+            'now_watch' => false,
+            'give_up' => false,
+            'before_score' => null,
+            'before_comment' => null,
+            'number_of_watched_episode' => null,
+        ]);
+        $this->assertDatabaseHas('animes', [
+            'id' => $this->anime->id,
+            'median' => 50,
+            'average' => 50,
+            'count' => 2,
+            'max' => 100,
+            'min' => 0,
+            'before_median' => 70,
+            'before_average' => 70,
+            'before_count' => 2,
+        ]);
+        $this->assertDatabaseHas('animes', [
+            'id' => $this->anime1->id,
+            'median' => null,
+            'average' => null,
+            'count' => 0,
+            'max' => null,
+            'min' => null,
+            'before_median' => 35,
+            'before_average' => 35,
+            'before_count' => 1,
+        ]);
+        $this->assertDatabaseHas('animes', [
+            'id' => $this->anime3->id,
+            'median' => 100,
+            'average' => 100,
+            'count' => 1,
+            'max' => 100,
+            'min' => 100,
+            'before_median' => null,
+            'before_average' => null,
+            'before_count' => 0,
+        ]);
+    }
+
+    /**
+     * ログイン時の視聴中のアニメ視聴完了前得点一括入力の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginNotExistNowWatchAnimeBulkBeforeReviewPost()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('now_watch_anime_bulk_before_review.post', [
+            'year' => 2022,
+            'coor' => 1,
+            'type' => 'before',
+            'anime_id[1]' => 33333333,
+            'before_score[1]' => 40,
+            'watch[1]' => 1,
+            'will_watch[1]' => 1,
+            'spoiler[1]' => 1,
+            'before_comment[1]' => 'not sad',
+            'anime_id[2]' => $this->anime1->id,
+            'before_score[2]' => 35,
+            'watch[2]' => 1,
+            'will_watch[2]' => 1,
+            'spoiler[2]' => 1,
+            'before_comment[2]' => 'not sad',
+            'anime_id[3]' => $this->anime2->id,
+            'before_score[3]' => '',
+            'watch[3]' => 0,
+            'will_watch[3]' => 0,
+            'spoiler[3]' => 0,
+            'before_comment[3]' => '',
+            'anime_id[4]' => $this->anime3->id,
+            'before_score[4]' => '',
+            'watch[4]' => 0,
+            'will_watch[4]' => 0,
+            'spoiler[4]' => 0,
+            'before_comment[4]' => '',
+        ]));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * ゲストの視聴完了前得点入力済アニメ視聴完了前得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testGuestBeforeScoreAnimeBulkBeforeReviewView()
+    {
+        $response = $this->get(route('before_score_anime_bulk_before_review.show'));
+        $response->assertRedirect(route('login'));
+    }
+
+    /**
+     * ログイン時の視聴完了前得点入力済アニメ視聴完了前得点一括入力ページリクエスト時のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginBeforeScoreAnimeBulkBeforeReviewView()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->get(route('before_score_anime_bulk_before_review.show'));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->anime->title,
+            0,
+            $this->anime3->title,
+            'not sad',
+        ]);
+    }
+
+    /**
+     * ログイン時の視聴完了前得点入力済みのアニメ視聴完了前得点一括入力のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginBeforeScoreAnimeBulkBeforeReviewPost()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('before_score_anime_bulk_before_review.post', [
+            'year' => 2022,
+            'coor' => 1,
+            'type' => 'before',
+            'anime_id[1]' => $this->anime->id,
+            'before_score[1]' => 40,
+            'watch[1]' => 1,
+            'will_watch[1]' => 1,
+            'now_watch[1]' => 1,
+            'give_up[1]' => 1,
+            'number_of_interesting_episode[1]' => 1,
+            'before_comment[1]' => 'not sad',
+            'number_of_watched_episode[1]' => 1,
+            'anime_id[2]' => $this->anime1->id,
+            'before_score[2]' => 35,
+            'watch[2]' => 1,
+            'will_watch[2]' => 1,
+            'now_watch[2]' => 1,
+            'give_up[2]' => 1,
+            'number_of_interesting_episode[2]' => 1,
+            'before_comment[2]' => 'not sad',
+            'number_of_watched_episode[2]' => 1,
+            'anime_id[3]' => $this->anime2->id,
+            'before_score[3]' => '',
+            'watch[3]' => 0,
+            'will_watch[3]' => 0,
+            'now_watch[3]' => 0,
+            'give_up[3]' => 0,
+            'number_of_interesting_episode[3]' => '',
+            'before_comment[3]' => '',
+            'number_of_watched_episode[3]' => '',
+            'anime_id[4]' => $this->anime3->id,
+            'before_score[4]' => '',
+            'watch[4]' => 0,
+            'will_watch[4]' => 0,
+            'now_watch[4]' => 0,
+            'give_up[4]' => 0,
+            'number_of_interesting_episode[4]' => '',
+            'before_comment[4]' => '',
+            'number_of_watched_episode[4]' => '',
+        ]));
+        $response->assertRedirect(route('before_score_anime_bulk_before_review.show', [
+            'year' => 2022,
+            'coor' => 1,
+        ]));
+        $this->get(route('before_score_anime_bulk_before_review.show', [
+            'year' => 2022,
+            'coor' => 1,
+        ]))->assertSee('入力が完了しました。');
+        $this->assertDatabaseHas('user_reviews', [
+            'anime_id' => $this->anime->id,
+            'user_id' => $this->user1->id,
+            'score' => 0,
+            'one_word_comment' => null,
+            'watch' => true,
+            'will_watch' => 1,
+            'number_of_interesting_episode' => 1,
+            'now_watch' => true,
+            'give_up' => true,
+            'before_score' => 40,
+            'before_comment' => 'not sad',
+            'number_of_watched_episode' => 1,
+        ]);
+        $this->assertDatabaseHas('user_reviews', [
+            'anime_id' => $this->anime1->id,
+            'user_id' => $this->user1->id,
+            'score' => null,
+            'one_word_comment' => null,
+            'watch' => true,
+            'will_watch' => 1,
+            'number_of_interesting_episode' => 1,
+            'now_watch' => true,
+            'give_up' => true,
+            'before_score' => 35,
+            'before_comment' => 'not sad',
+            'number_of_watched_episode' => 1,
+        ]);
+        $this->assertDatabaseMissing('user_reviews', [
+            'anime_id' => $this->anime2->id,
+            'user_id' => $this->user1->id,
+        ]);
+        $this->assertDatabaseHas('user_reviews', [
+            'anime_id' => $this->anime3->id,
+            'user_id' => $this->user1->id,
+            'score' => 100,
+            'one_word_comment' => 'not sad',
+            'watch' => false,
+            'will_watch' => 0,
+            'number_of_interesting_episode' => null,
+            'now_watch' => false,
+            'give_up' => false,
+            'before_score' => null,
+            'before_comment' => null,
+            'number_of_watched_episode' => null,
+        ]);
+        $this->assertDatabaseHas('animes', [
+            'id' => $this->anime->id,
+            'median' => 50,
+            'average' => 50,
+            'count' => 2,
+            'max' => 100,
+            'min' => 0,
+            'before_median' => 70,
+            'before_average' => 70,
+            'before_count' => 2,
+        ]);
+        $this->assertDatabaseHas('animes', [
+            'id' => $this->anime1->id,
+            'median' => null,
+            'average' => null,
+            'count' => 0,
+            'max' => null,
+            'min' => null,
+            'before_median' => 35,
+            'before_average' => 35,
+            'before_count' => 1,
+        ]);
+        $this->assertDatabaseHas('animes', [
+            'id' => $this->anime3->id,
+            'median' => 100,
+            'average' => 100,
+            'count' => 1,
+            'max' => 100,
+            'min' => 100,
+            'before_median' => null,
+            'before_average' => null,
+            'before_count' => 0,
+        ]);
+    }
+
+    /**
+     * ログイン時の視聴完了前得点入力済みのアニメ視聴完了前得点一括入力の異常値テスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1LoginNotExistBeforeScoreAnimeBulkBeforeReviewPost()
+    {
+        $this->actingAs($this->user1);
+        $response = $this->post(route('before_score_anime_bulk_before_review.post', [
+            'year' => 2022,
+            'coor' => 1,
+            'type' => 'before',
+            'anime_id[1]' => 33333333,
+            'before_score[1]' => 40,
+            'watch[1]' => 1,
+            'will_watch[1]' => 1,
+            'spoiler[1]' => 1,
+            'before_comment[1]' => 'not sad',
+            'anime_id[2]' => $this->anime1->id,
+            'before_score[2]' => 35,
+            'watch[2]' => 1,
+            'will_watch[2]' => 1,
+            'spoiler[2]' => 1,
+            'before_comment[2]' => 'not sad',
+            'anime_id[3]' => $this->anime2->id,
+            'before_score[3]' => '',
+            'watch[3]' => 0,
+            'will_watch[3]' => 0,
+            'spoiler[3]' => 0,
+            'before_comment[3]' => '',
+            'anime_id[4]' => $this->anime3->id,
+            'before_score[4]' => '',
+            'watch[4]' => 0,
+            'will_watch[4]' => 0,
+            'spoiler[4]' => 0,
             'before_comment[4]' => '',
         ]));
         $response->assertStatus(404);

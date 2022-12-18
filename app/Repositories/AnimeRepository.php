@@ -454,11 +454,8 @@ class AnimeRepository extends AbstractRepository
             'number_of_interesting_episode' => $submit_reviews->number_of_interesting_episode[$key],
             'one_word_comment' => $submit_reviews->one_word_comment[$key],
             'watch_timestamp' => $submit_reviews->watch[$key] == true ? Carbon::now() : null,
-            'comment_timestamp' => !is_null($submit_reviews->one_word_comment[$key]) ? Carbon::now() : null,
-            'before_score' => $submit_reviews->before_score[$key],
-            'before_comment' => $submit_reviews->before_comment[$key],
-            'before_score_timestamp' => !is_null($submit_reviews->before_score[$key]) ? Carbon::now() : null,
-            'before_comment_timestamp' => !is_null($submit_reviews->before_comment[$key]) ? Carbon::now() : null,
+            'comment_timestamp' => !is_null($submit_reviews->one_word_comment[$key])
+            ? Carbon::now() : null,
             'number_of_watched_episode' => $submit_reviews->number_of_watched_episode[$key],
         ]);
     }
@@ -487,16 +484,72 @@ class AnimeRepository extends AbstractRepository
             'number_of_interesting_episode' => $submit_reviews->number_of_interesting_episode[$key],
             'one_word_comment' => $submit_reviews->one_word_comment[$key],
             'watch_timestamp' => $my_review->watch == false &&
-            $submit_reviews->watch[$key] == true ?
+            ($submit_reviews->watch[$key]) == true ?
             Carbon::now() : $my_review->watch_timestamp,
             'comment_timestamp' => is_null($my_review->one_word_comment) &&
             !is_null($submit_reviews->one_word_comment[$key]) ?
             Carbon::now() : $my_review->comment_timestamp,
+            'number_of_watched_episode' => $submit_reviews->number_of_watched_episode[$key],
+        ]);
+    }
+
+    /**
+     * ログインユーザーのアニメに紐づくユーザーレビューをReviewsRequestによって作成
+     *
+     * @param Anime $anime
+     * @param ReviewsRequest $submit_reviews
+     * @param int $key
+     * @return void
+     */
+    public function createMyBeforeReviewByReviewsRequest(Anime $anime, ReviewsRequest $submit_reviews, $key)
+    {
+        $anime->reviewUsers()->attach(Auth::user()->id, [
+            'will_watch' => $submit_reviews->will_watch[$key],
+            'watch' => $submit_reviews->watch[$key],
+            'now_watch' => $submit_reviews->now_watch[$key],
+            'give_up' => $submit_reviews->give_up[$key],
+            'number_of_interesting_episode' => $submit_reviews->number_of_interesting_episode[$key],
+            'watch_timestamp' => $submit_reviews->watch[$key] == true ? Carbon::now() : null,
             'before_score' => $submit_reviews->before_score[$key],
             'before_comment' => $submit_reviews->before_comment[$key],
-            'before_score_timestamp' => (($my_review->before_score) != $submit_reviews->before_score[$key])
+            'before_score_timestamp' => !is_null($submit_reviews->before_score[$key])
+            ? Carbon::now() : null,
+            'before_comment_timestamp' => !is_null($submit_reviews->before_comment[$key])
+            ? Carbon::now() : null,
+            'number_of_watched_episode' => $submit_reviews->number_of_watched_episode[$key],
+        ]);
+    }
+
+    /**
+     * ログインユーザーのアニメに紐づくユーザーレビューをReviewsRequestによって更新
+     *
+     * @param Anime $anime
+     * @param UserReview $my_review
+     * @param ReviewsRequest $submit_reviews
+     * @param int $key
+     * @return void
+     */
+    public function updateMyBeforeReviewByReviewsRequest(
+        Anime $anime,
+        UserReview $my_review,
+        ReviewsRequest $submit_reviews,
+        $key
+    ) {
+        $anime->reviewUsers()->updateExistingPivot(Auth::user()->id, [
+            'will_watch' => $submit_reviews->will_watch[$key],
+            'watch' => $submit_reviews->watch[$key],
+            'now_watch' => $submit_reviews->now_watch[$key],
+            'give_up' => $submit_reviews->give_up[$key],
+            'number_of_interesting_episode' => $submit_reviews->number_of_interesting_episode[$key],
+            'watch_timestamp' => $my_review->watch == false &&
+            ($submit_reviews->watch[$key]) == true ?
+            Carbon::now() : $my_review->watch_timestamp,
+            'before_score' => $submit_reviews->before_score[$key],
+            'before_comment' => $submit_reviews->before_comment[$key],
+            'before_score_timestamp' => (($my_review->before_score) != ($submit_reviews->before_score[$key]))
             ? Carbon::now() : $my_review->before_score_timestamp,
-            'before_comment_timestamp' => (($my_review->before_comment) != $submit_reviews->before_comment[$key])
+            'before_comment_timestamp' =>
+            (($my_review->before_comment) != ($submit_reviews->before_comment[$key]))
             ? Carbon::now() : $my_review->before_comment_timestamp,
             'number_of_watched_episode' => $submit_reviews->number_of_watched_episode[$key],
         ]);
@@ -565,12 +618,73 @@ class AnimeRepository extends AbstractRepository
     }
 
     /**
+     * アニメリストをログインユーザーのレビューと共にanime_idの配列によって取得
+     *
+     * @param array $anime_id
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getAnimeListWithMyReviewsByAnimeIdArray(array $anime_id)
+    {
+        return Anime::whereIn('id', $anime_id)->withMyReviews()->get();
+    }
+
+    /**
+     * クール毎のアニメリストをログインユーザーのレビューと共にリクエストに従って取得
+     *
+     * @param Request  $request
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getCoorAnimeListWithMyReviewsFor(Request $request)
+    {
+        return Anime::whereYear($request->year)->whereCoor($request->coor)->withMyReviews()->get();
+    }
+
+    /**
+     * ログインユーザーの視聴中アニメリストをレビューと共にリクエストに従って取得
+     *
+     * @param Request  $request
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getNowWatchAnimeListWithMyReviewsFor(Request $request)
+    {
+        return Anime::whereYear($request->year)->whereCoor($request->coor)->whereHas('userReview', function ($query) {
+            $query->where('user_id', Auth::id())->where('now_watch', 1);
+        })->withMyReviews()->get();
+    }
+
+    /**
+     * ログインユーザーの得点入力済みのアニメリストをレビューと共にリクエストに従って取得
+     *
+     * @param Request  $request
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getScoreAnimeListWithMyReviewsFor(Request $request)
+    {
+        return Anime::whereYear($request->year)->whereCoor($request->coor)->whereHas('userReview', function ($query) {
+            $query->where('user_id', Auth::id())->whereNotNull('score');
+        })->withMyReviews()->get();
+    }
+
+    /**
+     * ログインユーザーの視聴完了前得点入力済みのアニメリストをレビューと共にリクエストに従って取得
+     *
+     * @param Request  $request
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getBeforeScoreAnimeListWithMyReviewsFor(Request $request)
+    {
+        return Anime::whereYear($request->year)->whereCoor($request->coor)->whereHas('userReview', function ($query) {
+            $query->where('user_id', Auth::id())->whereNotNull('before_score');
+        })->withMyReviews()->get();
+    }
+
+    /**
      * アニメリストを制作会社とログインユーザーのレビューと共にリクエストに従って取得
      *
-     * @param ReviewsRequest | Request  $request
+     * @param Request  $request
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getAnimeListWithCompaniesAndWithMyReviewsFor(ReviewsRequest | Request $request)
+    public function getAnimeListWithCompaniesAndWithMyReviewsFor(Request $request)
     {
         return Anime::whereYear($request->year)->whereCoor($request->coor)->whereAboveCount($request->count)
         ->WithCompanies()->withMyReviews()->sortable()->latestCategory($request->category)->paginate(500);

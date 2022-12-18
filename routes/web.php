@@ -184,9 +184,31 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/anime/{anime_id}/tag_review', [App\Http\Controllers\AnimeController::class, 'postAnimeTagReview'])->name('anime_tag_review.post');
     
-    Route::get('/anime_review_list', [App\Http\Controllers\AnimeController::class, 'showAnimeReviewList'])->name('anime_review_list.show');
+    Route::get('/anime_bulk_review_index', [App\Http\Controllers\AnimeController::class, 'showAnimeBulkReviewIndex'])->name('anime_bulk_review_index.show');
     
-    Route::post('/anime_review_list', [App\Http\Controllers\AnimeController::class, 'postAnimeReviewList'])->name('anime_review_list.post');
+    Route::get('/anime_bulk_review_index/coor', [App\Http\Controllers\AnimeController::class, 'showCoorAnimeBulkReview'])->name('coor_anime_bulk_review.show');
+    
+    Route::post('/anime_bulk_review_index/coor', [App\Http\Controllers\AnimeController::class, 'postCoorAnimeBulkReview'])->name('coor_anime_bulk_review.post');
+    
+    Route::get('/anime_bulk_review_index/now_watch', [App\Http\Controllers\AnimeController::class, 'showNowWatchAnimeBulkReview'])->name('now_watch_anime_bulk_review.show');
+
+    Route::post('/anime_bulk_review_index/now_watch', [App\Http\Controllers\AnimeController::class, 'postNowWatchAnimeBulkReview'])->name('now_watch_anime_bulk_review.post');
+    
+    Route::get('/anime_bulk_review_index/score', [App\Http\Controllers\AnimeController::class, 'showScoreAnimeBulkReview'])->name('score_anime_bulk_review.show');
+
+    Route::post('/anime_bulk_review_index/score', [App\Http\Controllers\AnimeController::class, 'postScoreAnimeBulkReview'])->name('score_anime_bulk_review.post');
+
+    Route::get('/anime_bulk_review_index/coor_before', [App\Http\Controllers\AnimeController::class, 'showCoorAnimeBulkBeforeReview'])->name('coor_anime_bulk_before_review.show');
+
+    Route::post('/anime_bulk_review_index/coor_before', [App\Http\Controllers\AnimeController::class, 'postCoorAnimeBulkBeforeReview'])->name('coor_anime_bulk_before_review.post');
+    
+    Route::get('/anime_bulk_review_index/now_watch_before', [App\Http\Controllers\AnimeController::class, 'showNowWatchAnimeBulkBeforeReview'])->name('now_watch_anime_bulk_before_review.show');
+
+    Route::post('/anime_bulk_review_index/now_watch_before', [App\Http\Controllers\AnimeController::class, 'postNowWatchAnimeBulkBeforeReview'])->name('now_watch_anime_bulk_before_review.post');
+    
+    Route::get('/anime_bulk_review_index/score_before', [App\Http\Controllers\AnimeController::class, 'showBeforeScoreAnimeBulkBeforeReview'])->name('before_score_anime_bulk_before_review.show');
+
+    Route::post('/anime_bulk_review_index/score_before', [App\Http\Controllers\AnimeController::class, 'postBeforeScoreAnimeBulkBeforeReview'])->name('before_score_anime_bulk_before_review.post');
 
     Route::get('/tag/{tag_id}/review', [App\Http\Controllers\TagController::class, 'showTagReview'])->name('tag_review.show');
     

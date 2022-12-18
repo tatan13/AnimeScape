@@ -104,10 +104,7 @@
                             </li>
                             <li>
                                 <a
-                                    href="{{ route('anime_review_list.show', [
-                                        'year' => \App\Models\Anime::NOW_YEAR,
-                                        'coor' => \App\Models\Anime::NOW_COOR,
-                                    ]) }}">得点一括入力</a>
+                                    href="{{ route('anime_bulk_review_index.show') }}">得点一括入力</a>
                             </li>
                             <li>
                                 <a href=" {{ route('user_statistics.show', ['user_id' => Auth::id()]) }} ">統計表</a>
@@ -178,10 +175,7 @@
                         class="footer_link">マイページ</a>
                 </li>
                 <li class="border"> <a
-                        href="{{ route('anime_review_list.show', [
-                            'year' => \App\Models\Anime::NOW_YEAR,
-                            'coor' => \App\Models\Anime::NOW_COOR,
-                        ]) }} "
+                        href="{{ route('anime_bulk_review_index.show')}} "
                         class="footer_link">得点一括入力</a>
                 </li>
             @else

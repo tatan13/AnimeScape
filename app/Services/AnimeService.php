@@ -171,6 +171,50 @@ class AnimeService
     }
 
     /**
+     * リクエストに従ってクール毎のアニメリストをログインユーザーのレビューと共に取得
+     *
+     * @param Request $request
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getCoorAnimeListWithMyReviewsFor(Request $request)
+    {
+        return $this->animeRepository->getCoorAnimeListWithMyReviewsFor($request);
+    }
+
+    /**
+     * リクエストに従ってログインユーザーの視聴中のアニメリストをレビューと共に取得
+     *
+     * @param Request $request
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getNowWatchAnimeListWithMyReviewsFor(Request $request)
+    {
+        return $this->animeRepository->getNowWatchAnimeListWithMyReviewsFor($request);
+    }
+
+    /**
+     * リクエストに従ってログインユーザーの得点入力済みのアニメリストをレビューと共に取得
+     *
+     * @param Request $request
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getScoreAnimeListWithMyReviewsFor(Request $request)
+    {
+        return $this->animeRepository->getScoreAnimeListWithMyReviewsFor($request);
+    }
+
+    /**
+     * リクエストに従ってログインユーザーの視聴完了前得点入力済みのアニメリストをレビューと共に取得
+     *
+     * @param Request $request
+     * @return Collection<int,Anime> | Collection<null>
+     */
+    public function getBeforeScoreAnimeListWithMyReviewsFor(Request $request)
+    {
+        return $this->animeRepository->getBeforeScoreAnimeListWithMyReviewsFor($request);
+    }
+
+    /**
      * リクエストに従ってアニメリストを制作会社とログインユーザーのレビューと共に取得
      *
      * @param Request $request
