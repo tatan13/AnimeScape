@@ -185,18 +185,33 @@ class UserReviewService
             ) {
                 if (is_null($anime->userReview)) {
                     DB::transaction(function () use ($anime, $submit_reviews, $key) {
-                        $this->animeRepository->createMyReviewByReviewsRequest($anime, $submit_reviews, $key);
+                        if ($submit_reviews->type == 'after') {
+                            $this->animeRepository->createMyReviewByReviewsRequest($anime, $submit_reviews, $key);
+                        }
+                        if ($submit_reviews->type == 'before') {
+                            $this->animeRepository->createMyBeforeReviewByReviewsRequest($anime, $submit_reviews, $key);
+                        }
                         $this->updateScoreStatistics($anime);
                     });
                     continue;
                 }
                 DB::transaction(function () use ($anime, $submit_reviews, $key) {
-                    $this->animeRepository->updateMyReviewByReviewsRequest(
-                        $anime,
-                        $anime->userReview,
-                        $submit_reviews,
-                        $key
-                    );
+                    if ($submit_reviews->type == 'after') {
+                        $this->animeRepository->updateMyReviewByReviewsRequest(
+                            $anime,
+                            $anime->userReview,
+                            $submit_reviews,
+                            $key
+                        );
+                    }
+                    if ($submit_reviews->type == 'before') {
+                        $this->animeRepository->updateMyBeforeReviewByReviewsRequest(
+                            $anime,
+                            $anime->userReview,
+                            $submit_reviews,
+                            $key
+                        );
+                    }
                     $this->updateScoreStatistics($anime);
                 });
                 continue;
@@ -204,12 +219,22 @@ class UserReviewService
             // 何も入力されておらず、既にレビューが存在する場合、nullで更新
             if (!is_null($anime->userReview)) {
                 DB::transaction(function () use ($anime, $submit_reviews, $key) {
-                    $this->animeRepository->updateMyReviewByReviewsRequest(
-                        $anime,
-                        $anime->userReview,
-                        $submit_reviews,
-                        $key
-                    );
+                    if ($submit_reviews->type == 'after') {
+                        $this->animeRepository->updateMyReviewByReviewsRequest(
+                            $anime,
+                            $anime->userReview,
+                            $submit_reviews,
+                            $key
+                        );
+                    }
+                    if ($submit_reviews->type == 'before') {
+                        $this->animeRepository->updateMyBeforeReviewByReviewsRequest(
+                            $anime,
+                            $anime->userReview,
+                            $submit_reviews,
+                            $key
+                        );
+                    }
                     $this->updateScoreStatistics($anime);
                 });
             }

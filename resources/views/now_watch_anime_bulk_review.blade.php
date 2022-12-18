@@ -26,11 +26,11 @@
             <h2>検索条件変更</h2>
             <form action="{{ route('now_watch_anime_bulk_review.show') }}" class="search_parameters_form" method="get">
                 @csrf
-                <select name="year" class="year">
+                <select name="year">
                     @include('layout/select_year')
                 </select>
                 年
-                <select name="coor" class="coor">
+                <select name="coor">
                     <option value="1" {{ $coor == 1 ? 'selected' : '' }}>冬</option>
                     <option value="2" {{ $coor == 2 ? 'selected' : '' }}>春</option>
                     <option value="3" {{ $coor == 3 ? 'selected' : '' }}>夏</option>
@@ -51,19 +51,17 @@
             </h2>
             <form action="{{ route('now_watch_anime_bulk_review.show') }}" name="previous" class="d-inline" method="get">
                 @csrf
-                <input type="hidden" name="year" class="year"
-                    value="{{ $coor == 1 || is_null($coor) ? $year - 1 : $year }}">
+                <input type="hidden" name="year" value="{{ $coor == 1 || is_null($coor) ? $year - 1 : $year }}">
                 @if (!is_null($coor))
-                    <input type="hidden" name="coor" class="coor" value="{{ $coor == 1 ? 4 : $coor - 1 }}">
+                    <input type="hidden" name="coor" value="{{ $coor == 1 ? 4 : $coor - 1 }}">
                 @endif
                 <a href="javascript:previous.submit()">{{ is_null($year) ? '' : (is_null($coor) ? '前の年へ' : '前クールへ') }}</a>
             </form>
             <form action="{{ route('now_watch_anime_bulk_review.show') }}" name="next" class="d-inline" method="get">
                 @csrf
-                <input type="hidden" name="year" class="year"
-                    value="{{ $coor == 4 || is_null($coor) ? $year + 1 : $year }}">
+                <input type="hidden" name="year" value="{{ $coor == 4 || is_null($coor) ? $year + 1 : $year }}">
                 @if (!is_null($coor))
-                    <input type="hidden" name="coor" class="coor" value="{{ $coor == 4 ? 1 : $coor + 1 }}">
+                    <input type="hidden" name="coor" value="{{ $coor == 4 ? 1 : $coor + 1 }}">
                 @endif
                 <a href="javascript:next.submit()">{{ is_null($year) ? '' : (is_null($coor) ? '次の年へ' : '次クールへ') }}</a>
             </form>
@@ -80,8 +78,9 @@
                 method="POST">
                 @csrf
                 <input type="submit" value="送信">
-                <input type="hidden" name="year" class="year" value="{{ $year }}">
-                <input type="hidden" name="coor" class="coor" value="{{ $coor }}">
+                <input type="hidden" name="type" value="after">
+                <input type="hidden" name="year" value="{{ $year }}">
+                <input type="hidden" name="coor" value="{{ $coor }}">
                 <div class="table-responsive">
                     <table class="now_watch_anime_bulk_review_table">
                         <tbody>
@@ -141,8 +140,7 @@
                                     <td><input type="number" name="number_of_watched_episode[{{ $loop->iteration }}]"
                                             class="number_of_watched_episode"
                                             value="{{ $anime->userReview->number_of_watched_episode ?? '' }}"></td>
-                                    <td><input type="number"
-                                            name="number_of_interesting_episode[{{ $loop->iteration }}]"
+                                    <td><input type="number" name="number_of_interesting_episode[{{ $loop->iteration }}]"
                                             class="number_of_interesting_episode"
                                             value="{{ $anime->userReview->number_of_interesting_episode ?? '' }}"></td>
                                     <td><input type="text" name="one_word_comment[{{ $loop->iteration }}]"

@@ -446,23 +446,17 @@ class AnimeRepository extends AbstractRepository
     public function createMyReviewByReviewsRequest(Anime $anime, ReviewsRequest $submit_reviews, $key)
     {
         $anime->reviewUsers()->attach(Auth::user()->id, [
-            'score' => $submit_reviews->score[$key] ?? null,
-            'will_watch' => $submit_reviews->will_watch[$key] ?? 0,
-            'watch' => $submit_reviews->watch[$key] ?? 0,
-            'now_watch' => $submit_reviews->now_watch[$key] ?? 0,
-            'give_up' => $submit_reviews->give_up[$key] ?? 0,
-            'number_of_interesting_episode' => $submit_reviews->number_of_interesting_episode[$key] ?? null,
-            'one_word_comment' => $submit_reviews->one_word_comment[$key] ?? null,
-            'watch_timestamp' => $submit_reviews->watch[$key] ?? null == true ? Carbon::now() : null,
-            'comment_timestamp' => !is_null($submit_reviews->one_word_comment[$key] ?? null)
+            'score' => $submit_reviews->score[$key],
+            'will_watch' => $submit_reviews->will_watch[$key],
+            'watch' => $submit_reviews->watch[$key],
+            'now_watch' => $submit_reviews->now_watch[$key],
+            'give_up' => $submit_reviews->give_up[$key],
+            'number_of_interesting_episode' => $submit_reviews->number_of_interesting_episode[$key],
+            'one_word_comment' => $submit_reviews->one_word_comment[$key],
+            'watch_timestamp' => $submit_reviews->watch[$key] == true ? Carbon::now() : null,
+            'comment_timestamp' => !is_null($submit_reviews->one_word_comment[$key])
             ? Carbon::now() : null,
-            'before_score' => $submit_reviews->before_score[$key] ?? null,
-            'before_comment' => $submit_reviews->before_comment[$key] ?? null,
-            'before_score_timestamp' => !is_null($submit_reviews->before_score[$key] ?? null)
-            ? Carbon::now() : null,
-            'before_comment_timestamp' => !is_null($submit_reviews->before_comment[$key] ?? null)
-            ? Carbon::now() : null,
-            'number_of_watched_episode' => $submit_reviews->number_of_watched_episode[$key] ?? null,
+            'number_of_watched_episode' => $submit_reviews->number_of_watched_episode[$key],
         ]);
     }
 
@@ -482,27 +476,82 @@ class AnimeRepository extends AbstractRepository
         $key
     ) {
         $anime->reviewUsers()->updateExistingPivot(Auth::user()->id, [
-            'score' => $submit_reviews->score[$key] ?? null,
-            'will_watch' => $submit_reviews->will_watch[$key] ?? 0,
-            'watch' => $submit_reviews->watch[$key] ?? 0,
-            'now_watch' => $submit_reviews->now_watch[$key] ?? 0,
-            'give_up' => $submit_reviews->give_up[$key] ?? 0,
-            'number_of_interesting_episode' => $submit_reviews->number_of_interesting_episode[$key] ?? null,
-            'one_word_comment' => $submit_reviews->one_word_comment[$key] ?? null,
+            'score' => $submit_reviews->score[$key],
+            'will_watch' => $submit_reviews->will_watch[$key],
+            'watch' => $submit_reviews->watch[$key],
+            'now_watch' => $submit_reviews->now_watch[$key],
+            'give_up' => $submit_reviews->give_up[$key],
+            'number_of_interesting_episode' => $submit_reviews->number_of_interesting_episode[$key],
+            'one_word_comment' => $submit_reviews->one_word_comment[$key],
             'watch_timestamp' => $my_review->watch == false &&
             ($submit_reviews->watch[$key]) == true ?
             Carbon::now() : $my_review->watch_timestamp,
             'comment_timestamp' => is_null($my_review->one_word_comment) &&
-            !is_null($submit_reviews->one_word_comment[$key] ?? null) ?
+            !is_null($submit_reviews->one_word_comment[$key]) ?
             Carbon::now() : $my_review->comment_timestamp,
-            'before_score' => $submit_reviews->before_score[$key] ?? null,
-            'before_comment' => $submit_reviews->before_comment[$key] ?? null,
-            'before_score_timestamp' => (($my_review->before_score) != ($submit_reviews->before_score[$key] ?? null))
+            'number_of_watched_episode' => $submit_reviews->number_of_watched_episode[$key],
+        ]);
+    }
+
+    /**
+     * ログインユーザーのアニメに紐づくユーザーレビューをReviewsRequestによって作成
+     *
+     * @param Anime $anime
+     * @param ReviewsRequest $submit_reviews
+     * @param int $key
+     * @return void
+     */
+    public function createMyBeforeReviewByReviewsRequest(Anime $anime, ReviewsRequest $submit_reviews, $key)
+    {
+        $anime->reviewUsers()->attach(Auth::user()->id, [
+            'will_watch' => $submit_reviews->will_watch[$key],
+            'watch' => $submit_reviews->watch[$key],
+            'now_watch' => $submit_reviews->now_watch[$key],
+            'give_up' => $submit_reviews->give_up[$key],
+            'number_of_interesting_episode' => $submit_reviews->number_of_interesting_episode[$key],
+            'watch_timestamp' => $submit_reviews->watch[$key] == true ? Carbon::now() : null,
+            'before_score' => $submit_reviews->before_score[$key],
+            'before_comment' => $submit_reviews->before_comment[$key],
+            'before_score_timestamp' => !is_null($submit_reviews->before_score[$key])
+            ? Carbon::now() : null,
+            'before_comment_timestamp' => !is_null($submit_reviews->before_comment[$key])
+            ? Carbon::now() : null,
+            'number_of_watched_episode' => $submit_reviews->number_of_watched_episode[$key],
+        ]);
+    }
+
+    /**
+     * ログインユーザーのアニメに紐づくユーザーレビューをReviewsRequestによって更新
+     *
+     * @param Anime $anime
+     * @param UserReview $my_review
+     * @param ReviewsRequest $submit_reviews
+     * @param int $key
+     * @return void
+     */
+    public function updateMyBeforeReviewByReviewsRequest(
+        Anime $anime,
+        UserReview $my_review,
+        ReviewsRequest $submit_reviews,
+        $key
+    ) {
+        $anime->reviewUsers()->updateExistingPivot(Auth::user()->id, [
+            'will_watch' => $submit_reviews->will_watch[$key],
+            'watch' => $submit_reviews->watch[$key],
+            'now_watch' => $submit_reviews->now_watch[$key],
+            'give_up' => $submit_reviews->give_up[$key],
+            'number_of_interesting_episode' => $submit_reviews->number_of_interesting_episode[$key],
+            'watch_timestamp' => $my_review->watch == false &&
+            ($submit_reviews->watch[$key]) == true ?
+            Carbon::now() : $my_review->watch_timestamp,
+            'before_score' => $submit_reviews->before_score[$key],
+            'before_comment' => $submit_reviews->before_comment[$key],
+            'before_score_timestamp' => (($my_review->before_score) != ($submit_reviews->before_score[$key]))
             ? Carbon::now() : $my_review->before_score_timestamp,
             'before_comment_timestamp' =>
-            (($my_review->before_comment) != ($submit_reviews->before_comment[$key] ?? null))
+            (($my_review->before_comment) != ($submit_reviews->before_comment[$key]))
             ? Carbon::now() : $my_review->before_comment_timestamp,
-            'number_of_watched_episode' => $submit_reviews->number_of_watched_episode[$key] ?? null,
+            'number_of_watched_episode' => $submit_reviews->number_of_watched_episode[$key],
         ]);
     }
 
