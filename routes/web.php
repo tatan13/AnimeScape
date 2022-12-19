@@ -257,4 +257,8 @@ Route::group(['middleware' => 'admin_auth'], function () {
     Route::get('/delete/company/{delete_company_id}/reject', [App\Http\Controllers\ModifyController::class, 'rejectDeleteCompanyRequest'])->name('delete_company_request.reject');
 
     Route::get('/anime/{anime_id}/delete', [App\Http\Controllers\ModifyController::class, 'deleteAnime'])->name('anime.delete');
+
+    Route::get('/tag/{tag_id}/modify_request', [App\Http\Controllers\TagController::class, 'showModifyTagRequest'])->name('modify_tag_request.show');
+
+    Route::post('/tag/{tag_id}/modify_request', [App\Http\Controllers\TagController::class, 'postModifyTagRequest'])->name('modify_tag_request.post');
 });

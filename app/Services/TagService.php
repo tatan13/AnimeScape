@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Tag;
 use App\Models\Anime;
 use App\Repositories\TagRepository;
+use App\Http\Requests\TagRequest;
 use Illuminate\Database\Eloquent\Collection;
 
 class TagService
@@ -97,5 +98,17 @@ class TagService
     public function getTagAllOldestTagGroupId()
     {
         return $this->tagRepository->getTagAllOldestTagGroupId();
+    }
+
+    /**
+     * リクエストに従ってタグ情報を更新
+     *
+     * @param int $tag_id
+     * @param TagRequest $request
+     * @return void
+     */
+    public function updateTagByRequest($tag_id, TagRequest $request)
+    {
+        $this->tagRepository->updateByRequest($tag_id, $request);
     }
 }

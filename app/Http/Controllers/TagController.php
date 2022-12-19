@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\TagReviewRequest;
+use App\Http\Requests\TagRequest;
 use App\Services\TagService;
 use App\Services\TagReviewService;
 use App\Services\AnimeService;
@@ -80,6 +81,35 @@ class TagController extends Controller
         return redirect()->route('tag.show', [
             'tag_id' => $tag_id,
         ])->with('flash_message', '入力が完了しました。');
+    }
+
+    /**
+     * タグ情報変更ページを表示
+     *
+     * @param int $tag_id
+     * @return \Illuminate\View\View
+     */
+    public function showModifyTagRequest($tag_id)
+    {
+        $tag = $this->tagService->getTagById($tag_id);
+        return view('modify_tag_request', [
+            'tag' => $tag,
+        ]);
+    }
+
+    /**
+     * タグ情報を変更し，元の画面にリダイレクト
+     *
+     * @param int $tag_id
+     * @param TagRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postModifyTagRequest($tag_id, TagRequest $request)
+    {
+        $this->tagService->updateTagByRequest($tag_id, $request);
+        return redirect()->route('modify_tag_request.show', [
+            'tag_id' => $tag_id,
+        ])->with('flash_message', '変更が完了しました。');
     }
 
     /**

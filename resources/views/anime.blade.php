@@ -388,6 +388,15 @@
                 <table class="tag_information_table">
                     <tbody>
                         <tr>
+                            <th>原作</th>
+                            <td>
+                                @foreach ($tags->where('tag_group_id', \App\Models\Tag::TYPE_ORIGINAL) as $tag)
+                                    <a
+                                        href="{{ route('tag.show', ['tag_id' => $tag->id]) }}">{{ $tag->name }}</a>({{ $tag->tag_reviews_count }})
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
                             <th>ジャンル</th>
                             <td>
                                 @foreach ($tags->where('tag_group_id', \App\Models\Tag::TYPE_GENRE) as $tag)
