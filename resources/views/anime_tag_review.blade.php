@@ -80,6 +80,9 @@
                                 <td>
                                     <select :name="'tag_group_id[' + (index + {{ $anime->tagReviews->count() }} + 1) + ']'"
                                         class="tag_group_id">
+                                        <option value="{{ \App\Models\Tag::TYPE_ORIGINAL }}">
+                                            原作
+                                        </option>
                                         <option value="{{ \App\Models\Tag::TYPE_GENRE }}">
                                             ジャンル
                                         </option>

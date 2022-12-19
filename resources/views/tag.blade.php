@@ -30,12 +30,15 @@
                 </div>
             @endif
             <div class="title">{{ $tag->name }}</div>
+            <p style="background-color: rgb(253, 253, 170);">{{ $tag->explanation }}</p>
             @if (Auth::check())
                 <a href="{{ route('tag_review.show', ['tag_id' => $tag->id]) }}">このタグをアニメに一括で括り付ける</a>
             @else
                 <a href="{{ route('tag_review.show', ['tag_id' => $tag->id]) }}">ログインしてこのタグをアニメに一括で括り付ける</a>
             @endif
-            <p style="background-color: rgb(253, 253, 170);">{{ $tag->explanation }}</p>
+            @can('isAdmin')
+                <a href="{{ route('modify_tag_request.show', ['tag_id' => $tag->id]) }}">このタグの情報を変更する</a>
+            @endcan
             <h2>登録数の多い順</h2>
             @foreach ($animes as $anime)
                 @if ($loop->iteration % 2 == 0)

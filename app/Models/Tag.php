@@ -22,10 +22,12 @@ class Tag extends Model
     public const TYPE_PICTURE = 5;
     public const TYPE_CAST = 6;
     public const TYPE_OTHER = 7;
+    public const TYPE_ORIGINAL = 8;
 
     public const SEARCH_COLUMN = 'name';
 
     public const TAG_GROUP_ID = [
+        self::TYPE_ORIGINAL => [ 'label' => '原作' ],
         self::TYPE_GENRE => [ 'label' => 'ジャンル' ],
         self::TYPE_CHARACTER => [ 'label' => 'キャラクター' ],
         self::TYPE_STORY => [ 'label' => 'ストーリー' ],
