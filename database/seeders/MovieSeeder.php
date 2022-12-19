@@ -12,7 +12,7 @@ use App\Models\Company;
 use App\Models\Occupation;
 use Illuminate\Support\Facades\DB;
 
-class CoorAnimeSeeder extends Seeder
+class MovieSeeder extends Seeder
 {
     /**
      * animesテーブル，castsテーブルのシーダーを起動
@@ -21,7 +21,7 @@ class CoorAnimeSeeder extends Seeder
      */
     public function run()
     {
-        $posts = file_get_contents("data/2023_1_mix_anime_list.json");
+        $posts = file_get_contents("data/2023_1_movie_list.json");
         $posts = mb_convert_encoding($posts, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
         $posts = json_decode($posts);
 
