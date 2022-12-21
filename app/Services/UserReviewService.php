@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\UserReview;
 use App\Models\User;
 use App\Models\Anime;
+use App\Models\Cast;
 use App\Models\Tag;
 use App\Repositories\UserReviewRepository;
 use App\Repositories\AnimeRepository;
@@ -68,6 +69,17 @@ class UserReviewService
     public function getLatestUserReviewsOfAnimeWithUser(Anime $anime)
     {
         return $this->animeRepository->getLatestUserReviewsWithUser($anime);
+    }
+
+    /**
+     * 声優に紐づく得点の付いたユーザーレビューを降順に取得
+     *
+     * @param Cast $cast
+     * @return Collection<int,UserReview> | Collection<null>
+     */
+    public function getCastUserScoreReview(Cast $cast)
+    {
+        return $this->userReviewRepository->getCastUserScoreReview($cast);
     }
 
     /**

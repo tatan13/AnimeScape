@@ -38,48 +38,79 @@
                 </like-cast-component>
             @endauth
             <section class="cast_profile">
-                <h2>プロフィール</h2>
-                <div class="table-responsive">
-                    <table class="cast_profile_table">
-                        <tr>
-                            <th>ふりがな</th>
-                            <td>{{ $cast->furigana }}</td>
-                        </tr>
-                        <tr>
-                            <th>性別</th>
-                            <td>{{ $cast->sex_label }}</td>
-                        </tr>
-                        <tr>
-                            <th>生年月日</th>
-                            <td>{{ $cast->birth }}</td>
-                        </tr>
-                        <tr>
-                            <th>出身地</th>
-                            <td>{{ $cast->birthplace }}</td>
-                        </tr>
-                        <tr>
-                            <th>血液型</th>
-                            <td>{{ $cast->blood_type }}</td>
-                        </tr>
-                        <tr>
-                            <th>所属事務所</th>
-                            <td><a href="{{ $cast->url }}" target="_blank"
-                                    rel="noopener noreferrer">{{ $cast->office }}</a></td>
-                        </tr>
-                        <tr>
-                            <th>ツイッター</th>
-                            <td><a href="https://twitter.com/{{ $cast->twitter }}" target="_blank"
-                                    rel="noopener noreferrer">{{ $cast->twitter }}</a></td>
-                        </tr>
-                        <tr>
-                            <th>公式ブログ</th>
-                            <td><a href="{{ $cast->blog_url }}" target="_blank"
-                                    rel="noopener noreferrer">{{ $cast->blog }}</a></td>
-                        </tr>
-                    </table>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>プロフィール</h2>
+                        <div class="table-responsive">
+                            <table class="cast_profile_table">
+                                <tr>
+                                    <th>ふりがな</th>
+                                    <td>{{ $cast->furigana }}</td>
+                                </tr>
+                                <tr>
+                                    <th>性別</th>
+                                    <td>{{ $cast->sex_label }}</td>
+                                </tr>
+                                <tr>
+                                    <th>生年月日</th>
+                                    <td>{{ $cast->birth }}</td>
+                                </tr>
+                                <tr>
+                                    <th>出身地</th>
+                                    <td>{{ $cast->birthplace }}</td>
+                                </tr>
+                                <tr>
+                                    <th>血液型</th>
+                                    <td>{{ $cast->blood_type }}</td>
+                                </tr>
+                                <tr>
+                                    <th>所属事務所</th>
+                                    <td><a href="{{ $cast->url }}" target="_blank"
+                                            rel="noopener noreferrer">{{ $cast->office }}</a></td>
+                                </tr>
+                                <tr>
+                                    <th>ツイッター</th>
+                                    <td><a href="https://twitter.com/{{ $cast->twitter }}" target="_blank"
+                                            rel="noopener noreferrer">{{ $cast->twitter }}</a></td>
+                                </tr>
+                                <tr>
+                                    <th>公式ブログ</th>
+                                    <td><a href="{{ $cast->blog_url }}" target="_blank"
+                                            rel="noopener noreferrer">{{ $cast->blog }}</a></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <a href="{{ route('modify_cast_request.show', ['cast_id' => $cast->id]) }}">声優の情報の変更申請をする</a><br>
+                        <a href="{{ route('delete_cast_request.show', ['cast_id' => $cast->id]) }}">声優の削除申請をする</a>
+                    </div>
+                    <div class="col-sm-6">
+                        <h2>統計情報</h2>
+                        <div class="table-responsive">
+                            <table class="cast_profile_table">
+                                <tr>
+                                    <th>中央値</th>
+                                    <td>{{ $user_review->median('score') }}</td>
+                                </tr>
+                                <tr>
+                                    <th>平均値</th>
+                                    <td>{{ $user_review->average('score') }}</td>
+                                </tr>
+                                <tr>
+                                    <th>総得点数</th>
+                                    <td>{{ $user_review->count() }}</td>
+                                </tr>
+                                <tr>
+                                    <th>ユーザー数</th>
+                                    <td>{{ $user_review->unique('user_id')->count() }}</td>
+                                </tr>
+                                <tr>
+                                    <th>被お気に入りユーザー数</th>
+                                    <td>{{ $liked_users->count() }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <a href="{{ route('modify_cast_request.show', ['cast_id' => $cast->id]) }}">声優の情報の変更申請をする</a><br>
-                <a href="{{ route('delete_cast_request.show', ['cast_id' => $cast->id]) }}">声優の削除申請をする</a>
             </section>
             <section class="cast_act_anime_list">
                 <h2>出演アニメ（計{{ $cast->actAnimes->count() }}本）</h2>
