@@ -6,6 +6,7 @@ use App\Models\UserReview;
 use App\Models\User;
 use App\Models\Anime;
 use App\Models\Cast;
+use App\Models\Company;
 use App\Models\Tag;
 use App\Repositories\UserReviewRepository;
 use App\Repositories\AnimeRepository;
@@ -72,7 +73,7 @@ class UserReviewService
     }
 
     /**
-     * 声優に紐づく得点の付いたユーザーレビューを降順に取得
+     * 声優に紐づく得点の付いたユーザーレビューを取得
      *
      * @param Cast $cast
      * @return Collection<int,UserReview> | Collection<null>
@@ -80,6 +81,17 @@ class UserReviewService
     public function getCastUserScoreReview(Cast $cast)
     {
         return $this->userReviewRepository->getCastUserScoreReview($cast);
+    }
+
+    /**
+     * 会社に紐づく得点の付いたユーザーレビューを取得
+     *
+     * @param Company $company
+     * @return Collection<int,UserReview> | Collection<null>
+     */
+    public function getCompanyUserScoreReview(Company $company)
+    {
+        return $this->userReviewRepository->getCompanyUserScoreReview($company);
     }
 
     /**

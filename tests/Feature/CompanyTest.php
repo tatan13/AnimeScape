@@ -15,16 +15,27 @@ class CompanyTest extends TestCase
 
     private Company $company;
     private Anime $anime;
+    private Anime $anime1;
     private User $user;
+    private User $user1;
+    private User $user2;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->company = Company::factory()->create();
         $this->anime = Anime::factory()->create();
+        $this->anime1 = Anime::factory()->create();
         $this->user = User::factory()->create();
+        $this->user1 = User::factory()->create();
+        $this->user2 = User::factory()->create();
 
         $this->anime->companies()->attach($this->company->id);
+        $this->anime1->companies()->attach($this->company->id);
+
+        $this->anime->reviewUsers()->attach($this->user1->id, ['score' => 100]);
+        $this->anime1->reviewUsers()->attach($this->user1->id, ['score' => 90]);
+        $this->anime->reviewUsers()->attach($this->user2->id, ['score' => 80]);
     }
 
     /**
@@ -50,10 +61,11 @@ class CompanyTest extends TestCase
         $response = $this->get(route('company.show', ['company_id' => $this->company->id]));
         $response->assertSeeInOrder([
             $this->company->name,
-            '計1本',
+            '計2本',
             $this->anime->title,
             $this->anime->median,
             $this->anime->count,
+            $this->anime1->title,
         ]);
     }
 
@@ -82,6 +94,26 @@ class CompanyTest extends TestCase
         $response->assertSee('つけた得点');
     }
 
+    /**
+     * 会社ページの統計情報の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCompanyStatisticsView()
+    {
+        $response = $this->get(route('company.show', ['company_id' => $this->company->id]));
+        $response->assertSeeInOrder([
+            '中央値',
+            90,
+            '平均値',
+            90,
+            '総得点数',
+            3,
+            'ユーザー数',
+            2,
+        ]);
+    }
     /**
      * 存在しない会社ページにアクセスしたときのテスト
      *

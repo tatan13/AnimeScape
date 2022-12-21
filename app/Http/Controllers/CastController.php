@@ -32,11 +32,11 @@ class CastController extends Controller
     public function show($cast_id)
     {
         $cast = $this->castService->getCastInformationById($cast_id);
-        $user_review = $this->userReviewService->getCastUserScoreReview($cast);
+        $user_reviews = $this->userReviewService->getCastUserScoreReview($cast);
         $liked_users = $this->userService->getLikedUsersOfCastForRanking($cast);
         return view('cast', [
             'cast' => $cast,
-            'user_review' => $user_review,
+            'user_reviews' => $user_reviews,
             'liked_users' => $liked_users,
         ]);
     }

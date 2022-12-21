@@ -89,19 +89,19 @@
                             <table class="cast_profile_table">
                                 <tr>
                                     <th>中央値</th>
-                                    <td>{{ $user_review->median('score') }}</td>
+                                    <td>{{ $user_reviews->median('score') }}</td>
                                 </tr>
                                 <tr>
                                     <th>平均値</th>
-                                    <td>{{ $user_review->average('score') }}</td>
+                                    <td>{{ $user_reviews->average('score') }}</td>
                                 </tr>
                                 <tr>
                                     <th>総得点数</th>
-                                    <td>{{ $user_review->count() }}</td>
+                                    <td>{{ $user_reviews->count() }}</td>
                                 </tr>
                                 <tr>
                                     <th>ユーザー数</th>
-                                    <td>{{ $user_review->unique('user_id')->count() }}</td>
+                                    <td>{{ $user_reviews->unique('user_id')->count() }}</td>
                                 </tr>
                                 <tr>
                                     <th>被お気に入りユーザー数</th>
