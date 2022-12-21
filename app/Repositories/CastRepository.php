@@ -28,7 +28,7 @@ class CastRepository extends AbstractRepository
      * @param int $cast_id
      * @return Cast
      */
-    public function getCastWithActAnimesWithCompaniesAndWithMyReviewsById($cast_id)
+    public function getCastInformationById($cast_id)
     {
         return Cast::where('id', $cast_id)->with('actAnimes', function ($query) {
             $query->withCompanies()->withMyReviews()->LatestYearCoorMedian();

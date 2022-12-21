@@ -50,9 +50,9 @@ class CastTest extends TestCase
         $this->company = Company::factory()->create();
         $this->anime1->companies()->attach($this->company->id);
 
-        $this->anime1->reviewUsers()->attach($this->user2->id, ['watch' => 1]);
-        $this->anime2->reviewUsers()->attach($this->user2->id, ['watch' => 1]);
-        $this->anime1->reviewUsers()->attach($this->user3->id, ['watch' => 1]);
+        $this->anime1->reviewUsers()->attach($this->user2->id, ['score' => 100, 'watch' => 1]);
+        $this->anime2->reviewUsers()->attach($this->user2->id, ['score' => 90, 'watch' => 1]);
+        $this->anime1->reviewUsers()->attach($this->user3->id, ['score' => 80, 'watch' => 1]);
     }
 
     /**
@@ -112,6 +112,29 @@ class CastTest extends TestCase
             $this->anime2->coor_label,
             $this->anime2->median,
             $this->anime2->count,
+        ]);
+    }
+
+    /**
+     * 声優ページの統計情報の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCastStatisticsView()
+    {
+        $response = $this->get(route('cast.show', ['cast_id' => $this->cast->id]));
+        $response->assertSeeInOrder([
+            '中央値',
+            90,
+            '平均値',
+            90,
+            '総得点数',
+            3,
+            'ユーザー数',
+            2,
+            '被お気に入りユーザー数',
+            2
         ]);
     }
 

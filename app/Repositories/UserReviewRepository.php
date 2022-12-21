@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\UserReview;
+use App\Models\Cast;
+use App\Models\Company;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -90,5 +92,36 @@ class UserReviewRepository extends AbstractRepository
     public function getForAnimeBeforeComment($user_review_id)
     {
         return UserReview::whereNotNull('before_long_comment')->with(['anime', 'user'])->findOrFail($user_review_id);
+    }
+
+    /**
+     * 声優に紐づく得点の付いたユーザーレビューを取得
+     *
+     * @param Cast $cast
+     * @return Collection<int,UserReview> | Collection<null>
+     */
+    public function getCastUserScoreReview(Cast $cast)
+    {
+        return UserReview::whereNotNull('score')->whereHas('anime', function ($query) use ($cast) {
+            $query->whereHas('occupations', function ($q) use ($cast) {
+                $q->where('cast_id', $cast->id);
+            });
+        })->get();
+    }
+
+    /**
+     * 会社に紐づく得点もしくはコメント付いたユーザーレビューを取得
+     *
+     * @param Company $company
+     * @return Collection<int,UserReview> | Collection<null>
+     */
+    public function getCompanyUserScoreReview(Company $company)
+    {
+        return UserReview::whereNotNull('score')
+        ->whereHas('anime', function ($query) use ($company) {
+            $query->whereHas('companies', function ($q) use ($company) {
+                $q->where('company_id', $company->id);
+            });
+        })->get();
     }
 }

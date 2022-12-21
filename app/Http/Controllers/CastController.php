@@ -5,18 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\CastService;
 use App\Services\UserService;
+use App\Services\UserReviewService;
 
 class CastController extends Controller
 {
     private CastService $castService;
     private UserService $userService;
+    private UserReviewService $userReviewService;
 
     public function __construct(
         CastService $castService,
         UserService $userService,
+        UserReviewService $userReviewService,
     ) {
         $this->castService = $castService;
         $this->userService = $userService;
+        $this->userReviewService = $userReviewService;
     }
 
     /**
@@ -27,10 +31,12 @@ class CastController extends Controller
      */
     public function show($cast_id)
     {
-        $cast = $this->castService->getCastWithActAnimesWithCompaniesAndWithMyReviews($cast_id);
+        $cast = $this->castService->getCastInformationById($cast_id);
+        $user_reviews = $this->userReviewService->getCastUserScoreReview($cast);
         $liked_users = $this->userService->getLikedUsersOfCastForRanking($cast);
         return view('cast', [
             'cast' => $cast,
+            'user_reviews' => $user_reviews,
             'liked_users' => $liked_users,
         ]);
     }

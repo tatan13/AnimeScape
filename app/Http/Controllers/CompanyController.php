@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\CompanyService;
+use App\Services\UserReviewService;
 
 class CompanyController extends Controller
 {
     private CompanyService $companyService;
+    private UserReviewService $userReviewService;
 
     public function __construct(
         CompanyService $companyService,
+        UserReviewService $userReviewService,
     ) {
         $this->companyService = $companyService;
+        $this->userReviewService = $userReviewService;
     }
 
     /**
@@ -24,8 +28,10 @@ class CompanyController extends Controller
     public function show($company_id)
     {
         $company = $this->companyService->getCompanyWithAnimesWithMyReviews($company_id);
+        $user_reviews = $this->userReviewService->getCompanyUserScoreReview($company);
         return view('company', [
             'company' => $company,
+            'user_reviews' => $user_reviews,
         ]);
     }
 }
