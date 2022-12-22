@@ -129,7 +129,7 @@ input, select {
 
     #menu:checked ~ aside {
         overflow-y: scroll;
-        z-index: 1;
+        z-index: 2;
         left: 0;
         top: 0;
     }
@@ -137,6 +137,7 @@ input, select {
     #menu:checked ~ .back {
         display: block;
         position: absolute;
+        z-index: 1;
         left: 0;
         top: -95px;
         width: 100%;
@@ -148,6 +149,7 @@ input, select {
         background-color: white;
         display: block;
         position: fixed;
+        z-index: 3;
         bottom: 0;
         width: 100%;
         height: 54px;
