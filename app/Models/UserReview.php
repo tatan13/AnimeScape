@@ -99,4 +99,28 @@ class UserReview extends Model
         return $query->with(['anime', 'user'])->whereNotNull('before_comment')
         ->latest('before_comment_timestamp');
     }
+
+    public function scopeWhereYear($query, $year)
+    {
+        if (is_null($year)) {
+            return $query;
+        }
+        return $query->where('animes.year', $year);
+    }
+
+    public function scopeWhereCoor($query, $coor)
+    {
+        if (is_null($coor)) {
+            return $query;
+        }
+        return $query->where('animes.coor', $coor);
+    }
+
+    public function scopeWhereAboveCount($query, $count)
+    {
+        if (is_null($count)) {
+            return $query;
+        }
+        return $query->where('animes.count', '>=', $count);
+    }
 }

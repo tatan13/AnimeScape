@@ -25,8 +25,7 @@
                 href="{{ route('site_information.show') }}">このサイトについて</a>を一読ください。
             <h2>お知らせ</h2>
             <ul class="list-inline">
-                <li>タググループに原作を追加しました。</li>
-                <li>2023年冬アニメを追加しました。</li>
+                <li>ランキングに声優に関する統計ランキングを追加しました。</li>
             </ul>
         </section>
         <section class="anime_ranking">

@@ -59,6 +59,37 @@ class CastService
     }
 
     /**
+     * リクエストに従ってランキングのために声優の統計情報を取得
+     *
+     * @param Request $request
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function getCastStatistics(Request $request)
+    {
+        if ($this->isVelifiedCategory($request->category)) {
+            return $this->castRepository->getCastStatistics($request);
+        }
+        abort(404);
+    }
+
+    /**
+     * カテゴリーが正しい値か判定
+     *
+     * @param string | null $category
+     * @return bool
+     */
+    public function isVelifiedCategory(string | null $category)
+    {
+        return  $category === 'score_median' ||
+                $category === 'score_average' ||
+                $category === 'act_animes_count' ||
+                $category === 'score_count' ||
+                $category === 'score_users_count' ||
+                $category === 'liked_users_count' ||
+                is_null($category);
+    }
+
+    /**
      * アニメに出演する声優を取得
      *
      * @param Anime $anime
