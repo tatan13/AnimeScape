@@ -61,8 +61,8 @@
                 <tbody>
                     <tr>
                         <th>順位</th>
-                        <th>声優名</th>
-                        <th>出演数</th>
+                        <th>会社名</th>
+                        <th>制作数</th>
                         <th>中央値</th>
                         <th>平均値</th>
                         <th>総得点数</th>
