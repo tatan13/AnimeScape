@@ -5,9 +5,11 @@ namespace App\Repositories;
 use App\Models\Company;
 use App\Models\Anime;
 use App\Models\User;
+use App\Models\UserReview;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Http\Requests\AnimeRequest;
+use Illuminate\Support\Facades\DB;
 
 class CompanyRepository extends AbstractRepository
 {
@@ -54,6 +56,42 @@ class CompanyRepository extends AbstractRepository
         return Company::where('id', $company_id)->with('animes', function ($query) {
             $query->withMyReviews()->LatestYearCoorMedian();
         })->firstOrFail();
+    }
+
+    /**
+     * リクエストに従ってランキングのために会社の統計情報を取得
+     *
+     * @param Request  $request
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function getCompanyStatistics(Request $request)
+    {
+        $subquery = UserReview::join('animes', 'user_reviews.anime_id', '=', 'animes.id')
+        ->join('anime_company', 'user_reviews.anime_id', '=', 'anime_company.anime_id')
+        ->whereNotNull('score')->whereYear($request->year)->whereCoor($request->coor)
+        ->whereAboveCount($request->count)->whereColumn('companies.id', 'company_id');
+        return Company::select(['id', 'name'])
+        ->selectSub(function ($q) use ($subquery) {
+            $q->select(DB::raw("COUNT(score)"))->from($subquery->select('score'));
+        }, 'score_count')
+        ->selectSub(function ($q) use ($subquery) {
+            $q->select(DB::raw("AVG(score)"))->from($subquery->select('score'));
+        }, 'score_average')
+        ->selectSub(function ($q) use ($subquery) {
+            $q->select(DB::raw("COUNT(DISTINCT(user_id))"))->from($subquery->select('user_id'));
+        }, 'score_users_count')
+        ->selectSub(function ($q) use ($subquery) {
+            $q->select(DB::raw("AVG(score)"))->whereBetween('ROWNUM', [
+                DB::raw("score_count * 1.0 / 2"),
+                DB::raw("score_count * 1.0 / 2 + 1")
+                ])->from($subquery->select(
+                    'score',
+                    DB::raw("row_number() OVER(PARTITION BY company_id ORDER BY score) AS ROWNUM"),
+                    DB::raw("COUNT(1) OVER(PARTITION BY company_id) AS score_count")
+                ));
+        }, 'score_median')->withCount(['animes' => function ($q) use ($request) {
+            $q->whereYear($request->year)->whereCoor($request->coor)->whereAboveCount($request->count);
+        }])->latestCategory($request->category)->paginate(100);
     }
 
     /**

@@ -4,11 +4,13 @@ namespace App\Repositories;
 
 use App\Models\Cast;
 use App\Models\User;
+use App\Models\UserReview;
 use App\Models\ModifyCast;
 use App\Models\Anime;
 use Illuminate\Http\Request;
 use App\Http\Requests\CastRequest;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class CastRepository extends AbstractRepository
 {
@@ -33,6 +35,42 @@ class CastRepository extends AbstractRepository
         return Cast::where('id', $cast_id)->with('actAnimes', function ($query) {
             $query->withCompanies()->withMyReviews()->LatestYearCoorMedian();
         })->firstOrFail();
+    }
+
+    /**
+     * リクエストに従ってランキングのために声優の統計情報を取得
+     *
+     * @param Request  $request
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function getCastStatistics(Request $request)
+    {
+        $subquery = UserReview::join('animes', 'user_reviews.anime_id', '=', 'animes.id')
+        ->join('occupations', 'user_reviews.anime_id', '=', 'occupations.anime_id')
+        ->whereNotNull('score')->whereYear($request->year)->whereCoor($request->coor)
+        ->whereAboveCount($request->count)->whereColumn('casts.id', 'cast_id');
+        return Cast::select(['id', 'name'])
+        ->selectSub(function ($q) use ($subquery) {
+            $q->select(DB::raw("COUNT(score)"))->from($subquery->select('score'));
+        }, 'score_count')
+        ->selectSub(function ($q) use ($subquery) {
+            $q->select(DB::raw("AVG(score)"))->from($subquery->select('score'));
+        }, 'score_average')
+        ->selectSub(function ($q) use ($subquery) {
+            $q->select(DB::raw("COUNT(DISTINCT(user_id))"))->from($subquery->select('user_id'));
+        }, 'score_users_count')
+        ->selectSub(function ($q) use ($subquery) {
+            $q->select(DB::raw("AVG(score)"))->whereBetween('ROWNUM', [
+                DB::raw("score_count * 1.0 / 2"),
+                DB::raw("score_count * 1.0 / 2 + 1")
+                ])->from($subquery->select(
+                    'score',
+                    DB::raw("row_number() OVER(PARTITION BY cast_id ORDER BY score) AS ROWNUM"),
+                    DB::raw("COUNT(1) OVER(PARTITION BY cast_id) AS score_count")
+                ));
+        }, 'score_median')->withCount(['actAnimes' => function ($q) use ($request) {
+            $q->whereYear($request->year)->whereCoor($request->coor)->whereAboveCount($request->count);
+        }, 'likedUsers'])->latestCategory($request->category)->paginate(100);
     }
 
     /**

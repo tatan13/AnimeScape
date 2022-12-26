@@ -111,7 +111,13 @@ Route::get('/contact', [App\Http\Controllers\ContactController::class, 'show'])-
 
 Route::post('/contact', [App\Http\Controllers\ContactController::class, 'post'])->name('contact.post');
 
-Route::get('/anime_statistics', [App\Http\Controllers\StatisticsController::class, 'show'])->name('anime_statistics.show');
+Route::get('/statistics_index', [App\Http\Controllers\StatisticsController::class, 'showStatisticsIndex'])->name('statistics_index.show');
+
+Route::get('/statistics_index/anime', [App\Http\Controllers\StatisticsController::class, 'showAnimeStatistics'])->name('anime_statistics.show');
+
+Route::get('/statistics_index/cast', [App\Http\Controllers\StatisticsController::class, 'showCastStatistics'])->name('cast_statistics.show');
+
+Route::get('/statistics_index/company', [App\Http\Controllers\StatisticsController::class, 'showCompanyStatistics'])->name('company_statistics.show');
 
 Route::get('/anime/{anime_id}/modify_request', [App\Http\Controllers\ModifyController::class, 'showModifyAnimeRequest'])->name('modify_anime_request.show');
 

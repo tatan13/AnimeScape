@@ -46,4 +46,9 @@ class Company extends Model
             $q->withMyReviews()->LatestYearCoorMedian()->take(10);
         });
     }
+
+    public function scopeLatestCategory($query, $category)
+    {
+        return $query->latest($category ?? 'score_median');
+    }
 }

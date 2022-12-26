@@ -127,4 +127,9 @@ class Cast extends Model
             $q->WithCompanies()->withMyReviews()->LatestYearCoorMedian()->take(10);
         });
     }
+
+    public function scopeLatestCategory($query, $category)
+    {
+        return $query->latest($category ?? 'score_median');
+    }
 }

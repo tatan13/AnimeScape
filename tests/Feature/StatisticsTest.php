@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\Anime;
+use App\Models\Cast;
+use App\Models\Company;
 use App\Models\User;
 use Tests\TestCase;
 
@@ -16,7 +18,26 @@ class StatisticsTest extends TestCase
     private Anime $anime2;
     private Anime $anime3;
     private Anime $anime4;
+    private Anime $anime5;
+    private Anime $anime6;
+    private Anime $anime7;
+    private Anime $anime8;
+    private Anime $anime9;
+    private Cast $cast1;
+    private Cast $cast2;
+    private Cast $cast3;
+    private Cast $cast4;
+    private Cast $cast5;
+    private Cast $cast6;
+    private Company $company1;
+    private Company $company2;
+    private Company $company3;
+    private Company $company4;
+    private Company $company5;
     private User $user;
+    private User $user1;
+    private User $user2;
+    private User $user3;
 
     protected function setUp(): void
     {
@@ -49,7 +70,106 @@ class StatisticsTest extends TestCase
             'average' => 77,
             'count' => 3,
         ]);
+        $this->anime5 = Anime::factory()->create();
+        $this->anime6 = Anime::factory()->create();
+        $this->anime7 = Anime::factory()->create();
+        $this->anime8 = Anime::factory()->create();
+        $this->anime9 = Anime::factory()->create();
+
         $this->user = User::factory()->create();
+        $this->user1 = User::factory()->create();
+        $this->user2 = User::factory()->create();
+        $this->user3 = User::factory()->create();
+
+        $this->cast1 = Cast::factory()->create();
+        $this->cast2 = Cast::factory()->create();
+        $this->cast3 = Cast::factory()->create();
+        $this->cast4 = Cast::factory()->create();
+        $this->cast5 = Cast::factory()->create();
+        $this->cast6 = Cast::factory()->create();
+
+        $this->company1 = Company::factory()->create();
+        $this->company2 = Company::factory()->create();
+        $this->company3 = Company::factory()->create();
+        $this->company4 = Company::factory()->create();
+        $this->company5 = Company::factory()->create();
+
+        $this->anime1->actCasts()->attach($this->cast1->id);
+        $this->anime2->actCasts()->attach($this->cast1->id);
+        $this->anime1->actCasts()->attach($this->cast2->id);
+        $this->anime3->actCasts()->attach($this->cast2->id);
+        $this->anime4->actCasts()->attach($this->cast3->id);
+        $this->anime5->actCasts()->attach($this->cast3->id);
+        $this->anime6->actCasts()->attach($this->cast3->id);
+        $this->anime7->actCasts()->attach($this->cast3->id);
+        $this->anime4->actCasts()->attach($this->cast4->id);
+        $this->anime8->actCasts()->attach($this->cast4->id);
+        $this->anime9->actCasts()->attach($this->cast5->id);
+
+        $this->anime1->companies()->attach($this->company1->id);
+        $this->anime2->companies()->attach($this->company1->id);
+        $this->anime1->companies()->attach($this->company2->id);
+        $this->anime3->companies()->attach($this->company2->id);
+        $this->anime4->companies()->attach($this->company3->id);
+        $this->anime5->companies()->attach($this->company3->id);
+        $this->anime6->companies()->attach($this->company3->id);
+        $this->anime7->companies()->attach($this->company3->id);
+        $this->anime4->companies()->attach($this->company4->id);
+        $this->anime8->companies()->attach($this->company4->id);
+        $this->anime9->companies()->attach($this->company5->id);
+
+        $this->user->likeCasts()->attach($this->cast6->id);
+        $this->user1->likeCasts()->attach($this->cast6->id);
+        $this->user1->likeCasts()->attach($this->cast1->id);
+
+        $this->anime1->reviewUsers()->attach($this->user->id, [
+            'score' => 100,
+        ]);
+        $this->anime2->reviewUsers()->attach($this->user1->id, [
+            'score' => 80,
+        ]);
+        $this->anime3->reviewUsers()->attach($this->user1->id, [
+            'score' => 50,
+        ]);
+        $this->anime2->reviewUsers()->attach($this->user2->id, [
+            'score' => 0,
+        ]);
+        $this->anime4->reviewUsers()->attach($this->user->id, [
+            'score' => 0,
+        ]);
+        $this->anime4->reviewUsers()->attach($this->user1->id, [
+            'score' => 0,
+        ]);
+        $this->anime8->reviewUsers()->attach($this->user->id, [
+            'score' => 0,
+        ]);
+        $this->anime8->reviewUsers()->attach($this->user1->id, [
+            'score' => 0,
+        ]);
+        $this->anime9->reviewUsers()->attach($this->user->id, [
+            'score' => 0,
+        ]);
+        $this->anime9->reviewUsers()->attach($this->user1->id, [
+            'score' => 0,
+        ]);
+        $this->anime9->reviewUsers()->attach($this->user2->id, [
+            'score' => 0,
+        ]);
+        $this->anime9->reviewUsers()->attach($this->user3->id, [
+            'score' => 0,
+        ]);
+    }
+
+    /**
+     * ゲスト時のランキングページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testStatisticsIndexView()
+    {
+        $response = $this->get(route('statistics_index.show'));
+        $response->assertStatus(200);
     }
 
     /**
@@ -183,6 +303,334 @@ class StatisticsTest extends TestCase
     public function testStatisticsExceptionCategory()
     {
         $response = $this->get(route('anime_statistics.show', ['category' => 'exception']));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * 声優ランキングページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCastStatisticsView()
+    {
+        $response = $this->get(route('cast_statistics.show'));
+        $response->assertStatus(200);
+    }
+
+    /**
+     * すべてのアニメの中央値順声優ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCastAllStatisticsMedianView()
+    {
+        $response = $this->get(route('cast_statistics.show', ['category' => 'score_median']));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->cast1->name,
+            $this->cast2->name,
+        ]);
+    }
+
+    /**
+     * すべてのアニメの平均値順声優ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCastAllStatisticsAverageView()
+    {
+        $response = $this->get(route('cast_statistics.show', ['category' => 'score_average']));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->cast2->name,
+            $this->cast1->name,
+        ]);
+    }
+
+    /**
+     * すべてのアニメの出演数順声優ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCastAllStatisticsActAnimesCountView()
+    {
+        $response = $this->get(route('cast_statistics.show', ['category' => 'act_animes_count']));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->cast3->name,
+            $this->cast4->name,
+        ]);
+    }
+
+    /**
+     * すべてのアニメの得点数順声優ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCastAllStatisticsScoreCountView()
+    {
+        $response = $this->get(route('cast_statistics.show', ['category' => 'score_count']));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->cast4->name,
+            $this->cast1->name,
+        ]);
+    }
+
+    /**
+     * すべてのアニメの総得点ユーザー数順声優ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCastAllStatisticsScoreUsersCountView()
+    {
+        $response = $this->get(route('cast_statistics.show', ['category' => 'score_users_count']));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->cast5->name,
+            $this->cast1->name,
+        ]);
+    }
+
+    /**
+     * すべてのアニメの総得点ユーザー数順声優ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCastAllStatisticsLikedUsersCountView()
+    {
+        $response = $this->get(route('cast_statistics.show', ['category' => 'liked_users_count']));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->cast6->name,
+            $this->cast1->name,
+        ]);
+    }
+
+    /**
+     * 年別のアニメの声優ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCastYearStatisticsView()
+    {
+        $response = $this->get(route('cast_statistics.show', ['category' => 'score_median', 'year' => 2021]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->cast2->name,
+            $this->cast1->name,
+        ]);
+    }
+
+    /**
+     * クール別のアニメの声優ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCastCoorStatisticsView()
+    {
+        $response = $this->get(route('cast_statistics.show', [
+            'category' => 'score_median', 'year' => 2022, 'coor' => Anime::WINTER
+        ]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->cast2->name,
+            $this->cast1->name,
+        ]);
+    }
+
+    /**
+     * 得点数を絞ったアニメの声優ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCastCountStatisticsView()
+    {
+        $response = $this->get(route('cast_statistics.show', [
+            'category' => 'score_median', 'count' => 2,
+        ]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->cast1->name,
+            $this->cast2->name,
+        ]);
+    }
+
+    /**
+     * クール別のアニメの声優ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCastStatisticsExceptionCategory()
+    {
+        $response = $this->get(route('cast_statistics.show', ['category' => 'exception']));
+        $response->assertStatus(404);
+    }
+
+    /**
+     * 会社ランキングページの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCompanyStatisticsView()
+    {
+        $response = $this->get(route('company_statistics.show'));
+        $response->assertStatus(200);
+    }
+
+    /**
+     * すべてのアニメの中央値順会社ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCompanyAllStatisticsMedianView()
+    {
+        $response = $this->get(route('company_statistics.show', ['category' => 'score_median']));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->company1->name,
+            $this->company2->name,
+        ]);
+    }
+
+    /**
+     * すべてのアニメの平均値順会社ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCompanyAllStatisticsAverageView()
+    {
+        $response = $this->get(route('company_statistics.show', ['category' => 'score_average']));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->company2->name,
+            $this->company1->name,
+        ]);
+    }
+
+    /**
+     * すべてのアニメの出演数順会社ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCompanyAllStatisticsAnimesCountView()
+    {
+        $response = $this->get(route('company_statistics.show', ['category' => 'animes_count']));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->company3->name,
+            $this->company4->name,
+        ]);
+    }
+
+    /**
+     * すべてのアニメの得点数順会社ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCompanyAllStatisticsScoreCountView()
+    {
+        $response = $this->get(route('company_statistics.show', ['category' => 'score_count']));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->company4->name,
+            $this->company1->name,
+        ]);
+    }
+
+    /**
+     * すべてのアニメの総得点ユーザー数順会社ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCompanyAllStatisticsScoreUsersCountView()
+    {
+        $response = $this->get(route('company_statistics.show', ['category' => 'score_users_count']));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->company5->name,
+            $this->company1->name,
+        ]);
+    }
+
+    /**
+     * 年別のアニメの会社ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCompanyYearStatisticsView()
+    {
+        $response = $this->get(route('company_statistics.show', ['category' => 'score_median', 'year' => 2021]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->company2->name,
+            $this->company1->name,
+        ]);
+    }
+
+    /**
+     * クール別のアニメの会社ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCompanyCoorStatisticsView()
+    {
+        $response = $this->get(route('company_statistics.show', [
+            'category' => 'score_median', 'year' => 2022, 'coor' => Anime::WINTER
+        ]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->company2->name,
+            $this->company1->name,
+        ]);
+    }
+
+    /**
+     * 得点数を絞ったアニメの会社ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCompanyCountStatisticsView()
+    {
+        $response = $this->get(route('company_statistics.show', [
+            'category' => 'score_median', 'count' => 2,
+        ]));
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $this->company1->name,
+            $this->company2->name,
+        ]);
+    }
+
+    /**
+     * クール別のアニメの会社ランキングページのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCompanyStatisticsExceptionCategory()
+    {
+        $response = $this->get(route('company_statistics.show', ['category' => 'exception']));
         $response->assertStatus(404);
     }
 }

@@ -125,7 +125,7 @@
                     <h2>メニュー</h2>
                     <ul>
                         <li>
-                            <a href="{{ route('anime_statistics.show') }}">ランキング</a>
+                            <a href="{{ route('statistics_index.show') }}">ランキング</a>
                         </li>
                         <li>
                             <a href="{{ route('tag_list.show') }}">タグリスト</a>
@@ -183,7 +183,7 @@
                 <li class="border"><a href="{{ route('register') }}" target="_self" class="footer_link">新規作成</a>
                 </li>
             @endif
-            <li class="border"><a href="{{ route('anime_statistics.show') }}" class="footer_link">ランキング</a></li>
+            <li class="border"><a href="{{ route('statistics_index.show') }}" class="footer_link">ランキング</a></li>
         </ul>
     </nav>
 

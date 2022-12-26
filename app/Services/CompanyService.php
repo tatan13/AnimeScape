@@ -70,4 +70,34 @@ class CompanyService
     {
         return $this->companyRepository->getUserWatchReviewAllCompanyList($user, $request);
     }
+
+    /**
+     * リクエストに従ってランキングのために会社の統計情報を取得
+     *
+     * @param Request $request
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function getCompanyStatistics(Request $request)
+    {
+        if ($this->isVelifiedCategory($request->category)) {
+            return $this->companyRepository->getCompanyStatistics($request);
+        }
+        abort(404);
+    }
+
+    /**
+     * カテゴリーが正しい値か判定
+     *
+     * @param string | null $category
+     * @return bool
+     */
+    public function isVelifiedCategory(string | null $category)
+    {
+        return  $category === 'score_median' ||
+                $category === 'score_average' ||
+                $category === 'animes_count' ||
+                $category === 'score_count' ||
+                $category === 'score_users_count' ||
+                is_null($category);
+    }
 }
