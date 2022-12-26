@@ -25,7 +25,7 @@
                 href="{{ route('site_information.show') }}">このサイトについて</a>を一読ください。
             <h2>お知らせ</h2>
             <ul class="list-inline">
-                <li>ランキングに声優に関する統計ランキングを追加しました。</li>
+                <li>ランキングに声優、制作会社に関する統計ランキングを追加しました。</li>
             </ul>
         </section>
         <section class="anime_ranking">

@@ -5,18 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\AnimeService;
 use App\Services\CastService;
+use App\Services\CompanyService;
 
 class StatisticsController extends Controller
 {
     private AnimeService $animeService;
     private CastService $castService;
+    private CompanyService $companyService;
 
     public function __construct(
         AnimeService $animeService,
         CastService $castService,
+        CompanyService $companyService,
     ) {
         $this->animeService = $animeService;
         $this->castService = $castService;
+        $this->companyService = $companyService;
     }
 
     /**
@@ -58,6 +62,24 @@ class StatisticsController extends Controller
         $casts = $this->castService->getCastStatistics($request);
         return view('cast_statistics', [
             'casts' => $casts,
+            'category' => $request->category,
+            'year' => $request->year,
+            'coor' => $request->coor,
+            'count' => (int)$request->count,
+        ]);
+    }
+
+    /**
+     * 会社のランキングを表示
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function showCompanyStatistics(Request $request)
+    {
+        $companies = $this->companyService->getCompanyStatistics($request);
+        return view('company_statistics', [
+            'companies' => $companies,
             'category' => $request->category,
             'year' => $request->year,
             'coor' => $request->coor,

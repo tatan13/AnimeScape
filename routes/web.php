@@ -117,6 +117,8 @@ Route::get('/statistics_index/anime', [App\Http\Controllers\StatisticsController
 
 Route::get('/statistics_index/cast', [App\Http\Controllers\StatisticsController::class, 'showCastStatistics'])->name('cast_statistics.show');
 
+Route::get('/statistics_index/company', [App\Http\Controllers\StatisticsController::class, 'showCompanyStatistics'])->name('company_statistics.show');
+
 Route::get('/anime/{anime_id}/modify_request', [App\Http\Controllers\ModifyController::class, 'showModifyAnimeRequest'])->name('modify_anime_request.show');
 
 Route::post('/anime/{anime_id}/modify_request', [App\Http\Controllers\ModifyController::class, 'postModifyAnimeRequest'])->name('modify_anime_request.post');
