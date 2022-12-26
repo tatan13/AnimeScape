@@ -91,7 +91,7 @@
                         <select name="category" class="category">
                             <option value="score_median">中央値</option>
                             <option value="score_average">平均値</option>
-                            <option value="act_animes_count">出演数</option>
+                            <option value="animes_count">制作数</option>
                             <option value="score_count">総得点数</option>
                             <option value="score_users_count">総得点ユーザー数</option>
                         </select>

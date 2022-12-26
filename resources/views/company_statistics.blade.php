@@ -45,11 +45,11 @@
                 </option>
             </select>の
             得点数が<input type="number" name="count" class="count" value="{{ $count ?? 0 }}" style="width:60px;">
-            以上のアニメに出演した声優で
+            以上のアニメを制作した会社で
             <select name="category" class="category">
                 <option value="score_median">中央値</option>
                 <option value="score_average" {{ $category == 'score_average' ? 'selected' : '' }}>平均値</option>
-                <option value="animes_count" {{ $category == 'animes_count' ? 'selected' : '' }}>出演数</option>
+                <option value="animes_count" {{ $category == 'animes_count' ? 'selected' : '' }}>制作数</option>
                 <option value="score_count" {{ $category == 'score_count' ? 'selected' : '' }}>総得点数</option>
                 <option value="score_users_count" {{ $category == 'score_users_count' ? 'selected' : '' }}>総得点ユーザー数</option>
             </select>
