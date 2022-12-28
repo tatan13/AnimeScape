@@ -57,6 +57,12 @@ class SitemapCommand extends Command
             \File::append($file, $content);
         }
 
+        $content = "<url>
+            <loc>" . route('anime_list.show') . "</loc>
+            <lastmod>2022-12-20</lastmod>
+            </url>";
+        \File::append($file, $content);
+
         $user_review_list = \App\Models\UserReview::whereNotNull('long_word_comment')
         ->select(['id', 'updated_at'])->oldest('id')->get();
         foreach ($user_review_list as $user_review) {
@@ -106,6 +112,12 @@ class SitemapCommand extends Command
             \File::append($file, $content);
         }
 
+        $content = "<url>
+            <loc>" . route('company_list.show') . "</loc>
+            <lastmod>2022-12-29</lastmod>
+            </url>";
+        \File::append($file, $content);
+
         $tag_list = \App\Models\Tag::select(['id', 'updated_at'])->oldest('id')->get();
         foreach ($tag_list as $tag) {
             $content = "<url>
@@ -137,8 +149,26 @@ class SitemapCommand extends Command
         \File::append($file, $content);
 
         $content = "<url>
+            <loc>" . route('statistics_index.show') . "</loc>
+            <lastmod>2022-12-27</lastmod>
+            </url>";
+        \File::append($file, $content);
+
+        $content = "<url>
             <loc>" . route('anime_statistics.show') . "</loc>
             <lastmod>2022-05-27</lastmod>
+            </url>";
+        \File::append($file, $content);
+
+        $content = "<url>
+            <loc>" . route('cast_statistics.show') . "</loc>
+            <lastmod>2022-12-27</lastmod>
+            </url>";
+        \File::append($file, $content);
+
+        $content = "<url>
+            <loc>" . route('company_statistics.show') . "</loc>
+            <lastmod>2022-12-27</lastmod>
             </url>";
         \File::append($file, $content);
 
