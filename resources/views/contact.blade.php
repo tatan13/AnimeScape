@@ -4,6 +4,10 @@
     <title>要望フォーム AnimeScape -アニメ批評空間-</title>
 @endsection
 
+@section('Breadcrumbs')
+    {{ Breadcrumbs::render('contact') }}
+@endsection
+
 @section('main')
     <article class="contact">
         <h1>要望フォーム</h1>

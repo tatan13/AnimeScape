@@ -11,6 +11,10 @@
         crossorigin="anonymous"></script>
 @endsection
 
+@section('Breadcrumbs')
+    {{ Breadcrumbs::render('company_statistics') }}
+@endsection
+
 @section('sidebar_adsense')
     @include('layout.vertical_adsense')
 @endsection

@@ -4,6 +4,10 @@
     <title>ランキングメニュー AnimeScape -アニメ批評空間-</title>
 @endsection
 
+@section('Breadcrumbs')
+    {{ Breadcrumbs::render('statistics_index') }}
+@endsection
+
 @section('main')
     <article class="statistics_index">
         <h1>ランキングメニュー</h1>

@@ -4,6 +4,10 @@
     <title>AnimeScape -アニメ批評空間-</title>
 @endsection
 
+@section('Breadcrumbs')
+    {{ Breadcrumbs::render('privacy_policy') }}
+@endsection
+
 @section('main')
     <article class="privacy_policy">
         <h1>プライバシーポリシー</h1>

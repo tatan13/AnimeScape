@@ -4,6 +4,10 @@
     <title>更新履歴 AnimeScape -アニメ批評空間-</title>
 @endsection
 
+@section('Breadcrumbs')
+    {{ Breadcrumbs::render('update_log') }}
+@endsection
+
 @section('main')
     <article class="update_log">
         <h1>更新履歴</h1>

@@ -4,6 +4,10 @@
     <title>このサイトについて AnimeScape -アニメ批評空間-</title>
 @endsection
 
+@section('Breadcrumbs')
+    {{ Breadcrumbs::render('site_information') }}
+@endsection
+
 @section('main')
     <article class="site_information">
         <h1>このサイトについて</h1>

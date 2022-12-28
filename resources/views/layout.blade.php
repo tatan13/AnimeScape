@@ -89,6 +89,7 @@
                     value="{{ $search_word ?? '' }}" />
             </form>
         </nav>
+        @yield('Breadcrumbs')
         <div class="row" style="position: relative; min-height: 100vh;">
             <input id="menu" type="checkbox" />
             <label for="menu" class="back"></label>
