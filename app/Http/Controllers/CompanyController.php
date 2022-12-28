@@ -34,4 +34,17 @@ class CompanyController extends Controller
             'user_reviews' => $user_reviews,
         ]);
     }
+
+    /**
+     * 制作会社リストを表示
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showList()
+    {
+        $company_all = $this->companyService->getCompanyAll();
+        return view('company_list', [
+            'company_all' => $company_all,
+        ]);
+    }
 }

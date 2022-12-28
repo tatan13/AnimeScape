@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    <title>声優リスト AnimeScape -アニメ批評空間-</title>
+    <title>制作会社リスト AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('adsense')
@@ -21,20 +21,20 @@
 @endif
 
 @section('main')
-    <article class="cast_list">
-        <h1>声優リスト</h1>
+    <article class="company_list">
+        <h1>制作会社リスト</h1>
         <div class="table-responsive">
-            <section class="cast_list">
-                <table class="cast_list_table">
+            <section class="company_list">
+                <table class="company_list_table">
                     <tbody>
                         <tr>
-                            <th>声優ID</th>
-                            <th>声優名</th>
+                            <th>制作会社ID</th>
+                            <th>制作会社名</th>
                         </tr>
-                        @foreach ($cast_all as $cast)
+                        @foreach ($company_all as $company)
                             <tr>
-                                <td>{{ $cast->id }}</td>
-                                <td><a href="{{ route('cast.show', ['cast_id' => $cast->id]) }}">{{ $cast->name }}</a>
+                                <td>{{ $company->id }}</td>
+                                <td><a href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
                                 </td>
                             </tr>
                         @endforeach
