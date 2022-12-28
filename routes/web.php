@@ -65,6 +65,8 @@ Route::get('/company/{company_id}/delete_request', [App\Http\Controllers\ModifyC
 
 Route::post('/company/{company_id}/delete_request', [App\Http\Controllers\ModifyController::class, 'postDeleteCompanyRequest'])->name('delete_company_request.post');
 
+Route::get('/company_list', [App\Http\Controllers\CompanyController::class, 'showList'])->name('company_list.show');
+
 Route::get('/tag/{tag_id}', [App\Http\Controllers\TagController::class, 'show'])->name('tag.show');
 
 Route::get('/tag_list', [App\Http\Controllers\TagController::class, 'showList'])->name('tag_list.show');

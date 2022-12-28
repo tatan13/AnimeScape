@@ -125,4 +125,16 @@ class CompanyTest extends TestCase
         $response = $this->get(route('company.show', ['company_id' => 33333333333333]));
         $response->assertStatus(404);
     }
+
+    /**
+     * 制作会社リストの表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testCompanyListView()
+    {
+        $response = $this->get(route('company_list.show'));
+        $response->assertStatus(200);
+    }
 }

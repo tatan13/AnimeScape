@@ -89,6 +89,7 @@
                     value="{{ $search_word ?? '' }}" />
             </form>
         </nav>
+        @yield('Breadcrumbs')
         <div class="row" style="position: relative; min-height: 100vh;">
             <input id="menu" type="checkbox" />
             <label for="menu" class="back"></label>
@@ -126,6 +127,18 @@
                     <ul>
                         <li>
                             <a href="{{ route('statistics_index.show') }}">ランキング</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('anime_list.show') }}">アニメリスト</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('company_list.show') }}">制作会社リスト</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('cast_list.show') }}">声優リスト</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('creater_list.show') }}">クリエイターリスト</a>
                         </li>
                         <li>
                             <a href="{{ route('tag_list.show') }}">タグリスト</a>

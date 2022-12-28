@@ -9,6 +9,9 @@
         crossorigin="anonymous"></script>
 @endsection
 
+@section('Breadcrumbs')
+    {{ Breadcrumbs::render('creater_list') }}
+@endsection
 
 @section('sidebar_adsense')
     @include('layout.vertical_adsense')

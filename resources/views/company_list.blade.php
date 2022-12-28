@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    <title>アニメリスト AnimeScape -アニメ批評空間-</title>
+    <title>制作会社リスト AnimeScape -アニメ批評空間-</title>
 @endsection
 
 @section('adsense')
@@ -10,7 +10,7 @@
 @endsection
 
 @section('Breadcrumbs')
-    {{ Breadcrumbs::render('anime_list') }}
+    {{ Breadcrumbs::render('company_list') }}
 @endsection
 
 @section('sidebar_adsense')
@@ -24,20 +24,20 @@
 @endif
 
 @section('main')
-    <article class="anime_list">
-        <h1>アニメリスト</h1>
+    <article class="company_list">
+        <h1>制作会社リスト</h1>
         <div class="table-responsive">
-            <section class="anime_list">
-                <table class="anime_list_table">
+            <section class="company_list">
+                <table class="company_list_table">
                     <tbody>
                         <tr>
-                            <th>アニメID</th>
-                            <th>アニメ名</th>
+                            <th>制作会社ID</th>
+                            <th>制作会社名</th>
                         </tr>
-                        @foreach ($anime_all as $anime)
+                        @foreach ($company_all as $company)
                             <tr>
-                                <td>{{ $anime->id }}</td>
-                                <td><a href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
+                                <td>{{ $company->id }}</td>
+                                <td><a href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
                                 </td>
                             </tr>
                         @endforeach

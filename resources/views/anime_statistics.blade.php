@@ -12,6 +12,10 @@
         crossorigin="anonymous"></script>
 @endsection
 
+@section('Breadcrumbs')
+    {{ Breadcrumbs::render('anime_statistics') }}
+@endsection
+
 @section('sidebar_adsense')
     @include('layout.vertical_adsense')
 @endsection

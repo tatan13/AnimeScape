@@ -9,6 +9,9 @@
         crossorigin="anonymous"></script>
 @endsection
 
+@section('Breadcrumbs')
+    {{ Breadcrumbs::render('cast_list') }}
+@endsection
 
 @section('sidebar_adsense')
     @include('layout.vertical_adsense')
@@ -24,7 +27,7 @@
     <article class="cast_list">
         <h1>声優リスト</h1>
         <div class="table-responsive">
-            <section class="cast_act_anime_list">
+            <section class="cast_list">
                 <table class="cast_list_table">
                     <tbody>
                         <tr>

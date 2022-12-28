@@ -37,6 +37,16 @@ class CompanyService
     }
 
     /**
+     * すべての制作会社を取得
+     *
+     * @return Collection<int,Company> | Collection<null>
+     */
+    public function getCompanyAll()
+    {
+        return $this->companyRepository->getAll();
+    }
+
+    /**
      * company_idから会社を制作しているアニメとログインユーザーのレビューと共に取得
      *
      * @param int $company_id
