@@ -59,6 +59,12 @@
             </select>
             順に<input type="submit" value="絞り込む">
         </form>
+        <section class="adsense">
+            <h2>広告</h2>
+            @if (env('APP_ENV') == 'production')
+                @include('layout.horizontal_adsense')
+            @endif
+        </section>
         <h2>ランキング</h2>
         <form action="{{ route('anime_statistics.show') }}" name="previous" class="d-inline" method="get">
             @csrf

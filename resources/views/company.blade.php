@@ -17,12 +17,6 @@
     @include('layout.vertical_adsense')
 @endsection
 
-@if (env('APP_ENV') == 'production')
-    @section('main_adsense_smartphone')
-        @include('layout.horizontal_adsense_smartphone')
-    @endsection
-@endif
-
 @section('main')
     <article class=company_information>
         <h1>
@@ -57,6 +51,12 @@
                     </tr>
                 </table>
             </div>
+        </section>
+        <section class="adsense">
+            <h2>広告</h2>
+            @if (env('APP_ENV') == 'production')
+                @include('layout.horizontal_adsense')
+            @endif
         </section>
         <section class="company_anime_list">
             <h2>制作アニメ一覧（計{{ $company->animes->count() }}本）</h2>

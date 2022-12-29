@@ -18,12 +18,6 @@
     @include('layout.vertical_adsense')
 @endsection
 
-@if (env('APP_ENV') == 'production')
-    @section('main_adsense_smartphone')
-        @include('layout.horizontal_adsense_smartphone')
-    @endsection
-@endif
-
 @section('main')
     <article class="anime_information">
         <h1>
@@ -36,11 +30,20 @@
         @endif
         <section class="anime_information">
             <div class="title">{{ $anime->title }}</div>
-            <div class="d-flex flex-wrap justify-content-between">
-                <div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>基本情報</h2>
                     <div class="table-responsive">
                         <table class="anime_basic_information_table">
                             <tbody>
+                                @if (!is_null($anime->furigana))
+                                    <tr>
+                                        <th>読み</th>
+                                        <td>
+                                            {{ $anime->furigana }}
+                                        </td>
+                                    </tr>
+                                @endif
                                 <tr>
                                     <th>制作会社</th>
                                     <td>
@@ -101,7 +104,7 @@
                                 </tr>
                                 @if (!is_null($anime->city_name))
                                     <tr>
-                                        <th>舞台</th>
+                                        <th>舞台・聖地</th>
                                         <td>
                                             {{ $anime->city_name }}
                                         </td>
@@ -117,7 +120,8 @@
                             onclick="return confirm('本当に削除しますか？')">このアニメを削除する</a>
                     @endcan
                 </div>
-                <div>
+                <div class="col-sm-6">
+                    <h2>評価情報</h2>
                     <div class="table-responsive">
                         <table class="anime_statistics_table">
                             <tbody>
@@ -161,16 +165,14 @@
                         </table>
                     </div>
                 </div>
-                <div></div>
-                <div></div>
             </div>
             <div class="toContents d-grid gap-2">
                 @if (Auth::check())
                     <button type="button" class="btn btn-primary"
-                        onclick="location.href='{{ route('anime_review.show', ['anime_id' => $anime->id]) }}'">このアニメに得点やコメントを登録する</button>
+                        onclick="location.href='{{ route('anime_review.show', ['anime_id' => $anime->id]) }}'">このアニメに得点や感想を登録する</button>
                 @else
                     <button type="button" class="btn btn-primary"
-                        onclick="location.href='{{ route('anime_review.show', ['anime_id' => $anime->id]) }}'">ログインしてこのアニメに得点やコメントを登録する</button>
+                        onclick="location.href='{{ route('anime_review.show', ['anime_id' => $anime->id]) }}'">ログインしてこのアニメに得点や感想を登録する</button>
                 @endif
             </div>
         </section>
@@ -183,7 +185,7 @@
                             <tr>
                                 <th>ユーザー名</th>
                                 <th>得点</th>
-                                <th>コメント</th>
+                                <th>感想</th>
                             </tr>
                             @foreach ($like_users as $like_user)
                                 <tr>
@@ -230,6 +232,12 @@
                 </table>
             </div>
             <a href="{{ route('modify_occupations.show', ['anime_id' => $anime->id]) }}">アニメの出演声優情報の変更をする</a>
+        </section>
+        <section class="adsense">
+            <h2>広告</h2>
+            @if (env('APP_ENV') == 'production')
+                @include('layout.horizontal_adsense')
+            @endif
         </section>
         <section class="creater_information">
             <h2>クリエイターの情報</h2>
@@ -510,7 +518,7 @@
             @endforeach
         </section>
         <section class="anime_comment">
-            <h2>コメント（新着順）</h2>
+            <h2>感想（新着順）</h2>
             @foreach ($anime->userReviews as $user_review)
                 @if ($loop->iteration % 2 == 0)
                     <div class="comment_even">
@@ -537,45 +545,36 @@
             @endforeach
         </section>
         <section class="before_anime_information">
-            <div class="row">
-                <div class="col-sm-5">
-                    <h2>視聴完了前統計情報</h2>
-                    <div class="table-responsive">
-                        <table class="before_anime_statistics_table">
-                            <tbody>
-                                <tr>
-                                    <th>中央値</th>
-                                    <th>平均値</th>
-                                    <th>得点数</th>
-                                    <th>標準偏差</th>
-                                    @auth
-                                        <th>つけた得点</th>
-                                    @endauth
-                                </tr>
-                                <tr>
-                                    <td>{{ $anime->before_median }}</td>
-                                    <td>{{ $anime->before_average }}</td>
-                                    <td><a
-                                            href="{{ route('anime_before_score_list.show', ['anime_id' => $anime->id]) }}">{{ $anime->before_count }}</a>
-                                    </td>
-                                    <td>{{ $anime->before_stdev }}</td>
-                                    @auth
-                                        <td>{{ $anime->userReview->before_score ?? '' }}</td>
-                                    @endauth
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-sm-7">
-                    <h2>広告</h2>
-                    @if (env('APP_ENV') == 'production')
-                        @include('layout.rakuten_adsense')
-                    @endif
-                </div>
+            <h2>視聴完了前統計情報</h2>
+            <div class="table-responsive">
+                <table class="before_anime_statistics_table">
+                    <tbody>
+                        <tr>
+                            <th>中央値</th>
+                            <th>平均値</th>
+                            <th>得点数</th>
+                            <th>標準偏差</th>
+                            @auth
+                                <th>つけた得点</th>
+                            @endauth
+                        </tr>
+                        <tr>
+                            <td>{{ $anime->before_median }}</td>
+                            <td>{{ $anime->before_average }}</td>
+                            <td><a
+                                    href="{{ route('anime_before_score_list.show', ['anime_id' => $anime->id]) }}">{{ $anime->before_count }}</a>
+                            </td>
+                            <td>{{ $anime->before_stdev }}</td>
+                            @auth
+                                <td>{{ $anime->userReview->before_score ?? '' }}</td>
+                            @endauth
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
         <section class="before_anime_comment">
-            <h2>視聴完了前コメント（新着順）</h2>
+            <h2>視聴完了前感想（新着順）</h2>
             @foreach ($anime->userReviews as $user_review)
                 @if ($loop->iteration % 2 == 0)
                     <div class="comment_even">
@@ -670,12 +669,6 @@
                         src="https://www15.a8.net/0.gif?a8mat=3NNF9T+4D6GHE+4EKC+61Z81" alt="">
                 @endif
             </ul>
-        </section>
-        <section class="adsense">
-            <h2>広告</h2>
-            @if (env('APP_ENV') == 'production')
-                @include('layout.horizontal_multiplex_adsense')
-            @endif
         </section>
         <section class="anime_twitter">
             <h2>公式twitter</h2>

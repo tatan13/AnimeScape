@@ -17,12 +17,6 @@
     @include('layout.vertical_adsense')
 @endsection
 
-@if (env('APP_ENV') == 'production')
-    @section('main_adsense_smartphone')
-        @include('layout.horizontal_adsense_smartphone')
-    @endsection
-@endif
-
 @section('main')
     <div id="app">
         <article class=creater_information>
@@ -45,7 +39,7 @@
                 <div class="table-responsive">
                     <table class="creater_profile_table">
                         <tr>
-                            <th>ふりがな</th>
+                            <th>読み</th>
                             <td>{{ $creater->furigana }}</td>
                         </tr>
                         <tr>
@@ -79,6 +73,12 @@
                 <a
                     href="{{ route('modify_creater_request.show', ['creater_id' => $creater->id]) }}">クリエイターの情報の変更申請をする</a><br>
                 <a href="{{ route('delete_creater_request.show', ['creater_id' => $creater->id]) }}">クリエイターの削除申請をする</a>
+            </section>
+            <section class="adsense">
+                <h2>広告</h2>
+                @if (env('APP_ENV') == 'production')
+                    @include('layout.horizontal_adsense')
+                @endif
             </section>
             <section class="creater_act_anime_list">
                 <h2>（計{{ $creater->animes->count() }}本）</h2>
@@ -120,6 +120,9 @@
                     </table>
                 </div>
             </section>
+            @if (env('APP_ENV') == 'production')
+                @include('layout.horizontal_multiplex_adsense')
+            @endif
         </article>
     </div>
 @endsection

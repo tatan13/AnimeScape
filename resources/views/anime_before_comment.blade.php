@@ -4,6 +4,15 @@
     <title>{{ $user_review->user->name }}さんの「{{ $user_review->anime->title }}」の視聴完了前感想 AnimeScape -アニメ批評空間-</title>
 @endsection
 
+@section('adsense')
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1583558174306860"
+        crossorigin="anonymous"></script>
+@endsection
+
+@section('sidebar_adsense')
+    @include('layout.vertical_adsense')
+@endsection
+
 @section('tweet_button')
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 @endsection
