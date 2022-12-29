@@ -5,6 +5,15 @@
     <meta name="robots" content="noindex,nofollow">
 @endsection
 
+@section('adsense')
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1583558174306860"
+        crossorigin="anonymous"></script>
+@endsection
+
+@section('sidebar_adsense')
+    @include('layout.vertical_adsense')
+@endsection
+
 @section('main')
     <article class="now_watch_anime_list">
         <h1>{{ $user->name }}さんの視聴中アニメリスト({{ !is_null($year) ? $year . '年' : '' }}{{ is_null($year) && is_null($coor) ? '全期間' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }})

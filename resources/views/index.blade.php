@@ -20,8 +20,8 @@
     <article class="index">
         <section class="information">
             <h1>AnimeScape -アニメ批評空間-</h1>
-            <h2>ようこそAnimeScape -アニメ批評空間-へ</h2>
-            このサイトはアニメの情報やアニメに付けたユーザーの得点や感想を集めた統計サイトです。視聴管理、アニメ探し等様々な用途でご利用ください。詳しくは<a
+            <h2>アニメの批評・評価、視聴管理ができる統計サイトAnimeScape -アニメ批評空間-へようこそ</h2>
+            このサイトはアニメの情報やアニメに付けたユーザーの得点や感想を集めた統計サイトです。アニメの批評・評価、視聴管理、アニメ探し等様々な用途でご利用ください。詳しくは<a
                 href="{{ route('site_information.show') }}">このサイトについて</a>を一読ください。
             <h2>お知らせ</h2>
             <ul class="list-inline">
@@ -71,9 +71,6 @@
                 </table>
             </div>
         </section>
-        @if (env('APP_ENV') == 'production')
-            @include('layout.horizontal_adsense_smartphone')
-        @endif
         <section class="new_before_comment">
             <h2>新着視聴完了前一言感想　<a href="{{ route('new_before_comment_list.show') }}">もっと見る</a></h2>
             @foreach ($user_reviews_latest_before_comment as $user_review)
@@ -102,6 +99,9 @@
                 </div>
             @endforeach
         </section>
+        @if (env('APP_ENV') == 'production')
+            @include('layout.horizontal_adsense')
+        @endif
         <section class="new_comment">
             <h2>新着一言感想　<a href="{{ route('new_comment_list.show') }}">もっと見る</a></h2>
             @foreach ($user_reviews_latest_comment as $user_review)
@@ -130,8 +130,5 @@
                 </div>
             @endforeach
         </section>
-        @if (env('APP_ENV') == 'production')
-            @include('layout.horizontal_multiplex_adsense')
-        @endif
     </article>
 @endsection

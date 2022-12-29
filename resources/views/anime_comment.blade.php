@@ -7,6 +7,15 @@
     @endif
 @endsection
 
+@section('adsense')
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1583558174306860"
+        crossorigin="anonymous"></script>
+@endsection
+
+@section('sidebar_adsense')
+    @include('layout.vertical_adsense')
+@endsection
+
 @section('tweet_button')
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 @endsection

@@ -559,7 +559,7 @@ class AnimeTest extends TestCase
     {
         $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
         $response->assertSeeInOrder([
-            '視聴完了前コメント（新着順）',
+            '視聴完了前感想（新着順）',
             'excellent',
             $this->user2->name,
             '100点',
@@ -581,7 +581,7 @@ class AnimeTest extends TestCase
     public function testGuestAnimeView()
     {
         $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
-        $response->assertSee('ログインしてこのアニメに得点やコメントを登録する');
+        $response->assertSee('ログインしてこのアニメに得点や感想を登録する');
         $response->assertDontSee('つけた得点');
         $response->assertDontSee('このアニメを削除する');
     }
@@ -597,7 +597,7 @@ class AnimeTest extends TestCase
         $this->actingAs($this->user1);
         $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
         $response->assertStatus(200);
-        $response->assertDontSee('ログインしてこのアニメに得点やコメントを登録する');
+        $response->assertDontSee('ログインしてこのアニメに得点や感想を登録する');
         $response->assertSee('つけた得点');
     }
 

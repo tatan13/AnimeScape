@@ -17,12 +17,6 @@
     @include('layout.vertical_adsense')
 @endsection
 
-@if (env('APP_ENV') == 'production')
-    @section('main_adsense_smartphone')
-        @include('layout.horizontal_adsense_smartphone')
-    @endsection
-@endif
-
 @section('main')
     <div id="app">
         <article class=cast_information>
@@ -47,7 +41,7 @@
                         <div class="table-responsive">
                             <table class="cast_profile_table">
                                 <tr>
-                                    <th>ふりがな</th>
+                                    <th>読み</th>
                                     <td>{{ $cast->furigana }}</td>
                                 </tr>
                                 <tr>
@@ -115,6 +109,12 @@
                     </div>
                 </div>
             </section>
+            <section class="adsense">
+                <h2>広告</h2>
+                @if (env('APP_ENV') == 'production')
+                    @include('layout.horizontal_adsense')
+                @endif
+            </section>
             <section class="cast_act_anime_list">
                 <h2>出演アニメ（計{{ $cast->actAnimes->count() }}本）</h2>
                 <div class="table-responsive">
@@ -165,9 +165,6 @@
                     @endforeach
                 </ul>
             </section>
-            @if (env('APP_ENV') == 'production')
-                @include('layout.horizontal_multiplex_adsense')
-            @endif
         </article>
     </div>
 @endsection

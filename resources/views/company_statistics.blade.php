@@ -55,10 +55,17 @@
                 <option value="score_average" {{ $category == 'score_average' ? 'selected' : '' }}>平均値</option>
                 <option value="animes_count" {{ $category == 'animes_count' ? 'selected' : '' }}>制作数</option>
                 <option value="score_count" {{ $category == 'score_count' ? 'selected' : '' }}>総得点数</option>
-                <option value="score_users_count" {{ $category == 'score_users_count' ? 'selected' : '' }}>総得点ユーザー数</option>
+                <option value="score_users_count" {{ $category == 'score_users_count' ? 'selected' : '' }}>総得点ユーザー数
+                </option>
             </select>
             順に<input type="submit" value="絞り込む">
         </form>
+        <section class="adsense">
+            <h2>広告</h2>
+            @if (env('APP_ENV') == 'production')
+                @include('layout.horizontal_adsense')
+            @endif
+        </section>
         <h2>ランキング</h2>
         <div class="table-responsive">
             <table class="company_ranking_table">

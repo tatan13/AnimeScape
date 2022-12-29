@@ -42,6 +42,12 @@
             @can('isAdmin')
                 <a href="{{ route('modify_tag_request.show', ['tag_id' => $tag->id]) }}">このタグの情報を変更する</a>
             @endcan
+            <section class="adsense">
+                <h2>広告</h2>
+                @if (env('APP_ENV') == 'production')
+                    @include('layout.horizontal_adsense')
+                @endif
+            </section>
             <h2>登録数の多い順</h2>
             @foreach ($animes as $anime)
                 @if ($loop->iteration % 2 == 0)
@@ -57,6 +63,9 @@
                 {{ $anime->tag_reviews_count }}件 中央値{{ $anime->tagReviews->median('score') }}点
                 </div>
             @endforeach
+            @if (env('APP_ENV') == 'production')
+                @include('layout.horizontal_multiplex_adsense')
+            @endif
         </section>
     </article>
 @endsection
