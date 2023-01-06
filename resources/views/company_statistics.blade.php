@@ -19,12 +19,6 @@
     @include('layout.vertical_adsense')
 @endsection
 
-@if (env('APP_ENV') == 'production')
-    @section('main_adsense_smartphone')
-        @include('layout.horizontal_adsense_smartphone')
-    @endsection
-@endif
-
 @section('main')
     <article class="company_statistics">
         <h1>会社ランキング
