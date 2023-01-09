@@ -80,8 +80,9 @@
                     @include('layout.horizontal_adsense')
                 @endif
             </section>
-            <section class="creater_act_anime_list">
-                <h2>（計{{ $creater->animes->count() }}本）</h2>
+            <section class="creater_anime_list">
+                @if (!$creater->animeCreaters->where('classification', 1)->isEmpty())
+                <h2>監督</h2>
                 <div class="table-responsive">
                     <table class="creater_anime_list_table">
                         <tbody>
@@ -91,34 +92,373 @@
                                 <th>放送クール</th>
                                 <th>中央値</th>
                                 <th>得点数</th>
+                                <th>職種詳細</th>
                                 @auth
                                     <th>つけた得点</th>
                                 @endauth
                             </tr>
-                            @foreach ($creater->animes as $anime)
+                            @foreach ($creater->animeCreaters->where('classification', 1)->unique('anime_id') as $animeCreater)
                                 <tr>
                                     <td><a
-                                            href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
+                                            href="{{ route('anime.show', ['anime_id' => $animeCreater->anime->id]) }}">{{ $animeCreater->anime->title }}</a>
                                     </td>
                                     <td>
-                                        @foreach ($anime->companies as $company)
+                                        @foreach ($animeCreater->anime->companies as $company)
                                             <a
                                                 href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
                                         @endforeach
                                     </td>
                                     <td>
-                                        {{ $anime->year }}年{{ $anime->coor_label }}クール
+                                        {{ $animeCreater->anime->year }}年{{ $animeCreater->anime->coor_label }}クール
                                     </td>
-                                    <td>{{ $anime->median }}</td>
-                                    <td>{{ $anime->count }}</td>
+                                    <td>{{ $animeCreater->anime->median }}</td>
+                                    <td>{{ $animeCreater->anime->count }}</td>
+                                    <td>{{ $animeCreater->occupation }}</td>
                                     @auth
-                                        <td>{{ $anime->userReview->score ?? '' }}</td>
+                                        <td>{{ $animeCreater->anime->userReview->score ?? '' }}</td>
                                     @endauth
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
+                @endif
+                @if (!$creater->animeCreaters->where('classification', 2)->isEmpty())
+                <h2>脚本</h2>
+                <div class="table-responsive">
+                    <table class="creater_anime_list_table">
+                        <tbody>
+                            <tr>
+                                <th>アニメ名</th>
+                                <th>制作会社</th>
+                                <th>放送クール</th>
+                                <th>中央値</th>
+                                <th>得点数</th>
+                                <th>職種詳細</th>
+                                @auth
+                                    <th>つけた得点</th>
+                                @endauth
+                            </tr>
+                            @foreach ($creater->animeCreaters->where('classification', 2)->unique('anime_id') as $animeCreater)
+                                <tr>
+                                    <td><a
+                                            href="{{ route('anime.show', ['anime_id' => $animeCreater->anime->id]) }}">{{ $animeCreater->anime->title }}</a>
+                                    </td>
+                                    <td>
+                                        @foreach ($animeCreater->anime->companies as $company)
+                                            <a
+                                                href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        {{ $animeCreater->anime->year }}年{{ $animeCreater->anime->coor_label }}クール
+                                    </td>
+                                    <td>{{ $animeCreater->anime->median }}</td>
+                                    <td>{{ $animeCreater->anime->count }}</td>
+                                    <td>{{ $animeCreater->occupation }}</td>
+                                    @auth
+                                        <td>{{ $animeCreater->anime->userReview->score ?? '' }}</td>
+                                    @endauth
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                @endif
+                @if (!$creater->animeCreaters->where('classification', 3)->isEmpty())
+                <h2>キャラクターデザイン</h2>
+                <div class="table-responsive">
+                    <table class="creater_anime_list_table">
+                        <tbody>
+                            <tr>
+                                <th>アニメ名</th>
+                                <th>制作会社</th>
+                                <th>放送クール</th>
+                                <th>中央値</th>
+                                <th>得点数</th>
+                                <th>職種詳細</th>
+                                @auth
+                                    <th>つけた得点</th>
+                                @endauth
+                            </tr>
+                            @foreach ($creater->animeCreaters->where('classification', 3)->unique('anime_id') as $animeCreater)
+                                <tr>
+                                    <td><a
+                                            href="{{ route('anime.show', ['anime_id' => $animeCreater->anime->id]) }}">{{ $animeCreater->anime->title }}</a>
+                                    </td>
+                                    <td>
+                                        @foreach ($animeCreater->anime->companies as $company)
+                                            <a
+                                                href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        {{ $animeCreater->anime->year }}年{{ $animeCreater->anime->coor_label }}クール
+                                    </td>
+                                    <td>{{ $animeCreater->anime->median }}</td>
+                                    <td>{{ $animeCreater->anime->count }}</td>
+                                    <td>{{ $animeCreater->occupation }}</td>
+                                    @auth
+                                        <td>{{ $animeCreater->anime->userReview->score ?? '' }}</td>
+                                    @endauth
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                @endif
+                @if (!$creater->animeCreaters->where('classification', 4)->isEmpty())
+                <h2>シリーズ構成</h2>
+                <div class="table-responsive">
+                    <table class="creater_anime_list_table">
+                        <tbody>
+                            <tr>
+                                <th>アニメ名</th>
+                                <th>制作会社</th>
+                                <th>放送クール</th>
+                                <th>中央値</th>
+                                <th>得点数</th>
+                                <th>職種詳細</th>
+                                @auth
+                                    <th>つけた得点</th>
+                                @endauth
+                            </tr>
+                            @foreach ($creater->animeCreaters->where('classification', 4)->unique('anime_id') as $animeCreater)
+                                <tr>
+                                    <td><a
+                                            href="{{ route('anime.show', ['anime_id' => $animeCreater->anime->id]) }}">{{ $animeCreater->anime->title }}</a>
+                                    </td>
+                                    <td>
+                                        @foreach ($animeCreater->anime->companies as $company)
+                                            <a
+                                                href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        {{ $animeCreater->anime->year }}年{{ $animeCreater->anime->coor_label }}クール
+                                    </td>
+                                    <td>{{ $animeCreater->anime->median }}</td>
+                                    <td>{{ $animeCreater->anime->count }}</td>
+                                    <td>{{ $animeCreater->occupation }}</td>
+                                    @auth
+                                        <td>{{ $animeCreater->anime->userReview->score ?? '' }}</td>
+                                    @endauth
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                @endif
+                @if (!$creater->animeCreaters->where('classification', 5)->isEmpty())
+                <h2>作画監督</h2>
+                <div class="table-responsive">
+                    <table class="creater_anime_list_table">
+                        <tbody>
+                            <tr>
+                                <th>アニメ名</th>
+                                <th>制作会社</th>
+                                <th>放送クール</th>
+                                <th>中央値</th>
+                                <th>得点数</th>
+                                <th>職種詳細</th>
+                                @auth
+                                    <th>つけた得点</th>
+                                @endauth
+                            </tr>
+                            @foreach ($creater->animeCreaters->where('classification', 5)->unique('anime_id') as $animeCreater)
+                                <tr>
+                                    <td><a
+                                            href="{{ route('anime.show', ['anime_id' => $animeCreater->anime->id]) }}">{{ $animeCreater->anime->title }}</a>
+                                    </td>
+                                    <td>
+                                        @foreach ($animeCreater->anime->companies as $company)
+                                            <a
+                                                href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        {{ $animeCreater->anime->year }}年{{ $animeCreater->anime->coor_label }}クール
+                                    </td>
+                                    <td>{{ $animeCreater->anime->median }}</td>
+                                    <td>{{ $animeCreater->anime->count }}</td>
+                                    <td>{{ $animeCreater->occupation }}</td>
+                                    @auth
+                                        <td>{{ $animeCreater->anime->userReview->score ?? '' }}</td>
+                                    @endauth
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                @endif
+                @if (!$creater->animeCreaters->where('classification', 6)->isEmpty())
+                <h2>音楽</h2>
+                <div class="table-responsive">
+                    <table class="creater_anime_list_table">
+                        <tbody>
+                            <tr>
+                                <th>アニメ名</th>
+                                <th>制作会社</th>
+                                <th>放送クール</th>
+                                <th>中央値</th>
+                                <th>得点数</th>
+                                <th>職種詳細</th>
+                                @auth
+                                    <th>つけた得点</th>
+                                @endauth
+                            </tr>
+                            @foreach ($creater->animeCreaters->where('classification', 6)->unique('anime_id') as $animeCreater)
+                                <tr>
+                                    <td><a
+                                            href="{{ route('anime.show', ['anime_id' => $animeCreater->anime->id]) }}">{{ $animeCreater->anime->title }}</a>
+                                    </td>
+                                    <td>
+                                        @foreach ($animeCreater->anime->companies as $company)
+                                            <a
+                                                href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        {{ $animeCreater->anime->year }}年{{ $animeCreater->anime->coor_label }}クール
+                                    </td>
+                                    <td>{{ $animeCreater->anime->median }}</td>
+                                    <td>{{ $animeCreater->anime->count }}</td>
+                                    <td>{{ $animeCreater->occupation }}</td>
+                                    @auth
+                                        <td>{{ $animeCreater->anime->userReview->score ?? '' }}</td>
+                                    @endauth
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                @endif
+                @if (!$creater->animeCreaters->where('classification', 7)->isEmpty())
+                <h2>歌手</h2>
+                <div class="table-responsive">
+                    <table class="creater_anime_list_table">
+                        <tbody>
+                            <tr>
+                                <th>アニメ名</th>
+                                <th>制作会社</th>
+                                <th>放送クール</th>
+                                <th>中央値</th>
+                                <th>得点数</th>
+                                <th>職種詳細</th>
+                                @auth
+                                    <th>つけた得点</th>
+                                @endauth
+                            </tr>
+                            @foreach ($creater->animeCreaters->where('classification', 7)->unique('anime_id') as $animeCreater)
+                                <tr>
+                                    <td><a
+                                            href="{{ route('anime.show', ['anime_id' => $animeCreater->anime->id]) }}">{{ $animeCreater->anime->title }}</a>
+                                    </td>
+                                    <td>
+                                        @foreach ($animeCreater->anime->companies as $company)
+                                            <a
+                                                href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        {{ $animeCreater->anime->year }}年{{ $animeCreater->anime->coor_label }}クール
+                                    </td>
+                                    <td>{{ $animeCreater->anime->median }}</td>
+                                    <td>{{ $animeCreater->anime->count }}</td>
+                                    <td>{{ $animeCreater->occupation }}</td>
+                                    @auth
+                                        <td>{{ $animeCreater->anime->userReview->score ?? '' }}</td>
+                                    @endauth
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                @endif
+                @if (!$creater->animeCreaters->where('classification', 8)->isEmpty())
+                <h2>原作者</h2>
+                <div class="table-responsive">
+                    <table class="creater_anime_list_table">
+                        <tbody>
+                            <tr>
+                                <th>アニメ名</th>
+                                <th>制作会社</th>
+                                <th>放送クール</th>
+                                <th>中央値</th>
+                                <th>得点数</th>
+                                <th>職種詳細</th>
+                                @auth
+                                    <th>つけた得点</th>
+                                @endauth
+                            </tr>
+                            @foreach ($creater->animeCreaters->where('classification', 8)->unique('anime_id') as $animeCreater)
+                                <tr>
+                                    <td><a
+                                            href="{{ route('anime.show', ['anime_id' => $animeCreater->anime->id]) }}">{{ $animeCreater->anime->title }}</a>
+                                    </td>
+                                    <td>
+                                        @foreach ($animeCreater->anime->companies as $company)
+                                            <a
+                                                href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        {{ $animeCreater->anime->year }}年{{ $animeCreater->anime->coor_label }}クール
+                                    </td>
+                                    <td>{{ $animeCreater->anime->median }}</td>
+                                    <td>{{ $animeCreater->anime->count }}</td>
+                                    <td>{{ $animeCreater->occupation }}</td>
+                                    @auth
+                                        <td>{{ $animeCreater->anime->userReview->score ?? '' }}</td>
+                                    @endauth
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                @endif
+                @if (!$creater->animeCreaters->where('classification', 100)->isEmpty())
+                <h2>その他</h2>
+                <div class="table-responsive">
+                    <table class="creater_anime_list_table">
+                        <tbody>
+                            <tr>
+                                <th>アニメ名</th>
+                                <th>制作会社</th>
+                                <th>放送クール</th>
+                                <th>中央値</th>
+                                <th>得点数</th>
+                                <th>職種詳細</th>
+                                @auth
+                                    <th>つけた得点</th>
+                                @endauth
+                            </tr>
+                            @foreach ($creater->animeCreaters->where('classification', 100)->unique('anime_id') as $animeCreater)
+                                <tr>
+                                    <td><a
+                                            href="{{ route('anime.show', ['anime_id' => $animeCreater->anime->id]) }}">{{ $animeCreater->anime->title }}</a>
+                                    </td>
+                                    <td>
+                                        @foreach ($animeCreater->anime->companies as $company)
+                                            <a
+                                                href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        {{ $animeCreater->anime->year }}年{{ $animeCreater->anime->coor_label }}クール
+                                    </td>
+                                    <td>{{ $animeCreater->anime->median }}</td>
+                                    <td>{{ $animeCreater->anime->count }}</td>
+                                    <td>{{ $animeCreater->occupation }}</td>
+                                    @auth
+                                        <td>{{ $animeCreater->anime->userReview->score ?? '' }}</td>
+                                    @endauth
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                @endif
             </section>
             @if (env('APP_ENV') == 'production')
                 @include('layout.horizontal_multiplex_adsense')

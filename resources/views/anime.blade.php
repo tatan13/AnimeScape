@@ -254,8 +254,8 @@
                                         <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
                                     @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
                                         {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
-                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
-                                        (その他)
+                                    @else
+                                        {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
                                     @endif
                                 @endforeach
                             </td>
@@ -270,8 +270,8 @@
                                         <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
                                     @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
                                         {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
-                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
-                                        (その他)
+                                    @else
+                                        {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
                                     @endif
                                 @endforeach
                             </td>
@@ -286,8 +286,8 @@
                                         <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
                                     @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
                                         {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
-                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
-                                        (その他)
+                                    @else
+                                        {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
                                     @endif
                                 @endforeach
                             </td>
@@ -302,8 +302,8 @@
                                         <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
                                     @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
                                         {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
-                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
-                                        (その他)
+                                    @else
+                                        {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
                                     @endif
                                 @endforeach
                             </td>
@@ -318,8 +318,8 @@
                                         <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
                                     @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
                                         {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
-                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
-                                        (その他)
+                                    @else
+                                        {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
                                     @endif
                                 @endforeach
                             </td>
@@ -334,8 +334,8 @@
                                         <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
                                     @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
                                         {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
-                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
-                                        (その他)
+                                    @else
+                                        {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
                                     @endif
                                 @endforeach
                             </td>
@@ -350,8 +350,8 @@
                                         <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
                                     @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
                                         {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
-                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
-                                        (その他)
+                                    @else
+                                        {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
                                     @endif
                                 @endforeach
                             </td>
@@ -366,8 +366,8 @@
                                         <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
                                     @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
                                         {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
-                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
-                                        (その他)
+                                    @else
+                                        {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
                                     @endif
                                 @endforeach
                             </td>
@@ -382,8 +382,8 @@
                                         <b>{{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}</b>
                                     @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_SUB)
                                         {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
-                                    @elseif ($anime_creater->main_sub == \App\Models\AnimeCreater::TYPE_OTHERS)
-                                        (その他)
+                                    @else
+                                        {{ !is_null($anime_creater->occupation) ? '(' . $anime_creater->occupation . ')' : '' }}
                                     @endif
                                 @endforeach
                             </td>

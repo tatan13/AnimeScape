@@ -59,6 +59,16 @@ class Creater extends Model
     }
 
     /**
+     * クリエイターの関わったアニメの中韓テーブルを取得する
+     *
+     * @return HasMany
+     */
+    public function animeCreaters()
+    {
+        return $this->hasMany('App\Models\AnimeCreater');
+    }
+
+    /**
      * クリエイターの基本情報変更申請を取得
      *
      * @return HasMany

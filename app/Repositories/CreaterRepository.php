@@ -28,7 +28,7 @@ class CreaterRepository extends AbstractRepository
      */
     public function getCreaterWithAnimesWithCompaniesAndWithMyReviewsById($creater_id)
     {
-        return Creater::where('id', $creater_id)->with('animes', function ($query) {
+        return Creater::where('id', $creater_id)->with('animeCreaters.anime', function ($query) {
             $query->withCompanies()->withMyReviews()->LatestYearCoorMedian();
         })->firstOrFail();
     }

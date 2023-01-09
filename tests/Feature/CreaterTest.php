@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\Creater;
+use App\Models\AnimeCreater;
 use App\Models\User;
 use App\Models\Anime;
 use App\Models\Company;
@@ -41,8 +42,16 @@ class CreaterTest extends TestCase
 
         $this->user2->likeCreaters()->attach($this->creater->id);
 
-        $this->anime1->creaters()->attach($this->creater->id);
-        $this->anime2->creaters()->attach($this->creater->id);
+        AnimeCreater::create([
+            "creater_id" => $this->creater->id,
+            "anime_id" => $this->anime1->id,
+            "classification" => 1
+        ]);
+        AnimeCreater::create([
+            "creater_id" => $this->creater->id,
+            "anime_id" => $this->anime2->id,
+            "classification" => 2
+        ]);
 
         $this->company = Company::factory()->create();
         $this->anime1->companies()->attach($this->company->id);
@@ -92,13 +101,14 @@ class CreaterTest extends TestCase
         $response = $this->get(route('creater.show', ['creater_id' => $this->creater->id]));
         $response->assertSeeInOrder([
             $this->creater->name,
-            '計2本',
+            "監督",
             $this->anime1->title,
             $this->anime1->companies[0]->name,
             $this->anime1->year,
             $this->anime1->coor_label,
             $this->anime1->median,
             $this->anime1->count,
+            "脚本",
             $this->anime2->title,
             $this->anime2->year,
             $this->anime2->coor_label,
