@@ -2,9 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Anime;
-use App\Models\UserReview;
-use GuzzleHttp\Client;
+use App\Models\Occupation;
+use App\Models\AnimeCreater;
 use Illuminate\Console\Command;
 
 class ConfirmCommand extends Command
@@ -40,15 +39,18 @@ class ConfirmCommand extends Command
      */
     public function handle()
     {
-        $posts = file_get_contents("data/2022_4_mix_anime_list.json");
-        $posts = mb_convert_encoding($posts, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
-        $posts = json_decode($posts);
-
-        $anime_all = Anime::all();
-        foreach ($posts as $post) {
-            $anime = $anime_all->where('title', $post->title)->first();
-            if (!empty($anime)) {
-                echo $post->title . "\n";
+        $occupation_all = Occupation::with(['cast'])->get();
+        foreach ($occupation_all as $occupation) {
+            if ($occupation->character == "") {
+                $occupation->character = null;
+                $occupation->save();
+            }
+        }
+        $anime_creater_all = AnimeCreater::with(['creater'])->get();
+        foreach ($anime_creater_all as $anime_creater) {
+            if ($anime_creater->occupation == "") {
+                $anime_creater->occupation = null;
+                $anime_creater->save();
             }
         }
     }

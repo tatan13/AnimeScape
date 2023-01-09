@@ -68,6 +68,7 @@ class Anime extends Model
         'city_name',
         'media_category',
         'summary',
+        's_id',
         'd_anime_store_id',
         'amazon_prime_video_id',
         'fod_id',

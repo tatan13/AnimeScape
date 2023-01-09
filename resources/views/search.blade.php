@@ -144,22 +144,22 @@
                                                 <th>つけた得点</th>
                                             @endauth
                                         </tr>
-                                        @foreach ($creater->animes as $anie)
+                                        @foreach ($creater->animes->unique('id') as $anime)
                                             <tr>
                                                 <td><a
-                                                        href="{{ route('anime.show', ['anime_id' => $anie->id]) }}">{{ $anie->title }}</a>
+                                                        href="{{ route('anime.show', ['anime_id' => $anime->id]) }}">{{ $anime->title }}</a>
                                                 </td>
                                                 <td>
-                                                    @foreach ($anie->companies as $company)
+                                                    @foreach ($anime->companies as $company)
                                                         <a
                                                             href="{{ route('company.show', ['company_id' => $company->id]) }}">{{ $company->name }}</a>
                                                     @endforeach
                                                 </td>
                                                 <td>
-                                                    {{ $anie->year }}年{{ $anie->coor_label }}クール
+                                                    {{ $anime->year }}年{{ $anime->coor_label }}クール
                                                 </td>
-                                                <td>{{ $anie->median }}</td>
-                                                <td>{{ $anie->count }}</td>
+                                                <td>{{ $anime->median }}</td>
+                                                <td>{{ $anime->count }}</td>
                                                 @auth
                                                     <td>{{ $anime->userReview->score ?? '' }}</td>
                                                 @endauth
