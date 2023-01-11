@@ -88,15 +88,15 @@ class UserReview extends Model
         ->orderByRaw('animes.year desc, animes.coor desc, animes.median desc');
     }
 
-    public function scopeLatestCountWithAnimeAndUser($query)
+    public function scopeLatestCommentWithAnimeAndUser($query)
     {
-        return $query->with(['anime', 'user'])->whereNotNull('one_word_comment')
+        return $query->with(['anime', 'user'])->whereNotNull('one_word_comment')->orWhereNotNull('long_word_comment')
         ->latest('comment_timestamp');
     }
 
-    public function scopeLatestBeforeCountWithAnimeAndUser($query)
+    public function scopeLatestBeforeCommentWithAnimeAndUser($query)
     {
-        return $query->with(['anime', 'user'])->whereNotNull('before_comment')
+        return $query->with(['anime', 'user'])->whereNotNull('before_comment')->orWhereNotNull('before_long_comment')
         ->latest('before_comment_timestamp');
     }
 

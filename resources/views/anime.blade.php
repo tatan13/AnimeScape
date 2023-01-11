@@ -18,6 +18,10 @@
     @include('layout.vertical_adsense')
 @endsection
 
+@section('tweet_button')
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+@endsection
+
 @section('main')
     <article class="anime_information">
         <h1>
@@ -30,6 +34,9 @@
         @endif
         <section class="anime_information">
             <div class="title">{{ $anime->title }}</div>
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
+                data-text="{{ $anime->title }}" data-url="{{ route('anime.show', ['anime_id' => $anime->id]) }}"
+                data-hashtags="AnimeScape" data-related="tatan_tech" data-show-count="false">Tweet</a>
             <div class="row">
                 <div class="col-sm-6">
                     <h2>基本情報</h2>
@@ -670,14 +677,16 @@
                 @endif
             </ul>
         </section>
-        <section class="anime_twitter">
-            <h2>公式twitter</h2>
-            <div class="anime_twitter">
-                <a class="twitter-timeline" href="https://twitter.com/{{ $anime->twitter }}?ref_src=twsrc%5Etfw">Tweets
-                    by
-                    {{ $anime->twitter }}</a>
-                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-            </div>
-        </section>
+        @if (!is_null($anime->twitter))
+            <section class="anime_twitter">
+                <h2>公式twitter</h2>
+                <div class="anime_twitter">
+                    <a class="twitter-timeline"
+                        href="https://twitter.com/{{ $anime->twitter }}?ref_src=twsrc%5Etfw">Tweets
+                        by
+                        {{ $anime->twitter }}</a>
+                </div>
+            </section>
+        @endif
     </article>
 @endsection

@@ -332,7 +332,7 @@ class UserTest extends TestCase
             2,
             '視聴完了前得点入力数',
             5,
-            '視聴完了前一言感想入力数',
+            '視聴完了前感想入力数',
             2,
             'お気に入りユーザー数',
             3,
@@ -1020,7 +1020,7 @@ class UserTest extends TestCase
     }
 
     /**
-     * 新着一言感想一覧の表示のテスト
+     * 新着感想一覧の表示のテスト
      *
      * @test
      * @return void
@@ -1032,7 +1032,7 @@ class UserTest extends TestCase
     }
 
     /**
-     * 新着視聴完了前一言感想一覧の表示のテスト
+     * 新着視聴完了前感想一覧の表示のテスト
      *
      * @test
      * @return void

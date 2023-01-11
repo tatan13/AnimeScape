@@ -73,6 +73,16 @@ class SitemapCommand extends Command
             \File::append($file, $content);
         }
 
+        $user_review_list = \App\Models\UserReview::whereNotNull('before_long_comment')
+        ->select(['id', 'updated_at'])->oldest('id')->get();
+        foreach ($user_review_list as $user_review) {
+            $content = "<url>
+            <loc>" . route('user_anime_before_comment.show', ['user_review_id' => $user_review->id]) . "</loc>
+            <lastmod>" . $user_review->updated_at->format("Y-m-d") . "</lastmod>
+            </url>";
+            \File::append($file, $content);
+        }
+
         $cast_list = \App\Models\Cast::select(['id', 'updated_at'])->oldest('id')->get();
         foreach ($cast_list as $cast) {
             $content = "<url>

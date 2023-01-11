@@ -29,6 +29,10 @@
         <article class="user_information">
             <h1>{{ $user_information->name }}さんの情報</h1>
             <div class="title">{{ $user_information->name }}</div>
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
+                data-text="{{ $user_information->name }}さんの情報"
+                data-url="{{ route('user.show', ['user_id' => $user_information->id]) }}" data-hashtags="AnimeScape"
+                data-related="tatan_tech" data-show-count="false">Tweet</a><br>
             @auth
                 @if (Auth::id() == $user_information->id)
                     <a href="{{ route('user_config.show') }}">個人情報設定</a>
@@ -109,7 +113,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>視聴完了前一言感想入力数</th>
+                                        <th>視聴完了前感想入力数</th>
                                         <td>
                                             <a
                                                 href="{{ route('user_before_comment_anime_list.show', ['user_id' => $user_information->id, 'year' => $year, 'coor' => $coor]) }}">{{ $user_information->before_comments_count }}</a>
@@ -325,7 +329,8 @@
                         </tr>
                         @foreach ($cast_list as $cast)
                             <tr>
-                                <td><a href="{{ route('cast.show', ['cast_id' => $cast->id]) }}">{{ $cast->name }}</a>
+                                <td><a
+                                        href="{{ route('cast.show', ['cast_id' => $cast->id]) }}">{{ $cast->name }}</a>
                                 </td>
                                 <td>{{ $cast->act_animes_count }}</td>
                                 <td>{{ (int) $cast->actAnimes->average('userReview.score') }}</td>

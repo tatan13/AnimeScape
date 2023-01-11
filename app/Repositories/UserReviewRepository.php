@@ -27,7 +27,7 @@ class UserReviewRepository extends AbstractRepository
      */
     public function getUserReviewListLatestCommentWithAnimeAndUser()
     {
-        return UserReview::LatestCountWithAnimeAndUser()->paginate(20);
+        return UserReview::LatestCommentWithAnimeAndUser()->paginate(20);
     }
 
     /**
@@ -37,7 +37,7 @@ class UserReviewRepository extends AbstractRepository
      */
     public function getUserReviewListLatestBeforeCommentWithAnimeAndUser()
     {
-        return UserReview::LatestBeforeCountWithAnimeAndUser()->paginate(20);
+        return UserReview::LatestBeforeCommentWithAnimeAndUser()->paginate(20);
     }
 
     /**
@@ -47,7 +47,7 @@ class UserReviewRepository extends AbstractRepository
      */
     public function getUserReviewListLatestCommentLimitWithAnimeAndUser()
     {
-        return UserReview::LatestCountWithAnimeAndUser()->take(7)->get();
+        return UserReview::LatestCommentWithAnimeAndUser()->take(7)->get();
     }
 
     /**
@@ -57,7 +57,7 @@ class UserReviewRepository extends AbstractRepository
      */
     public function getUserReviewListLatestBeforeCommentLimitWithAnimeAndUser()
     {
-        return UserReview::LatestBeforeCountWithAnimeAndUser()->take(7)->get();
+        return UserReview::LatestBeforeCommentWithAnimeAndUser()->take(7)->get();
     }
 
     /**
@@ -80,7 +80,7 @@ class UserReviewRepository extends AbstractRepository
      */
     public function getUserReviewWithAnimeAndUserNotNullOneWordComment($user_review_id)
     {
-        return UserReview::whereNotNull('one_word_comment')->with(['anime', 'user'])->findOrFail($user_review_id);
+        return UserReview::whereNotNull('long_word_comment')->with(['anime', 'user'])->findOrFail($user_review_id);
     }
 
     /**

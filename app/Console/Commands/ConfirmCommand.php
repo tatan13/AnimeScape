@@ -40,17 +40,22 @@ class ConfirmCommand extends Command
     public function handle()
     {
         $occupation_all = Occupation::with(['cast'])->get();
-        foreach ($occupation_all as $occupation) {
-            if ($occupation->character == "") {
-                $occupation->character = null;
-                $occupation->save();
-            }
-        }
-        $anime_creater_all = AnimeCreater::with(['creater'])->get();
-        foreach ($anime_creater_all as $anime_creater) {
-            if ($anime_creater->occupation == "") {
-                $anime_creater->occupation = null;
-                $anime_creater->save();
+        $checked = array();
+        for ($i = 0; $i < count($occupation_all); $i++) {
+            for ($j = $i + 1; $j < count($occupation_all); $j++) {
+                if (in_array($j, $checked)) {
+                    continue;
+                }
+                if (
+                    ($occupation_all[$i]->anime_id == $occupation_all[$j]->anime_id) &&
+                    ($occupation_all[$i]->cast_id == $occupation_all[$j]->cast_id)
+                ) {
+                    $occupation_all[$i]->character =
+                    $occupation_all[$i]->character . '、' . $occupation_all[$j]->character;
+                    $occupation_all[$i]->save();
+                    $occupation_all[$j]->delete();
+                    array_push($checked, $j);
+                }
             }
         }
     }
