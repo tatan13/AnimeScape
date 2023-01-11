@@ -22,9 +22,9 @@
 
 @section('main')
     <article class="index">
-        <h1>新着一言感想一覧</h1>
+        <h1>新着感想一覧</h1>
         <section class="new_comment">
-            <h2>新着一言感想</h2>
+            <h2>新着感想</h2>
             @foreach ($user_reviews_latest_comment as $user_review)
                 @if ($loop->iteration % 2 == 0)
                     <div class="comment_even">

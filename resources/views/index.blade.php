@@ -22,14 +22,17 @@
             <h1>AnimeScape -アニメ批評空間-</h1>
             <h2>アニメの批評・評価、視聴管理ができる統計サイトAnimeScape -アニメ批評空間-へようこそ</h2>
             このサイトはアニメの情報やアニメに付けたユーザーの得点や感想を集めた統計サイトです。アニメの批評・評価、視聴管理、アニメ探し等様々な用途でご利用ください。詳しくは<a
-                href="{{ route('site_information.show') }}">このサイトについて</a>を一読ください。
+                href="{{ route('site_information.show') }}">このサイトについて</a>を一読ください。Twitterアカウント(<a
+                href="https://twitter.com/tatan_tech" target="_blank"
+                rel="noopener noreferrer">@tatan_tech</a>)も運用しています。更新情報等を呟いていますので是非フォローをお願いします。
             <h2>お知らせ</h2>
             <ul class="list-inline">
                 <li>ランキングに声優、制作会社に関する統計ランキングを追加しました。</li>
             </ul>
         </section>
         <section class="anime_ranking">
-            <h2>2022年{{ App\Models\Anime::getCoorLabel(\App\Models\Anime::NOW_COOR) }}クールアニメ視聴完了前ランキング</h2>
+            <h2>{{ \App\Models\Anime::NOW_YEAR }}年{{ App\Models\Anime::getCoorLabel(\App\Models\Anime::NOW_COOR) }}クールアニメ視聴完了前ランキング
+            </h2>
             <div class="table-responsive">
                 <table class="anime_ranking_table">
                     <tbody>
@@ -72,7 +75,7 @@
             </div>
         </section>
         <section class="new_before_comment">
-            <h2>新着視聴完了前一言感想　<a href="{{ route('new_before_comment_list.show') }}">もっと見る</a></h2>
+            <h2>新着視聴完了前感想　<a href="{{ route('new_before_comment_list.show') }}">もっと見る</a></h2>
             @foreach ($user_reviews_latest_before_comment as $user_review)
                 @if ($loop->iteration % 2 == 0)
                     <div class="comment_even">
@@ -103,7 +106,7 @@
             @include('layout.horizontal_adsense')
         @endif
         <section class="new_comment">
-            <h2>新着一言感想　<a href="{{ route('new_comment_list.show') }}">もっと見る</a></h2>
+            <h2>新着感想　<a href="{{ route('new_comment_list.show') }}">もっと見る</a></h2>
             @foreach ($user_reviews_latest_comment as $user_review)
                 @if ($loop->iteration % 2 == 0)
                     <div class="comment_even">

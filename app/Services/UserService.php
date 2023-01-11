@@ -55,8 +55,9 @@ class UserService
         $user_information['watches_count'] = $user_information->userReviews->where('watch', true)->count();
         $user_information['before_score_count'] = $user_information->userReviews->whereNotNull('before_score')
         ->count();
-        $user_information['before_comments_count'] = $user_information->userReviews->whereNotNull('before_comment')
-        ->count();
+        $user_information['before_comments_count'] = $user_information->userReviews->filter(function ($value, $key) {
+            return !is_null($value['before_comment']) || !is_null($value['before_long_comment']);
+        })->count();
         for ($i = 100; $i >= 0; $i = $i - 5) {
             $user_information["score_{$i}_anime_reviews"] = $user_information->userReviews
             ->whereBetWeen('score', [$i, $i + 4])->whereNotNull('score')->sortByDesc('score');
