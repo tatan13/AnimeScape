@@ -175,6 +175,8 @@
             <section class="anime_score_list">
                 <h2>得点とアニメの対応表({{ !is_null($year) ? $year . '年' : '' }}{{ is_null($year) && is_null($coor) ? '全期間' : '' }}{{ !is_null($coor) ? App\Models\Anime::getCoorLabel($coor) . 'クール' : '' }})
                 </h2>
+                <a
+                    href="{{ route('user_before_score_anime_list.show', ['user_id' => $user_information->id, 'year' => $year, 'coor' => $coor]) }}">視聴完了前得点とアニメの対応表はこちら</a>
                 <form action="{{ route('user.show', ['user_id' => $user_information->id]) }}"
                     class="search_parameters_form" name="coor_score_animelist" method="get">
                     @csrf

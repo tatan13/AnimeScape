@@ -27,7 +27,7 @@
                 rel="noopener noreferrer">@tatan_tech</a>)も運用しています。更新情報等を呟いていますので是非フォローをお願いします。
             <h2>お知らせ</h2>
             <ul class="list-inline">
-                <li>ランキングに声優、制作会社に関する統計ランキングを追加しました。</li>
+                <li>視聴完了前得点とアニメの対応表を追加しました。ユーザーページのリンクから飛べる視聴完了前得点数ページに表示しています。</li>
             </ul>
         </section>
         <section class="anime_ranking">
