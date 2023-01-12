@@ -164,11 +164,24 @@ class SitemapCommand extends Command
             </url>";
         \File::append($file, $content);
 
-        $content = "<url>
-            <loc>" . route('anime_statistics.show') . "</loc>
-            <lastmod>2022-05-27</lastmod>
-            </url>";
-        \File::append($file, $content);
+
+        for ($i = 1963; $i <= \App\Models\Anime::NOW_YEAR - 1; $i++) {
+            for ($j = 1; $j <= 4; $j++) {
+                $content = "<url>
+                    <loc>" . route('anime_statistics.show', ['year' => $i, 'coor' => $j]) . "</loc>
+                    <lastmod>2023-01-13</lastmod>
+                    </url>";
+                \File::append($file, $content);
+            }
+        }
+
+        for ($i = 1; $i <= \App\Models\Anime::NOW_COOR; $i++) {
+            $content = "<url>
+                <loc>" . route('anime_statistics.show', ['year' => \App\Models\Anime::NOW_YEAR, 'coor' => $i]) . "</loc>
+                <lastmod>2023-01-13</lastmod>
+                </url>";
+            \File::append($file, $content);
+        }
 
         $content = "<url>
             <loc>" . route('cast_statistics.show') . "</loc>

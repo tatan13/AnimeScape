@@ -711,6 +711,26 @@ class UserTest extends TestCase
     }
 
     /**
+     * ユーザーの視聴完了前得点とアニメの対応表の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testUser1BeforeScoreAnimeCrossTableView()
+    {
+        $response = $this->get(route('user_before_score_anime_list.show', ['user_id' => $this->user1->id]));
+        $response->assertSeeInOrder([
+            '視聴完了前得点とアニメの対応表',
+            $this->anime1->title,
+            $this->anime2->title,
+            $this->anime3->title,
+            $this->anime4->title,
+            $this->anime5->title
+        ]);
+        $response->assertDontSee($this->anime6->title);
+    }
+
+    /**
      * ユーザーの視聴完了前得点を付けたアニメリストの表示の異常値テスト
      *
      * @test
