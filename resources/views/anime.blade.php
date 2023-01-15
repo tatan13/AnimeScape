@@ -400,6 +400,25 @@
             </div>
             <a href="{{ route('modify_anime_creaters.show', ['anime_id' => $anime->id]) }}">クリエイター情報の変更をする</a>
         </section>
+        <section>
+            <h2>商品情報</h2>
+            <div class="table-responsive" style="max-height: 30vh;">
+                <table class="tag_information_table">
+                    <tbody>
+                        <tr>
+                            <th>商品名</th>
+                            <th>商品種別</th>
+                        </tr>
+                        @foreach ($items as $item)
+                            <tr>
+                                <td><a href="{{ $item->url }}">{{ $item->title }}</a></td>
+                                <td>{{ $item->category_label }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </section>
         <section class="tag_information">
             <h2>タグ情報</h2>
             <div class="table-responsive">
@@ -611,8 +630,9 @@
             <h2>配信サイトのリンク</h2>
             <ul>
                 <li>
-                    @if (!is_null($anime->d_anime_store_id) &&
-                        ($anime->d_anime_store_id != 'なし' && $anime->d_anime_store_id != 'レンタル'))
+                    @if (
+                        !is_null($anime->d_anime_store_id) &&
+                            ($anime->d_anime_store_id != 'なし' && $anime->d_anime_store_id != 'レンタル'))
                         <a href="https://animestore.docomo.ne.jp/animestore/ci_pc?workId={{ $anime->d_anime_store_id }}"
                             target="_blank" rel="noopener noreferrer">dアニメストア</a>
                     @else
@@ -620,8 +640,9 @@
                     @endif
                 </li>
                 <li>
-                    @if (!is_null($anime->amazon_prime_video_id) &&
-                        ($anime->amazon_prime_video_id != 'なし' && $anime->amazon_prime_video_id != 'レンタル'))
+                    @if (
+                        !is_null($anime->amazon_prime_video_id) &&
+                            ($anime->amazon_prime_video_id != 'なし' && $anime->amazon_prime_video_id != 'レンタル'))
                         <a href="https://www.amazon.co.jp/gp/video/detail/{{ $anime->amazon_prime_video_id }}"
                             target="_blank" rel="noopener noreferrer">Amazonプライムビデオ</a>
                     @else
@@ -652,8 +673,7 @@
                     @endif
                 </li>
                 <li>
-                    @if (!is_null($anime->disney_plus_id) &&
-                        ($anime->disney_plus_id != 'なし' && $anime->disney_plus_id != 'レンタル'))
+                    @if (!is_null($anime->disney_plus_id) && ($anime->disney_plus_id != 'なし' && $anime->disney_plus_id != 'レンタル'))
                         <a href="https://www.disneyplus.com/ja-jp/series/{{ $anime->disney_plus_id }}" target="_blank"
                             rel="noopener noreferrer">DISNEY+</a>
                     @else

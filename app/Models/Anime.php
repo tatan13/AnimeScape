@@ -184,6 +184,16 @@ class Anime extends Model
     }
 
     /**
+     * 商品を取得
+     *
+     * @return BelongsToMany
+     */
+    public function items()
+    {
+        return $this->belongsToMany('App\Models\Item')->withTimestamps();
+    }
+
+    /**
      * クリエイターを取得
      *
      * @return BelongsToMany

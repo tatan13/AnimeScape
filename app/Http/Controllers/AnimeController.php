@@ -7,6 +7,7 @@ use App\Http\Requests\AnimeTagReviewRequest;
 use App\Http\Requests\ReviewsRequest;
 use App\Services\AnimeService;
 use App\Services\TagService;
+use App\Services\ItemService;
 use App\Services\TagReviewService;
 use App\Services\UserReviewService;
 use App\Services\UserService;
@@ -16,6 +17,7 @@ class AnimeController extends Controller
 {
     private AnimeService $animeService;
     private TagService $tagService;
+    private ItemService $itemService;
     private TagReviewService $tagReviewService;
     private UserReviewService $userReviewService;
     private UserService $userService;
@@ -23,12 +25,14 @@ class AnimeController extends Controller
     public function __construct(
         AnimeService $animeService,
         TagService $tagService,
+        ItemService $itemService,
         TagReviewService $tagReviewService,
         UserReviewService $userReviewService,
         UserService $userService,
     ) {
         $this->animeService = $animeService;
         $this->tagService = $tagService;
+        $this->itemService = $itemService;
         $this->tagReviewService = $tagReviewService;
         $this->userReviewService = $userReviewService;
         $this->userService = $userService;
@@ -45,10 +49,12 @@ class AnimeController extends Controller
         $anime = $this->animeService
         ->getAnimeWithCompaniesMyReviewOccupationsAnimeCreatersUserReviewsUser($anime_id);
         $tags = $this->tagService->getTagsByAnimeWithTagReviewsAndUser($anime);
+        $items = $this->itemService->getItemsForAnime($anime);
         $like_users = $this->userService->getWatchAnimeLikeUsersOfLoginUser($anime);
         return view('anime', [
             'anime' => $anime,
             'tags' => $tags,
+            'items' => $items,
             'like_users' => $like_users,
         ]);
     }
