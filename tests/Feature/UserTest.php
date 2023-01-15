@@ -716,7 +716,7 @@ class UserTest extends TestCase
      * @test
      * @return void
      */
-    public function testUser1BeforeScoreAnimeCrossTableView()
+    public function testUser1BeforeScoreAnimeCorrespondencetableView()
     {
         $response = $this->get(route('user_before_score_anime_list.show', ['user_id' => $this->user1->id]));
         $response->assertSeeInOrder([

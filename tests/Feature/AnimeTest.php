@@ -8,6 +8,7 @@ use App\Models\Anime;
 use App\Models\Cast;
 use App\Models\Company;
 use App\Models\Tag;
+use App\Models\Item;
 use App\Models\UserReview;
 use App\Models\User;
 use Tests\TestCase;
@@ -25,6 +26,7 @@ class AnimeTest extends TestCase
     private Company $company;
     private Tag $tag;
     private Tag $tag1;
+    private Item $item;
     private User $user1;
     private User $user2;
     private User $user3;
@@ -141,6 +143,8 @@ class AnimeTest extends TestCase
             'score' => 100,
         ]);
 
+        $this->item = Item::factory()->create(['anime_id' => $this->anime]);
+
         $this->user1->userLikeUsers()->attach($this->user8->id);
         $this->user1->userLikeUsers()->attach($this->user3->id);
     }
@@ -239,6 +243,22 @@ class AnimeTest extends TestCase
     {
         $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
         $response->assertSeeInOrder([$this->cast1->name, $this->cast2->name]);
+    }
+
+    /**
+     * アニメページの商品情報の表示のテスト
+     *
+     * @test
+     * @return void
+     */
+    public function testAnimeItemsView()
+    {
+        $response = $this->get(route('anime.show', ['anime_id' => $this->anime->id]));
+        $response->assertSeeInOrder([
+            $this->item->url,
+            $this->item->title,
+            $this->item->category_label,
+        ]);
     }
 
     /**

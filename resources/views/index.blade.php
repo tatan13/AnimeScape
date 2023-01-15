@@ -28,6 +28,7 @@
             <h2>お知らせ</h2>
             <ul class="list-inline">
                 <li>視聴完了前得点とアニメの対応表を追加しました。ユーザーページのリンクから飛べる視聴完了前得点数ページに表示しています。</li>
+                <li>商品情報を追加しました。</li>
             </ul>
         </section>
         <section class="anime_ranking">
