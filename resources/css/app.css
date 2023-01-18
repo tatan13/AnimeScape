@@ -115,6 +115,11 @@ input, select {
     max-height: 65vh;
 }
 
+.table-responsive th{
+    position: sticky;
+    top: 0;
+}
+
 @media screen and (max-width: 576px) {
 
     aside {

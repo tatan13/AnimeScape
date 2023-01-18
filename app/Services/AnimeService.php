@@ -178,7 +178,8 @@ class AnimeService
      */
     public function getCoorAnimeListWithMyReviewsFor(Request $request)
     {
-        return $this->animeRepository->getCoorAnimeListWithMyReviewsFor($request);
+        $anime_list = $this->animeRepository->getCoorAnimeListWithMyReviewsFor($request);
+        return $this->groupByYearAndCoor($anime_list);
     }
 
     /**
@@ -189,7 +190,8 @@ class AnimeService
      */
     public function getNowWatchAnimeListWithMyReviewsFor(Request $request)
     {
-        return $this->animeRepository->getNowWatchAnimeListWithMyReviewsFor($request);
+        $anime_list = $this->animeRepository->getNowWatchAnimeListWithMyReviewsFor($request);
+        return $this->groupByYearAndCoor($anime_list);
     }
 
     /**
@@ -200,7 +202,8 @@ class AnimeService
      */
     public function getScoreAnimeListWithMyReviewsFor(Request $request)
     {
-        return $this->animeRepository->getScoreAnimeListWithMyReviewsFor($request);
+        $anime_list = $this->animeRepository->getScoreAnimeListWithMyReviewsFor($request);
+        return $this->groupByYearAndCoor($anime_list);
     }
 
     /**
@@ -211,7 +214,19 @@ class AnimeService
      */
     public function getBeforeScoreAnimeListWithMyReviewsFor(Request $request)
     {
-        return $this->animeRepository->getBeforeScoreAnimeListWithMyReviewsFor($request);
+        $anime_list = $this->animeRepository->getBeforeScoreAnimeListWithMyReviewsFor($request);
+        return $this->groupByYearAndCoor($anime_list);
+    }
+
+    /**
+     * year,coorでgroupByした値を降順に返す
+     *
+     */
+    public function groupByYearAndCoor($anime_list)
+    {
+        return $anime_list->sortByDesc('year')->groupBy('year')->transform(function ($anime_list) {
+            return $anime_list->sortByDesc('coor')->groupBy('coor');
+        });
     }
 
     /**
