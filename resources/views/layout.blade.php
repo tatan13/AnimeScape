@@ -124,6 +124,19 @@
                         </ul>
                     @endif
                 </nav>
+                @if (Auth::check())
+                    <nav>
+                        <h2>一括入力メニュー</h2>
+                        <ul>
+                            <li>
+                                <a href="{{ route('now_watch_anime_bulk_review.show') }}">視聴中(後)</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('now_watch_anime_bulk_before_review.show') }}">視聴中(前)</a>
+                            </li>
+                        </ul>
+                    </nav>
+                @endif
                 <nav class="normal_menu">
                     <h2>メニュー</h2>
                     <ul>
