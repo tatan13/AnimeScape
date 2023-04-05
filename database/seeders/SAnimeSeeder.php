@@ -23,7 +23,7 @@ class SAnimeSeeder extends Seeder
      */
     public function run()
     {
-        $posts = file_get_contents("data/first_shoboi_anime_list.json");
+        $posts = file_get_contents("data/second_shoboi_anime_list.json");
         $posts = mb_convert_encoding($posts, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
         $posts = json_decode($posts);
 
@@ -67,8 +67,8 @@ class SAnimeSeeder extends Seeder
                     $upsert_anime_list [] = [
                         'id' => null,
                         'title' => $post->title,
-                        'year' => 2022,
-                        'coor' => 4,
+                        'year' => $post->year,
+                        'coor' => $post->coor,
                         'public_url' => $post->public_url,
                         's_id' => $post->tid,
                         'furigana' => $post->furigana,
@@ -179,12 +179,12 @@ class SAnimeSeeder extends Seeder
         unset($upsert_add_creater_list);
         unset($add_creater_list);
 
-        $anime_all = Anime::with(['creaters', 'actCasts'])->get();
+        $anime_all = Anime::all();
         $cast_all = Cast::all();
         $creater_all = Creater::all();
         $occupation_all = Occupation::all();
         $anime_creater_all = AnimeCreater::all();
-        foreach ($posts as $post) {
+        foreach ($posts as $key => $post) {
             $anime = $anime_all->where('title', $post->title)->first();
             if (is_null($anime)) {
                 echo($post->title);
@@ -239,7 +239,13 @@ class SAnimeSeeder extends Seeder
                 }
             }
         }
-        Occupation::upsert($upsert_act_cast_list, ['id']);
-        AnimeCreater::upsert($upsert_anime_creater_list, ['id']);
+        $upsert_act_cast_list_chunk = array_chunk($upsert_act_cast_list, 300);
+        foreach ($upsert_act_cast_list_chunk as $upsert_act_cast_list) {
+            Occupation::upsert($upsert_act_cast_list, ['id']);
+        }
+        $upsert_anime_creater_list_chunk = array_chunk($upsert_anime_creater_list, 300);
+        foreach ($upsert_anime_creater_list_chunk as $upsert_anime_creater_list) {
+            AnimeCreater::upsert($upsert_anime_creater_list, ['id']);
+        }
     }
 }

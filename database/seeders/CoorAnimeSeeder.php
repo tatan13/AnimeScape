@@ -21,7 +21,7 @@ class CoorAnimeSeeder extends Seeder
      */
     public function run()
     {
-        $posts = file_get_contents("data/2023_1_mix_anime_list.json");
+        $posts = file_get_contents("data/2023_2_anime_list.json");
         $posts = mb_convert_encoding($posts, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
         $posts = json_decode($posts);
 
@@ -44,29 +44,31 @@ class CoorAnimeSeeder extends Seeder
                 $upsert_anime_list [] = [
                     'id' => null,
                     'title' => $post->title,
+                    'furigana' => $post->furigana,
                     'year' => $post->year,
                     'coor' => $post->coor,
                     'public_url' => $post->public_url,
-                    'summary' => $post->story,
+                    // 'summary' => $post->story,
                     // 'title_short' => $post->title_short,
-                    // 'twitter' => $post->twitter,
+                    'twitter' => $post->twitter,
                     // 'hash_tag' => $post->hash_tag,
                     'media_category' => $post->media_category,
+                    's_id' => $post->tid
                 ];
                 $add_anime_list [] = [
                     'title' => $post->title,
                 ];
             }
             if (!empty($post->casts)) {
-                foreach ($post->casts as $cast_name) {
-                    $cast = $cast_all->where('name', $cast_name->cast)->first();
+                foreach ($post->casts as $cast_json) {
+                    $cast = $cast_all->where('name', $cast_json->name)->first();
                     if (empty($cast)) {
                         $upsert_cast_list [] = [
                             'id' => null,
-                            'name' => $cast_name->cast,
+                            'name' => $cast_json->name,
                         ];
                         $add_cast_list [] = [
-                            'name' => $cast_name->cast,
+                            'name' => $cast_json->name,
                         ];
                     }
                 }
@@ -111,24 +113,24 @@ class CoorAnimeSeeder extends Seeder
         foreach ($posts as $post) {
             if (!empty($post->casts)) {
                 $anime = $anime_all->where('title', $post->title)->first();
-                foreach ($post->casts as $cast_name) {
-                    $cast = $cast_all->where('name', $cast_name->cast)->first();
+                foreach ($post->casts as $cast_json) {
+                    $cast = $cast_all->where('name', $cast_json->name)->first();
                     if (!$anime->actCasts->contains('name', $cast->name)) {
                         $upsert_act_cast_list [] = [
                             'id' => null,
                             'anime_id' => $anime->id,
                             'cast_id' => $cast->id,
-                            'character' => $cast_name->character,
+                            'character' => $cast_json->character,
                         ];
                     }
                 }
             }
-            if (!empty($post->company)) {
+            if (!empty($post->company_list)) {
                 $anime = $anime_all->where('title', $post->title)->first(); // @phpstan-ignore-line
-                foreach ($post->company as $company_name) {
-                    $company = $company_all->where('name', $company_name)->first();
+                foreach ($post->company_list as $company_array) {
+                    $company = $company_all->where('name', $company_array->name)->first();
                     if (is_null($company)) {
-                        echo $anime->title . " " . $company_name . "\n";
+                        echo $anime->title . " " . $company_array->name . "\n";
                         continue;
                     }
                     if (!$anime->companies->contains('name', $company->name)) {
