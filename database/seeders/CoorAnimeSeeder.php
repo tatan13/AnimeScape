@@ -131,7 +131,7 @@ class CoorAnimeSeeder extends Seeder
                     $company = $company_all->where('name', $company_array->name)->first();
                     if (is_null($company)) {
                         Log::channel('company_not_found')
-                        ->info($anime->year. "年" . $anime->coor . "クール, アニメ: " .
+                        ->info($anime->year . "年" . $anime->coor . "クール, アニメ: " .
                         $anime->title . " 制作会社: " . $company_array->name);
                         continue;
                     }
