@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Anime;
 use App\Models\AddAnime;
@@ -11,6 +10,7 @@ use App\Models\AddCast;
 use App\Models\Company;
 use App\Models\Occupation;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CoorAnimeSeeder extends Seeder
 {
@@ -130,7 +130,9 @@ class CoorAnimeSeeder extends Seeder
                 foreach ($post->company_list as $company_array) {
                     $company = $company_all->where('name', $company_array->name)->first();
                     if (is_null($company)) {
-                        echo $anime->title . " " . $company_array->name . "\n";
+                        Log::channel('company_not_found')
+                        ->info($anime->year. "年" . $anime->coor . "クール, アニメ: " .
+                        $anime->title . " 制作会社: " . $company_array->name);
                         continue;
                     }
                     if (!$anime->companies->contains('name', $company->name)) {
