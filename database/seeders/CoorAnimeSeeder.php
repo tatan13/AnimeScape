@@ -21,7 +21,7 @@ class CoorAnimeSeeder extends Seeder
      */
     public function run()
     {
-        $posts = file_get_contents("data/2024_4_anime_list.json");
+        $posts = file_get_contents("data/2025_1_anime_list.json");
         $posts = mb_convert_encoding($posts, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
         $posts = json_decode($posts);
 
