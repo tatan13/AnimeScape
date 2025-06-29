@@ -21,7 +21,7 @@ class Anime extends Model
     public const AUTUMN = 4;
 
     public const NOW_YEAR = 2025;
-    public const NOW_COOR = self::SPRING;
+    public const NOW_COOR = self::SUMMER;
 
     public const SEARCH_COLUMN = 'title';
 
