@@ -17,3 +17,9 @@ yarn-error.log
 /.idea
 /.vscode
 _ide_helper_models.php
+
+frontend/node_modules
+frontend/.next
+playwright/node_modules
+playwright/test-results
+playwright/playwright-report
