@@ -25,7 +25,7 @@ for anime_tr in anime_trs:
   day = anime_tr.find_element(By.CLASS_NAME, "firstStart").text.split('-')
   anime_url_elem =  anime_tr.find_element(By.XPATH, "td[@class='title']/a")
   anime_url = anime_url_elem.get_attribute('href') + "/subtitle"
-  if day[0] == "2026" and num_month[day[1] or "1000"] == 1:
+  if day[0] == "2026" and num_month[day[1] or "1000"] == 2:
     anime_urls.append({"title": title, "tid": tid, "day": day, "anime_url": anime_url})
 time.sleep(10)
 
@@ -101,7 +101,7 @@ for anime_url in anime_urls:
   anime_list.append({"title": title, "tid": tid, "year": year, "coor": coor, "furigana": furigana, "casts": cast_list, "company_list": company_list, 'public_url': public_url, "twitter": twitter, "media_category": 1})
 
 
-with open("data/2026_1_anime_list.json", mode='wt', encoding='utf-8') as file:
+with open("data/2026_2_anime_list.json", mode='wt', encoding='utf-8') as file:
     json.dump(anime_list, file, ensure_ascii=False, indent=2)
 
 driver.quit()
