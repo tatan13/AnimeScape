@@ -1,0 +1,4526 @@
+[
+  {
+    "title": "カードファイト!! ヴァンガード Divinez 運命星戦編",
+    "tid": "7987",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "かーどふぁいとゔぁんがーどでぃゔぁいんずうんめいせいせんへん",
+    "casts": [
+      {
+        "name": "宮田俊哉",
+        "character": "明導アキナ"
+      },
+      {
+        "name": "長谷川育美",
+        "character": "石川クルミ(赫月)"
+      },
+      {
+        "name": "幸村恵理",
+        "character": "明導ヒカリ(幻世界)"
+      },
+      {
+        "name": "夏吉ゆうこ",
+        "character": "石川カナミ"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "Kinema citrus",
+        "occupation": "アニメーション制作"
+      },
+      {
+        "name": "ぎふとアニメーション",
+        "occupation": "アニメーション制作"
+      },
+      {
+        "name": "STUDIO JEMI",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://anime.cf-vanguard.com/vgd/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "ケロロ軍曹☆",
+    "tid": "8033",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "けろろぐんそう",
+    "casts": [
+      {
+        "name": "小市眞琴",
+        "character": "ケロロ軍曹"
+      },
+      {
+        "name": "長江里加",
+        "character": "タママ二等兵"
+      },
+      {
+        "name": "増田俊樹",
+        "character": "ギロロ伍長"
+      },
+      {
+        "name": "越後屋コースケ",
+        "character": "クルル曹長"
+      },
+      {
+        "name": "猪股慧士",
+        "character": "ドロロ兵長"
+      },
+      {
+        "name": "榊原優希",
+        "character": "日向冬樹"
+      },
+      {
+        "name": "藤寺美徳",
+        "character": "日向夏美"
+      },
+      {
+        "name": "諸星すみれ",
+        "character": "西澤桃華"
+      },
+      {
+        "name": "石橋陽彩",
+        "character": "北城睦実"
+      },
+      {
+        "name": "香々",
+        "character": "東谷小雪"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "BN Pictures",
+        "occupation": "制作"
+      }
+    ],
+    "public_url": "https://www.bn-pictures.co.jp/keroro-anime/tv/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "PSYREN -サイレン-",
+    "tid": "8053",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "さいれん",
+    "casts": [
+      {
+        "name": "安田陸矢",
+        "character": "夜科アゲハ"
+      },
+      {
+        "name": "風間万裕子",
+        "character": "雨宮桜子"
+      },
+      {
+        "name": "武内駿輔",
+        "character": "朝河飛龍"
+      },
+      {
+        "name": "斉藤壮馬",
+        "character": "望月朧"
+      },
+      {
+        "name": "野津山幸宏",
+        "character": "霧崎兜"
+      },
+      {
+        "name": "甲斐田裕子",
+        "character": "八雲祭"
+      },
+      {
+        "name": "檜山修之",
+        "character": "ドルキ"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "サテライト",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://psyren-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "彼方から",
+    "tid": "8032",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "かなたから",
+    "casts": [
+      {
+        "name": "黒沢ともよ",
+        "character": "立木典子"
+      },
+      {
+        "name": "熊谷健太郎",
+        "character": "イザーク・キア・タージ"
+      },
+      {
+        "name": "梅原裕一郎",
+        "character": "ラチェフ"
+      },
+      {
+        "name": "竹内栄治",
+        "character": "ケイモス・リー・ゴーダ"
+      },
+      {
+        "name": "斉藤貴美子",
+        "character": "ガーヤ"
+      },
+      {
+        "name": "宮澤正",
+        "character": "ゴーリヤ"
+      },
+      {
+        "name": "中野泰佑",
+        "character": "アゴル"
+      },
+      {
+        "name": "伊藤美来",
+        "character": "ジーナハース"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "スタジオディーン",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://kanatakara-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "dreamland",
+    "tid": "8031",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "どりーむらんど",
+    "casts": [
+      {
+        "name": "波多野翔",
+        "character": "テレンス"
+      },
+      {
+        "name": "田野アサミ",
+        "character": "エーヴ"
+      },
+      {
+        "name": "本渡楓",
+        "character": "リディア"
+      },
+      {
+        "name": "江口拓也",
+        "character": "サヴァナ"
+      },
+      {
+        "name": "吉野裕行",
+        "character": "サバ"
+      },
+      {
+        "name": "浪川大輔",
+        "character": "ネイル"
+      },
+      {
+        "name": "田中正彦",
+        "character": "ユング"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "Ellipse & La Chouette Compagnie",
+        "occupation": "制作"
+      }
+    ],
+    "public_url": "https://www.dreamland-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "桃源暗鬼～日光・華厳の滝編～",
+    "tid": "8052",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "とうげんあんきにっこうけごんのたきへん",
+    "casts": [
+      {
+        "name": "浦和希",
+        "character": "一ノ瀬四季"
+      },
+      {
+        "name": "神谷浩史",
+        "character": "無陀野無人"
+      },
+      {
+        "name": "西山宏太朗",
+        "character": "皇后崎迅"
+      },
+      {
+        "name": "石見舞菜香",
+        "character": "屏風ヶ浦帆稀"
+      },
+      {
+        "name": "坂田将吾",
+        "character": "矢颪碇"
+      },
+      {
+        "name": "花江夏樹",
+        "character": "遊摺部従児"
+      },
+      {
+        "name": "三浦魁",
+        "character": "手術岾ロクロ"
+      },
+      {
+        "name": "愛美",
+        "character": "漣水鶏"
+      },
+      {
+        "name": "木村良平",
+        "character": "花魁坂京夜"
+      },
+      {
+        "name": "岡本信彦",
+        "character": "猫咲波久礼"
+      },
+      {
+        "name": "伊東健人",
+        "character": "印南幽"
+      },
+      {
+        "name": "梶原岳人",
+        "character": "等々力颯"
+      },
+      {
+        "name": "熊谷健太郎",
+        "character": "鳥飼羽李"
+      },
+      {
+        "name": "長岡龍歩",
+        "character": "不破真一"
+      },
+      {
+        "name": "大野智敬",
+        "character": "囲岬"
+      },
+      {
+        "name": "大畑伸太郎",
+        "character": "百目鬼剛"
+      },
+      {
+        "name": "榊原優希",
+        "character": "乙原響太郎"
+      },
+      {
+        "name": "羽多野渉",
+        "character": "蛭沼灯"
+      },
+      {
+        "name": "上田瞳",
+        "character": "海月巳代"
+      },
+      {
+        "name": "鈴村健一",
+        "character": "桃裏楔"
+      },
+      {
+        "name": "梶裕貴",
+        "character": "桃次歪"
+      },
+      {
+        "name": "谷山紀章",
+        "character": "桃尾旋律"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "スタジオ雲雀",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://tougenanki-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "凶乱令嬢ニア・リストン 病弱令嬢に転生した神殺しの武人の華麗なる無双録",
+    "tid": "7997",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "きょうらんれいじょうにありすとんびょうじゃくれいじょうにてんせいしたかみごろしのぶじんのかれいなるむそうろく",
+    "casts": [
+      {
+        "name": "井上ほの花",
+        "character": "ニア・リストン"
+      },
+      {
+        "name": "和泉風花",
+        "character": "リノキス・ファンク"
+      },
+      {
+        "name": "本泉莉奈",
+        "character": "ヒルデトーラ・アルトワール"
+      },
+      {
+        "name": "日高里菜",
+        "character": "レリアレッド・シルヴァー"
+      },
+      {
+        "name": "八代拓",
+        "character": "アンゼル"
+      },
+      {
+        "name": "日笠陽子",
+        "character": "フレッサ"
+      },
+      {
+        "name": "日野聡",
+        "character": "ガンドルフ・ローゲン"
+      },
+      {
+        "name": "諏訪部順一",
+        "character": "ヒュレンツ・アルトワール"
+      },
+      {
+        "name": "内田真礼",
+        "character": "シャロ・ホワイト"
+      },
+      {
+        "name": "高柳知葉",
+        "character": "ニール・リストン"
+      },
+      {
+        "name": "漆山ゆうき",
+        "character": "リネット・ブラン"
+      },
+      {
+        "name": "興津和幸",
+        "character": "アスマ"
+      },
+      {
+        "name": "坂口候一",
+        "character": "ベンデリオ"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "KONAMI animation",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://kyoranreijo-pr.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "恐怖コレクター",
+    "tid": "8049",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "きょうふこれくたー",
+    "casts": [
+      {
+        "name": "石橋陽彩",
+        "character": "千野フシギ"
+      },
+      {
+        "name": "福山潤",
+        "character": "ジミー"
+      },
+      {
+        "name": "早見沙織",
+        "character": "ヒミツ"
+      },
+      {
+        "name": "岡本信彦",
+        "character": "青い傘の男"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "studioぱれっと",
+        "occupation": "アニメーション制作"
+      },
+      {
+        "name": "NHKエンタープライズ",
+        "occupation": "制作"
+      },
+      {
+        "name": "NHK",
+        "occupation": "制作"
+      }
+    ],
+    "public_url": "https://www.nhk-character.com/chara/kyoufucollector/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "ねずみくんのチョッキ(第2期)",
+    "tid": "8063",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "ねずみくんのちょっき",
+    "casts": [
+      {
+        "name": "津田健次郎",
+        "character": "ねずみくん"
+      },
+      {
+        "name": "能登麻美子",
+        "character": "ねみちゃん"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "Creadom8",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "転生した大聖女は、聖女であることをひた隠す",
+    "tid": "8014",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "てんせいしただいせいじょはせいじょであることをひたかくす",
+    "casts": [
+      {
+        "name": "若山詩音",
+        "character": "フィーア・ルード"
+      },
+      {
+        "name": "徳留慎乃佑",
+        "character": "ザビリア"
+      },
+      {
+        "name": "梅原裕一郎",
+        "character": "サヴィス・ナーヴ"
+      },
+      {
+        "name": "島﨑信長",
+        "character": "シリル・サザランド"
+      },
+      {
+        "name": "畠中祐",
+        "character": "デズモンド・ローナン"
+      },
+      {
+        "name": "濱野大輝",
+        "character": "ザカリー・タウンゼント"
+      },
+      {
+        "name": "杉田智和",
+        "character": "クェンティン・アガター"
+      },
+      {
+        "name": "田村ゆかり",
+        "character": "クラリッサ・アバネシー"
+      },
+      {
+        "name": "土岐隼一",
+        "character": "イーノック"
+      },
+      {
+        "name": "山下大輝",
+        "character": "ファビアン・ワイナー"
+      },
+      {
+        "name": "島袋美由利",
+        "character": "シャーロット"
+      },
+      {
+        "name": "戸谷菊之介",
+        "character": "カーティス・バニスター"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "Felix Film",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://daiseijo-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "獣王武神ダンデヴァイン",
+    "tid": "7996",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "じゅうおうむじんだんでゔぁいん",
+    "casts": [
+      {
+        "name": "寺島拓篤",
+        "character": "静寂戟刃"
+      },
+      {
+        "name": "白石晴香",
+        "character": "久住茜"
+      },
+      {
+        "name": "会沢紗弥",
+        "character": "静寂きれい"
+      },
+      {
+        "name": "小西克幸",
+        "character": "黒岩勇作"
+      },
+      {
+        "name": "東山奈央",
+        "character": "ハル"
+      },
+      {
+        "name": "山根綺",
+        "character": "ナツ"
+      },
+      {
+        "name": "久野美咲",
+        "character": "アキ"
+      },
+      {
+        "name": "泊明日菜",
+        "character": "世良濠"
+      },
+      {
+        "name": "置鮎龍太郎",
+        "character": "静寂醍醐"
+      },
+      {
+        "name": "斧アツシ",
+        "character": "静寂弦十郎"
+      },
+      {
+        "name": "青木瑠璃子",
+        "character": "東雲優雅"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "ライデンフィルム",
+        "occupation": "アニメーション制作"
+      },
+      {
+        "name": "カヤックアニメーション",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://gattaishin.com/dandivine/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "幻想水滸伝",
+    "tid": "8051",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "げんそうすいこでん",
+    "casts": [
+      {
+        "name": "熊谷俊輝",
+        "character": "リリュウ"
+      },
+      {
+        "name": "土屋神葉",
+        "character": "ジョウイ"
+      },
+      {
+        "name": "日原あゆみ",
+        "character": "ナナミ"
+      },
+      {
+        "name": "小西克幸",
+        "character": "ビクトール"
+      },
+      {
+        "name": "中村悠一",
+        "character": "フリック"
+      },
+      {
+        "name": "八代拓",
+        "character": "ルカ・ブライト"
+      },
+      {
+        "name": "安済知佳",
+        "character": "ジル・ブライト"
+      },
+      {
+        "name": "山野井仁",
+        "character": "アガレス・ブライト"
+      },
+      {
+        "name": "笠間淳",
+        "character": "クルガン"
+      },
+      {
+        "name": "松岡禎丞",
+        "character": "シード"
+      },
+      {
+        "name": "峰晃弘",
+        "character": "ラウド"
+      },
+      {
+        "name": "近貞月乃",
+        "character": "ピリカ"
+      },
+      {
+        "name": "潘めぐみ",
+        "character": "レックナート"
+      },
+      {
+        "name": "村瀬歩",
+        "character": "ルック"
+      },
+      {
+        "name": "大塚剛央",
+        "character": "シュウ"
+      },
+      {
+        "name": "青山吉能",
+        "character": "アップル"
+      },
+      {
+        "name": "沢城みゆき",
+        "character": "アナベル"
+      },
+      {
+        "name": "酒井広大",
+        "character": "ジェス"
+      },
+      {
+        "name": "葉山翔太",
+        "character": "ゲンゲン"
+      },
+      {
+        "name": "綿貫竜之介",
+        "character": "リキマル"
+      },
+      {
+        "name": "仁見紗綾",
+        "character": "リィナ"
+      },
+      {
+        "name": "海野水玉",
+        "character": "アイリ"
+      },
+      {
+        "name": "佐々木祐介",
+        "character": "ボルガン"
+      },
+      {
+        "name": "丹羽正人",
+        "character": "ムクムク"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "KONAMI animation",
+        "occupation": "制作"
+      }
+    ],
+    "public_url": "https://suikoden-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "テムパル～アイテムの力～",
+    "tid": "8055",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "てむぱるあいてむのちから",
+    "casts": [],
+    "company_list": [],
+    "public_url": "https://tempal-anime.net/onair/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "彼女の友達",
+    "tid": "8057",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "かのじょのともだち",
+    "casts": [
+      {
+        "name": "永池瑠雅",
+        "character": "日高タケル"
+      },
+      {
+        "name": "羽紫さや花",
+        "character": "古河カオリ"
+      },
+      {
+        "name": "長谷美希",
+        "character": "吉岡トモコ"
+      },
+      {
+        "name": "杉山里穂",
+        "character": "ミユキ"
+      },
+      {
+        "name": "柚木涼香",
+        "character": "カオリの母"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "Quad",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://kanojo-no-tomodachi.deregula.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "マロニエ王国の七人の騎士",
+    "tid": "8048",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "まろにえおうこくのしちにんのきし",
+    "casts": [
+      {
+        "name": "高梨謙吾",
+        "character": "眠くない"
+      },
+      {
+        "name": "谷川誠",
+        "character": "博愛"
+      },
+      {
+        "name": "石谷春貴",
+        "character": "暑がりや"
+      },
+      {
+        "name": "猪股慧士",
+        "character": "寒がりや"
+      },
+      {
+        "name": "水野清人",
+        "character": "獣使い"
+      },
+      {
+        "name": "村田太志",
+        "character": "剣自慢"
+      },
+      {
+        "name": "川島零士",
+        "character": "ハラペコ"
+      },
+      {
+        "name": "櫻井みゆき",
+        "character": "エレオノーラ(エリー)"
+      },
+      {
+        "name": "藤原夏海",
+        "character": "ブリュンヒルデ姫"
+      },
+      {
+        "name": "子安武人",
+        "character": "城代(エリオット)"
+      },
+      {
+        "name": "興津和幸",
+        "character": "宰相(ヒューゴ)"
+      },
+      {
+        "name": "渡辺明乃",
+        "character": "バリバラ"
+      },
+      {
+        "name": "浪川大輔",
+        "character": "ペレグリナス"
+      },
+      {
+        "name": "土田大",
+        "character": "国王(ライオネル)"
+      },
+      {
+        "name": "河瀬茉希",
+        "character": "アナマリー"
+      },
+      {
+        "name": "八百屋杏",
+        "character": "乳母(ラヴィニア)"
+      },
+      {
+        "name": "速水奨",
+        "character": "ナレーション"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "J.C.STAFF",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://www.nhk-character.com/chara/marronnier/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "ロメリア戦記",
+    "tid": "8042",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "ろめりあせんき",
+    "casts": [
+      {
+        "name": "根本優奈",
+        "character": "ロメリア・フォン・グラハム"
+      },
+      {
+        "name": "小笠原仁",
+        "character": "アル"
+      },
+      {
+        "name": "大野智敬",
+        "character": "レイ"
+      },
+      {
+        "name": "広瀬裕也",
+        "character": "アンリ・レウス・ライオネル"
+      },
+      {
+        "name": "千本木彩花",
+        "character": "エリザベート"
+      },
+      {
+        "name": "伊瀬茉莉也",
+        "character": "エカテリーナ"
+      },
+      {
+        "name": "亜咲花",
+        "character": "リョキ"
+      },
+      {
+        "name": "千葉翔也",
+        "character": "グラン"
+      },
+      {
+        "name": "梶原岳人",
+        "character": "ラグン"
+      },
+      {
+        "name": "堀江瞬",
+        "character": "カイル"
+      },
+      {
+        "name": "綿貫竜之介",
+        "character": "オットー"
+      },
+      {
+        "name": "手塚ヒロミチ",
+        "character": "ハンス"
+      },
+      {
+        "name": "山口智広",
+        "character": "グレイン"
+      },
+      {
+        "name": "広瀬竜一",
+        "character": "ジニ"
+      },
+      {
+        "name": "細田健太",
+        "character": "タース"
+      },
+      {
+        "name": "海渡翼",
+        "character": "セイ"
+      },
+      {
+        "name": "安田陸矢",
+        "character": "ゼゼ"
+      },
+      {
+        "name": "松川裕輝",
+        "character": "ブライ"
+      },
+      {
+        "name": "山下タイキ",
+        "character": "ベン"
+      },
+      {
+        "name": "堀金蒼平",
+        "character": "ガット"
+      },
+      {
+        "name": "櫻井尚輝",
+        "character": "レット"
+      },
+      {
+        "name": "石井瑞樹",
+        "character": "シュロー"
+      },
+      {
+        "name": "木村颯",
+        "character": "メリル"
+      },
+      {
+        "name": "原俊太郎",
+        "character": "ボレル"
+      },
+      {
+        "name": "峯田大夢",
+        "character": "ミーチャ"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "Atra",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://romelia-senki.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "ダークサモナーとデキている",
+    "tid": "8056",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "だーくさもなーとできている",
+    "casts": [
+      {
+        "name": "高野零",
+        "character": "アモナ"
+      },
+      {
+        "name": "西山ユウキ",
+        "character": "ロニ"
+      },
+      {
+        "name": "ほうでん亭センマイ",
+        "character": "インプ"
+      },
+      {
+        "name": "西村あかね",
+        "character": "ハル"
+      },
+      {
+        "name": "矢鹿まや",
+        "character": "エウリィ"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "AtoriE",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://darksummoner.deregula.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "#ゾンビさがしてます",
+    "tid": "8028",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "ぞんびさがしてます",
+    "casts": [
+      {
+        "name": "根本京里",
+        "character": "アキ"
+      },
+      {
+        "name": "Lynn",
+        "character": "ナツキ"
+      },
+      {
+        "name": "宮田俊哉",
+        "character": "ハル"
+      },
+      {
+        "name": "山村響",
+        "character": "ユウ"
+      },
+      {
+        "name": "貫井柚佳",
+        "character": "サクラ"
+      },
+      {
+        "name": "日笠陽子",
+        "character": "ミカヅキ"
+      },
+      {
+        "name": "小市眞琴",
+        "character": "トウカ"
+      },
+      {
+        "name": "高柳知葉",
+        "character": "タカモ"
+      },
+      {
+        "name": "島田愛野",
+        "character": "サイゴ"
+      },
+      {
+        "name": "鳥海浩輔",
+        "character": "アキの父"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "スタジオコメット",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://zommasu.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "どうも、好きな人に惚れ薬を依頼された魔女です。",
+    "tid": "8030",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "どうもすきなひとにほれくすりをいらいされたまじょです",
+    "casts": [
+      {
+        "name": "小松未可子",
+        "character": "ロゼ"
+      },
+      {
+        "name": "阿座上洋平",
+        "character": "ハリージュ"
+      },
+      {
+        "name": "下野紘",
+        "character": "ティエン"
+      },
+      {
+        "name": "関根明良",
+        "character": "ビッラウラ"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "ディオメディア",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://horemajo-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "TANK CHAIR-戦車椅子-",
+    "tid": "8027",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "たんくちぇあせんしゃいす",
+    "casts": [
+      {
+        "name": "内山昂輝",
+        "character": "平良凪"
+      },
+      {
+        "name": "藤寺美徳",
+        "character": "平良静"
+      },
+      {
+        "name": "梶原岳人",
+        "character": "黒坂直墨"
+      },
+      {
+        "name": "早見沙織",
+        "character": "黒坂騰子"
+      },
+      {
+        "name": "天海由梨奈",
+        "character": "Dr.ラヂオ"
+      },
+      {
+        "name": "佐藤元",
+        "character": "渦"
+      },
+      {
+        "name": "檜山修之",
+        "character": "嵐山ゴロー"
+      },
+      {
+        "name": "大塚芳忠",
+        "character": "髙無猟"
+      },
+      {
+        "name": "稲田徹",
+        "character": "YOSHITSUNE"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "ポリゴン・ピクチュアズ",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://www.tankchair-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "ホテル・インヒューマンズ(第2期)",
+    "tid": "8016",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "ほてるいんひゅーまんず",
+    "casts": [
+      {
+        "name": "小林裕介",
+        "character": "星生朗"
+      },
+      {
+        "name": "白浜灯奈乃",
+        "character": "灰咲沙羅"
+      },
+      {
+        "name": "羊宮妃那",
+        "character": "桐原シバ"
+      },
+      {
+        "name": "千葉翔也",
+        "character": "与田昴"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "ブリッジ",
+        "occupation": "アニメーション制作"
+      },
+      {
+        "name": "アイル",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://hotel-inhumans.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "帰還者の魔法は特別です(第二期)",
+    "tid": "8041",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "きかんしゃのまほうはとくべつです",
+    "casts": [
+      {
+        "name": "寺島拓篤",
+        "character": "デジール・アルマン"
+      },
+      {
+        "name": "鈴代紗弓",
+        "character": "ロマンティカ・エル"
+      },
+      {
+        "name": "藤原夏海",
+        "character": "プラム・シュナイザー"
+      },
+      {
+        "name": "瀬戸麻沙美",
+        "character": "アゼスト・キングスクラウン"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "アルボアニメーション",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://returners-magic.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "探偵はもう、死んでいる。 Season2",
+    "tid": "8010",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "たんていはもうしんでいる",
+    "casts": [
+      {
+        "name": "長井新",
+        "character": "君塚君彦"
+      },
+      {
+        "name": "宮下早紀",
+        "character": "シエスタ"
+      },
+      {
+        "name": "竹達彩奈",
+        "character": "夏凪渚"
+      },
+      {
+        "name": "高尾奏音",
+        "character": "斎川唯"
+      },
+      {
+        "name": "白砂沙帆",
+        "character": "シャーロット・有坂・アンダーソン"
+      },
+      {
+        "name": "渕上舞",
+        "character": "加瀬風靡"
+      },
+      {
+        "name": "花守ゆみり",
+        "character": "ヘル"
+      },
+      {
+        "name": "長縄まりあ",
+        "character": "アリシア"
+      },
+      {
+        "name": "松岡禎丞",
+        "character": "コウモリ"
+      },
+      {
+        "name": "宮下早紀",
+        "character": "ノーチェス"
+      },
+      {
+        "name": "小宮山あかり",
+        "character": "ミア・ウィットロック"
+      },
+      {
+        "name": "岡本信彦",
+        "character": "スカーレット"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "ENGI",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://tanmoshi-anime.jp/Season2/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "目覚めたら最強装備と宇宙船持ちだったので、一戸建て目指して傭兵として自由に生きたい",
+    "tid": "8035",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "めざめたらさいきょうそうびとうちゅうせんもちだったのでいっこだてめざしてようへいとしてじゆうにいきたい",
+    "casts": [
+      {
+        "name": "古川慎",
+        "character": "キャプテン・ヒロ"
+      },
+      {
+        "name": "稲垣好",
+        "character": "ミミ"
+      },
+      {
+        "name": "永瀬アンナ",
+        "character": "エルマ"
+      },
+      {
+        "name": "白石晴香",
+        "character": "セレナ＝ホールズ"
+      },
+      {
+        "name": "植田佳奈",
+        "character": "ショーコ"
+      },
+      {
+        "name": "大西沙織",
+        "character": "メイ"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "studio A-CAT",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://saikyosoubi.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "ホタルの嫁入り",
+    "tid": "8040",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "ほたるのよめいり",
+    "casts": [
+      {
+        "name": "Lynn",
+        "character": "桐ヶ谷紗都子"
+      },
+      {
+        "name": "内山昂輝",
+        "character": "後藤進平"
+      },
+      {
+        "name": "伊東健人",
+        "character": "小川康太郎"
+      },
+      {
+        "name": "津田健次郎",
+        "character": "三枝"
+      },
+      {
+        "name": "山路和弘",
+        "character": "桐ケ谷十兵衛"
+      },
+      {
+        "name": "七緒はるひ",
+        "character": "桐ヶ谷りえ"
+      },
+      {
+        "name": "月城日花",
+        "character": "桐ヶ谷美和子"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "david production",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://hotaru-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "蒼き伝承 ウェルシュ＆シェダー",
+    "tid": "8058",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "あおきでんしょううぇるしゅしぇだー",
+    "casts": [],
+    "company_list": [],
+    "public_url": "https://welshandshedar-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "超巡！超条先輩",
+    "tid": "8039",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "ちょうじゅんちょうじょうせんぱい",
+    "casts": [
+      {
+        "name": "小林裕介",
+        "character": "超条巡"
+      },
+      {
+        "name": "碧乃梨心",
+        "character": "一本木直"
+      },
+      {
+        "name": "長縄まりあ",
+        "character": "ローボくん"
+      },
+      {
+        "name": "小野大輔",
+        "character": "犬養由基"
+      },
+      {
+        "name": "宮田俊哉",
+        "character": "恵那院肇"
+      },
+      {
+        "name": "金光宣明",
+        "character": "ホッさん"
+      },
+      {
+        "name": "中村カンナ",
+        "character": "尖里リリ"
+      },
+      {
+        "name": "浦和希",
+        "character": "伴平助"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "アルボアニメーション",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://chojun-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "追放されたチート付与魔術師は気ままなセカンドライフを謳歌する。～俺は武器だけじゃなく、あらゆるものに『強化ポイント』を付与できるし、俺の意思でいつでも効果を解除できるけど、残った人たち大丈夫？～",
+    "tid": "8017",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "ついほうされたちーとふよまじゅつしはきままなせかんどらいふをおうかするおれはぶきだけじゃなくあらゆるものにきょうかぽいんとをふよできるしおれのいしでいつでもこうかをかいじょできるけどのこったひとたちだいじょうぶ",
+    "casts": [
+      {
+        "name": "山下大輝",
+        "character": "レイン・ガーランド"
+      },
+      {
+        "name": "Lynn",
+        "character": "リリィ・フラムベル"
+      },
+      {
+        "name": "青山吉能",
+        "character": "マーガレット・エルス"
+      },
+      {
+        "name": "富田美憂",
+        "character": "ミラベル"
+      },
+      {
+        "name": "潘めぐみ",
+        "character": "エルシー・ゾラ"
+      },
+      {
+        "name": "小原好美",
+        "character": "ニーナ"
+      },
+      {
+        "name": "山崎たくみ",
+        "character": "どんぐり"
+      },
+      {
+        "name": "楠大典",
+        "character": "バリオス"
+      },
+      {
+        "name": "古川慎",
+        "character": "コーネリアス"
+      },
+      {
+        "name": "豊口めぐみ",
+        "character": "グレンダ"
+      },
+      {
+        "name": "岡本信彦",
+        "character": "半分"
+      },
+      {
+        "name": "柴田理恵",
+        "character": "暗殺の母"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "P.A.WORKS",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "百妖譜 第3期京師篇",
+    "tid": "8047",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "ひゃくようふだいさんききけいしへん",
+    "casts": [
+      {
+        "name": "東山奈央",
+        "character": "桃夭"
+      },
+      {
+        "name": "村瀬歩",
+        "character": "磨牙(小坊主)"
+      },
+      {
+        "name": "河西健吾",
+        "character": "柳公子"
+      },
+      {
+        "name": "神谷浩史",
+        "character": "司狂瀾"
+      },
+      {
+        "name": "小野大輔",
+        "character": "司静淵"
+      }
+    ],
+    "company_list": [],
+    "public_url": "https://b8station.tv/hyakuyoufu/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "ダイヤのA actII -Second Season-(第2クール)",
+    "tid": "8054",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "だいやのえーすあくとつーせかんどしーずん",
+    "casts": [
+      {
+        "name": "逢坂良太",
+        "character": "沢村栄純"
+      },
+      {
+        "name": "島﨑信長",
+        "character": "降谷暁"
+      },
+      {
+        "name": "櫻井孝宏",
+        "character": "御幸一也"
+      },
+      {
+        "name": "浅沼晋太郎",
+        "character": "倉持洋一"
+      },
+      {
+        "name": "花江夏樹",
+        "character": "小湊春市"
+      },
+      {
+        "name": "下野紘",
+        "character": "川上憲史"
+      },
+      {
+        "name": "田尻浩章",
+        "character": "前園健太"
+      },
+      {
+        "name": "下妻由幸",
+        "character": "白州健二郎"
+      },
+      {
+        "name": "村田太志",
+        "character": "麻生尊"
+      },
+      {
+        "name": "石田彰",
+        "character": "渡辺久志"
+      },
+      {
+        "name": "松岡禎丞",
+        "character": "金丸信二"
+      },
+      {
+        "name": "蒼井翔太",
+        "character": "東条秀明"
+      },
+      {
+        "name": "内田雄馬",
+        "character": "奥村光舟"
+      },
+      {
+        "name": "武内駿輔",
+        "character": "結城将司"
+      },
+      {
+        "name": "山下大輝",
+        "character": "瀬戸拓馬"
+      },
+      {
+        "name": "村瀬歩",
+        "character": "由井薫"
+      },
+      {
+        "name": "畠中祐",
+        "character": "浅田浩文"
+      },
+      {
+        "name": "細谷佳正",
+        "character": "結城哲也"
+      },
+      {
+        "name": "岡本信彦",
+        "character": "小湊亮介"
+      },
+      {
+        "name": "浪川大輔",
+        "character": "滝川・クリス・優"
+      },
+      {
+        "name": "羽多野渉",
+        "character": "増子透"
+      },
+      {
+        "name": "東地宏樹",
+        "character": "片岡鉄心"
+      },
+      {
+        "name": "赤城進",
+        "character": "落合博光"
+      },
+      {
+        "name": "竹内栄治",
+        "character": "太田一義"
+      },
+      {
+        "name": "内山夕実",
+        "character": "高島礼"
+      },
+      {
+        "name": "梶裕貴",
+        "character": "成宮鳴"
+      },
+      {
+        "name": "KENN",
+        "character": "神谷 カルロス 俊樹"
+      },
+      {
+        "name": "保志総一朗",
+        "character": "白河勝之"
+      },
+      {
+        "name": "熊谷健太郎",
+        "character": "山岡陸"
+      },
+      {
+        "name": "宮崎貴宜",
+        "character": "矢部浩二"
+      },
+      {
+        "name": "山谷祥生",
+        "character": "多田野樹"
+      },
+      {
+        "name": "代永翼",
+        "character": "赤松晋二"
+      },
+      {
+        "name": "仲野裕",
+        "character": "国友広重"
+      },
+      {
+        "name": "佐久間大介",
+        "character": "早乙女慎一郎"
+      },
+      {
+        "name": "小野賢章",
+        "character": "轟雷市"
+      },
+      {
+        "name": "神谷浩史",
+        "character": "真田俊平"
+      },
+      {
+        "name": "鈴木達央",
+        "character": "三島優太"
+      },
+      {
+        "name": "金本涼輔",
+        "character": "秋葉一真"
+      },
+      {
+        "name": "西凜太朗",
+        "character": "轟雷蔵"
+      },
+      {
+        "name": "木村良平",
+        "character": "天久光聖"
+      },
+      {
+        "name": "加藤亮夫",
+        "character": "田原利彦"
+      },
+      {
+        "name": "宮田俊哉",
+        "character": "千丸浩史"
+      },
+      {
+        "name": "仲村宗悟",
+        "character": "卜部昂也"
+      },
+      {
+        "name": "田丸篤志",
+        "character": "柳楽宗一"
+      },
+      {
+        "name": "濱健人",
+        "character": "奈良晃司"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "OLM",
+        "occupation": "アニメーション制作"
+      },
+      {
+        "name": "「ダイヤのA actII -SS-」製作委員会",
+        "occupation": "制作"
+      }
+    ],
+    "public_url": "https://diaace.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "アオアシ Season2",
+    "tid": "8029",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "あおあししーずんつー",
+    "casts": [
+      {
+        "name": "大鈴功起",
+        "character": "青井葦人"
+      },
+      {
+        "name": "橘龍丸",
+        "character": "大友栄作"
+      },
+      {
+        "name": "山下誠一郎",
+        "character": "橘総一朗"
+      },
+      {
+        "name": "八代拓",
+        "character": "冨樫慶司"
+      },
+      {
+        "name": "堀江瞬",
+        "character": "黒田勘平"
+      },
+      {
+        "name": "加藤渉",
+        "character": "朝利マーチス淳"
+      },
+      {
+        "name": "榎木淳弥",
+        "character": "本木遊馬"
+      },
+      {
+        "name": "熊谷健太郎",
+        "character": "竹島龍一"
+      },
+      {
+        "name": "武内駿輔",
+        "character": "阿久津渚"
+      },
+      {
+        "name": "梅原裕一郎",
+        "character": "栗林晴久"
+      },
+      {
+        "name": "小野賢章",
+        "character": "中村平"
+      },
+      {
+        "name": "内山昂輝",
+        "character": "桐木曜一"
+      },
+      {
+        "name": "古川慎",
+        "character": "高杉榮太"
+      },
+      {
+        "name": "興津和幸",
+        "character": "義経健太"
+      },
+      {
+        "name": "手塚ヒロミチ",
+        "character": "秋山円心"
+      },
+      {
+        "name": "河瀬茉希",
+        "character": "一条花"
+      },
+      {
+        "name": "上田麗奈",
+        "character": "海堂杏里"
+      },
+      {
+        "name": "小松未可子",
+        "character": "金子葵"
+      },
+      {
+        "name": "小林親弘",
+        "character": "福田達也"
+      },
+      {
+        "name": "安元洋貴",
+        "character": "伊達望"
+      },
+      {
+        "name": "真堂圭",
+        "character": "橘都"
+      },
+      {
+        "name": "園崎未恵",
+        "character": "青井紀子"
+      },
+      {
+        "name": "中島ヨシキ",
+        "character": "青井瞬"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "トムス・エンタテインメント",
+        "occupation": "アニメーション制作"
+      },
+      {
+        "name": "「アオアシ Season2」製作委員会",
+        "occupation": "制作"
+      }
+    ],
+    "public_url": "https://aoashi-pr.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "転生ゴブリンだけど質問ある？",
+    "tid": "8015",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "てんせいごぶりんだけどしつもんある",
+    "casts": [
+      {
+        "name": "戸谷菊之介",
+        "character": "アキラ"
+      },
+      {
+        "name": "日笠陽子",
+        "character": "カレン"
+      },
+      {
+        "name": "橘杏咲",
+        "character": "クロエ"
+      },
+      {
+        "name": "銀河万丈",
+        "character": "シモン"
+      },
+      {
+        "name": "鈴代紗弓",
+        "character": "エイレーネ"
+      },
+      {
+        "name": "M・A・O",
+        "character": "ディケ"
+      },
+      {
+        "name": "倉持若菜",
+        "character": "エウノミア"
+      },
+      {
+        "name": "花江夏樹",
+        "character": "アルバート"
+      },
+      {
+        "name": "下野紘",
+        "character": "イズイーズ"
+      },
+      {
+        "name": "田村ゆかり",
+        "character": "天地開闢"
+      },
+      {
+        "name": "竹内順子",
+        "character": "三代目ハンゾウ"
+      },
+      {
+        "name": "伊瀬茉莉也",
+        "character": "七代目ハンゾウ"
+      },
+      {
+        "name": "水希凜",
+        "character": "六代目マサムネ"
+      },
+      {
+        "name": "瀬戸桃子",
+        "character": "八代目エチゴヤ"
+      },
+      {
+        "name": "三瓶由布子",
+        "character": "初代ハンゾウ"
+      },
+      {
+        "name": "永瀬アンナ",
+        "character": "六代目ハンゾウ"
+      },
+      {
+        "name": "首藤志奈",
+        "character": "初代キノクニヤ"
+      },
+      {
+        "name": "利根健太朗",
+        "character": "四代目エチゴヤ"
+      },
+      {
+        "name": "花守ゆみり",
+        "character": "六代目エチゴヤ"
+      },
+      {
+        "name": "宮本侑芽",
+        "character": "七代目エチゴヤ"
+      },
+      {
+        "name": "日岡なつみ",
+        "character": "四代目マサムネ"
+      },
+      {
+        "name": "髙橋ミナミ",
+        "character": "五代目マサムネ"
+      },
+      {
+        "name": "遠野ひかる",
+        "character": "初代ホクサイ"
+      },
+      {
+        "name": "吉野裕行",
+        "character": "三代目ホクサイ"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "BAKKKA",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://tengobu-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "FX戦士くるみちゃん",
+    "tid": "7998",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "えふえっくすせんしくるみちゃん",
+    "casts": [
+      {
+        "name": "鈴木愛奈",
+        "character": "福賀くるみ"
+      },
+      {
+        "name": "瀬戸麻沙美",
+        "character": "小金萌智子"
+      },
+      {
+        "name": "伊藤彩沙",
+        "character": "山師芽吹"
+      },
+      {
+        "name": "岡咲美保",
+        "character": "高根やす子"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "パッショーネ",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://fxkurumi-info.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "貸した魔力は【リボ払い】で強制徴収",
+    "tid": "7999",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "かしたまりょくはりぼばらいできょうせいちょうしゅう",
+    "casts": [
+      {
+        "name": "川島零士",
+        "character": "レント"
+      },
+      {
+        "name": "加藤英美里",
+        "character": "エムピー"
+      },
+      {
+        "name": "松田利冴",
+        "character": "リンカ"
+      },
+      {
+        "name": "濱野大輝",
+        "character": "ガイ"
+      },
+      {
+        "name": "関根明良",
+        "character": "ミサ"
+      },
+      {
+        "name": "小林ゆう",
+        "character": "エル"
+      },
+      {
+        "name": "浪川大輔",
+        "character": "ロジャー"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "SynergySP",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://revo-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "とある暗部の少女共棲",
+    "tid": "8000",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "とあるあんぶのあいてむ",
+    "casts": [
+      {
+        "name": "小清水亜美",
+        "character": "麦野沈利"
+      },
+      {
+        "name": "洲崎綾",
+        "character": "滝壺理后"
+      },
+      {
+        "name": "内田真礼",
+        "character": "フレンダ＝セイヴェルン"
+      },
+      {
+        "name": "赤﨑千夏",
+        "character": "絹旗最愛"
+      },
+      {
+        "name": "菱川花菜",
+        "character": "華野超美"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "J.C.STAFF",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://toaru-project.com/item/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "東京リベンジャーズ 三天戦争編",
+    "tid": "8001",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "とうきょうりべんじゃーずさんてんせんそうへん",
+    "casts": [
+      {
+        "name": "新祐樹",
+        "character": "花垣武道"
+      },
+      {
+        "name": "和氣あず未",
+        "character": "橘日向"
+      },
+      {
+        "name": "逢坂良太",
+        "character": "橘直人"
+      },
+      {
+        "name": "林勇",
+        "character": "佐野万次郎"
+      },
+      {
+        "name": "福西勝也",
+        "character": "龍宮寺堅"
+      },
+      {
+        "name": "狩野翔",
+        "character": "松野千冬"
+      },
+      {
+        "name": "松岡禎丞",
+        "character": "三ツ谷隆"
+      },
+      {
+        "name": "畠中祐",
+        "character": "柴八戒"
+      },
+      {
+        "name": "野津山幸宏",
+        "character": "林良平"
+      },
+      {
+        "name": "河西健吾",
+        "character": "河田ナホヤ"
+      },
+      {
+        "name": "河西健吾",
+        "character": "河田ソウヤ"
+      },
+      {
+        "name": "小野大輔",
+        "character": "武藤泰宏"
+      },
+      {
+        "name": "岡本信彦",
+        "character": "三途春千夜"
+      },
+      {
+        "name": "寺島拓篤",
+        "character": "千堂敦"
+      },
+      {
+        "name": "広瀬裕也",
+        "character": "山本タクヤ"
+      },
+      {
+        "name": "武内駿輔",
+        "character": "鈴木マコト"
+      },
+      {
+        "name": "葉山翔太",
+        "character": "山岸一司"
+      },
+      {
+        "name": "江口拓也",
+        "character": "半間修二"
+      },
+      {
+        "name": "榎木淳弥",
+        "character": "乾青宗"
+      },
+      {
+        "name": "花江夏樹",
+        "character": "九井一"
+      },
+      {
+        "name": "山下誠一郎",
+        "character": "鶴蝶"
+      },
+      {
+        "name": "稲田徹",
+        "character": "望月莞爾"
+      },
+      {
+        "name": "内山昂輝",
+        "character": "斑目獅音"
+      },
+      {
+        "name": "浪川大輔",
+        "character": "灰谷蘭"
+      },
+      {
+        "name": "下野紘",
+        "character": "灰谷竜胆"
+      },
+      {
+        "name": "松風雅也",
+        "character": "佐野真一郎"
+      },
+      {
+        "name": "伊瀬茉莉也",
+        "character": "瓦城千咒"
+      },
+      {
+        "name": "下鶴直幸",
+        "character": "明司武臣"
+      },
+      {
+        "name": "立花慎之介",
+        "character": "今牛若狭"
+      },
+      {
+        "name": "星野貴紀",
+        "character": "荒師慶三"
+      },
+      {
+        "name": "安元洋貴",
+        "character": "寺野南"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "ライデンフィルム",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://tokyo-revengers-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "魔法の姉妹ルルットリリィ(第2クール)",
+    "tid": "8002",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "まほうのしまいるるっとりりぃ",
+    "casts": [
+      {
+        "name": "橘めい",
+        "character": "野々山風／こんぺとリリィ"
+      },
+      {
+        "name": "小鹿なお",
+        "character": "野々山流／ましゅールル"
+      },
+      {
+        "name": "七海ひろき",
+        "character": "うぐいす"
+      },
+      {
+        "name": "茅野愛衣",
+        "character": "あずき"
+      },
+      {
+        "name": "和泉風花",
+        "character": "神立塔子"
+      },
+      {
+        "name": "廣原ふう",
+        "character": "青園せな"
+      },
+      {
+        "name": "根本京里",
+        "character": "新木あさひ"
+      },
+      {
+        "name": "八乙女光",
+        "character": "ミーター"
+      },
+      {
+        "name": "天﨑滉平",
+        "character": "瀬尾翔太"
+      },
+      {
+        "name": "橘龍丸",
+        "character": "角谷久士"
+      },
+      {
+        "name": "杉田智和",
+        "character": "神立矢須王"
+      },
+      {
+        "name": "笠間淳",
+        "character": "野々山桂一"
+      },
+      {
+        "name": "大原めぐみ",
+        "character": "野々山汐"
+      },
+      {
+        "name": "遠藤綾",
+        "character": "日の浦茉莉"
+      },
+      {
+        "name": "広瀬裕也",
+        "character": "オリンズ"
+      },
+      {
+        "name": "白井悠介",
+        "character": "ムッチ"
+      },
+      {
+        "name": "夏吉ゆうこ",
+        "character": "シロモフ"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "スタジオぴえろ",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://www.luluttolilly.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "世界最強の魔女、始めました",
+    "tid": "8003",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "せかいさいきょうのまじょはじめました",
+    "casts": [
+      {
+        "name": "橘杏咲",
+        "character": "ローナ・ハーミット"
+      },
+      {
+        "name": "ファイルーズあい",
+        "character": "エリミナ・マナフレイム"
+      },
+      {
+        "name": "井上ほの花",
+        "character": "エルナ"
+      },
+      {
+        "name": "花澤香菜",
+        "character": "アリエス・ティア・ブルームーン"
+      },
+      {
+        "name": "長縄まりあ",
+        "character": "ルル・ル・リエー"
+      },
+      {
+        "name": "上村祐翔",
+        "character": "ラインハルテ・ハイウィンド"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "ブリッジ",
+        "occupation": "アニメーション制作"
+      },
+      {
+        "name": "アイル",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://sekamajo-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "魔法少女育成計画restart",
+    "tid": "8004",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "まほうしょうじょいくせいけいかくりすたーと",
+    "casts": [
+      {
+        "name": "井上ほの花",
+        "character": "ペチカ"
+      },
+      {
+        "name": "南條愛乃",
+        "character": "プフレ"
+      },
+      {
+        "name": "近藤玲奈",
+        "character": "シャドウゲール"
+      },
+      {
+        "name": "悠木碧",
+        "character": "ラピス・ラズリーヌ"
+      },
+      {
+        "name": "内田真礼",
+        "character": "マジカルデイジー"
+      },
+      {
+        "name": "小清水亜美",
+        "character": "アカネ"
+      },
+      {
+        "name": "伊瀬茉莉也",
+        "character": "クランテイル"
+      },
+      {
+        "name": "三上枝織",
+        "character": "メルヴィル"
+      },
+      {
+        "name": "ジェーニャ",
+        "character": "御世方那子"
+      },
+      {
+        "name": "M・A・O",
+        "character": "リオネッタ"
+      },
+      {
+        "name": "鬼頭明里",
+        "character": "@娘々"
+      },
+      {
+        "name": "長縄まりあ",
+        "character": "チェルナー・マウス"
+      },
+      {
+        "name": "富田美憂",
+        "character": "ディティック・ベル"
+      },
+      {
+        "name": "鈴代紗弓",
+        "character": "夢ノ島ジェノサイ子"
+      },
+      {
+        "name": "ファイルーズあい",
+        "character": "マスクド・ワンダー"
+      },
+      {
+        "name": "澤田姫",
+        "character": "のっこちゃん"
+      },
+      {
+        "name": "潘めぐみ",
+        "character": "キーク"
+      },
+      {
+        "name": "かないみか",
+        "character": "ファル"
+      },
+      {
+        "name": "東山奈央",
+        "character": "スノーホワイト"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "SynergySP",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://mahoiku.com/anime/restart",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "生徒会にも穴はある！",
+    "tid": "8005",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "せいとかいにもあなはある",
+    "casts": [
+      {
+        "name": "坂田将吾",
+        "character": "水之江梅"
+      },
+      {
+        "name": "白石晴香",
+        "character": "古都吹寿子"
+      },
+      {
+        "name": "富田美憂",
+        "character": "陸奥こまろ"
+      },
+      {
+        "name": "河野ひより",
+        "character": "尾鳥たん"
+      },
+      {
+        "name": "石上静香",
+        "character": "照井有栖"
+      },
+      {
+        "name": "内山夕実",
+        "character": "平塚敏深"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "パッショーネ",
+        "occupation": "制作"
+      }
+    ],
+    "public_url": "https://nama-anaru.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "マジカル★エクスプローラー",
+    "tid": "8006",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "まじかるえくすぷろーらー",
+    "casts": [
+      {
+        "name": "島﨑信長",
+        "character": "瀧音幸助"
+      },
+      {
+        "name": "加隈亜衣",
+        "character": "リュディ"
+      },
+      {
+        "name": "大西沙織",
+        "character": "水守雪音"
+      },
+      {
+        "name": "M・A・O",
+        "character": "ななみ"
+      },
+      {
+        "name": "渕上舞",
+        "character": "花邑毬乃"
+      },
+      {
+        "name": "津田美波",
+        "character": "花邑はつみ"
+      },
+      {
+        "name": "紡木吏佐",
+        "character": "クラリス"
+      },
+      {
+        "name": "結川あさき",
+        "character": "聖伊織"
+      },
+      {
+        "name": "遠野ひかる",
+        "character": "加藤里菜"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "WHITE FOX",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://majieku.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "アオのハコ Season2",
+    "tid": "8007",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "あおのはこ",
+    "casts": [
+      {
+        "name": "千葉翔也",
+        "character": "猪股大喜"
+      },
+      {
+        "name": "上田麗奈",
+        "character": "鹿野千夏"
+      },
+      {
+        "name": "鬼頭明里",
+        "character": "蝶野雛"
+      },
+      {
+        "name": "小林千晃",
+        "character": "笠原匡"
+      },
+      {
+        "name": "内田雄馬",
+        "character": "針生健吾"
+      },
+      {
+        "name": "市ノ瀬加那",
+        "character": "守屋菖蒲"
+      },
+      {
+        "name": "梶裕貴",
+        "character": "松岡一馬"
+      },
+      {
+        "name": "青山吉能",
+        "character": "木戸夢佳"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "エレクトリックサーカス",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://aonohako-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "僕らが選んだベストアドベンチャー",
+    "tid": "8064",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "ぼくらがえらんだべすとあどべんちゃー",
+    "casts": [],
+    "company_list": [
+      {
+        "name": "フジテレビ",
+        "occupation": "制作"
+      },
+      {
+        "name": "読売広告社",
+        "occupation": "制作"
+      },
+      {
+        "name": "東映アニメーション",
+        "occupation": "制作"
+      }
+    ],
+    "public_url": "",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "氷の城壁(第2期)",
+    "tid": "8008",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "こおりのじょうへき",
+    "casts": [
+      {
+        "name": "永瀬アンナ",
+        "character": "氷川小雪"
+      },
+      {
+        "name": "和泉風花",
+        "character": "安曇美姫"
+      },
+      {
+        "name": "千葉翔也",
+        "character": "雨宮湊"
+      },
+      {
+        "name": "猪股慧士",
+        "character": "日野陽太"
+      },
+      {
+        "name": "新福桜",
+        "character": "霜島月子"
+      },
+      {
+        "name": "小林千晃",
+        "character": "五十嵐翼"
+      },
+      {
+        "name": "鬼頭明里",
+        "character": "栗木桃香"
+      },
+      {
+        "name": "波多野翔",
+        "character": "安曇優希"
+      },
+      {
+        "name": "川井田夏海",
+        "character": "熱川秋音"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "スタジオKAI",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://korinojoheki-pr.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "夜桜さんちの大作戦(第2期)第2クール",
+    "tid": "8011",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "よざくらさんちのだいさくせん",
+    "casts": [
+      {
+        "name": "川島零士",
+        "character": "朝野太陽"
+      },
+      {
+        "name": "本渡楓",
+        "character": "夜桜六美"
+      },
+      {
+        "name": "小西克幸",
+        "character": "夜桜凶一郎"
+      },
+      {
+        "name": "鬼頭明里",
+        "character": "夜桜二刃"
+      },
+      {
+        "name": "興津和幸",
+        "character": "夜桜辛三"
+      },
+      {
+        "name": "悠木碧",
+        "character": "夜桜四怨"
+      },
+      {
+        "name": "松岡禎丞",
+        "character": "夜桜嫌五"
+      },
+      {
+        "name": "内山夕実",
+        "character": "夜桜七悪"
+      },
+      {
+        "name": "松岡禎丞",
+        "character": "ゴリアテ"
+      },
+      {
+        "name": "山寺宏一",
+        "character": "夜桜百"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "SILVER LINK.",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://mission-yozakura-family.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "らんま1/2(2026)",
+    "tid": "8012",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "らんまにぶんのいち",
+    "casts": [
+      {
+        "name": "山口勝平",
+        "character": "早乙女乱馬"
+      },
+      {
+        "name": "林原めぐみ",
+        "character": "らんま"
+      },
+      {
+        "name": "日髙のり子",
+        "character": "天道あかね"
+      },
+      {
+        "name": "高山みなみ",
+        "character": "天道なびき"
+      },
+      {
+        "name": "井上喜久子",
+        "character": "天道かすみ"
+      },
+      {
+        "name": "大塚明夫",
+        "character": "天道早雲"
+      },
+      {
+        "name": "チョー",
+        "character": "早乙女玄馬"
+      },
+      {
+        "name": "山寺宏一",
+        "character": "響良牙"
+      },
+      {
+        "name": "佐久間レイ",
+        "character": "シャンプー"
+      },
+      {
+        "name": "関俊彦",
+        "character": "ムース"
+      },
+      {
+        "name": "名塚佳織",
+        "character": "久遠寺右京"
+      },
+      {
+        "name": "井上和彦",
+        "character": "八宝斉"
+      },
+      {
+        "name": "真山亜子",
+        "character": "コロン"
+      },
+      {
+        "name": "杉田智和",
+        "character": "九能帯刀"
+      },
+      {
+        "name": "佐倉綾音",
+        "character": "九能小太刀"
+      },
+      {
+        "name": "森川智之",
+        "character": "小乃東風"
+      },
+      {
+        "name": "宮野真守",
+        "character": "三千院帝"
+      },
+      {
+        "name": "悠木碧",
+        "character": "白鳥あずさ"
+      },
+      {
+        "name": "石田彰",
+        "character": "五寸釘光"
+      },
+      {
+        "name": "野沢雅子",
+        "character": "家元"
+      },
+      {
+        "name": "福山潤",
+        "character": "大文字煎太郎"
+      },
+      {
+        "name": "田中真弓",
+        "character": ""
+      },
+      {
+        "name": "早見沙織",
+        "character": ""
+      },
+      {
+        "name": "田中美海",
+        "character": "紅つばさ"
+      },
+      {
+        "name": "関智一",
+        "character": "いちろう"
+      },
+      {
+        "name": "緒方賢一",
+        "character": "ナレーション"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "MAPPA",
+        "occupation": "制作"
+      }
+    ],
+    "public_url": "https://ranma-pr.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "おじさんはカワイイものがお好き。",
+    "tid": "8018",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "おじさんはかわいいものがおすき",
+    "casts": [
+      {
+        "name": "興津和幸",
+        "character": "小路三貴"
+      },
+      {
+        "name": "江口拓也",
+        "character": "河合ケンタ"
+      },
+      {
+        "name": "梶裕貴",
+        "character": "鳴戸渡"
+      },
+      {
+        "name": "村瀬歩",
+        "character": "仁井真純"
+      },
+      {
+        "name": "前田佳織里",
+        "character": "茂科莉央"
+      },
+      {
+        "name": "花井美春",
+        "character": "臼間未來"
+      },
+      {
+        "name": "丹羽哲士",
+        "character": "木庭春生"
+      },
+      {
+        "name": "園崎未恵",
+        "character": "武林穂歩"
+      },
+      {
+        "name": "富田美憂",
+        "character": "パグ太郎"
+      },
+      {
+        "name": "和泉風花",
+        "character": "ボス吉"
+      },
+      {
+        "name": "船戸ゆり絵",
+        "character": "アン"
+      },
+      {
+        "name": "田野アサミ",
+        "character": "キャリー"
+      },
+      {
+        "name": "佐藤日向",
+        "character": "グレピ"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "ライデンフィルム",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://ojikawa.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "魔法騎士レイアース(2026)",
+    "tid": "8019",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "まじっくないとれいあーす",
+    "casts": [
+      {
+        "name": "佐倉綾音",
+        "character": "獅堂光"
+      },
+      {
+        "name": "大久保瑠美",
+        "character": "龍咲海"
+      },
+      {
+        "name": "高橋李依",
+        "character": "鳳凰寺風"
+      },
+      {
+        "name": "早見沙織",
+        "character": "エメロード"
+      },
+      {
+        "name": "小野友樹",
+        "character": "ザガート"
+      },
+      {
+        "name": "菊地美香",
+        "character": "モコナ"
+      },
+      {
+        "name": "梶裕貴",
+        "character": "クレフ"
+      },
+      {
+        "name": "加藤英美里",
+        "character": "プレセア"
+      },
+      {
+        "name": "松岡禎丞",
+        "character": "フェリオ"
+      },
+      {
+        "name": "能登麻美子",
+        "character": "アルシオーネ"
+      },
+      {
+        "name": "村瀬歩",
+        "character": "アスコット"
+      },
+      {
+        "name": "上田瞳",
+        "character": "カルディナ"
+      },
+      {
+        "name": "安元洋貴",
+        "character": "ラファーガ"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "E&H production",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://rayearth-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "バーテックスフォース",
+    "tid": "8020",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "ばーてっくすふぉーす",
+    "casts": [
+      {
+        "name": "小市眞琴",
+        "character": "東道明"
+      },
+      {
+        "name": "本渡楓",
+        "character": "東道晴香"
+      },
+      {
+        "name": "小清水亜美",
+        "character": "エレノア・ノースブルック"
+      },
+      {
+        "name": "潘めぐみ",
+        "character": "ララ・ズーデンシュタイン"
+      },
+      {
+        "name": "高橋李依",
+        "character": "仁科陽子"
+      },
+      {
+        "name": "浦和希",
+        "character": "アラン"
+      },
+      {
+        "name": "水樹奈々",
+        "character": "EDVA"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "SMDE",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://vertexforce.jp/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "千歳くんはラムネ瓶のなか(第2クール)",
+    "tid": "8022",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "ちとせくんはらむねびんのなか",
+    "casts": [
+      {
+        "name": "坂田将吾",
+        "character": "千歳朔"
+      },
+      {
+        "name": "石見舞菜香",
+        "character": "柊夕湖"
+      },
+      {
+        "name": "羊宮妃那",
+        "character": "内田優空"
+      },
+      {
+        "name": "長谷川育美",
+        "character": "七瀬悠月"
+      },
+      {
+        "name": "大久保瑠美",
+        "character": "青海陽"
+      },
+      {
+        "name": "安済知佳",
+        "character": "西野明日風"
+      },
+      {
+        "name": "阿座上洋平",
+        "character": "岩波蔵之介"
+      },
+      {
+        "name": "土岐隼一",
+        "character": "水篠和希"
+      },
+      {
+        "name": "今井文也",
+        "character": "浅野海人"
+      },
+      {
+        "name": "宮﨑雅也",
+        "character": "山崎健太"
+      },
+      {
+        "name": "雨宮天",
+        "character": "東堂舞"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "feel.",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://chiramune.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "佐々木とピーちゃん Season2",
+    "tid": "8023",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "ささきとぴーちゃんしーずんつー",
+    "casts": [
+      {
+        "name": "杉田智和",
+        "character": "佐々木"
+      },
+      {
+        "name": "悠木碧",
+        "character": "ピーちゃん"
+      },
+      {
+        "name": "鬼頭明里",
+        "character": "お隣さん"
+      },
+      {
+        "name": "高橋李依",
+        "character": "星崎さん"
+      },
+      {
+        "name": "大空直美",
+        "character": "二人静"
+      },
+      {
+        "name": "富田美憂",
+        "character": "エルザ"
+      },
+      {
+        "name": "水瀬いのり",
+        "character": "マジカルピンク"
+      },
+      {
+        "name": "置鮎龍太郎",
+        "character": "阿久津"
+      },
+      {
+        "name": "安元洋貴",
+        "character": "ミュラー子爵"
+      },
+      {
+        "name": "田村睦心",
+        "character": "アバドン"
+      },
+      {
+        "name": "畠中祐",
+        "character": "比売神君"
+      },
+      {
+        "name": "篠原侑",
+        "character": "エリエル"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "SILVER LINK.",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://sasapi-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "信者ゼロの女神サマと始める異世界攻略",
+    "tid": "8024",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "しんじゃぜろのめがみさまとはじめるいせかいこうりゃく",
+    "casts": [
+      {
+        "name": "堀金蒼平",
+        "character": "高月マコト"
+      },
+      {
+        "name": "長谷川育美",
+        "character": "ノア"
+      },
+      {
+        "name": "首藤志奈",
+        "character": "ルーシー"
+      },
+      {
+        "name": "関根瞳",
+        "character": "佐々木アヤ"
+      },
+      {
+        "name": "水中雅章",
+        "character": "藤原ミチオ"
+      },
+      {
+        "name": "Lynn",
+        "character": "ニナ"
+      },
+      {
+        "name": "小野賢章",
+        "character": "桜井リョウスケ"
+      },
+      {
+        "name": "鈴代紗弓",
+        "character": "ソフィア"
+      },
+      {
+        "name": "大久保瑠美",
+        "character": "マリー"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "HORNETS",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://zero-believers-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "薬屋のひとりごと(第3期)",
+    "tid": "8025",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "くすりやのひとりごと",
+    "casts": [
+      {
+        "name": "悠木碧",
+        "character": "猫猫(マオマオ)"
+      },
+      {
+        "name": "大塚剛央",
+        "character": "壬氏(ジンシ)"
+      },
+      {
+        "name": "小西克幸",
+        "character": "高順(ガオシュン)"
+      },
+      {
+        "name": "橘龍丸",
+        "character": "馬閃(バセン)"
+      },
+      {
+        "name": "豊永利行",
+        "character": "羅半(ラハン)"
+      },
+      {
+        "name": "内山昂輝",
+        "character": "陸孫(リクソン)"
+      },
+      {
+        "name": "桐本拓哉",
+        "character": "羅漢(ラカン)"
+      },
+      {
+        "name": "小清水亜美",
+        "character": "白鈴(パイリン)"
+      },
+      {
+        "name": "潘めぐみ",
+        "character": "梅梅(メイメイ)"
+      },
+      {
+        "name": "七海ひろき",
+        "character": "女華(ジョカ)"
+      },
+      {
+        "name": "藤原夏海",
+        "character": "趙迂(チョウウ)"
+      },
+      {
+        "name": "上田麗奈",
+        "character": "白娘々(パイニャンニャン)"
+      },
+      {
+        "name": "島本須美",
+        "character": "ナレーション"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "OLM",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://kusuriyanohitorigoto.jp/season3/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "ブラッククローバー 2nd Season",
+    "tid": "8026",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "ぶらっくくろーばーせかんどしーずん",
+    "casts": [
+      {
+        "name": "梶原岳人",
+        "character": "アスタ"
+      },
+      {
+        "name": "島﨑信長",
+        "character": "ユノ"
+      },
+      {
+        "name": "諏訪部順一",
+        "character": "ヤミ・スケヒロ"
+      },
+      {
+        "name": "優木かな",
+        "character": "ノエル・シルヴァ"
+      },
+      {
+        "name": "下野紘",
+        "character": "ナハト・ファウスト"
+      },
+      {
+        "name": "岡本信彦",
+        "character": "リーベ"
+      },
+      {
+        "name": "小山力也",
+        "character": "ダンテ・ゾグラティス"
+      },
+      {
+        "name": "鈴木達央",
+        "character": "ゼノン・ゾグラティス"
+      },
+      {
+        "name": "小倉唯",
+        "character": "ヴァニカ・ゾグラティス"
+      },
+      {
+        "name": "福山潤",
+        "character": "フィンラル・ルーラケイス"
+      },
+      {
+        "name": "室元気",
+        "character": "マグナ・スウィング"
+      },
+      {
+        "name": "村瀬歩",
+        "character": "ラック・ボルティア"
+      },
+      {
+        "name": "日野聡",
+        "character": "ゴーシュ・アドレイ"
+      },
+      {
+        "name": "水樹奈々",
+        "character": "バネッサ・エノテーカ"
+      },
+      {
+        "name": "安野希世乃",
+        "character": "チャーミー・パピットソン"
+      },
+      {
+        "name": "松田健一郎",
+        "character": "ゴードン・アグリッパ"
+      },
+      {
+        "name": "髙橋ミナミ",
+        "character": "グレイ"
+      },
+      {
+        "name": "斎賀みつき",
+        "character": "ヘンリー・レゴラント"
+      },
+      {
+        "name": "緑川光",
+        "character": "ゾラ・イデアーレ"
+      },
+      {
+        "name": "佐倉綾音",
+        "character": "セクレ・スワロテイル(ネロ)"
+      },
+      {
+        "name": "森川智之",
+        "character": "ユリウス・ノヴァクロノ"
+      },
+      {
+        "name": "皆川純子",
+        "character": "メレオレオナ・ ヴァーミリオン"
+      },
+      {
+        "name": "西明日香",
+        "character": "ミモザ・ヴァーミリオン"
+      },
+      {
+        "name": "鳥海浩輔",
+        "character": "ノゼル・シルヴァ"
+      },
+      {
+        "name": "小西克幸",
+        "character": "フエゴレオン・ヴァーミリオン"
+      },
+      {
+        "name": "小野大輔",
+        "character": "ウィリアム・ヴァンジャンス"
+      },
+      {
+        "name": "小林ゆう",
+        "character": "シャーロット・ローズレイ"
+      },
+      {
+        "name": "浪川大輔",
+        "character": "ジャック・ザリッパー"
+      },
+      {
+        "name": "花江夏樹",
+        "character": "リル・ボワモルティエ"
+      },
+      {
+        "name": "伊瀬茉莉也",
+        "character": "ドロシー・アンズワース"
+      },
+      {
+        "name": "松田健一郎",
+        "character": "カイゼル・グランボルカ"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "スタジオぴえろ",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://bclover.jp/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "DARK MACHINE THE ANIMATION",
+    "tid": "8034",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "だーくましんじあにめーしょん",
+    "casts": [
+      {
+        "name": "小野賢章",
+        "character": "カイリ"
+      },
+      {
+        "name": "沢城みゆき",
+        "character": "ルドラ"
+      },
+      {
+        "name": "内山昂輝",
+        "character": "シン"
+      },
+      {
+        "name": "杉山里穂",
+        "character": "ブラン"
+      },
+      {
+        "name": "会沢紗弥",
+        "character": "イサナ"
+      },
+      {
+        "name": "中村悠一",
+        "character": "アジマ"
+      },
+      {
+        "name": "興津和幸",
+        "character": "ミョウジン"
+      },
+      {
+        "name": "鈴木崚汰",
+        "character": "リョウ"
+      },
+      {
+        "name": "中村源太",
+        "character": "キンジ"
+      },
+      {
+        "name": "堀金蒼平",
+        "character": "ヒル"
+      },
+      {
+        "name": "綿貫竜之介",
+        "character": "ニュウドウ"
+      },
+      {
+        "name": "向坂淳",
+        "character": "ハチマン"
+      },
+      {
+        "name": "鈴木みのり",
+        "character": "ビアンカ"
+      },
+      {
+        "name": "安田陸矢",
+        "character": "ヴァイス"
+      },
+      {
+        "name": "東山奈央",
+        "character": "アルク"
+      },
+      {
+        "name": "大渕野々花",
+        "character": "デネボラ"
+      },
+      {
+        "name": "中島怜",
+        "character": "スピカ"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "Production +h.",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://www.fujitv.co.jp/darkmachine_anime/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "弱気MAX令嬢なのに、辣腕婚約者様の賭けに乗ってしまった",
+    "tid": "8036",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "よわきまっくすれいじょうなのにらつわんこんやくしゃさまのかけにのってしまった",
+    "casts": [
+      {
+        "name": "伊藤美来",
+        "character": "ピア・ロックウェル"
+      },
+      {
+        "name": "逢坂良太",
+        "character": "ルーファス・スタン"
+      },
+      {
+        "name": "日高里菜",
+        "character": "キャロライン・ラムゼー"
+      },
+      {
+        "name": "雨宮天",
+        "character": "エリン・ホワイト"
+      },
+      {
+        "name": "石谷春貴",
+        "character": "ヘンリー・コックス"
+      },
+      {
+        "name": "石上静香",
+        "character": "ルーファス・スタン(幼少期)"
+      },
+      {
+        "name": "白石晴香",
+        "character": "アメリア・キース"
+      },
+      {
+        "name": "坂田将吾",
+        "character": "フィリップ"
+      },
+      {
+        "name": "石毛翔弥",
+        "character": "マイク"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "寿門堂",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://yowaki-max-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "冰剣の魔術師が世界を統べるⅡ",
+    "tid": "8037",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "ひょうけんのまじゅつしがせかいをすべる",
+    "casts": [
+      {
+        "name": "榎木淳弥",
+        "character": "レイ＝ホワイト"
+      },
+      {
+        "name": "佐伯伊織",
+        "character": "アメリア＝ローズ"
+      },
+      {
+        "name": "関根明良",
+        "character": "アリアーヌ＝オルグレン"
+      },
+      {
+        "name": "久保田未夢",
+        "character": "エリサ＝グリフィス"
+      },
+      {
+        "name": "和氣あず未",
+        "character": "レベッカ＝ブラッドリィ"
+      },
+      {
+        "name": "本渡楓",
+        "character": "クラリス＝クリーヴランド"
+      },
+      {
+        "name": "梅原裕一郎",
+        "character": "エヴィ＝アームストロング"
+      },
+      {
+        "name": "天﨑滉平",
+        "character": "アルバート＝アリウム"
+      },
+      {
+        "name": "保志総一朗",
+        "character": "ルーカス＝フォルスト"
+      },
+      {
+        "name": "白石晴香",
+        "character": "リーゼロッテ＝エーデン"
+      },
+      {
+        "name": "菱川花菜",
+        "character": "オリヴィア＝アーノルド"
+      },
+      {
+        "name": "種﨑敦美",
+        "character": "ステラ＝ホワイト"
+      },
+      {
+        "name": "木村良平",
+        "character": "ユリウス＝オルフェ"
+      },
+      {
+        "name": "古賀葵",
+        "character": "ビアンカ＝ミラー"
+      },
+      {
+        "name": "小原好美",
+        "character": "エマ＝クラーク"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "ゼロジー",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://hyouken-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "てつりょー！ meet with 鉄道むすめ",
+    "tid": "8038",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "てつりょーみーとうぃずてつどうむすめ",
+    "casts": [
+      {
+        "name": "橘めい",
+        "character": "佐多みさき"
+      },
+      {
+        "name": "庄子真央",
+        "character": "折原こだま"
+      },
+      {
+        "name": "福嶋晴菜",
+        "character": "矢神うしお"
+      },
+      {
+        "name": "月城日花",
+        "character": "春立うさ"
+      },
+      {
+        "name": "和泉風花",
+        "character": "中野弥生"
+      },
+      {
+        "name": "安齋由香里",
+        "character": "西浦ありさ"
+      },
+      {
+        "name": "中島由貴",
+        "character": "朝倉ちはや"
+      },
+      {
+        "name": "瀬戸麻沙美",
+        "character": "足尾さきえ"
+      },
+      {
+        "name": "菱川花菜",
+        "character": "井草しいな"
+      },
+      {
+        "name": "大橋彩香",
+        "character": "大桑じゅり"
+      },
+      {
+        "name": "遠野ひかる",
+        "character": "春日部しあ"
+      },
+      {
+        "name": "天麻ゆうき",
+        "character": "神井みしゃ"
+      },
+      {
+        "name": "久保ユリカ",
+        "character": "川越いぶき"
+      },
+      {
+        "name": "久野美咲",
+        "character": "鬼怒川みやび"
+      },
+      {
+        "name": "熊崎愛",
+        "character": "栗橋あかな"
+      },
+      {
+        "name": "髙橋ミナミ",
+        "character": "神代みさき"
+      },
+      {
+        "name": "岩田陽葵",
+        "character": "桜沢みなの"
+      },
+      {
+        "name": "稗田寧々",
+        "character": "柴口このみ"
+      },
+      {
+        "name": "佐伯伊織",
+        "character": "高島あざみ"
+      },
+      {
+        "name": "瀬川美沙",
+        "character": "立川いずみ"
+      },
+      {
+        "name": "原涼歌",
+        "character": "外川つくし"
+      },
+      {
+        "name": "市ノ瀬加那",
+        "character": "松風かれん"
+      },
+      {
+        "name": "三上枝織",
+        "character": "渡瀬きぬ"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "イーストフィッシュスタジオ",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://tetsuryo-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "塩対応の佐藤さんが俺にだけ甘い",
+    "tid": "8045",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "しおたいおうのさとうさんがおれにだけあまい",
+    "casts": [
+      {
+        "name": "伊藤美来",
+        "character": "佐藤こはる"
+      },
+      {
+        "name": "石橋陽彩",
+        "character": "押尾颯太"
+      },
+      {
+        "name": "小林千晃",
+        "character": "三園蓮"
+      },
+      {
+        "name": "富田美憂",
+        "character": "須藤凛香"
+      },
+      {
+        "name": "青山吉能",
+        "character": "三園雫"
+      },
+      {
+        "name": "金元寿子",
+        "character": "根津麻世"
+      },
+      {
+        "name": "若井友希",
+        "character": "村崎円花"
+      },
+      {
+        "name": "松本保典",
+        "character": "押尾清左衛門"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "手塚プロダクション",
+        "occupation": "制作"
+      }
+    ],
+    "public_url": "https://shioama-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "パンどろぼう",
+    "tid": "8043",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "ぱんどろぼう",
+    "casts": [
+      {
+        "name": "朝井彩加",
+        "character": "パンどろぼう"
+      },
+      {
+        "name": "諏訪部順一",
+        "character": "パンやのおじさん"
+      },
+      {
+        "name": "豊崎愛生",
+        "character": "にせパンどろぼう"
+      },
+      {
+        "name": "種﨑敦美",
+        "character": "なぞのフランスパン"
+      },
+      {
+        "name": "花澤香菜",
+        "character": "ナレーション"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "シンエイ動画",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://pandorobo-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "Battle Spirits [Re] 絶界の空",
+    "tid": "8046",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "ばとるすぴりっつりぜっかいのくう",
+    "casts": [
+      {
+        "name": "草野太一",
+        "character": "馬神空"
+      },
+      {
+        "name": "濱野大輝",
+        "character": "戯絶"
+      },
+      {
+        "name": "下野紘",
+        "character": "罔象伊吹"
+      },
+      {
+        "name": "伊瀬茉莉也",
+        "character": "楠元唯"
+      },
+      {
+        "name": "間宮康弘",
+        "character": "馬神翠卜"
+      },
+      {
+        "name": "水樹奈々",
+        "character": "楠元ミネ"
+      },
+      {
+        "name": "梅澤めぐ",
+        "character": "甘蜂紫ゑ"
+      },
+      {
+        "name": "石田彰",
+        "character": "鷹杉卂塹"
+      },
+      {
+        "name": "小野大輔",
+        "character": "酒本龍牙"
+      },
+      {
+        "name": "福山潤",
+        "character": "眞岐翔流"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "BN Pictures",
+        "occupation": "制作"
+      }
+    ],
+    "public_url": "",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "ふんばるず",
+    "tid": "8060",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "",
+    "casts": [
+      {
+        "name": "駒田航",
+        "character": "ノッソリー"
+      },
+      {
+        "name": "西山宏太朗",
+        "character": "モンタン"
+      },
+      {
+        "name": "原紗友里",
+        "character": "ホップ"
+      },
+      {
+        "name": "三宅健太",
+        "character": "ブラウニー"
+      },
+      {
+        "name": "愛(ヨネダ2000)",
+        "character": "ジョニー"
+      },
+      {
+        "name": "白石兼斗",
+        "character": "ペンタン"
+      },
+      {
+        "name": "田尻浩章",
+        "character": "ズーズー"
+      },
+      {
+        "name": "木村隼人",
+        "character": "シャオマル"
+      },
+      {
+        "name": "宮田幸季",
+        "character": "クロミツ"
+      },
+      {
+        "name": "酒巻光宏",
+        "character": "フェアリー"
+      },
+      {
+        "name": "山下七海",
+        "character": "ニャンティ"
+      },
+      {
+        "name": "朝日奈丸佳",
+        "character": "ナッツ"
+      },
+      {
+        "name": "鵜澤正太郎",
+        "character": "にんげん"
+      },
+      {
+        "name": "⾼野⼤河",
+        "character": "にんげん"
+      },
+      {
+        "name": "稗⽥寧々",
+        "character": "にんげん"
+      },
+      {
+        "name": "誠(ヨネダ2000)",
+        "character": "にんげん"
+      },
+      {
+        "name": "ひさじましほ",
+        "character": "ナレーション"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "エムアイ",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://funbarus.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "傷だらけ聖女より報復をこめて Season2",
+    "tid": "8062",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "きずだらけのせいじょよりほうふくをこめてしーずんつー",
+    "casts": [
+      {
+        "name": "瀬戸麻沙美",
+        "character": "ルーア・レストアット"
+      },
+      {
+        "name": "斉藤壮馬",
+        "character": "スウェン・ジード＝クロウン"
+      },
+      {
+        "name": "麻倉もも",
+        "character": "アリアン・トレビアーズ"
+      },
+      {
+        "name": "浦和希",
+        "character": "ガロット・バンス"
+      },
+      {
+        "name": "興津和幸",
+        "character": "シジー・ルビン"
+      },
+      {
+        "name": "前野智昭",
+        "character": "サリッド・ジード＝クロウン"
+      },
+      {
+        "name": "津田美波",
+        "character": "ディアナ・ペリドット"
+      },
+      {
+        "name": "土田玲央",
+        "character": "ルイズ・リストン"
+      },
+      {
+        "name": "芹澤優",
+        "character": "ネルネ＝サンドラ"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "SORAJIMA",
+        "occupation": "制作"
+      },
+      {
+        "name": "Imagica Infos",
+        "occupation": "アニメーション制作"
+      },
+      {
+        "name": "Imageworks Studio",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://animationid.com/kizudarakeseijo2/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "ぷにるんず ぷに4",
+    "tid": "8065",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "ぷにるんずぷにふぉー",
+    "casts": [
+      {
+        "name": "潘めぐみ",
+        "character": "あいるん"
+      },
+      {
+        "name": "和泉風花",
+        "character": "じゅえるん"
+      },
+      {
+        "name": "小松未可子",
+        "character": "えねるん"
+      },
+      {
+        "name": "内田彩",
+        "character": "らぶるん"
+      },
+      {
+        "name": "山口智広",
+        "character": "うるるん"
+      },
+      {
+        "name": "木野日菜",
+        "character": "くーるん"
+      },
+      {
+        "name": "谷口夢奈",
+        "character": "ゆか"
+      },
+      {
+        "name": "小野大輔",
+        "character": "ナレーション"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "OLM Digital",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "マウスカーソルで現実を操作できるようになったので、女の子をいっぱいクリックしまーす",
+    "tid": "8067",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "まうすかーそるでげんじつをそうさできるようになったのでおんなのこをいっぱいくりっくしまーす",
+    "casts": [
+      {
+        "name": "地獄坊主",
+        "character": "松尾拓海"
+      },
+      {
+        "name": "藤平るか",
+        "character": "姫野萌音"
+      },
+      {
+        "name": "死後のレディ",
+        "character": "西宮薫"
+      },
+      {
+        "name": "風慈宮ユキ",
+        "character": "藍田美玲"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "studio HōKIBOSHI",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://maukuri.af-original.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "人付き合いが苦手な未亡人の雪女さんと呪いの指輪",
+    "tid": "8070",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "ひとづきあいがにがてなみぼうじんのゆきおんなさんとのろいのゆびわ",
+    "casts": [
+      {
+        "name": "志藤春道",
+        "character": "高橋さとる"
+      },
+      {
+        "name": "北見六花",
+        "character": "雪乃深冬"
+      },
+      {
+        "name": "歩サラ",
+        "character": "鬼龍院楓"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "studio HōKIBOSHI",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://anime-yukionna.af-original.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "野生のラスボスが現れた！(第2期)",
+    "tid": "8021",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "やせいのらすぼすがあらわれた",
+    "casts": [
+      {
+        "name": "小清水亜美",
+        "character": "ルファス・マファール"
+      },
+      {
+        "name": "薄井友里",
+        "character": "ディーナ"
+      },
+      {
+        "name": "首藤志奈",
+        "character": "アリエス"
+      },
+      {
+        "name": "東城日沙子",
+        "character": "リーブラ"
+      },
+      {
+        "name": "内田直哉",
+        "character": "アイゴケロス"
+      },
+      {
+        "name": "かないみか",
+        "character": "パルテノス"
+      },
+      {
+        "name": "大森こころ",
+        "character": "ウィルゴ"
+      },
+      {
+        "name": "鈴木崚汰",
+        "character": "カルキノス"
+      },
+      {
+        "name": "たかはし智秋",
+        "character": "スコルピウス"
+      },
+      {
+        "name": "櫻井孝宏",
+        "character": "カストール"
+      },
+      {
+        "name": "宮内敦士",
+        "character": "サジタリウス"
+      },
+      {
+        "name": "大塚明夫",
+        "character": "レオン"
+      },
+      {
+        "name": "武内駿輔",
+        "character": "アリオト"
+      },
+      {
+        "name": "前野智昭",
+        "character": "メグレズ"
+      },
+      {
+        "name": "平川大輔",
+        "character": "メラク"
+      },
+      {
+        "name": "明坂聡美",
+        "character": "ベネトナシュ"
+      },
+      {
+        "name": "辻親八",
+        "character": "ミザール"
+      },
+      {
+        "name": "瀬戸桃子",
+        "character": "量産型リーブラ"
+      },
+      {
+        "name": "堀江瞬",
+        "character": "南十字瀬衣"
+      },
+      {
+        "name": "速水奨",
+        "character": "魔神王オルム"
+      },
+      {
+        "name": "入野自由",
+        "character": "マルス"
+      },
+      {
+        "name": "松岡禎丞",
+        "character": "ユピテル"
+      },
+      {
+        "name": "梅原裕一郎",
+        "character": "テラ"
+      },
+      {
+        "name": "M・A・O",
+        "character": "ルーナ"
+      },
+      {
+        "name": "阪口周平",
+        "character": "メルクリウス"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "ワオワールド",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://www.lastboss-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "新テニスの王子様 U-17 WORLD CUP 決勝メンバー決定戦",
+    "tid": "8044",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "しんてにすのおうじさまあんだーせぶんてぃーんわーるどかっぷけっしょうめんばーけっていせん",
+    "casts": [
+      {
+        "name": "皆川純子",
+        "character": "越前リョーマ"
+      },
+      {
+        "name": "甲斐田ゆき",
+        "character": "不二周助"
+      },
+      {
+        "name": "諏訪部順一",
+        "character": "跡部景吾"
+      },
+      {
+        "name": "木内秀信",
+        "character": "忍足侑士"
+      },
+      {
+        "name": "細谷佳正",
+        "character": "白石蔵ノ介"
+      },
+      {
+        "name": "杉本ゆう",
+        "character": "遠山金太郎"
+      },
+      {
+        "name": "上山竜治",
+        "character": "種ヶ島修二"
+      },
+      {
+        "name": "小野大輔",
+        "character": "徳川カズヤ"
+      },
+      {
+        "name": "相葉裕樹",
+        "character": "入江奏多"
+      },
+      {
+        "name": "相原嵩明",
+        "character": "大曲竜次"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "M.S.C",
+        "occupation": "アニメーション制作"
+      },
+      {
+        "name": "NAS",
+        "occupation": "制作"
+      }
+    ],
+    "public_url": "https://tenipuri.jp/u17/selection-match/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "転生貴族、鑑定スキルで成り上がる(第3期)",
+    "tid": "8009",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "てんせいきぞくかんていすきるでなりあがる",
+    "casts": [
+      {
+        "name": "藤原夏海",
+        "character": "アルス・ローベント"
+      },
+      {
+        "name": "坂泰斗",
+        "character": "リーツ・ミューセス"
+      },
+      {
+        "name": "佳穂成美",
+        "character": "シャーロット・レイス"
+      },
+      {
+        "name": "岡咲美保",
+        "character": "ロセル・キーシャ"
+      },
+      {
+        "name": "花澤香菜",
+        "character": "リシア・プレイド"
+      },
+      {
+        "name": "生天目仁美",
+        "character": "ミレーユ・グランジオン"
+      },
+      {
+        "name": "戸松遥",
+        "character": "ファム"
+      },
+      {
+        "name": "加藤渉",
+        "character": "シン・セイマーロ"
+      },
+      {
+        "name": "内田修一",
+        "character": "ブラッハム・ジョー"
+      },
+      {
+        "name": "諸星すみれ",
+        "character": "ムーシャ・トリック"
+      },
+      {
+        "name": "田所陽向",
+        "character": "ザット・ブロズド"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "GeyeG Pictures",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://kanteiskill.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "転生したら剣でしたⅡ",
+    "tid": "7981",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "てんせいしたらけんでしたつー",
+    "casts": [
+      {
+        "name": "三木眞一郎",
+        "character": "師匠"
+      },
+      {
+        "name": "加隈亜衣",
+        "character": "フラン"
+      },
+      {
+        "name": "後藤ヒロキ",
+        "character": "ウルシ"
+      },
+      {
+        "name": "内田雄馬",
+        "character": "ジャン・ドゥービー"
+      },
+      {
+        "name": "井澤詩織",
+        "character": "名無し"
+      },
+      {
+        "name": "速水奨",
+        "character": "リッチ"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "C2C",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "https://tenken-anime.com/",
+    "twitter": "",
+    "media_category": 1
+  },
+  {
+    "title": "うまゆる ふるげ～と！",
+    "tid": "8069",
+    "year": "2026",
+    "coor": 4,
+    "furigana": "うまゆるふるげ～と",
+    "casts": [
+      {
+        "name": "和氣あず未",
+        "character": "スペシャルウィーク"
+      },
+      {
+        "name": "前田玲奈",
+        "character": "グラスワンダー"
+      },
+      {
+        "name": "髙橋ミナミ",
+        "character": "エルコンドルパサー"
+      },
+      {
+        "name": "鬼頭明里",
+        "character": "セイウンスカイ"
+      },
+      {
+        "name": "佐伯伊織",
+        "character": "キングヘイロー"
+      },
+      {
+        "name": "青山吉能",
+        "character": "ツルマルツヨシ"
+      },
+      {
+        "name": "浅見春那",
+        "character": "ファレノプシス"
+      }
+    ],
+    "company_list": [
+      {
+        "name": "AtoriE",
+        "occupation": "アニメーション制作"
+      }
+    ],
+    "public_url": "",
+    "twitter": "",
+    "media_category": 1
+  }
+]
